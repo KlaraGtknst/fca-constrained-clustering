@@ -5,7 +5,7 @@
 \label{tab:formal_context}
 \begin{tabular}{|l|l|l|l|l|l|}
 \hline
-          & A           & B           & C           & D           & \dots \\ \hline
+          & $x_A$           & $x_B$           & $x_C$           & $x_D$           & \dots \\ \hline
 $c_1$         & $\times$    & $\times$    &             &             &        \\ \hline
 $c_2$         &             &             & $\times$    & $\times$    &        \\ \hline
 $c_1 \vee c_2$ & $\times$    & $\times$    & $\times$    & $\times$    &        \\ \hline
@@ -22,10 +22,10 @@ $\vdots$      &             &             &             &             & $\ddots$
 
 \begin{tikzpicture}[scale=1]
 % Positions of objects (bottom)
-\node (A) at (0,0) {A};
-\node (B) at (2,0) {B};
-\node (C) at (4,0) {C};
-\node (D) at (6,0) {D};
+\node (A) at (0,0) {$x_A$};
+\node (B) at (2,0) {$x_B$};
+\node (C) at (4,0) {$x_C$};
+\node (D) at (6,0) {$x_D$};
 
 % Merge A and B
 \coordinate (ABtop) at (1,1);
@@ -52,8 +52,8 @@ $\vdots$      &             &             &             &             & $\ddots$
 \begin{tikzpicture}[scale=1, every node/.style={draw, circle, align=center, minimum width=1.2cm, minimum height=1.2cm}]
 % Nodes
 \node (top) at (0,3) {c$_1 \vee c_2$ \\ };
-\node (left) at (-3,1.5) {c$_1$ \\ A,B};
-\node (right) at (3,1.5) {c$_2$ \\ C,D};
+\node (left) at (-3,1.5) {c$_1$ \\ $x_A$,$x_B$};
+\node (right) at (3,1.5) {c$_2$ \\ $x_C$,$x_D$};
 \node (bottom) at (0,0) {};
 
 % Edges
