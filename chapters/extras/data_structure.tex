@@ -42,3 +42,26 @@ $\vdots$      &             &             &             &             & $\ddots$
 \end{tikzpicture}
 \end{figure}
 }
+
+\newcommand{\lattice}{%
+\begin{figure}[h]
+\centering
+\caption{Concept lattice for the transposed formal context}
+\label{fig:concept_lattice}
+
+\begin{tikzpicture}[scale=1, every node/.style={draw, rectangle, rounded corners, align=center, minimum width=2cm}]
+% Nodes
+\node (top) at (0,3) {Objects: A,B,C,D \\ Attributes: c$_1 \vee c_2$};
+\node (left) at (-3,1.5) {Objects: A,B \\ Attributes: c$_1$};
+\node (right) at (3,1.5) {Objects: C,D \\ Attributes: c$_2$};
+\node (bottom) at (0,0) {Bottom concepts};
+
+% Edges
+\draw (top) -- (left);
+\draw (top) -- (right);
+\draw (left) -- (bottom);
+\draw (right) -- (bottom);
+
+\end{tikzpicture}
+\end{figure}
+}

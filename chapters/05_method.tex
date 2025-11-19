@@ -27,9 +27,23 @@ Proceed likewise for all clusters on that hierarchy and repeat the process for h
 \subsubsection{Formal context to hierarchical cluster.}
 In the following, we will describe the hierarchical cluster as a dendrogram.
 Given a formal context $(G,M,I)$ where $G$ denotes the set of clusters $c_i \in \mathcal{C}$ and $M$ denotes the set of data points $\mathcal{X}$, all attributes $x \in M$ are leaf nodes.
-For each object $g_i \in G$, identify any other objects $g_j \in G$ whose intent is included in $g_i$'s intent.
-Save those objects in a predecessor list (or better: set) $pred_{g_i}$.
-Omit all objects $g_j \in pred_{g_i}$ which are in the predecessor list of any other element of $pred_{g_i}$, i.e., those $g_j in pred_{g_i}$ for which $\exists g_k \in pred_{g_i}: g_j \in pred_{g_k}$ is true.
-This ensures that transitive lines in the dendrogram are omitted.
-Once all predecessor lists are constructed, one can ensure that all leaf node's predecessor lists are empty.
-Next, one selects any cluster object $g_i$ with minimal cardinality of the elements intent.
+For each object $g_i \in G$, identify any other objects $g_j \in G$ whose intent is a superset of $g_i$'s intent.
+Save those objects in a successor list (or better: set) $s_{g_i}$.
+% one could omit transitive constraints, but not necessary
+To keep track of already processed cluster objects, initialize a list $processed$.
+To keep track of the constraints add a list of resulting constraints $r$.
+%
+Next, one selects any cluster object $g_i$ with minimal intent cardinality, i.e., the smallest cluster.
+For any pair of attributes $g_i$'s intent, i.e. data points $x_i, x_j$, add a pairwise \texttt{must-link} constraint to $r$.
+To capture the hierarchical relation between the clusters, for $x_i, x_j$ and any attribute $x_k \in c$ in $g_i$'s successor list's items' intent excluding $x_i, x_j$, i.e., $(c)'$ for $c \in s_{g_i} \smallsetminus \{x_i, x_j\}$, add a \texttt{\ac{mlb}} constraint $MLB_{x_i, x_j, c}$.
+Once all \ac{mlb} constraints for the pair $x_i, x_j$ and the elements $c \in s_{g_i} \smallsetminus \{x_i, x_j\}$ have been added, the next pair in $(g_i)'$ can be processed.
+Once all pairs in $(g_i)'$ have been processed, $g_i$ is added to $processed$.
+The next cluster object $g_i$ with minimal intent cardinality which has not yet been processed, i.e., is not element of $processed$ is selected, and the steps are repeated.
+%
+The resulting set of \ac{mlb} constraints is input models the solution space of possible clusters.
+Any clustering algorithm that respects these \textit{hard} constraints can produce a possible solution that lives within this solution space.
+
+\subsubsection{Formal context to concept lattice.}
+Given a formal context $(G,M,I)$ where $G$ denotes the set of clusters $c_i \in \mathcal{C}$ and $M$ denotes the set of data points $\mathcal{X}$, we need to transpose the index (i.e., swap $G$ and $M$) to compute a meaningful concept lattice representation.
+
+\lattice{}
