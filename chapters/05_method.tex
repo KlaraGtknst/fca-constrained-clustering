@@ -1,8 +1,35 @@
 \section{Method}
 \label{sec:method}
-
+% defines commands used below to insert datastructure (for better readability)
 \input{chapters/extras/data_structure}
 
+We denote the clusters $c_i \in \mathcal{C}$ the set of objects $G$ and data points $\mathcal{X}=\{A, B, C, D\}$ the set of attributes $M$, since implications are usually defined on attribute sets rather than on object sets \cite{fca-book}.
+For simplicity, we explain our idea on the toy example given in \autoref{tab:formal_context}.
 \formalcontexttable{}
 
+The corresponding hierarchical cluster is given as a dendrogram in \autoref{fig:dendrogram}.
+The bottom elements are data points in $\mathcal{X}$.
+Iterative merging of clusters are indicated by agglomerating lines from the bottom to the top.
 \dendogram{}
+
+There are two directions to consider for proving the equivalence of both presentations.
+First, we will outline how an hierarchical cluster can be turned into its corresponding formal context and next, we will describe the other direction.
+
+\subsubsection{Hierarchical cluster to formal context.}
+For each cluster on the lowest hierarchical level, i.e., the lowest line between leaf elements, add an object $c_i$ with $i > |\mathcal{C}|$. 
+Next, update the incidence relation $I = I \cup \{ x | x \in c_i\}$, i.e., add each element $x$ of that cluster to the new object's intent, such that $(c_i)'$ contains all data points of that cluster. 
+Once all lower clusters have been processed, proceed with the next higher cluster hierarchy.
+For each cluster emerging from sub-clusters $c_i, c_j \in \mathcal{C}$, add a new object $c_i \vee c_j$.
+This object's intent contains all attributes in either one of the sub-cluster's intents, i.e., $(c_i \vee c_j)' = (c_i)'\cup(c_j)'$.
+Proceed likewise for all clusters on that hierarchy and repeat the process for higher level emerging clusters.
+
+
+\subsubsection{Formal context to hierarchical cluster.}
+In the following, we will describe the hierarchical cluster as a dendrogram.
+Given a formal context $(G,M,I)$ where $G$ denotes the set of clusters $c_i \in \mathcal{C}$ and $M$ denotes the set of data points $\mathcal{X}$, all attributes $x \in M$ are leaf nodes.
+For each object $g_i \in G$, identify any other objects $g_j \in G$ whose intent is included in $g_i$'s intent.
+Save those objects in a predecessor list (or better: set) $pred_{g_i}$.
+Omit all objects $g_j \in pred_{g_i}$ which are in the predecessor list of any other element of $pred_{g_i}$, i.e., those $g_j in pred_{g_i}$ for which $\exists g_k \in pred_{g_i}: g_j \in pred_{g_k}$ is true.
+This ensures that transitive lines in the dendrogram are omitted.
+Once all predecessor lists are constructed, one can ensure that all leaf node's predecessor lists are empty.
+Next, one selects any cluster object $g_i$ with minimal cardinality of the elements intent.
