@@ -1,0 +1,22 @@
+\paragraph{\acf{fca}} The mathematical theory of \ac{fca}~\cite{fca-book} is a method to analyze relational data in a hierarchical structure.
+The triple $\mathbb{K} \coloneq (G, M, I)$ defines the \emph{formal context}.
+$G$ is the set of \emph{objects}, $M$ is the set of \emph{attributes},
+and $I \subseteq G \times M$ is the \emph{incidence relation}, which describes when an object $g$ has an attribute $m$.
+The object derivation $(\cdot)' : \mathcal{P}(G) \to \mathcal{P}(M)$
+defines for any subset $A \subseteq G $ as $A' \coloneq \{m \in M \mid \forall g \in A : (g, m) \in I\}$.
+The attribute derivation $(\cdot)' : \mathcal{P}(M) \to \mathcal{P}(G)$ is
+defined for any subset $B \subseteq M $ as $B' \coloneq \{g \in G \mid \forall m \in B : (g, m) \in I\}$.
+The same notation $(\cdot)'$ is used for both derivation operators.
+A formal concept of $\mathbb{K}$ is a pair $(A, B)$ where $A \subseteq G$ and $B \subseteq M$
+satisfy the conditions $A' = B$ and $B' = A$.
+% Hence, all objects in $A$ share the attributes described by $ B $.
+The set $\mathfrak{B}(\mathbb{K})$ denotes all formal concepts of $\mathbb{K}$.
+The concept lattice $\underline{\mathfrak{B}}(\mathbb{K}) \coloneq (\mathfrak{B}(\mathbb{K}), \leq)$ is defined by the set of all formal concepts with the order relation
+$(A, B) \leq (C, D)$ if and only if $A \subseteq C$.
+% forms an ordered set.
+% More precisely, $\underline{B}(\mathbb{K})$ is a lattice.
+% Hence, for any subset $C \subseteq \mathfrak{B}(\mathbb{K})$, both the greatest lower bound (meet) and the least upper bound (join) exist.
+% Consequently, $\underline{\mathfrak{B}}(\mathbb{K})$ is referred to as the concept lattice.
+
+% This lattice structure  enables a hierarchical organization of documents, terms, and topics in topic modeling,
+% providing a formal foundation for understanding relationships between concepts in text analysis \cite{topic_modeling_2024}.
