@@ -1,0 +1,44 @@
+\newcommand{\formalcontexttable}{%
+\begin{table}[h]
+\centering
+\caption{Formal context}
+\label{tab:formal_context}
+\begin{tabular}{|l|l|l|l|l|l|}
+\hline
+          & A           & B           & C           & D           & \dots \\ \hline
+$X_1$         & $\times$    & $\times$    &             &             &        \\ \hline
+$X_2$         &             &             & $\times$    & $\times$    &        \\ \hline
+$X_1 \vee X_2$ & $\times$    & $\times$    & $\times$    & $\times$    &        \\ \hline
+$\vdots$      &             &             &             &             & $\ddots$ \\ \hline
+\end{tabular}%
+\end{table}%
+}
+
+\newcommand{\dendogram}{%
+\begin{figure}[h]
+\centering
+\caption{Dendrogram with objects on the bottom}
+\label{fig:dendrogram}
+
+\begin{tikzpicture}[scale=1]
+% Positions of objects (bottom)
+\node (A) at (0,0) {A};
+\node (B) at (2,0) {B};
+\node (C) at (4,0) {C};
+\node (D) at (6,0) {D};
+
+% Merge A and B
+\coordinate (ABtop) at (1,1);
+\draw (A) -- (0,1) -- (ABtop) -- (2,1) -- (B);
+
+% Merge C and D
+\coordinate (CDtop) at (5,1);
+\draw (C) -- (4,1) -- (CDtop) -- (6,1) -- (D);
+
+% Merge AB and CD
+\coordinate (root) at (3,2);
+\draw (ABtop) --(1,2) -- (5,2) -- (CDtop);
+
+\end{tikzpicture}
+\end{figure}
+}
