@@ -1,0 +1,138 @@
+% This is samplepaper.tex, a sample chapter demonstrating the
+% LLNCS macro package for Springer Computer Science proceedings;
+% Version 2.21 of 2022/01/12
+%
+\documentclass[runningheads]{llncs}
+%
+\usepackage[T1]{fontenc}
+% T1 fonts will be used to generate the final print and online PDFs,
+% so please use T1 fonts in your manuscript whenever possible.
+% Other font encondings may result in incorrect characters.
+%
+\usepackage{graphicx}
+% Used for displaying a sample figure. If possible, figure files should
+% be included in EPS format.
+%
+% If you use the hyperref package, please uncomment the following two lines
+% to display URLs in blue roman font according to Springer's eBook style:
+%\usepackage{color}
+%\renewcommand\UrlFont{\color{blue}\rmfamily}
+%\urlstyle{rm}
+
+% own packages
+\usepackage[nolist]{acronym}
+\usepackage{hyperref}
+\usepackage{svg}
+\usepackage{array}
+\usepackage{amsmath}
+\usepackage{amssymb, mathtools}
+\usepackage{diagbox}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{subcaption}  % Needed for subfigure support
+\usepackage{float}
+\usepackage[table,xcdraw]{xcolor}
+\usepackage{enumitem}
+
+\newcommand{\todo}[1]{{\bf\color{red} Todo: #1}}
+\newcommand{\klara}[1]{{\bf\color{blue!50!black} Klara: #1}}
+\newcommand{\domi}[1]{{\bf\color{purple!80!black} Domi: #1}}
+
+\usepackage{csquotes}
+\MakeOuterQuote{"}
+
+% for code listings
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+
+%
+\begin{document}
+\newcommand{\authorA}{Klara M. Gutekunst}
+\newcommand{\authorB}{Dominik Dürrschnabel}
+\newcommand{\authorC}{Stefan Schneider}
+
+\newcommand{\emailA}{klara.gutekunst@uni-kassel.de}
+%
+\title{FCA Constrained Clustering}
+\titlerunning{FCA Constrained Clustering}
+%
+%\titlerunning{Abbreviated paper title}
+% If the paper title is too long for the running head, you can set
+% an abbreviated paper title here
+%
+\author{\authorA{}\orcidID{0009-0002-6416-7873}
+        \and \authorB{}\orcidID{0000-0002-0855-4185}
+        \and \authorC{}\orcidID{TODO}
+}
+
+%
+\authorrunning{\authorA{}
+        \and \authorB{}
+        \and \authorC{}
+}
+
+\institute{Knowledge \& Data Engineering Group, University of Kassel, Germany
+        \and Interdisciplinary Research Center for Information System Design,
+        \mbox{University of Kassel, Germany} \\%
+        %\url{https://www.kde.cs.uni-kassel.de/} \\%
+        \email{\emailA{}\\ \{duerrschnabel\}@cs.uni-kassel.de}}
+\maketitle              % typeset the header of the contribution
+
+\input{chapters/01_abstract}
+
+\input{chapters/02_introduction}
+
+\input{chapters/03_related_work}
+
+\input{chapters/04_foundations}
+
+\input{chapters/05_method}
+
+\input{chapters/06_dataset}
+
+\input{chapters/07_implementation}
+
+\input{chapters/08_case_study}
+
+\input{chapters/09_future_work}
+
+% ---- Acronyms ----
+\input{acronyms}
+
+
+% ---- Bibliography ----
+
+% BibTeX users should specify bibliography style 'splncs04'.
+% References will then be sorted and formatted in the correct style.
+% \todo{Dominik: Check if bibliography style is correct}
+\bibliographystyle{splncs04}
+\bibliography{bibliography}
+
+\newpage
+\input{chapters/10_appendix}
+
+\end{document}
