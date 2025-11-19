@@ -1,9 +1,53 @@
 \section{Foundations}
 \label{sec:foundations}
 
-What are constraints?
+\subsubsection{Constraints}
+Constraints model prior knowledge about an optimum~\cite{bade_hierarchical_2014}.
 
-What is hierarchical clustering? \cite{bade_hierarchical_2014}
+
+\subsubsection{Hierarchical clustering}
+The purpose of clustering is to structure data without any class labels.
+This is especially useful in real world applications since data often lacks labels and the annotation process is expensive.
+Partitional clustering groups data points into clusters based on a similarity measure.
+Hierarchical clustering adds another level of usefulness by grouping the data on different levels of granularity~\cite{bade_hierarchical_2014}.
+Hence, partitional clustering is a special case of hierarchical clustering with one level of granularity.
+
+Clustering algorithms group data points based on different criteria into clusters.
+The overall goal is to minimize the inner-cluster distances and maximize the intra-cluster distances.
+Prior knowledge about the dataset can be modelled as constraints.
+The simplest constraints are pairwise \textit{must-link} and \textit{cannot-link} constraints.
+Pairwise constraints can be either instance-based or metric-based.
+Instance-based constraints directly the clustering algorithm by enforcing constraints on their instance pairs.
+They can be hard or soft, allowing different degrees of constraint violation.
+Metric-based constraints map the constraints to the distance metric or similarity measure of the clustering algorithm.
+Pairwise constraints are limited to partitional clustering.
+So-called \ac{mlb} constraints introduce prior knowledge into hierarchical clustering.
+A \ac{mlb} constraint 
+\begin{eqnarray}
+    MLB_{x y z} = (d_x, d_y, d_z)
+    \label{eq:mlb_xyz}
+\end{eqnarray}
+specifies an agglomerating order on three data objects $d_x, d_y, d_z$.
+Symmetry applies for the first two elements.
+For the \ac{mlb} constraint in \autoref{eq:mlb_xyz} both \autoref{def:mlb_implication} and \autoref{def:mlb_counterexample} must hold true.
+This means that the must-link constraint between the first and second item is stronger than that between the first and third item.
+\begin{definition}[\ac{mlb} implication]
+     \label{def:mlb_implication}
+    Given \ac{mlb} constraint $MLB_{x y z}$:
+    $\forall c \in H: d_x \in c \wedge d_z \in c \rightarrow d_y \in c$
+\end{definition}
+\begin{definition}[\ac{mlb} counter example]
+    \label{def:mlb_counterexample}
+    Given \ac{mlb} constraint $MLB_{x y z}$:
+    $\exists c \in H: d_x \in c \wedge d_y \in c \wedge d_z \notin c$
+\end{definition}
+A \ac{mlb} constraint for hierarchical clustering can be transformed into multiple pairwise constraints for partitional clustering by adding one must-link constraints between $d_x$ and $d_y$ and two cannot-links between $d_x, d_z$ and $d_y, d_z$~\cite{bade_hierarchical_2014}.
+
+
+\subsubsection{\acs{hac} and \acs{ihac}}
+The \ac{hac} algorithm iteratively merges the two most similar clusters into one.
+The \ac{ihac} extends the \ac{hac} algorithm by not only considering similarity but also constraint violations~\cite{bade_hierarchical_2014}.
+
 
 What is Attribute Exploration? \cite{ganter_conceptual_2016}
 
