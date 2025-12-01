@@ -14,6 +14,7 @@ Iterative merging of clusters are indicated by agglomerating lines from the bott
 
 There are two directions to consider for proving the equivalence of both presentations.
 First, we will outline how an hierarchical cluster can be turned into its corresponding formal context and next, we will describe the other direction.
+In the following, we will describe the hierarchical cluster as a dendrogram.
 
 \subsubsection{Hierarchical cluster to formal context.}
 For each cluster on the lowest hierarchical level, i.e., the lowest line between leaf elements, add an object $c_i$ with $i > |\mathcal{C}|$. 
@@ -25,7 +26,6 @@ Proceed likewise for all clusters on that hierarchy and repeat the process for h
 
 
 \subsubsection{Formal context to hierarchical cluster.}
-In the following, we will describe the hierarchical cluster as a dendrogram.
 Given a formal context $(G,M,I)$ where $G$ denotes the set of clusters $c_i \in \mathcal{C}$ and $M$ denotes the set of data points $\mathcal{X}$, all attributes $x \in M$ are leaf nodes.
 For each object $g_i \in G$, identify any other objects $g_j \in G$ whose intent is a superset of $g_i$'s intent.
 Save those objects in a successor list (or better: set) $s_{g_i}$.
