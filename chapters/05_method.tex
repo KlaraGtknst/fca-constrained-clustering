@@ -33,14 +33,15 @@ Save those objects in a successor list (or better: set) $s_{g_i}$.
 To keep track of already processed cluster objects, initialize a list $processed$.
 To keep track of the constraints add a list of resulting constraints $r$.
 %
-Next, one selects any cluster object $g_i$ with minimal intent cardinality, i.e., the smallest cluster.
-For any pair of attributes $g_i$'s intent, i.e. data points $x_i, x_j$, add a pairwise \texttt{must-link} constraint to $r$.
-To capture the hierarchical relation between the clusters, for $x_i, x_j$ and any attribute $x_k \in c$ in $g_i$'s successor list's items' intent excluding $x_i, x_j$, i.e., $(c)'$ for $c \in s_{g_i} \smallsetminus \{x_i, x_j\}$, add a \texttt{\ac{mlb}} constraint $MLB_{x_i, x_j, c}$.
-Once all \ac{mlb} constraints for the pair $x_i, x_j$ and the elements $c \in s_{g_i} \smallsetminus \{x_i, x_j\}$ have been added, the next pair in $(g_i)'$ can be processed.
+Next, one selects any cluster object $g_i$ with minimal intent cardinality $|(g_i)'|$, i.e., the smallest cluster.
+For any pair of attributes $g_i$'s intent, i.e. data points $x_i, x_j \in (g_i)'$, add a pairwise \texttt{must-link} constraint to $r$.
+To capture the hierarchical relation between the clusters, for $x_i, x_j$ and any attribute (i.e., data point) $x_k$ in $g_i$'s successor list's items' intent excluding $x_i, x_j$, i.e., $(c)'$ for $c \in s_{g_i}$ and $x_k \in (c)'\smallsetminus \{x_i, x_j\}$, add a \texttt{\ac{mlb}} constraint $MLB_{x_i, x_j, x_k}$.
+Once all \ac{mlb} constraints for the pair $x_i, x_j$ and the elements $x_k \in (c)'\smallsetminus \{x_i, x_j\}$ have been added, the next pair in $(g_i)'$ can be processed.
 Once all pairs in $(g_i)'$ have been processed, $g_i$ is added to $processed$.
-The next cluster object $g_i$ with minimal intent cardinality which has not yet been processed, i.e., is not element of $processed$ is selected, and the steps are repeated.
+Repeat the steps for the next cluster object $g_j$ with minimal intent cardinality $|(g_j)'|$ which has not yet been processed, i.e., is not element of $processed$ is selected.
+The algorithm ends once all cluster objects have been added to $processed$. 
 %
-The resulting set of \ac{mlb} constraints is input models the solution space of possible clusters.
+The resulting set of \ac{mlb} constraints is models the solution space of possible clusters.
 Any clustering algorithm that respects these \textit{hard} constraints can produce a possible solution that lives within this solution space.
 
 \subsubsection{Formal context to concept lattice.}
