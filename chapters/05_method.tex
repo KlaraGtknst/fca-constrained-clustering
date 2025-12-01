@@ -2,17 +2,15 @@
 \label{sec:method}
 % defines commands used below to insert datastructure (for better readability)
 \input{chapters/extras/data_structure}
-\textcolor{red}{$x_i$ to $d_i$}
-We denote the clusters $c_i \in \mathcal{C}$ the set of objects $G$ and data points $\mathcal{X}=\{x_A, x_B, x_C, x_D, \dots\}$ the set of attributes $M$, since implications are usually defined on attribute sets rather than on object sets \cite{fca-book}.
+
+Implications are usually defined on attribute sets rather than on object sets \cite{fca-book}, but we will work with object exploration since it aligns directly with constrained hierarchical clustering.
+\textcolor{gray}{The methodology proposed is directly applicable to both versions, differing only by the necessity of transposing the context for visualization via concept lattices.}
+We denote the data points $\mathcal{D}=\{d_A, d_B, d_C, d_D, \dots\}$ the set of objects $G$ and the clusters $c_i \in \mathcal{C}$ the set of attributes $M$. 
 For simplicity, we explain our idea on the toy example given in \autoref{tab:formal_context}.
 \formalcontexttable{}
 
-MERKMALSEXPLORATION is üblich
-
-OBJEKT/GEGENSTANDSEXPLORATION wäre besser für Cluster Publikum (dann muss zur Visualiaiserung lattice nicht transposeed werden, aber tab.1 noch einmal transposen)
-
 The corresponding hierarchical cluster is given as a dendrogram in \autoref{fig:dendrogram}.
-The bottom elements are data points in $\mathcal{X}$.
+The bottom elements are data points in $\mathcal{D}$.
 Iterative merging of clusters are indicated by agglomerating lines from the bottom to the top.
 \dendogram{}
 
@@ -21,35 +19,35 @@ First, we will outline how a hierarchical cluster can be turned into its corresp
 In the following, we will describe the hierarchical cluster as a dendrogram.
 
 \subsubsection{Hierarchical cluster to formal context.}
-For each cluster on the lowest hierarchical level, i.e., the lowest line between leaf elements, add an object $c_i$ with $i > |\mathcal{C}|$. 
-Next, update the incidence relation $I = I \cup \{ x | x \in c_i\}$, i.e., add each element $x$ of that cluster to the new object's intent, such that $(c_i)'$ contains all data points of that cluster. 
+For each cluster on the lowest hierarchical level, i.e., the lowest line between leaf elements, add an attribute $c_i$ with $i > |\mathcal{C}|$. 
+Next, update the incidence relation $I = I \cup \{ d | d \in c_i\}$, i.e., add each data point $d$ of that cluster to the new attribute's extent, such that $(c_i)'$ contains all data points of that cluster. 
 Once all lower clusters have been processed, proceed with the next higher cluster hierarchy.
-For each cluster emerging from sub-clusters $c_i, c_j \in \mathcal{C}$, add a new object $c_i \vee c_j$.
-This object's intent contains all attributes in either one of the sub-cluster's intents, i.e., $(c_i \vee c_j)' = (c_i)'\cup(c_j)'$.
+For each cluster emerging from sub-clusters $c_i, c_j \in \mathcal{C}$, add a new attribute $c_i \vee c_j$.
+This attribute's extent contains all attributes in either one of the sub-cluster's extents, i.e., $(c_i \vee c_j)' = (c_i)'\cup(c_j)'$.
 Proceed likewise for all clusters on that hierarchy and repeat the process for higher level emerging clusters.
 
 
 \subsubsection{Formal context to hierarchical cluster.}
-Given a formal context $(G,M,I)$ where $G$ denotes the set of clusters $c_i \in \mathcal{C}$ and $M$ denotes the set of data points $\mathcal{X}$, all attributes $x \in M$ are leaf nodes.
-For each object $g_i \in G$, identify any other objects $g_j \in G$ whose intent is a superset of $g_i$'s intent.
-Save those objects in a successor list (or better: set) $s_{g_i}$.
+Given a formal context $(G,M,I)$ where $G$ denotes the set of data points $\mathcal{D}$ and $M$ denotes the set of clusters $c_i \in \mathcal{C}$, all objects $d \in G$ are leaf nodes of the dendogram.
+For each attribute $a_i \in M$, identify any other attributes $a_j \in M$ whose extent is a superset of $a_i$'s extent.
+Save those attributes in a successor list (or better: set) $s_{a_i}$.
 % one could omit transitive constraints, but not necessary
-To keep track of already processed cluster objects, initialize a list $processed$.
+To keep track of already processed cluster attributes, initialize a list $processed$.
 To keep track of the constraints add a list of resulting constraints $r$.
 %
-Next, one selects any cluster object $g_i$ with minimal intent cardinality $|(g_i)'|$, i.e., the smallest cluster.
-For any pair of attributes $g_i$'s intent, i.e. data points $x_i, x_j \in (g_i)'$, add a pairwise \texttt{must-link} constraint to $r$.
-To capture the hierarchical relation between the clusters, for $x_i, x_j$ and any attribute (i.e., data point) $x_k$ in $g_i$'s successor list's items' intent excluding $x_i, x_j$, i.e., $(c)'$ for $c \in s_{g_i}$ and $x_k \in (c)'\smallsetminus \{x_i, x_j\}$, add a \texttt{\ac{mlb}} constraint $MLB_{x_i, x_j, x_k}$.
-Once all \ac{mlb} constraints for the pair $x_i, x_j$ and the elements $x_k \in (c)'\smallsetminus \{x_i, x_j\}$ have been added, the next pair in $(g_i)'$ can be processed.
-Once all pairs in $(g_i)'$ have been processed, $g_i$ is added to $processed$.
-Repeat the steps for the next cluster object $g_j$ with minimal intent cardinality $|(g_j)'|$ which has not yet been processed, i.e., is not element of $processed$ is selected.
-The algorithm ends once all cluster objects have been added to $processed$. 
+Next, select one attribute $a_i$ with minimal extent cardinality $|(a_i)'|$, i.e., the smallest cluster.
+For any pair of objects in $a_i$'s extent, i.e. data points $d_i, d_j \in (a_i)'$, add a pairwise \texttt{must-link} constraint to $r$.
+To capture the hierarchical relation between the clusters, for $d_i, d_j$ and any object $d_k$ in $a_i$'s successor list's items' extent excluding $d_i, d_j$, i.e., data point $d_k \in (a)'\smallsetminus \{d_i, d_j\}$ for attribute $a \in s_{a_i}$, add a \texttt{\ac{mlb}} constraint $MLB_{d_i, d_j, d_k}$.
+Once all \ac{mlb} constraints for the pair $d_i, d_j$ and objects $d_k \in (a)'\smallsetminus \{d_i, d_j\}$ have been added, the next pair in $(a_i)'$ can be processed.
+Once all pairs in $(a_i)'$ have been processed, $a_i$ is added to $processed$.
+Repeat the steps for the next attribute $a_j$, i.e., cluster, with minimal extent cardinality $|(a_j)'|$ which has not yet been processed, i.e., is not element of $processed$ is selected.
+The algorithm ends once all cluster attributes have been added to $processed$. 
 %
 The resulting set of \ac{mlb} constraints is models the solution space of possible clusters.
-Any clustering algorithm that respects these \textit{hard} constraints can produce a possible solution that lives within this solution space.
+Any clustering algorithm, i.e., including \ac{hac} and \ac{ihac}, that respects these \textit{hard} constraints can produce a possible solution that lives within this solution space.
 
 \subsubsection{Formal context to concept lattice.}
-Given a formal context $(G,M,I)$ where $G$ denotes the set of clusters $c_i \in \mathcal{C}$ and $M$ denotes the set of data points $\mathcal{X}$, we need to transpose the index (i.e., swap $G$ and $M$) to compute a meaningful concept lattice representation.
+Given a formal context $(G,M,I)$ where $G$ denotes the set of data points $\mathcal{D}$ and $M$ denotes the set of clusters $c_i \in \mathcal{C}$, we can compute a meaningful concept lattice representation.
 The resulting concept lattice for the formal context in \autoref{tab:formal_context} is given in \autoref{fig:concept_lattice}.
 
 \lattice{}

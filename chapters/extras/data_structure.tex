@@ -3,13 +3,14 @@
 \centering
 \caption{Formal context}
 \label{tab:formal_context}
-\begin{tabular}{|l|c|c|c|c|c|}
+\begin{tabular}{|l|c|c|c|c|}
 \hline
-          & $x_A$           & $x_B$           & $x_C$           & $x_D$           & \dots \\ \hline
-$c_1$         & $\times$    & $\times$    &             &             &        \\ \hline
-$c_2$         &             &             & $\times$    & $\times$    &        \\ \hline
-$c_1 \vee c_2$ & $\times$    & $\times$    & $\times$    & $\times$    &        \\ \hline
-$\vdots$      &             &             &             &             & $\ddots$ \\ \hline
+          & $c_1$           & $c_2$           & $c_1 \vee c_2$           & \dots \\ \hline
+$d_A$     & $\times$ &           & $\times$ & \\ \hline
+$d_B$     & $\times$ &           & $\times$ & \\ \hline
+$d_C$     &          &  $\times$ & $\times$ & \\ \hline
+$d_D$     &          &  $\times$ & $\times$ & \\ \hline
+$\vdots$  &          &           &          & $\ddots$ \\ \hline
 \end{tabular}%
 \end{table}%
 }
@@ -22,10 +23,10 @@ $\vdots$      &             &             &             &             & $\ddots$
 
 \begin{tikzpicture}[scale=1]
 % Positions of objects (bottom)
-\node (A) at (0,0) {$x_A$};
-\node (B) at (2,0) {$x_B$};
-\node (C) at (4,0) {$x_C$};
-\node (D) at (6,0) {$x_D$};
+\node (A) at (0,0) {$d_A$};
+\node (B) at (2,0) {$d_B$};
+\node (C) at (4,0) {$d_C$};
+\node (D) at (6,0) {$d_D$};
 
 % Merge A and B
 \coordinate (ABtop) at (1,1);
@@ -46,14 +47,14 @@ $\vdots$      &             &             &             &             & $\ddots$
 \newcommand{\lattice}{%
 \begin{figure}[h]
 \centering
-\caption{Concept lattice for the transposed formal context.}
+\caption{Concept lattice for the formal context.}
 \label{fig:concept_lattice}
 
 \begin{tikzpicture}[scale=1, every node/.style={draw, circle, align=center, minimum width=1.2cm, minimum height=1.2cm}]
 % Nodes
 \node (top) at (0,3) {c$_1 \vee c_2$ \\ };
-\node (left) at (-3,1.5) {c$_1$ \\ $x_A$,$x_B$};
-\node (right) at (3,1.5) {c$_2$ \\ $x_C$,$x_D$};
+\node (left) at (-3,1.5) {c$_1$ \\ $d_A$,$d_B$};
+\node (right) at (3,1.5) {c$_2$ \\ $d_C$,$d_D$};
 \node (bottom) at (0,0) {};
 
 % Edges
