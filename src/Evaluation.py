@@ -27,10 +27,12 @@ stop_words = stopwords.words('english')
 def load_dataset():
     documents = reuters.fileids()
     train_docs_id = [doc for doc in documents if doc.startswith('train')]
-    sel_train_docs_id = train_docs_id[:100]
+    # only for testing purposes, choose the first 100 documents
+    sel_train_docs_id = train_docs_id
     print(f'sel_train_docs_id: {sel_train_docs_id[0]}')
     test_docs_id = [doc for doc in documents if doc.startswith('test')]
-    sel_test_docs_id = test_docs_id[:100]
+    # only for testing purposes, choose the first 100 documents
+    sel_test_docs_id = test_docs_id
     print(f'sel_test_docs_id: {sel_test_docs_id[0]}')
 
     train_docs = [reuters.raw(doc_id) for doc_id in sel_train_docs_id]
@@ -54,14 +56,27 @@ def main():
     categories = reuters.categories()
     print(f'categories: {categories}')
     # Each document has zero or more topic categories, accessed as lists for multi-label structure.
-    doc_id = reuters.fileids('acq')[0]  # Example from 'acq' category
-    doc_categories = reuters.categories(doc_id)  # e.g., ['acq', 'money-fx']
+    doc_ids = reuters.fileids()  # Example from 'acq' category
+    doc_categories = reuters.categories(doc_ids[0])  # e.g., ['acq', 'money-fx']
     print(f'doc_categories: {doc_categories}')
 
     # create a binary matrix (documents x categories)
     mlb = MultiLabelBinarizer()
-    train_labels = mlb.fit_transform([reuters.categories(doc_id) for doc_id in train_docs])
+    train_labels = mlb.fit_transform([reuters.categories(doc_id) for doc_id in doc_ids])
     # Shape: (7769, 90), 1 if document belongs to category
+
+    # object_names = [str(doc.split('\n')[0]) for doc in train_docs]
+    object_names = [f'{doc_id}: {reuters.raw(doc_id).split('\n')[0]}' for doc_id in doc_ids]
+    # object_names = doc_ids
+    attribute_names = [str(c) for c in reuters.categories()]
+
+    write_cxt(
+        "reuters_train.cxt",
+        "Reuters training labels",
+        train_labels,
+        object_names,
+        attribute_names,
+    )
 
     # plot binary matrix
     plt.figure(figsize=(20, 40))  # Tall figure for 7769 rows
@@ -117,7 +132,7 @@ def main():
 
     # the categories in the Reuters-21578 dataset do not have a built-in hierarchical structure or formal
     # classification system within the standard dataset distribution. They consist of flat lists across five
-    # groups—EXCHANGES, ORGS, PEOPLE, PLACES, and TOPICS—with TOPICS being the primary group used for text
+    # groupsâ€”EXCHANGES, ORGS, PEOPLE, PLACES, and TOPICSâ€”with TOPICS being the primary group used for text
     # classification research, typically reduced to 90 categories in the Mod-Apte split. While some research
     # papers impose an external three-level hierarchy on the topics for experiments (e.g., adding a root
     # category to leaf nodes), this is not part of the original dataset.
@@ -138,6 +153,34 @@ def main():
         # Map via similarity (e.g., using embeddings or rules)
             parent = onto.search(label=cat.upper())  # Pseudo-mapping
             print(f"{cat} -> {parent}")
+
+def write_cxt(filename: str, context_name: str, train_labels, object_names: [str], attribute_names: [str]):
+    n_objects, n_attributes = train_labels.shape
+    """
+    filename: output filename
+    """
+
+    with open(filename, "w", encoding="utf-8") as f:
+        # Header
+        f.write("B\n")
+        f.write(f"{context_name}\n")
+        f.write(f"{n_objects}\n")
+        f.write(f"{n_attributes}\n")
+        f.write("\n")
+
+        # Object names
+        for obj in object_names:
+            f.write(f"{obj}\n")
+
+        # Attribute names
+        for attr in attribute_names:
+            f.write(f"{attr}\n")
+
+        # Incidence relation (X / .)
+        for i in range(n_objects):
+            row = train_labels[i]
+            line = "".join("X" if val == 1 else "." for val in row)
+            f.write(f"{line}\n")
 
 if __name__ == '__main__':
     main()
