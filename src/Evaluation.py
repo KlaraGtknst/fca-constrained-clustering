@@ -5,13 +5,21 @@ from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 from nltk import word_tokenize
 import re
+import seaborn as sns
+from sklearn.cluster import AgglomerativeClustering
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-from sklearn.cluster import AgglomerativeClustering
+from sklearn.preprocessing import MultiLabelBinarizer
 import numpy as np
+from owlready2 import get_ontology
+
 
 nltk.download('punkt_tab')
 nltk.download('reuters')
+# The Reuters-21578 dataset is a multi-label text classification benchmark with 21,578 newswire articles,
+# commonly using the ModApte split of 7,769 training and 3,019 testing documents across 90 categories
+# appear in both sets.
+
 nltk.download('stopwords')
 
 stop_words = stopwords.words('english')
@@ -43,6 +51,33 @@ def tokenize(text):
 
 def main():
     train_docs, test_docs, train_labels, test_labels = load_dataset()
+    categories = reuters.categories()
+    print(f'categories: {categories}')
+    # Each document has zero or more topic categories, accessed as lists for multi-label structure.
+    doc_id = reuters.fileids('acq')[0]  # Example from 'acq' category
+    doc_categories = reuters.categories(doc_id)  # e.g., ['acq', 'money-fx']
+    print(f'doc_categories: {doc_categories}')
+
+    # create a binary matrix (documents x categories)
+    mlb = MultiLabelBinarizer()
+    train_labels = mlb.fit_transform([reuters.categories(doc_id) for doc_id in train_docs])
+    # Shape: (7769, 90), 1 if document belongs to category
+
+    # plot binary matrix
+    plt.figure(figsize=(20, 40))  # Tall figure for 7769 rows
+
+    sns.heatmap(train_labels,
+                cmap='binary_r',  # Reverse binary: black=1, white=0
+                cbar_kws={'label': 'Label Presence'},
+                xticklabels=True, yticklabels=False)  # Hide y-ticks for readability
+    plt.xlabel('Categories')
+    plt.ylabel('Training Documents')
+    plt.title('Reuters-21578 Full Training Binary Label Matrix')
+    plt.xticks(rotation=90)
+    plt.tight_layout()
+    plt.show()
+
+
     vectorizer = TfidfVectorizer(stop_words=stop_words, tokenizer=tokenize)
     vectorised_train = vectorizer.fit_transform(train_docs)
     vectorised_test = vectorizer.transform(test_docs)
@@ -70,6 +105,39 @@ def main():
     # Visualize
     plt.scatter(distance_matrix[:, 0], distance_matrix[:, 1], c=test_clusters)
     plt.show()
+
+    # TODO: export burmeister format (1-2 wochen)
+    # TODO: ontology (29.12.)
+        # coverage DMOZ vgl. ggf. Wordnet, Wikidata -> wir nehmen nur eine 1 ontologie. Weil wir nur eine constraint teilmenge aus
+        # aus einem externen Quelle ben?tigen
+        #
+        # TODO: hierachische constraints liste aus DMOZ
+
+    # 09:15 - 10:15: 29.12.25
+
+    # the categories in the Reuters-21578 dataset do not have a built-in hierarchical structure or formal
+    # classification system within the standard dataset distribution. They consist of flat lists across five
+    # groups—EXCHANGES, ORGS, PEOPLE, PLACES, and TOPICS—with TOPICS being the primary group used for text
+    # classification research, typically reduced to 90 categories in the Mod-Apte split. While some research
+    # papers impose an external three-level hierarchy on the topics for experiments (e.g., adding a root
+    # category to leaf nodes), this is not part of the original dataset.
+
+    # No single pre-built ontology perfectly matches Reuters-21578's flat categories (e.g., TOPICS like
+    # 'acq', 'earn', 'grain'), but the DMOZ Open Directory Project ontology (now archived) is widely
+    # suitable for imposing a news/business hierarchy on them. It features a multi-level structure
+    # (e.g., Top > News > Business > Mergers & Acquisitions) that aligns with Reuters topics via
+    # semantic mapping, used in hierarchical text classification benchmarks.
+
+    # WordNet
+    # News-Specific Taxonomies
+
+    # Load DMOZ or WordNet ontology (example with WordNet via RDF)
+    onto = get_ontology("http://purl.org/dc/terms/").load()  # Adapt to DMOZ RDF
+    with onto:
+        for cat in categories:
+        # Map via similarity (e.g., using embeddings or rules)
+            parent = onto.search(label=cat.upper())  # Pseudo-mapping
+            print(f"{cat} -> {parent}")
 
 if __name__ == '__main__':
     main()
