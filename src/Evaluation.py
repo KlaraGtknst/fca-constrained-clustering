@@ -71,7 +71,7 @@ def main():
     attribute_names = [str(c) for c in reuters.categories()]
 
     write_cxt(
-        "reuters_train.cxt",
+        "../resources/reuters.cxt",
         "Reuters training labels",
         train_labels,
         object_names,
