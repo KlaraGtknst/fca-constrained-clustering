@@ -50,6 +50,15 @@ The \ac{ihac} extends the \ac{hac} algorithm by not only considering similarity 
 
 \textcolor{red}{was heißt ihac ist besser als hac? Stefan}
 
+\subsubsection{Canonical Basis}
+(also: Duquenne-Guigues basis or stem basis \cite{ganter_conceptual_2016}).
+A formal context $(G, M, I)$ can also be defined via a set of implications $\mathcal{L}$ that is sound (i.e., each implication in $\mathcal{L}$ holds in $(G, M, I)$), complete (i.e., each implication that holds in $(G, M, I)$ follows from $\mathcal{L}$), and nonredundant (i.e., no implication in $\mathcal{L}$ follows from other implications in $\mathcal{L}$).
+The canonical basis is $\{P \rightarrow P'' \smallsetminus P | P$ is pseudo-closed$\}$.
+A finite subset $P \subseteq M$ is pseudo-closed if and only if (i) $P \neq P''$ (i.e., $P$ is not closed and in other words: $P$ is not a concept intent) and (ii) if $Q \subsetneq P$ is a pseudo-closed proper subset of $P$, then $Q'' \subset P$ (i.e., $P$ contains the closure of every pseudo-closed subset with fewer elements).
+If (i) and (ii) holds true, $P$ is a pseudo-intent of $(G, M, I)$.
+The canonical basis is nonredundant, i.e., no implication in the canonical basis is dispensable.
+It is not the only implication basis, but there is no implication basis with fewer implications \cite{ganter_conceptual_2016}.
+
 
 \subsubsection{Attribute Exploration}
 \textcolor{red}{What is Attribute Exploration? \cite{ganter_conceptual_2016}}
