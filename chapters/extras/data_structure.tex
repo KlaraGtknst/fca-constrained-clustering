@@ -66,3 +66,76 @@ $\vdots$  &          &           &          & $\ddots$ \\ \hline
 \end{tikzpicture}
 \end{figure}
 }
+
+
+\newcommand{\deriveMLBconstraints}{\begin{figure}[h]
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[
+    grow=down,
+    level distance=1.3cm,
+    sibling distance=3.8cm,
+    level 2/.style={sibling distance=1.5cm},
+    every node/.style={font=\small},
+    edge from parent/.style={draw, -},
+    dir/.style={
+        draw,
+        rectangle,
+        rounded corners,
+        minimum width=2.0cm,
+        minimum height=0.8cm,
+        inner sep=4pt
+    },
+    file/.style={
+        draw,
+        rectangle,
+        minimum width=1.1cm,
+        minimum height=0.6cm,
+        inner sep=4pt
+    }
+]
+
+% ------------------------
+% Left: File hierarchy
+% ------------------------
+\node[dir] (root) {\faFolderOpen\ Root}
+  child {
+    node[dir] (dirA) {\faFolderOpen\ Dir A}
+      child { node[file] (d1) {$d_1$} }
+      child { node[file] (d2) {$d_2$} }
+  }
+  child {
+    node[dir] (dirB) {\faFolderOpen\ Dir B}
+      child { node[file] (d3) {$d_3$} }
+      child { node[file] (d4) {$d_4$} }
+  };
+
+% ------------------------
+% Arrow to constraints
+% ------------------------
+\node[right=2.8cm of root] (arrowstart) {};
+\node[right=5.0cm of root] (arrowend) {};
+
+\draw[->, thick] (arrowstart) -- (arrowend)
+  node[midway, above] {\small derived};
+
+% ------------------------
+% Right: MLB constraints
+% ------------------------
+\node[
+  right=5.8cm of root,
+  anchor=north west,
+  align=left,
+  font=\small
+] (constraints) {
+\textbf{MLB Constraints}\\[0.4em]
+$\mathrm{MLB}(d_1, d_2, d_3)$\\
+$\mathrm{MLB}(d_1, d_2, d_4)$\\
+$\mathrm{MLB}(d_3, d_4, d_1)$\\
+$\mathrm{MLB}(d_3, d_4, d_2)$
+};
+
+\end{tikzpicture}%
+}
+\caption{Deriving \ac{mlb} constraints from a hierarchical folder structure.}
+\end{figure}}

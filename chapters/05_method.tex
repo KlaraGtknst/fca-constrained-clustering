@@ -3,6 +3,8 @@
 % defines commands used below to insert datastructure (for better readability)
 \input{chapters/extras/data_structure}
 
+\subsection{\acs{mlb} constraints and \acs{fca}}
+
 Implications are usually defined on attribute sets rather than on object sets \cite{fca-book}, but we will work with object exploration since it aligns directly with constrained hierarchical clustering.
 \textcolor{gray}{The methodology proposed is directly applicable to both versions, differing only by the necessity of transposing the context for visualization via concept lattices.}
 We denote the data points $\mathcal{D}=\{d_A, d_B, d_C, d_D, \dots\}$ the set of objects $G$ and the clusters $c_i \in \mathcal{C}$ the set of attributes $M$. 
@@ -51,3 +53,7 @@ Given a formal context $(G,M,I)$ where $G$ denotes the set of data points $\math
 The resulting concept lattice for the formal context in \autoref{tab:formal_context} is given in \autoref{fig:concept_lattice}.
 
 \lattice{}
+
+\subsection{Deriving \ac{mlb} constraints from categories}
+
+\deriveMLBconstraints{}
