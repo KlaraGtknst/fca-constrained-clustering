@@ -1,2 +1,25 @@
 \section{Case Study}
 \label{sec:case_study}
+
+\subsection{Evaluation}
+
+Evaluation can be based on internal and external measures.
+Where internal measures assess inter- and intra cluster similarity of the datapoints for the clustering solution, external measures compare the clustering solution to external gold standards \cite{bade_hierarchical_2014}.
+
+One external measure employs the F-measure for clustering, where each class from the reference gold standard based on its computed F-score.
+F-score trades off precision (i.e., fraction of items assigned correctly among those assigned to the cluster) and recall (i.e., fraction of correctly assigned items from the reference class).
+The F-score of non-leaf clusters is computed also based on all sub-clusters below that respective node.
+The greedy selection strategy can lead to some clusters not being selected or being selected multiple times for overall score computation, since it only considers the best cluster for each class \cite{bade_hierarchical_2014}.
+
+Opposed to the F-measure, H-correlation is a measure which can compare two entire hierarchies.
+It computes the overlap from $MLB$ constraints that can be determined from both hierarchies.
+There are several versions of the H-correlation measure, which introduce asymmetric or symmetric comparison between hierarchies, as well as different weighting schemes for individual triplets.
+\cite{bade_hierarchical_2014} use an asymmetric H-correlation using triplet weighting with
+\begin{equation}
+    H_a ( \mathcal{H}_l, \mathcal{H}_r) = \frac{\sum_{\tau \in MLB_l \bigwedge MLB_r} w_r \tau}{\sum_{\tau \in MLB_r}w_r \tau}
+\end{equation}
+
+\begin{equation}
+    w ( d_1, d_2, d_3) = \frac{1}{\{(d_1', d_2', d_3') | ca(d_1, d_3) = ca(d_1', d_3')\}},
+\end{equation}
+with $ca(a,b)$ being the most specific commong ancester node of $a$ and $b$ in the hierarchy.
