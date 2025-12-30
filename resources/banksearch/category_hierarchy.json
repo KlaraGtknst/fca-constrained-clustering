@@ -1,0 +1,24 @@
+{
+    "Finance":
+    [
+        "Commercial Banks",
+        "Building Societies",
+        "Insurance Agencies"
+    ],
+    "Science":
+    [
+        "Astronomy",
+        "Biology"
+    ],
+    "Programming":
+    [
+        "C/C++",
+        "Java",
+        "Visual Basic"
+    ],
+    "Sport":
+    [
+        "Soccer",
+        "Motor Racing"
+    ]
+}
