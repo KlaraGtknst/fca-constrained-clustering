@@ -16,7 +16,7 @@ It computes the overlap from $MLB$ constraints that can be determined from both 
 There are several versions of the H-correlation measure, which introduce asymmetric or symmetric comparison between hierarchies, as well as different weighting schemes for individual triplets.
 \cite{bade_hierarchical_2014} use an asymmetric H-correlation using triplet weighting with
 \begin{equation}
-    H_a ( \mathcal{H}_l, \mathcal{H}_r) = \frac{\sum_{\tau \in MLB_l \bigwedge MLB_r} w_r \tau}{\sum_{\tau \in MLB_r}w_r \tau}
+    H_a ( \mathcal{H}_l, \mathcal{H}_r) = \frac{\sum_{\tau \in MLB_l \cap MLB_r} w_r \tau}{\sum_{\tau \in MLB_r}w_r \tau}
 \end{equation}
 
 \begin{equation}
