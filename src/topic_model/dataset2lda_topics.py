@@ -16,8 +16,9 @@ from gensim.models import LdaModel
 # -----------------------------
 # Configuration
 # -----------------------------
-NUM_TOPICS = 20  # number of latent topics
-TOP_WORDS_PER_TOPIC = 10
+NUM_TOPICS_CORPUS = 200  # number of latent topics
+N_TOPICS_PER_DOC = 10
+N_TOP_WORDS_PER_TOPIC = 10
 MIN_TOKEN_LENGTH = 3
 
 
@@ -28,7 +29,7 @@ stop_words = set(stopwords.words("english"))
 lemmatizer = WordNetLemmatizer()
 
 
-def extract_id_and_html(text: str):
+def extract_id_and_html(text: str) -> tuple[str, str]:
     """
     Extract document ID and HTML content from BankSearch format.
     """
@@ -36,7 +37,7 @@ def extract_id_and_html(text: str):
     html_match = re.search(r"HTML=\n(.+)", text, re.DOTALL)
 
     if not id_match or not html_match:
-        return None, None
+        return "", ""
 
     doc_id = id_match.group(1).strip()
     html = html_match.group(1)
@@ -90,7 +91,7 @@ def load_banksearch_dataset(dataset_path: str):
             raw_text = f.read()
 
         doc_id, html = extract_id_and_html(raw_text)
-        if doc_id is None:
+        if doc_id is "":
             continue
 
         plain_text = clean_html(html)
@@ -115,7 +116,7 @@ def run_lda(doc_ids, documents):
     lda = LdaModel(
         corpus=corpus,
         id2word=dictionary,
-        num_topics=NUM_TOPICS,
+        num_topics=NUM_TOPICS_CORPUS,
         random_state=42,
         passes=10,
         alpha="auto",
@@ -125,20 +126,27 @@ def run_lda(doc_ids, documents):
     return lda, corpus, dictionary
 
 
-def extract_document_topics(lda, corpus, doc_ids):
+def extract_document_topics(lda, corpus, doc_ids, n_topics_per_doc=N_TOPICS_PER_DOC, n_top_words_per_topic=N_TOP_WORDS_PER_TOPIC):
     """
     For each document:
-    - find the dominant topic
-    - extract top words for that topic
+    - find the dominant topics
+    - extract top words for those topics
+    Returns a dict: {doc_id: {topic_id: [top_words]}}
     """
     result = {}
 
     for doc_id, bow in zip(doc_ids, corpus):
+        # Get topic probabilities and pick top N topics
         topic_probs = lda.get_document_topics(bow)
-        dominant_topic = max(topic_probs, key=lambda x: x[1])[0]
+        # Sort topics by probability descending and take top n_topics_per_doc
+        dominant_topics = sorted(topic_probs, key=lambda x: x[1], reverse=True)[:n_topics_per_doc]
+        dominant_topic_ids = [topic for topic, _ in dominant_topics]
 
-        topic_words = lda.show_topic(dominant_topic, TOP_WORDS_PER_TOPIC)
-        words_only = [word for word, _ in topic_words]
+        # Build dictionary {topic_id: [top_words]}
+        words_only = {
+            topic: [word for word, _ in lda.show_topic(topic, n_top_words_per_topic)]
+            for topic in dominant_topic_ids
+        }
 
         result[doc_id] = words_only
 
