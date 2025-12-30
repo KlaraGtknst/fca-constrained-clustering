@@ -170,6 +170,7 @@ def main(dataset_path, output_file):
 if __name__ == "__main__":
 
     dataset_path = Path("resources/Dataset")
+    assert dataset_path.exists(), "No input dataset exits, ensure to download it from http://lib.stat.cmu.edu/datasets/."
     output_file = Path("resources/banksearch2topics")
 
     output_file.mkdir(parents=True, exist_ok=True)
