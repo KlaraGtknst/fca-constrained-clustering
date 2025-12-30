@@ -5,6 +5,7 @@ import json
 from bs4 import BeautifulSoup
 
 import nltk
+nltk.download('wordnet')
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 
