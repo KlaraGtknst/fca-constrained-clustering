@@ -4,11 +4,12 @@
 \input{chapters/06_dataset}
 
 \subsection{Effectiviness Measures}
+\label{subsec:effectiveness_measures}
 
 Evaluation can be based on internal and external measures.
 Where internal measures assess inter- and intra cluster similarity of the datapoints for the clustering solution, external measures compare the clustering solution to external gold standards \cite{bade_hierarchical_2014}.
 
-One external measure employs the F-measure for clustering, where each class from the reference gold standard based on its computed F-score.
+One external measure employs the F-measure for clustering, including each class from the reference gold standard based on its computed F-score.
 F-score trades off precision (i.e., fraction of items assigned correctly among those assigned to the cluster) and recall (i.e., fraction of correctly assigned items from the reference class).
 The F-score of non-leaf clusters is computed also based on all sub-clusters below that respective node.
 The greedy selection strategy can lead to some clusters not being selected or being selected multiple times for overall score computation, since it only considers the best cluster for each class \cite{bade_hierarchical_2014}.
