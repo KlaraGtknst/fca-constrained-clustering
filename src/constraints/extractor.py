@@ -16,7 +16,7 @@ class BaseExtractor(ABC):
     def extract_all_mlb_constraints(self, out_path: Path):
         pass
 
-    def _get_mlb_constraints(self, children: List[str], parent: str) -> List[str]:
+    def _get_mlb_constraints(self, parent: str, children: List[str]) -> List[str]:
         """
         Generate all pairwise combinations of children with parent included (do not consider order of childern).
         """
@@ -46,7 +46,7 @@ class TreeBankExtractor(BaseExtractor):
 
         constraints = []
         for parent, children in hierarchy_dict.items():
-            constraints.extend(self._get_mlb_constraints(children=children, parent=parent))
+            constraints.extend(self._get_mlb_constraints(parent=parent, children=children))
 
         logger.info(f"Saving {len(constraints)} constraints to {out_filename}")
         with open(out_filename, "w") as f:
