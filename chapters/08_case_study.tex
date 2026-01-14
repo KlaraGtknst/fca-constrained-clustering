@@ -12,7 +12,7 @@ Where internal measures assess inter- and intra cluster similarity of the datapo
 One external measure employs the F-measure for clustering, where clusters from the dendogram are mapped to classes from the reference gold standard based on maximization of their respective F-score.
 F-score trades off precision (i.e., fraction of items assigned correctly among those assigned to the cluster) and recall (i.e., fraction of correctly assigned items from the reference class).
 The F-score of non-leaf clusters is computed also based on all sub-clusters below that respective node.
-This greedy selection strategy based on class-wise F-score maximization can lead to some clusters not being selected or being selected multiple times for overall score computation \cite{bade_hierarchical_2014}.
+This greedy selection strategy based on class-wise F-score maximization can lead to some clusters not being selected or being selected multiple times for overall score computation~\cite{bade_hierarchical_2014}.
 
 Opposed to the F-measure, H-correlation is a measure which can compare two entire hierarchies.
 It computes the overlap from $MLB$ constraints that can be determined from both hierarchies.
