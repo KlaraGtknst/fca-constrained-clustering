@@ -3,13 +3,13 @@ from __future__ import annotations
 import logging
 from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import Dict, Iterable, List, Literal, Optional
+from typing import Dict, List, Literal, Optional
 
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.cluster.hierarchy import dendrogram, linkage
 from sklearn.cluster import AgglomerativeClustering
-from sklearn.datasets import load_iris
+
 
 logger = logging.getLogger(__name__)
 # Ward: Minimizes the total within-cluster variance. https://www.simboli.eu/m/HAC_clustering_python (14.01.2026)
@@ -154,57 +154,3 @@ class AgglomerativeClusteringWrapper(BaseClusteringWrapper):
             labels_per_level[n_clusters] = cluster_labels
 
         return labels_per_level
-
-
-if __name__ == "__main__":
-    # ------------------------------------------------------------------
-    # Logging configuration
-    # ------------------------------------------------------------------
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
-        datefmt="%Y-%m-%d %H:%M:%S",
-    )
-
-    # ------------------------------------------------------------------
-    # Sample data
-    # ------------------------------------------------------------------
-    # x = [4, 5, 10, 4, 3, 11, 14, 6, 10, 12]
-    # y = [21, 19, 24, 17, 16, 25, 24, 22, 21, 21]
-
-    # data = np.column_stack((x, y))
-
-    # Load Iris data
-    iris = load_iris()
-    data = iris.data
-    x,y = data[:, 0], data[:, 1]
-    labels = iris.target
-
-    # ------------------------------------------------------------------
-    # AC clustering
-    # ------------------------------------------------------------------
-    ac = AgglomerativeClusteringWrapper(
-        n_clusters=2,
-        linkage="ward",
-    )
-
-    hier_labels = ac.cluster(data)
-    logger.info(f"hier labels: {hier_labels}")
-    lowest_level_labels = hier_labels[max(hier_labels.keys())]
-    ac.display_clustering(x=x,y=y,labels=lowest_level_labels)
-    logger.info("Cluster labels: %s", labels)
-
-    # ------------------------------------------------------------------
-    # Dendrogram
-    # ------------------------------------------------------------------
-    # ac.display_dendrogram(
-    #     data,
-    #     method="ward",
-    #     title="Hierarchical Agglomerative Clustering Dendrogram",
-    # )
-
-    # ---- Dendrogram ----
-    model_full = AgglomerativeClustering(distance_threshold=0, n_clusters=None)
-    model_full.fit(data)
-
-    ac.plot_dendrogram(model_full, truncate_mode="level", p=3)
