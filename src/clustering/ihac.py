@@ -1,20 +1,28 @@
 import logging
-from pathlib import Path
-from typing import Iterable, List, Sequence, Set, Tuple, Optional
+from typing import List, Sequence, Set, Tuple, Optional, Dict
 
-import matplotlib.pyplot as plt
 import numpy as np
 
+from clustering.hierarchical_clustering import BaseClusteringWrapper
 
-class iHAC:
+
+class iHAC(BaseClusteringWrapper):
     """Incremental Hierarchical Agglomerative Clustering with constraints."""
 
-    def __init__(self, X: np.ndarray, constraints: Optional[Sequence[Tuple[int, int, int]]] = None) -> None:
+    def __init__(
+        self,
+        X: np.ndarray,
+        constraints: Optional[Sequence[Tuple[int, int, int]]] = None,
+        *,
+        figsize: tuple[int, int]=(10, 6),
+    ) -> None:
         """
         Args:
             X: n x d feature matrix.
             constraints: List of tuples (i, j, k) meaning i & j must merge before k.
+            figsize: Matplotlib figure size for plotting.
         """
+        super().__init__(figsize=figsize)
         self.X = X
         self.n = X.shape[0]
         self.constraints = constraints if constraints else []
@@ -174,55 +182,21 @@ class iHAC:
         """
         return list(self.snapshots)
 
-    def plot_partition(
-        self,
-        X: np.ndarray,
-        constraints: Sequence[Tuple[int, int, int]],
-        clusters: Sequence[Set[int]],
-        out_path: Path,
-        step_idx: int,
-    ) -> None:
+    def cluster(self, data: np.ndarray) -> Dict[int, np.ndarray]:
         """
-        Plot a partition and save it to disk.
+        Run iHAC and return labels per step.
 
         Args:
-            X: n x d feature matrix.
-            constraints: List of tuples (i, j, k) meaning i & j must merge before k.
-            clusters: Partition for the current step.
-            out_path: Output directory for plots.
-            step_idx: Step index for file naming.
+            data: Input data (must match the data used at initialization).
+
+        Returns:
+            Mapping from step index to label array.
         """
-        num_clusters = len(clusters)
-        cluster_id_map = {cid: i for i, cid in enumerate(range(num_clusters))}
-        cluster_labels = np.zeros(X.shape[0], dtype=int)
-        for cid, cluster in enumerate(clusters):
-            for idx in cluster:
-                cluster_labels[idx] = cluster_id_map[cid]
-
-        colors = ["tab:blue", "tab:orange", "tab:green", "tab:red", "tab:purple",
-                "tab:brown", "tab:pink"]
-        plt.figure(figsize=(7, 5))
-
-        for i in range(len(X)):
-            plt.scatter(X[i, 0], X[i, 1], color=colors[cluster_labels[i]], s=100)
-            plt.text(X[i, 0] + 0.05, X[i, 1] + 0.05, f"$x_{{{i}}}$", fontsize=10)
-
-        for cid, cluster in enumerate(clusters):
-            relevant_constraints = []
-            for a, b, c in constraints:
-                if a in cluster or b in cluster:
-                    relevant_constraints.append(f"$x_{{{a}}}, x_{{{b}}} \\rightarrow x_{{{c}}}$")
-            label = f"$\\mathrm{{Cluster\\ {cid}}}$"
-            if relevant_constraints:
-                label += ": " + ", ".join(relevant_constraints)
-            plt.scatter([], [], color=colors[cid], label=label)
-
-        plt.xlabel("Feature 1")
-        plt.ylabel("Feature 2")
-        plt.title("iHAC Clustering Result with Constraints")
-        plt.legend(fontsize=9, loc="upper left", bbox_to_anchor=(1, 1))
-        plt.tight_layout()
-        filename = out_path / f"ihac_step_{step_idx:03d}.png"
-        plt.savefig(filename, dpi=150)
-        plt.close()
-        logging.info("Saved plot: %s", filename)
+        if data is not self.X:
+            raise ValueError("iHAC expects the same data passed during initialization.")
+        self.run()
+        partitions = self.clustering_steps()
+        return {
+            idx + 1: self._labels_from_partition(partition, self.n)
+            for idx, partition in enumerate(partitions)
+        }

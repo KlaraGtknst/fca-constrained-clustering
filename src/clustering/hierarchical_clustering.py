@@ -1,12 +1,14 @@
 from __future__ import annotations
 
 import logging
+import tempfile
 from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import Dict, List, Literal, Optional
+from typing import Dict, List, Literal, Optional, Sequence, Set, Tuple
 
 import matplotlib.pyplot as plt
 import numpy as np
+from PIL import Image
 from scipy.cluster.hierarchy import dendrogram, linkage
 from sklearn.cluster import AgglomerativeClustering
 
@@ -22,8 +24,22 @@ class BaseClusteringWrapper(ABC):
     """
     Abstract base class for clustering wrappers.
     """
-    def __init__(self, figsize: tuple[int, int]=(10, 6)):
-        self.figsize = figsize,
+    def __init__(self, figsize: tuple[int, int]=(10, 6)) -> None:
+        self.figsize = figsize
+
+    @staticmethod
+    def _labels_from_partition(partition: Sequence[Set[int]], n_samples: int) -> np.ndarray:
+        labels = np.zeros(n_samples, dtype=int)
+        for cluster_idx, cluster in enumerate(partition):
+            for sample_idx in cluster:
+                labels[sample_idx] = cluster_idx
+        return labels
+
+    @staticmethod
+    def _ensure_2d(data: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
+        if data.shape[1] < 2:
+            raise ValueError("Need at least 2 dimensions for scatter plotting.")
+        return data[:, 0], data[:, 1]
 
     def display_dendrogram(
         self,
@@ -32,6 +48,8 @@ class BaseClusteringWrapper(ABC):
         method: str = "ward",
         metric: str = "euclidean",
         title: Optional[str] = None,
+        dataset_name: Optional[str] = None,
+        method_name: Optional[str] = None,
     ) -> None:
         """
         Display a hierarchical clustering dendrogram.
@@ -56,12 +74,56 @@ class BaseClusteringWrapper(ABC):
         plt.ylabel("Distance")
 
         if title:
-            plt.title(title)
+            plt.title(f"{dataset_name} - {method_name} - {title}")
+        else:
+            plt.title(f"{dataset_name} - {method_name} - Dendrogram")
 
         plt.tight_layout()
         plt.show()
 
-    def plot_dendrogram(self, model, **kwargs):
+    def save_dendrogram_svg(
+        self,
+        data: np.ndarray,
+        out_path: Path,
+        *,
+        dataset_name: str,
+        method_name: str,
+        filename: str = "dendrogram.svg",
+        method: str = "ward",
+        metric: str = "euclidean",
+        title: Optional[str] = None,
+    ) -> Path:
+        """
+        Save a dendrogram as SVG.
+
+        Args:
+            data: Input data (n_samples, n_features).
+            out_path: Output directory for the SVG.
+            filename: Output SVG filename.
+            method: Linkage method.
+            metric: Distance metric.
+            title: Optional plot title.
+        """
+        out_path.mkdir(parents=True, exist_ok=True)
+        linkage_matrix = linkage(data, method=method, metric=metric)
+        plt.figure(figsize=self.figsize)
+        dendrogram(linkage_matrix)
+        plt.xlabel("Sample index")
+        plt.ylabel("Distance")
+        if title and dataset_name and method_name:
+            plt.title(f"{dataset_name} - {method_name} - {title}")
+        elif title:
+            plt.title(title)
+        elif dataset_name and method_name:
+            plt.title(f"{dataset_name} - {method_name} - Dendrogram")
+        plt.tight_layout()
+        svg_path = out_path / f"{dataset_name}_{method_name}_{filename}"
+        plt.savefig(svg_path, format="svg")
+        plt.close()
+        logger.info("Saved dendrogram: %s", svg_path)
+        return svg_path
+
+    def plot_dendrogram(self, model, **kwargs) -> None:
         counts = np.zeros(model.children_.shape[0])
         n_samples = len(model.labels_)
 
@@ -81,17 +143,193 @@ class BaseClusteringWrapper(ABC):
         dendrogram(linkage_matrix, **kwargs)
         plt.show()
 
-    def display_clustering(self, x: np.ndarray, y: np.ndarray, labels:List[int], title:str="Clustering"):
-        plt.figure()
-        plt.scatter(x=x,y=y,c=labels)
+    def _save_scatter(
+        self,
+        x: np.ndarray,
+        y: np.ndarray,
+        labels: np.ndarray,
+        svg_path: Path,
+        title: str,
+        *,
+        constraints: Optional[Sequence[Tuple[int, int, int]]] = None,
+    ) -> None:
+        plt.figure(figsize=self.figsize)
+        scatter = plt.scatter(x=x, y=y, c=labels, cmap="tab10")
         plt.xlabel("X")
         plt.ylabel("Y")
         plt.title(title)
+        for idx, (x_val, y_val) in enumerate(zip(x, y)):
+            plt.text(x_val, y_val, f"$x_{{{idx}}}$", fontsize=7, ha="left", va="bottom")
+        handles = []
+        unique_labels = sorted(set(labels.tolist()))
+        for label_id in unique_labels:
+            handles.append(
+                plt.Line2D([], [], marker="o", linestyle="", color=scatter.cmap(scatter.norm(label_id)),
+                           label=f"Cluster {label_id}")
+            )
+        if constraints:
+            handles.append(
+                    plt.Line2D(
+                        [],
+                        [],
+                        linestyle="",
+                        label=f"Constraints:",
+                    )
+                )
+            for a, b, c in constraints:
+                handles.append(
+                    plt.Line2D(
+                        [],
+                        [],
+                        linestyle="",
+                        label=f"$x_{{{a}}}, x_{{{b}}}, x_{{{c}}}$",
+                    )
+                )
+        if handles:
+            plt.legend(handles=handles, fontsize=8, loc="upper left", bbox_to_anchor=(1, 1))
+        plt.tight_layout()
+        for format in ["svg", "png"]:
+            plt.savefig(svg_path.with_suffix(f".{format}"), format=format)
+        plt.close()
 
+    def display_clustering(
+        self,
+        x: np.ndarray,
+        y: np.ndarray,
+        labels: np.ndarray,
+        *,
+        dataset_name: str,
+        method_name: str,
+        title: str = "Clustering",
+    ) -> None:
+        """Display a scatter plot for a clustering assignment."""
+        plt.figure(figsize=self.figsize)
+        scatter = plt.scatter(x=x, y=y, c=labels, cmap="tab10")
+        plt.xlabel("X")
+        plt.ylabel("Y")
+        plt.title(f"{dataset_name} - {method_name} - {title}")
+        for idx, (x_val, y_val) in enumerate(zip(x, y)):
+            plt.text(x_val, y_val, f"$x_{{{idx}}}$", fontsize=7, ha="left", va="bottom")
+        handles = []
+        unique_labels = sorted(set(labels.tolist()))
+        for label_id in unique_labels:
+            handles.append(
+                plt.Line2D([], [], marker="o", linestyle="", color=scatter.cmap(scatter.norm(label_id)),
+                           label=f"Cluster {label_id}")
+            )
+        if handles:
+            plt.legend(handles=handles, fontsize=8, loc="upper left", bbox_to_anchor=(1, 1))
         plt.tight_layout()
         plt.show()
 
+    def save_scatter_series_from_labels(
+        self,
+        data: np.ndarray,
+        labels_per_level: Dict[int, np.ndarray],
+        out_path: Path,
+        *,
+        dataset_name: str,
+        method_name: str,
+        filename_prefix: str = "clustering",
+        title_prefix: str = "Clustering",
+        gif_name: str = "clustering.gif",
+        gif_duration_ms: int = 600,
+        constraints: Optional[Sequence[Tuple[int, int, int]]] = None,
+    ):
+        """
+        Save scatter plots (SVG) for each clustering level and a GIF over levels.
 
+        Args:
+            data: Input data (n_samples, n_features).
+            labels_per_level: Mapping from level to labels array.
+            out_path: Output directory for plots.
+            filename_prefix: Prefix for SVG/PNG filenames.
+            title_prefix: Prefix for plot titles.
+            gif_name: Filename for the GIF.
+            gif_duration_ms: Duration per frame in milliseconds.
+        """
+        out_path.mkdir(parents=True, exist_ok=True)
+        x, y = self._ensure_2d(data)
+        paths: List[Path] = []
+        png_paths: List[Path] = []
+        tmp_root = Path("tmp/cache")
+        tmp_root.mkdir(parents=True, exist_ok=True)
+        tmp_dir = Path(tempfile.mkdtemp(prefix="plots_", dir=tmp_root))
+        for level in sorted(labels_per_level.keys()):
+            labels = labels_per_level[level]
+            path = out_path / f"{dataset_name}_{method_name}_{filename_prefix}_{level:03d}.png"
+            self._save_scatter(
+                x,
+                y,
+                labels,
+                path,
+                title=f"{dataset_name} - {method_name} - {title_prefix} (level {level})",
+                constraints=constraints,
+            )
+            logger.info("Saved scatter plot to %s", path)
+            png_paths.append(path)
+
+        if png_paths:
+            images = [Image.open(path) for path in png_paths]
+            gif_path = out_path / f"{dataset_name}_{method_name}_{gif_name}"
+            images[0].save(
+                gif_path,
+                save_all=True,
+                append_images=images[1:],
+                duration=gif_duration_ms,
+                loop=0,
+            )
+            for image in images:
+                image.close()
+            for path in png_paths:
+                path.unlink(missing_ok=True)
+            tmp_dir.rmdir()
+            logger.info("Saved GIF: %s", gif_path)
+        else:
+            tmp_dir.rmdir()
+
+    def save_scatter_series_from_partitions(
+        self,
+        data: np.ndarray,
+        partitions: Sequence[Sequence[Set[int]]],
+        out_path: Path,
+        *,
+        dataset_name: str,
+        method_name: str,
+        filename_prefix: str = "clustering",
+        title_prefix: str = "Clustering",
+        gif_name: str = "clustering.gif",
+        gif_duration_ms: int = 600,
+        constraints: Optional[Sequence[Tuple[int, int, int]]] = None,
+    ) -> List[Path]:
+        """
+        Save scatter plots (SVG) for each clustering step and a GIF over steps.
+
+        Args:
+            data: Input data (n_samples, n_features).
+            partitions: List of partitions per step.
+            out_path: Output directory for plots.
+            filename_prefix: Prefix for SVG/PNG filenames.
+            title_prefix: Prefix for plot titles.
+            gif_name: Filename for the GIF.
+            gif_duration_ms: Duration per frame in milliseconds.
+        """
+        labels_per_level = {
+            idx + 1: self._labels_from_partition(partition, data.shape[0])
+            for idx, partition in enumerate(partitions)
+        }
+        return self.save_scatter_series_from_labels(
+            data,
+            labels_per_level,
+            out_path,
+            dataset_name=dataset_name,
+            method_name=method_name,
+            filename_prefix=filename_prefix,
+            title_prefix=title_prefix,
+            gif_name=gif_name,
+            gif_duration_ms=gif_duration_ms,
+            constraints=constraints,
+        )
 
     @abstractmethod
     def cluster(self, data: np.ndarray) -> Dict[int,np.ndarray]:
