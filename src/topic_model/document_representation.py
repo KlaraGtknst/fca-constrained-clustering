@@ -1,8 +1,12 @@
 from pathlib import Path
 import json
+from matplotlib import pyplot as plt
 import numpy as np
 import pandas as pd
 from fcapy import context
+from fcapy.lattice import ConceptLattice
+from fcapy.visualizer import LineVizNx
+import seaborn as sns
 
 
 class DocumentRepresenter:
@@ -53,12 +57,13 @@ class DocumentRepresenter:
         c = context.FormalContext.from_pandas(bool_df)
         return c
 
-    def save_fca_context(self, path: str):
+    def save_fca_context(self, path: Path):
         """
         Converts to FCA context and saves it as a CSV for later use.
         """
         c = self.to_fca_context()
-        df = context.FormalContext.to_pandas( c)
+        df = context.FormalContext.to_pandas(c)
+        df.to_json(path, orient='split', compression='infer', index=True)
         print(f"FCA context saved to {path}")
 
     def display_topic_words(self, topic_id: str):
@@ -71,6 +76,53 @@ class DocumentRepresenter:
         else:
             print(f"No words found for topic {topic_id}")
 
+    def display_ctx(self, K):
+        fig, axs = plt.subplots(1, 2, figsize=(15, 10))
+
+        ax = axs[0]
+        sns.heatmap(
+            K.to_pandas(), cmap='Greens', alpha=0.5, ax=ax, cbar=False,
+            annot=K.to_pandas().replace(True, '✓').replace(False, ''), fmt='', annot_kws={'fontsize': 14},
+        )
+        ax.set_yticklabels(ax.get_yticklabels(), rotation=0)
+        ax.set_xticklabels([
+            lbl.get_text().replace(' ', '\n') if 'cotyledon' not in lbl.get_text()
+            else lbl.get_text().replace('cotyledon', '-\ncoty-\nledon')
+            for lbl in ax.get_xticklabels()
+        ], rotation=0)
+        ax.set_title('Tabular view', size=24, ha='left', x=0.00)
+
+
+
+        ax = axs[1]
+
+
+
+
+        viz = LineVizNx(node_label_font_size=14)
+
+
+
+        lattice = ConceptLattice.from_context(K)
+        viz.draw_concept_lattice(
+            lattice, ax=ax,
+            # flg_drop_bottom_concept=True,
+        )
+
+
+        leg = plt.legend(title='Color coding', title_fontproperties={'size': '14',}, fontsize=12, loc=(0.2,0))#'lower center')
+
+
+        ax.set_title('Line and color diagram', size=24, ha='left', x=0.0)
+        ax.set_xlim(-0.8, 0.8)
+
+        plt.suptitle('"Live in water" data representations', size=28, ha='left', x=0.07)
+
+        plt.subplots_adjust(wspace=5, top=0.25)
+        plt.tight_layout()
+        plt.savefig('imgs/live_in_water_representation_comparison.png')
+        plt.show()
+
 
 # Example usage
 if __name__ == "__main__":
@@ -78,4 +130,7 @@ if __name__ == "__main__":
     print(dr.doc_vectors.head())        # document-topic boolean vectors
     dr.display_topic_words("65")        # show topic words
     fca_ctx = dr.to_fca_context()       # convert to FCA structure
-    dr.save_fca_context("fca_context.csv")
+    dr.display_ctx(fca_ctx)
+    savepath = Path("resources/banksearch")
+    savepath.mkdir(True, exist_ok=True)
+    dr.save_fca_context(savepath /"fca_context.json")
