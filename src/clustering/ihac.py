@@ -1,13 +1,19 @@
-import numpy as np
+import logging
+from pathlib import Path
+from typing import Iterable, List, Sequence, Set, Tuple, Optional
+
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 class iHAC:
-    def __init__(self, X, constraints=None):
+    """Incremental Hierarchical Agglomerative Clustering with constraints."""
+
+    def __init__(self, X: np.ndarray, constraints: Optional[Sequence[Tuple[int, int, int]]] = None) -> None:
         """
-        X: n x d feature matrix
-        constraints: list of tuples (i, j, k)
-                     meaning i & j must merge before k
+        Args:
+            X: n x d feature matrix.
+            constraints: List of tuples (i, j, k) meaning i & j must merge before k.
         """
         self.X = X
         self.n = X.shape[0]
@@ -29,18 +35,40 @@ class iHAC:
         self.merge_history = []
         self.snapshots = []
 
-    def sim(self, i, j):
-        """UPGMA similarity: negative Euclidean distance"""
+    def sim(self, i: int, j: int) -> float:
+        """
+        Return UPGMA similarity as negative Euclidean distance.
+
+        Args:
+            i: Cluster ID.
+            j: Cluster ID.
+        """
         xi = self.cluster_centroids[i]
         xj = self.cluster_centroids[j]
         return -np.linalg.norm(xi - xj)
 
-    def _mapped_cluster_id(self, cluster_id, merge_a, merge_b, new_id):
+    def _mapped_cluster_id(self, cluster_id: int, merge_a: int, merge_b: int, new_id: int) -> int:
+        """
+        Map old cluster IDs to the new cluster for violation checks.
+
+        Args:
+            cluster_id: Cluster ID to map.
+            merge_a: First cluster being merged.
+            merge_b: Second cluster being merged.
+            new_id: New cluster ID.
+        """
         if cluster_id == merge_a or cluster_id == merge_b:
             return new_id
         return cluster_id
 
-    def _new_violations_count(self, merge_a, merge_b):
+    def _new_violations_count(self, merge_a: int, merge_b: int) -> int:
+        """
+        Count newly violated constraints if merge_a and merge_b merge.
+
+        Args:
+            merge_a: First cluster being merged.
+            merge_b: Second cluster being merged.
+        """
         new_id = -1
         count = 0
         for idx, (a, b, c) in enumerate(self.constraints):
@@ -58,7 +86,8 @@ class iHAC:
                 count += 1
         return count
 
-    def _update_violated_constraints(self):
+    def _update_violated_constraints(self) -> None:
+        """Mark constraints violated by the current partition."""
         for idx, (a, b, c) in enumerate(self.constraints):
             if idx in self.violated_constraints:
                 continue
@@ -70,11 +99,19 @@ class iHAC:
             if cc == ca or cc == cb:
                 self.violated_constraints.add(idx)
 
-    def merge(self, i, j):
+    def merge(self, i: int, j: int) -> None:
+        """
+        Merge two active clusters and update internal bookkeeping.
+
+        Args:
+            i: First cluster ID.
+            j: Second cluster ID.
+        """
         new_id = max(self.clusters.keys()) + 1
         new_cluster = self.clusters[i] | self.clusters[j]
         self.clusters[new_id] = new_cluster
         self.merge_history.append((i, j, new_id))
+        logging.info("Merged clusters %s and %s into %s", i, j, new_id)
 
         # Update cluster stats
         size_i = self.cluster_sizes[i]
@@ -101,7 +138,13 @@ class iHAC:
         self._update_violated_constraints()
         self.snapshots.append([set(self.clusters[cid]) for cid in sorted(self.active_clusters)])
 
-    def run(self):
+    def run(self) -> List[Set[int]]:
+        """
+        Run iHAC until a single cluster remains.
+
+        Returns:
+            Final partition as a list of clusters.
+        """
         while len(self.active_clusters) > 1:
             min_viol = float("inf")
             best_pair = None
@@ -116,38 +159,39 @@ class iHAC:
                         best_sim = sim
                         best_pair = (i, j)
             if best_pair is None:
+                logging.warning("No valid merge found; stopping early.")
                 break
             i, j = best_pair
             self.merge(i, j)
         return [self.clusters[cid] for cid in sorted(self.active_clusters)]
 
-    def clustering_steps(self):
-        """Return clustering after each merge as a list of partitions."""
+    def clustering_steps(self) -> List[List[Set[int]]]:
+        """
+        Return clustering after each merge as a list of partitions.
+
+        Returns:
+            List of partitions after each merge.
+        """
         return list(self.snapshots)
 
 
-# -------------------------------
-# Example usage
-X = np.array([
-    [1.0, 2.0],
-    [1.5, 1.8],
-    [5.0, 8.0],
-    [8.0, 8.0],
-    [1.2, 0.9]
-])
-constraints = [
-    (0, 1, 2),
-    (0, 4, 3)
-]
+def _plot_partition(
+    X: np.ndarray,
+    constraints: Sequence[Tuple[int, int, int]],
+    clusters: Sequence[Set[int]],
+    out_path: Path,
+    step_idx: int,
+) -> None:
+    """
+    Plot a partition and save it to disk.
 
-ihac = iHAC(X, constraints)
-clusters = ihac.run()
-ihac_steps = ihac.clustering_steps()
-print("Clustering steps:", ihac_steps)
-print("Clusters:", clusters)
-
-# Map cluster IDs to 0..num_clusters-1 for colors
-for clusters in ihac_steps:
+    Args:
+        X: n x d feature matrix.
+        constraints: List of tuples (i, j, k) meaning i & j must merge before k.
+        clusters: Partition for the current step.
+        out_path: Output directory for plots.
+        step_idx: Step index for file naming.
+    """
     num_clusters = len(clusters)
     cluster_id_map = {cid: i for i, cid in enumerate(range(num_clusters))}
     cluster_labels = np.zeros(X.shape[0], dtype=int)
@@ -155,21 +199,15 @@ for clusters in ihac_steps:
         for idx in cluster:
             cluster_labels[idx] = cluster_id_map[cid]
 
-    # Pick enough colors
     colors = ["tab:blue", "tab:orange", "tab:green", "tab:red", "tab:purple",
-            "tab:brown", "tab:pink"]
-
+              "tab:brown", "tab:pink"]
     plt.figure(figsize=(7, 5))
 
-    # Plot points
     for i in range(len(X)):
         plt.scatter(X[i, 0], X[i, 1], color=colors[cluster_labels[i]], s=100)
         plt.text(X[i, 0] + 0.05, X[i, 1] + 0.05, f"$x_{{{i}}}$", fontsize=10)
 
-    # Create legend entries with cluster and relevant constraints
-    legend_labels = []
     for cid, cluster in enumerate(clusters):
-        # Find constraints that involve points in this cluster
         relevant_constraints = []
         for a, b, c in constraints:
             if a in cluster or b in cluster:
@@ -177,12 +215,48 @@ for clusters in ihac_steps:
         label = f"$\\mathrm{{Cluster\\ {cid}}}$"
         if relevant_constraints:
             label += ": " + ", ".join(relevant_constraints)
-        legend_labels.append(label)
-        plt.scatter([], [], color=colors[cid], label=label)  # dummy for legend
+        plt.scatter([], [], color=colors[cid], label=label)
 
     plt.xlabel("Feature 1")
     plt.ylabel("Feature 2")
     plt.title("iHAC Clustering Result with Constraints")
     plt.legend(fontsize=9, loc="upper left", bbox_to_anchor=(1, 1))
     plt.tight_layout()
-    plt.show()
+    filename = out_path / f"ihac_step_{step_idx:03d}.png"
+    plt.savefig(filename, dpi=150)
+    plt.close()
+    logging.info("Saved plot: %s", filename)
+
+
+if __name__ == "__main__":
+    # Configure logger
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s [%(levelname)s] %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S"
+    )
+
+    out_path = Path("results/ihac")
+    out_path.mkdir(parents=True, exist_ok=True)
+
+    # Example usage
+    X = np.array([
+        [1.0, 2.0],
+        [1.5, 1.8],
+        [5.0, 8.0],
+        [8.0, 8.0],
+        [1.2, 0.9]
+    ])
+    constraints = [
+        (0, 1, 2),
+        (0, 4, 3)
+    ]
+
+    ihac = iHAC(X, constraints)
+    clusters = ihac.run()
+    ihac_steps = ihac.clustering_steps()
+    logging.info("Clustering steps: %s", ihac_steps)
+    logging.info("Final clusters: %s", clusters)
+
+    for step_idx, clusters in enumerate(ihac_steps, start=1):
+        _plot_partition(X, constraints, clusters, out_path, step_idx)
