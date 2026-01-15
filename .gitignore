@@ -1,4 +1,6 @@
 resources/Dataset/
+results/
+tmp/
 .venv/ 
 .DS_Store
 ## Core latex/pdflatex auxiliary files:
