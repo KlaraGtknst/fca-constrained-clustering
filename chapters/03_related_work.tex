@@ -2,12 +2,9 @@
 \label{sec:related_work}
 
 Bade and Nürnberger (2008)~\cite{bade_creating_2008} address the challenge of integrating supervision into hierarchical clustering by proposing a novel constraint formulation tailored to hierarchical structures, termed \ac{mlb} constraints. 
-Traditional constraint frameworks, which define must‑link and cannot‑link pairs requiring objects to be in the same or different clusters, respectively, are not directly suitable for hierarchical clustering because they imply absolute relationships at a fixed dendrogram level, which is ambiguous across levels of a hierarchy. 
-To overcome this, the authors introduce \ac{mlb} constraints that encode the ordering in which objects should be linked during agglomeration, effectively capturing relative hierarchical relationships rather than flat equivalence conditions. 
-
-In related work on constrained hierarchical clustering, Bade and Nürnberger (2014)~\cite{bade_hierarchical_2014} address a key limitation of traditional pairwise must-link and cannot-link constraints, which are inherently ambiguous in hierarchical settings because objects may be together at one level of the hierarchy but separated at another. 
-To overcome this, they introduce \ac{mlb} constraints \textcolor{red}{TODO: content duplication}, a ternary constraint that explicitly encodes relative hierarchical relationships by stating that two objects must be grouped together at a more specific level of the hierarchy than either is with a third object. 
-This formulation directly captures ordering information between merges and is therefore better aligned with the goal of learning full cluster hierarchies rather than flat partitions. 
+Traditional constraint frameworks, which define must‑link and cannot‑link pairs requiring objects to be in the same or different clusters, respectively, are inherently ambiguous in hierarchical settings because objects may be together at one level of the hierarchy but separated at another.
+To overcome this, the authors introduce \ac{mlb} constraints that encode the ordering in which objects should be linked during agglomeration, effectively capturing relative hierarchical relationships rather than flat equivalence conditions~\cite{bade_creating_2008}. 
+A ternary constraint explicitly encodes the relative hierarchical relationships by stating that two objects must be grouped together at a more specific level of the hierarchy than either is with a third object~\cite{bade_hierarchical_2014}. 
 The authors formally analyze the properties of \ac{mlb} constraints, including symmetry and transitivity, and propose an instance-based extension of \ac{hac} that enforces these constraints during the merge process. 
 Empirical results on text clustering tasks show that incorporating \ac{mlb} constraints provides effective structural bias, improving the recovery of meaningful hierarchies while avoiding the level-selection problems associated with adapting pairwise constraints to hierarchical clustering.
 
