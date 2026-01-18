@@ -5,10 +5,13 @@
 Constraints model prior knowledge about an optimum~\cite{bade_hierarchical_2014}.
 
 
-\subsubsection{Hierarchical clustering}
+\subsubsection{Clustering}
 The purpose of clustering is to structure data without any class labels.
 This is especially useful in real world applications since data often lacks labels and the annotation process is expensive.
-Partitional clustering groups data points into clusters based on a similarity measure.
+Partitional clustering groups data points into clusters based on a similarity measure~\cite{bade_hierarchical_2014}.
+With hard clustering, each data point belongs to only one cluster, while soft clustering allows membership to multiple clusters~\cite{schutz_comprehensive_2023}.
+
+\subsubsection{Hierarchical clustering}
 Hierarchical clustering adds another level of usefulness by grouping the data on different levels of granularity~\cite{bade_hierarchical_2014}.
 Hence, partitional clustering is a special case of hierarchical clustering with one level of granularity.
 
@@ -43,13 +46,9 @@ This means that the must-link constraint between the first and second item is st
 \end{definition}
 A \ac{mlb} constraint for hierarchical clustering can be transformed into multiple pairwise constraints for partitional clustering by adding one must-link constraint between $d_x$ and $d_y$ and two cannot-links between $d_x, d_z$ and $d_y, d_z$~\cite{bade_hierarchical_2014}.
 
+\subsubsection{Concept hierarchies} Concept hierarchies structure information into hierarchies and facilitate working with knowledge-bases~\cite{cimiano_learning_2005}.
 
-\subsubsection{\acs{hac} and \acs{ihac}}
-The \ac{hac} algorithm iteratively merges the two most similar clusters into one.
-The \ac{ihac} extends the \ac{hac} algorithm by not only considering similarity but also constraint violations~\cite{bade_hierarchical_2014}.
-metriken auf Graphen
 
-\textcolor{red}{was heißt ihac ist besser als hac? Stefan/ cf. \autoref{subsec:effectiveness_measures}}
 
 \subsubsection{Canonical Basis}
 (also: Duquenne-Guigues basis or stem basis \cite{ganter_conceptual_2016}).

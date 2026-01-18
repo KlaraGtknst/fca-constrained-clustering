@@ -7,4 +7,7 @@ To overcome this, the authors introduce \ac{mlb} constraints that encode the ord
 A ternary constraint explicitly encodes the relative hierarchical relationships by stating that two objects must be grouped together at a more specific level of the hierarchy than either is with a third object~\cite{bade_hierarchical_2014}. 
 The authors formally analyze the properties of \ac{mlb} constraints, including symmetry and transitivity, and propose an instance-based extension of \ac{hac} that enforces these constraints during the merge process. 
 Empirical results on text clustering tasks show that incorporating \ac{mlb} constraints provides effective structural bias, improving the recovery of meaningful hierarchies while avoiding the level-selection problems associated with adapting pairwise constraints to hierarchical clustering.
+The \ac{hac} algorithm iteratively merges the two most similar clusters into one.
+The \ac{ihac} extends the \ac{hac} algorithm by not only considering similarity but also constraint violations~\cite{bade_hierarchical_2014}.
+\textcolor{red}{TODO: How to get constraint base \& representation of it.}
 
