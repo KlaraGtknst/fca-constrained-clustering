@@ -1,2 +1,22 @@
 \section{Introduction}
 \label{sec:introduction}
+
+Traditionally, knowledge-based systems struggle to model the domain of a given text corpus~\cite{cimiano_learning_2005}. 
+Cimiano et Al. denote this problem ``knowledge acquisition bottleneck''.
+They propose an FCA-based approach to automatically derive concept hierarchies from domain-specific textual data to structure information into categories and facilitate work with knowledge-bases.
+Since many texts lack explicit definitions of terms due to basic domain-knowledge often being assumed rather than explicitly written (e.g., ``a tiger is a mammal''), Cimiano et Al. use syntactic dependencies based on the \textit{distributional hypothesis} to enrich texts with domain-knowledge in the form of an FCA word (pair) context.
+\textcolor{red}{NOTE: Their conclusion includes future work on using humans for ontological relation validation (Attr. Explor.???). They also compare generated ontologies with human-modeled ontologies via Precision, Recall, F-measure...}
+Since this approach relies solely on syntactic structure present in the text corpus, the available knowledge is very limited.
+Hierarchical constraints can be thought of a tool to model certain degrees of certitude with respect to the information's validity.
+
+
+% 1) Cimiano (2005) motivates the usage of concept learning methods due to the fact of a knowledge acquisition bottleneck we have by using traditional expert ontologies
+% 2) A very basic assumption which follows is, that there is that coverage is low based on expert ontologies and and user-individual concept hierarchies (as backbone of ontologies) can fill this gap.
+% 3) A more realistic perspective is that expert ontologies will have valid knowledge to a certain degree and user-individual concept hierarchies should be consistent to it.
+% 4) (Hierarchical) Constraints are an interesting approach to reflect such knowledge in a flexible manner
+
+% Problem statement:
+Bade and Nürnberger~\cite{bade_personalized_2006,bade_hierarchical_2014} have observed that user-individual concept hierarchies based on a similarity space benefit from hierarchical constraints. 
+While concept hierarchies derived from hierarchical clustering based on distances in similarity spaces, these approaches are unable to model the structure of attributes. 
+\textcolor{red}{TODO: This becomes specially problematically in cases if user needs to model abstract domains whereas usually many (typically locale) attributes exists. (Verheyen 2016, Verheyen 2022) -> 2022: SpAM is a method where ppl move objects in 2D plane wrt. their (dis-)similarity to each other; I am not sure if this applies here (bc one issue is that ppl disregard n-1 other differences when moving one object in space)}
+
