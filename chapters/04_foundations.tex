@@ -71,9 +71,18 @@ The exploration algorithm repeatedly asks the domain expert about undecided form
 An incomplete lattice is a ternary context $(G,M,W,I)$ with values $W=\{\times, ?, \circ\}$ where $? < \times$ and $? < \circ$.
 $<$ is an order over the amount of information.
 $I(g,m)=?$ symbolizes the lack of knowledge about the relation between object $g$ and attribute $m$ \cite{holzer_incompleteFCA_2001}.
+\textcolor{red}{TODO: \cite{hille_incomplete_2025,burmeister_treatment_2000}}
 
 % copied from last paper
 \input{chapters/extras/FCA}
 
 \input{chapters/extras/fca_clusters}
 \fcaclusterconnection{}
+
+\textcolor{red}{TODO: This image is misleading. Due to the fact that FCA is based on (G, M, I) which is the object attribute space.
+A similarity space is usually described by dissimilarities between G.
+The point is we have two independent knowledge representation models which are using hierarchical constraints. Both variants lead to a concept hierarchy.}
+
+Dimensions in a 2D plot may be drawn to the same size but represent different concepts, units or value ranges.
+The clusters obtained depend entirely on the variables (or dimensions) chosen.
+Similarity may be based on subjective judgements or derived from formulas based on the object's attributes~\cite{kaufman_finding_2009}.
