@@ -25,7 +25,7 @@ They can be hard or soft, allowing different degrees of constraint violation.
 Metric-based constraints map the constraints to the distance metric or similarity measure of the clustering algorithm.
 Pairwise constraints are limited to partitional clustering.
 So-called \ac{mlb} constraints introduce prior knowledge into hierarchical clustering.
-A \ac{mlb} constraint 
+A \ac{mlb} constraint
 \begin{eqnarray}
     MLB_{x y z} = (d_x, d_y, d_z)
     \label{eq:mlb_xyz}
@@ -35,11 +35,11 @@ Symmetry applies for the first two elements.
 For the \ac{mlb} constraint in \eqref{eq:mlb_xyz} both \autoref{def:mlb_implication} and \autoref{def:mlb_counterexample} must hold true.
 This means that the must-link constraint between the first and second item is stronger than that between the first and third item.
 \begin{definition}[\ac{mlb} implication]
-     \label{def:mlb_implication}
+    \label{def:mlb_implication}
     Given \ac{mlb} constraint $MLB_{x y z}$:
     $\forall c \in H: d_x \in c \wedge d_z \in c \rightarrow d_y \in c$
 \end{definition}
-\begin{definition}[\ac{mlb} counter example]
+\begin{definition}[\ac{mlb} seperation via counter example]
     \label{def:mlb_counterexample}
     Given \ac{mlb} constraint $MLB_{x y z}$:
     $\exists c \in H: d_x \in c \wedge d_y \in c \wedge d_z \notin c$
@@ -61,9 +61,9 @@ It is not the only implication basis, but there is no implication basis with few
 
 
 \subsubsection{Attribute Exploration}
-Attribute exploration tries to build the implication theory (i.e., set of implications true for all objects) of the entire domain. 
+Attribute exploration tries to build the implication theory (i.e., set of implications true for all objects) of the entire domain.
 Every implication that holds true for all objects follows from the canonical basis.
-For every implication that does not hold in general, there is a counterexample among the objects. 
+For every implication that does not hold in general, there is a counterexample among the objects.
 The exploration algorithm repeatedly asks the domain expert about undecided formulas either confirming them or disproving them by extending the object set with additional evidence \cite{ganter_conceptual_2016}.
 
 
@@ -80,8 +80,8 @@ $I(g,m)=?$ symbolizes the lack of knowledge about the relation between object $g
 \fcaclusterconnection{}
 
 \textcolor{red}{TODO: This image is misleading. Due to the fact that FCA is based on (G, M, I) which is the object attribute space.
-A similarity space is usually described by dissimilarities between G.
-The point is we have two independent knowledge representation models which are using hierarchical constraints. Both variants lead to a concept hierarchy.}
+    A similarity space is usually described by dissimilarities between G.
+    The point is we have two independent knowledge representation models which are using hierarchical constraints. Both variants lead to a concept hierarchy.}
 
 Dimensions in a 2D plot may be drawn to the same size but represent different concepts, units or value ranges.
 The clusters obtained depend entirely on the variables (or dimensions) chosen.
