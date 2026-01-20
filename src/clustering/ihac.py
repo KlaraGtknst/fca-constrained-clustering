@@ -180,6 +180,7 @@ class iHAC(BaseClusteringWrapper):
             best_pair = None
             best_sim = -float("inf")
             active_list = sorted(self.active_clusters)
+            logging.info("Number of active clusters: %d", len(active_list))
             # try all pairs of active clusters
             for idx_i, i in enumerate(active_list):
                 for j in active_list[idx_i + 1 :]:
