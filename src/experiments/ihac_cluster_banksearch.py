@@ -94,18 +94,26 @@ if __name__ == "__main__":
     )
 
     ## ground truth context with MLB constraints
+    # topics are string labels; need to map to int IDs for clustering
+    gt_ctx, gt_bool_df = read_ctx_from_json(gt_ctx_path)
+    gt_obj_ids = list(gt_bool_df.index)
+    obj_to_idx = {obj_id: idx for idx, obj_id in enumerate(gt_obj_ids)}
+    idx_to_obj = {idx: obj_id for obj_id, idx in obj_to_idx.items()}
+    gt_bool_df_int = gt_bool_df.copy()
+    gt_bool_df_int.index = [obj_to_idx[obj_id] for obj_id in gt_obj_ids]
+    gt_ctx = context.FormalContext.from_pandas(gt_bool_df_int)
     # load MLB constraints
     mlb_constraints = []
     with open(mlb_constraints_path, "r") as f:
         for line in f:
             line = line.strip()
             if line:
-                mlb_constraints.append(tuple(int(idx) for idx in line.split(",")))
-    gt_ctx, gt_bool_df = read_ctx_from_json(topic_model_ctx_path)
+                parts = [part.strip() for part in line.split(",") if part.strip()]
+                mlb_constraints.append(tuple(obj_to_idx[obj_id] for obj_id in parts))
     logger.info(
         f"Loaded topic model context with {gt_ctx.n_objects} objects and {gt_ctx.n_attributes} attributes."
     )
-    gt_X = gt_bool_df.astype(int).to_numpy()
+    gt_X = gt_bool_df_int.astype(int).to_numpy()
     logger.info(
         "Starting iHAC clustering on ground truth context with MLB constraints..."
     )
