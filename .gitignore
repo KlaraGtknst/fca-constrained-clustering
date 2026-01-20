@@ -2,6 +2,7 @@ resources/Dataset/
 results/
 tmp/
 .venv/ 
+.idea/
 .DS_Store
 src/clustering/__pycache__/
 ## Core latex/pdflatex auxiliary files:
