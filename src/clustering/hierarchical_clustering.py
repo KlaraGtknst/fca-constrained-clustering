@@ -11,6 +11,7 @@ import numpy as np
 from PIL import Image
 from scipy.cluster.hierarchy import dendrogram, linkage
 from sklearn.cluster import AgglomerativeClustering
+from sklearn.manifold import TSNE
 
 
 logger = logging.getLogger(__name__)
@@ -19,16 +20,18 @@ LinkageType = Literal["ward", "complete", "average", "single"]
 MetricType = Literal["euclidean", "l1", "l2", "manhattan", "cosine"]
 
 
-
 class BaseClusteringWrapper(ABC):
     """
     Abstract base class for clustering wrappers.
     """
-    def __init__(self, figsize: tuple[int, int]=(10, 6)) -> None:
+
+    def __init__(self, figsize: tuple[int, int] = (10, 6)) -> None:
         self.figsize = figsize
 
     @staticmethod
-    def _labels_from_partition(partition: Sequence[Set[int]], n_samples: int) -> np.ndarray:
+    def _labels_from_partition(
+        partition: Sequence[Set[int]], n_samples: int
+    ) -> np.ndarray:
         labels = np.zeros(n_samples, dtype=int)
         for cluster_idx, cluster in enumerate(partition):
             for sample_idx in cluster:
@@ -39,6 +42,12 @@ class BaseClusteringWrapper(ABC):
     def _ensure_2d(data: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
         if data.shape[1] < 2:
             raise ValueError("Need at least 2 dimensions for scatter plotting.")
+        elif data.shape[1] > 2:
+            # Reduce to 2D using tsne
+            logger.info("Reducing data to 2D using t-SNE for plotting.")
+            tsne = TSNE(n_components=2, init="random", random_state=42)
+            reduced_data = tsne.fit_transform(data)
+            return reduced_data[:, 0], reduced_data[:, 1]
         return data[:, 0], data[:, 1]
 
     def display_dendrogram(
@@ -164,18 +173,24 @@ class BaseClusteringWrapper(ABC):
         unique_labels = sorted(set(labels.tolist()))
         for label_id in unique_labels:
             handles.append(
-                plt.Line2D([], [], marker="o", linestyle="", color=scatter.cmap(scatter.norm(label_id)),
-                           label=f"Cluster {label_id}")
+                plt.Line2D(
+                    [],
+                    [],
+                    marker="o",
+                    linestyle="",
+                    color=scatter.cmap(scatter.norm(label_id)),
+                    label=f"Cluster {label_id}",
+                )
             )
         if constraints:
             handles.append(
-                    plt.Line2D(
-                        [],
-                        [],
-                        linestyle="",
-                        label=f"Constraints:",
-                    )
+                plt.Line2D(
+                    [],
+                    [],
+                    linestyle="",
+                    label=f"Constraints:",
                 )
+            )
             for a, b, c in constraints:
                 handles.append(
                     plt.Line2D(
@@ -186,7 +201,9 @@ class BaseClusteringWrapper(ABC):
                     )
                 )
         if handles:
-            plt.legend(handles=handles, fontsize=8, loc="upper left", bbox_to_anchor=(1, 1))
+            plt.legend(
+                handles=handles, fontsize=8, loc="upper left", bbox_to_anchor=(1, 1)
+            )
         plt.tight_layout()
         for format in ["svg", "png"]:
             plt.savefig(svg_path.with_suffix(f".{format}"), format=format)
@@ -214,11 +231,19 @@ class BaseClusteringWrapper(ABC):
         unique_labels = sorted(set(labels.tolist()))
         for label_id in unique_labels:
             handles.append(
-                plt.Line2D([], [], marker="o", linestyle="", color=scatter.cmap(scatter.norm(label_id)),
-                           label=f"Cluster {label_id}")
+                plt.Line2D(
+                    [],
+                    [],
+                    marker="o",
+                    linestyle="",
+                    color=scatter.cmap(scatter.norm(label_id)),
+                    label=f"Cluster {label_id}",
+                )
             )
         if handles:
-            plt.legend(handles=handles, fontsize=8, loc="upper left", bbox_to_anchor=(1, 1))
+            plt.legend(
+                handles=handles, fontsize=8, loc="upper left", bbox_to_anchor=(1, 1)
+            )
         plt.tight_layout()
         plt.show()
 
@@ -257,7 +282,10 @@ class BaseClusteringWrapper(ABC):
         tmp_dir = Path(tempfile.mkdtemp(prefix="plots_", dir=tmp_root))
         for level in sorted(labels_per_level.keys()):
             labels = labels_per_level[level]
-            path = out_path / f"{dataset_name}_{method_name}_{filename_prefix}_{level:03d}.png"
+            path = (
+                out_path
+                / f"{dataset_name}_{method_name}_{filename_prefix}_{level:03d}.png"
+            )
             self._save_scatter(
                 x,
                 y,
@@ -332,7 +360,7 @@ class BaseClusteringWrapper(ABC):
         )
 
     @abstractmethod
-    def cluster(self, data: np.ndarray) -> Dict[int,np.ndarray]:
+    def cluster(self, data: np.ndarray) -> Dict[int, np.ndarray]:
         """
         Perform clustering and return cluster labels.
         """
@@ -363,7 +391,7 @@ class AgglomerativeClusteringWrapper(BaseClusteringWrapper):
         self.linkage = linkage
         self.metric = metric
 
-    def cluster(self, data: np.ndarray) -> Dict[int,np.ndarray]:
+    def cluster(self, data: np.ndarray) -> Dict[int, np.ndarray]:
         logger.info(
             "Running HAC (n_clusters=%d, linkage=%s, metric=%s)",
             self.n_clusters,
@@ -371,11 +399,11 @@ class AgglomerativeClusteringWrapper(BaseClusteringWrapper):
             self.metric,
         )
 
-        cluster_args = {"memory":str(self.cache_path), "compute_full_tree":True}
+        cluster_args = {"memory": str(self.cache_path), "compute_full_tree": True}
         labels_per_level = {}
-        
+
         for n_clusters in range(1, self.n_clusters + 1):
-            cluster_args.update({"n_clusters":n_clusters})
+            cluster_args.update({"n_clusters": n_clusters})
 
             if self.linkage == "ward":
                 model = AgglomerativeClustering(
@@ -386,8 +414,9 @@ class AgglomerativeClusteringWrapper(BaseClusteringWrapper):
                 model = AgglomerativeClustering(
                     **cluster_args,
                     linkage=self.linkage,
-                    metric=self.metric,)
-                
+                    metric=self.metric,
+                )
+
             cluster_labels = model.fit_predict(data)
             labels_per_level[n_clusters] = cluster_labels
 
