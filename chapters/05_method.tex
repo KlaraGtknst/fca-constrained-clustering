@@ -186,11 +186,11 @@ The interaction loop proceeds as follows:
 
     \item \textbf{Implication Query:} For a hypothesized implication $A \to B$, the system checks against the set of MLB constraints.
           \begin{itemize}
-              \item If the implication corresponds to the connectivity requirement of an active constraint (e.g., $\{d_x, d_z\} \to \{d_y\}$ for $MLB_{xyz}$), it is \textbf{confirmed}. The context is updated by inferring $\times$ entries.
+              \item If the implication corresponds to the connectivity requirement of an active constraint (e.g., $\{d_x, d_z\} \to \{d_y\}$ for $MLB_{xyz}$), it is \textbf{confirmed}. The context is updated by inferring $\times$ entries. \textcolor{orange}{Rest is ?.}
               \item If the implication contradicts the separation requirement (e.g., $\{d_x, d_y\} \to \{d_z\}$), it is \textbf{rejected}.
           \end{itemize}
 
-    \item \textbf{Counter-Example Generation:} Upon rejection, the algorithm requires a counter-example. The system generates a new cluster column (or identifies an existing one) representing the separation state defined in Definition \ref{def:mlb_sep}, explicitly setting $J(d_z, c_{sep}) = -$ while maintaining $J(d_x, c_{sep}) = \times$ and $J(d_y, c_{sep}) = \times$.
+    \item \textbf{Counter-Example Generation:} Upon rejection, the algorithm requires a counter-example. The system generates a new cluster column (or identifies an existing one) representing the separation state defined in Definition \ref{def:mlb_sep}, explicitly setting $J(d_z, c_{sep}) = -$ while maintaining $J(d_x, c_{sep}) = \times$ and $J(d_y, c_{sep}) = \times$. \textcolor{orange}{Rest is ?.}
 \end{enumerate}
 
 This iterative process ensures that the resulting concept lattice, and thus the hierarchical clustering, is fully consistent with the topological constraints imposed by the MLB triples.
@@ -199,6 +199,7 @@ This iterative process ensures that the resulting concept lattice, and thus the 
 \label{sec:solution_space}
 
 A fundamental question in constrained clustering is whether the resulting model covers all valid clustering possibilities or forces an arbitrary selection. In our approach, the output of the object exploration process is a partial context $\mathbb{K}_{part} = (G, M, \{\times, -, ?\}, J)$. We argue that this context acts as a compact representation of the entire solution space of valid dendrograms.
+\textcolor{orange}{Mathematischer Beweis?}
 
 \subsubsection{Consistent Completions as Valid Hierarchies}
 In the theory of incomplete knowledge, a partial context does not define a single closure system but rather a set of possible worlds. A \textit{completion} of $\mathbb{K}_{part}$ is a binary context $\mathbb{K}_{comp} = (G, M, I)$ where every $?$ in $J$ is replaced by either $\times$ or $-$ in $I$, such that all implications derived from the confirmed MLB constraints remain valid.
@@ -231,6 +232,7 @@ The concept lattice $\underline{\mathfrak{B}}(\mathbb{K}_{min})$ derived from th
 It is important to note that a dendrogram is mathematically a tree, whereas $\underline{\mathfrak{B}}(\mathbb{K}_{min})$ is a lattice. The lattice contains all necessary clusters (concept extents) mandated by the constraints. Any specific dendrogram (a conflict-free hierarchy) consistent with the constraints is strictly embeddable in this lattice. Specifically, the clusters of such a dendrogram form a sub-order of the concept lattice's meet-semilattice.
 
 Thus, our FCA-based approach generalizes the notion of a dendrogram: instead of forcing a single tree structure where data is ambiguous, the concept lattice visualizes the overlapping possibilities and the structural implications of the constraints, collapsing into a standard dendrogram only when the constraints (or the CWA) eliminate all degrees of freedom.
+\textcolor{orange}{Ist wirklich minimal?}
 
 \subsection{Deriving Formal Contexts from Datasets}
 \textcolor{red}{TODO: How do we get the input (G, M, I) from which Datasets?
