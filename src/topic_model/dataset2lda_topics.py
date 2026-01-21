@@ -16,8 +16,10 @@ from gensim.models import LdaModel
 # -----------------------------
 # Configuration
 # -----------------------------
-NUM_TOPICS_CORPUS = 200  # number of latent topics
-N_TOPICS_PER_DOC = 10
+# Ground truth: total number of topics in BankSearch dataset is 1000
+NUM_TOPICS_CORPUS = 1000  # number of latent topics
+# since in ground truth each document has exactly one topic, we extract the same number of dominant topics
+N_TOPICS_PER_DOC = 1  # number of dominant topics to extract per document
 N_TOP_WORDS_PER_TOPIC = 10
 MIN_TOKEN_LENGTH = 3
 
@@ -34,9 +36,10 @@ def extract_id_and_html(text: str) -> tuple[str, str]:
     Extract document ID and HTML content from BankSearch format.
     """
     id_match = re.search(r"^ID=(.+)$", text, re.MULTILINE)
-    html_match = re.search(r"HTML=\n(.+)", text, re.DOTALL)
+    html_match = re.search(r"HTML=\n?(.*)", text, re.DOTALL)
 
     if not id_match or not html_match:
+        print(f"Warning: could not extract ID or HTML from document. {text[:30]}...")
         return "", ""
 
     doc_id = id_match.group(1).strip()
@@ -80,9 +83,11 @@ def preprocess_text(text: str):
 def load_banksearch_dataset(dataset_path: str):
     documents = []
     doc_ids = []
+    error_counter = {}
 
     for filename in os.listdir(dataset_path):
         if not filename.endswith(".txt"):
+            error_counter["no-txt"] = error_counter.get("no-txt", 0) + 1
             continue
 
         file_path = os.path.join(dataset_path, filename)
@@ -91,7 +96,8 @@ def load_banksearch_dataset(dataset_path: str):
             raw_text = f.read()
 
         doc_id, html = extract_id_and_html(raw_text)
-        if doc_id is "":
+        if doc_id == "":
+            error_counter["no-id"] = error_counter.get("no-id", 0) + 1
             continue
 
         plain_text = clean_html(html)
@@ -100,7 +106,10 @@ def load_banksearch_dataset(dataset_path: str):
         if tokens:
             doc_ids.append(doc_id)
             documents.append(tokens)
+        else:
+            error_counter["no-tokens"] = error_counter.get("no-tokens", 0) + 1
 
+    print(f"Skipped files due to errors or invalid format (reason: counts): {error_counter}")
     return doc_ids, documents
 
 
