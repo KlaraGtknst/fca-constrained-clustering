@@ -16,8 +16,8 @@ from gensim.models import LdaModel
 # -----------------------------
 # Configuration
 # -----------------------------
-# Ground truth: total number of topics in BankSearch dataset is 1000
-NUM_TOPICS_CORPUS = 1000  # number of latent topics
+# Ground truth: total number of topics in BankSearch dataset is 11
+NUM_TOPICS_CORPUS = 11  # number of latent topics
 # since in ground truth each document has exactly one topic, we extract the same number of dominant topics
 N_TOPICS_PER_DOC = 1  # number of dominant topics to extract per document
 N_TOP_WORDS_PER_TOPIC = 10
@@ -131,6 +131,7 @@ def run_lda(doc_ids, documents):
         alpha="auto",
         per_word_topics=False,
     )
+    print(f"Fitted LDA model with {NUM_TOPICS_CORPUS} topics.")
 
     return lda, corpus, dictionary
 
@@ -173,6 +174,7 @@ def main(dataset_path, output_file):
 
     print("Training LDA...")
     lda, corpus, dictionary = run_lda(doc_ids, documents)
+    print(f"Fitted LDA model with {NUM_TOPICS_CORPUS} topics.")
 
     print("Extracting document-topic mappings...")
     doc_topic_map = extract_document_topics(lda, corpus, doc_ids)
