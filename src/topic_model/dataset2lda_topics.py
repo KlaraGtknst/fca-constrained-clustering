@@ -131,8 +131,6 @@ def run_lda(doc_ids, documents):
         alpha="auto",
         per_word_topics=False,
     )
-    print(f"Fitted LDA model with {NUM_TOPICS_CORPUS} topics.")
-
     return lda, corpus, dictionary
 
 

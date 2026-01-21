@@ -100,7 +100,7 @@ class DocumentTopicModelRepresenter(DocumentRepresentaterBase):
         else:
             print(f"No words found for topic {topic_id}")
 
-    def display_ctx(self, K):
+    def display_ctx(self, K, dataset_name: str = "Topic Model"):
         fig, axs = plt.subplots(1, 2, figsize=(15, 10))
 
         ax = axs[0]
@@ -151,11 +151,13 @@ class DocumentTopicModelRepresenter(DocumentRepresentaterBase):
         ax.set_title("Line and color diagram", size=24, ha="left", x=0.0)
         ax.set_xlim(-0.8, 0.8)
 
-        plt.suptitle('"Live in water" data representations', size=28, ha="left", x=0.07)
+        plt.suptitle(f'"{dataset_name}" data representations', size=28, ha="left", x=0.07)
 
         plt.subplots_adjust(wspace=5, top=0.25)
         plt.tight_layout()
-        plt.savefig("imgs/live_in_water_representation_comparison.png")
+        savepath = Path("results/topic_model")
+        savepath.mkdir(parents=True, exist_ok=True)
+        plt.savefig(savepath / f"{dataset_name.lower().replace(' ', '_')}_representation_comparison.png")
         plt.show()
 
 
@@ -205,17 +207,17 @@ class DocumentGroundTruthRepresenter(DocumentRepresentaterBase):
 
 # Example usage
 if __name__ == "__main__":
-    # dr = DocumentTopicModelRepresenter()
-    # print(dr.doc_vectors.head())  # document-topic boolean vectors
-    # dr.display_topic_words("65")  # show topic words
-    # fca_ctx = dr.to_fca_context()  # convert to FCA structure
-    # dr.display_ctx(fca_ctx)
-    # savepath = Path("resources/banksearch")
-    # savepath.mkdir(True, exist_ok=True)
-    # dr.save_fca_context(savepath / "fca_context.json")
-
-    dgt = DocumentGroundTruthRepresenter()
+    dr = DocumentTopicModelRepresenter()
+    print(dr.doc_vectors.head())  # document-topic boolean vectors
+    dr.display_topic_words("65")  # show topic words
+    fca_ctx = dr.to_fca_context()  # convert to FCA structure
+    dr.display_ctx(fca_ctx)
     savepath = Path("resources/banksearch")
     savepath.mkdir(True, exist_ok=True)
-    dgt.save_fca_context(savepath / "fca_gt_context.json")
-    print(dgt.doc_vectors.head())  # document-ground truth boolean vectors
+    dr.save_fca_context(savepath / "fca_topic_model_context.json")
+
+    # dgt = DocumentGroundTruthRepresenter()
+    # savepath = Path("resources/banksearch")
+    # savepath.mkdir(True, exist_ok=True)
+    # dgt.save_fca_context(savepath / "fca_gt_context.json")
+    # print(dgt.doc_vectors.head())  # document-ground truth boolean vectors
