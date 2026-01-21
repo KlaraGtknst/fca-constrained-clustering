@@ -12,3 +12,13 @@ python3.11 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 ```
+
+### Topic Model
+You can represent texts via their most representive topic.
+This topic can be derived from a Topic Model (here: LDA).
+Run `dataset2lda_topics.py` in order to obtain topics.
+
+### Contexts
+Contexts are saved as .json file.
+Run `document_representation.py` to obtain contexts.
+Ensure relevant files (e.g., `banksearch_lda_topics.json` for Topic Model approach) exist beforehand.
