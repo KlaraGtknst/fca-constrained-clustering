@@ -3,6 +3,7 @@ results/
 tmp/
 .venv/ 
 .idea/
+.cpcache/
 .DS_Store
 src/clustering/__pycache__/
 ## Core latex/pdflatex auxiliary files:
