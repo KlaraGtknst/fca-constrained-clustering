@@ -1,9 +1,14 @@
 import json
 import os
+from pathlib import Path
 import subprocess
+import sys
 import networkx as nx
 from matplotlib import pyplot as plt
 from edn_format import loads
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from constraints.extractor import BankSearchTopicModelExtractor
 
 
 def _contains_bool(value):
@@ -143,17 +148,15 @@ try:
     if os.path.exists(edn_path):
         plot_lattice_from_edn(edn_path, svg_path)
         print(f"Saved iceberg lattice SVG to {svg_path}")
+
+        # TODO: extract MLB constraints
+        extractor = BankSearchTopicModelExtractor(iceberg_concepts=read_edn_concepts(edn_path))
+        out_path = Path("resources/banksearch")
+        out_path.mkdir(parents=True, exist_ok=True)
+        extractor.extract_all_mlb_constraints(out_path=out_path)
+
+        print("Extracted iceberg concepts:", out_path)
 except subprocess.CalledProcessError as e:
     print(e.output)
 
 
-try:
-    out = subprocess.check_output(
-        cmd,
-        text=True,
-        cwd="/Users/klara/Developer/fca-constrained-clustering",
-        stderr=subprocess.STDOUT,
-    )
-    print(out, end="")
-except subprocess.CalledProcessError as e:
-    print(e.output)

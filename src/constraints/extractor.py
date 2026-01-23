@@ -21,9 +21,20 @@ class BaseExtractor(ABC):
         Generate all pairwise combinations of children with parent included (do not consider order of childern).
         """
         return [f"{c1},{c2},{parent}" for c1, c2 in combinations(children, 2)]
+    
+    def _get_constraints_from_hierarchy_dict(self, hierarchy_dict: dict) -> List[str]:
+        constraints = []
+        for parent, children in hierarchy_dict.items():
+            constraints.extend(
+                self._get_mlb_constraints(parent=parent, children=children)
+            )
+
+        return constraints
+
+        
 
 
-class BankSearchExtractor(BaseExtractor):
+class BankSearchGroundTruthExtractor(BaseExtractor):
 
     def __init__(self):
         super().__init__(dataset_name="banksearch")
@@ -49,19 +60,64 @@ class BankSearchExtractor(BaseExtractor):
         with open(self.path2category_hierarchy, "r") as f:
             hierarchy_dict = json.load(f)
 
-        constraints = []
-        for parent, children in hierarchy_dict.items():
-            constraints.extend(
-                self._get_mlb_constraints(parent=parent, children=children)
-            )
-
+        constraints = self._get_constraints_from_hierarchy_dict(hierarchy_dict)
         logger.info(f"Saving {len(constraints)} constraints to {out_filename}")
         with open(out_filename, "w") as f:
             for constraint in constraints:
                 f.write(constraint + "\n")
 
         logger.info("Constraints successfully saved.")
+        
 
+class BankSearchTopicModelExtractor(BaseExtractor):
+
+    def __init__(self, iceberg_concepts:List):
+        super().__init__(dataset_name="banksearch")
+        self.iceberg_concepts = iceberg_concepts
+
+    def extract_all_mlb_constraints(self, out_path: Path):
+        """
+        Extract all MLB constraints from hierarchy in iceberg concepts.
+
+        :param out_path: Path to save MLB constraints to (as txt file).
+        """
+        out_path.mkdir(parents=True, exist_ok=True)
+        out_filename = out_path / f"mlb_topic_model_{self.dataset_name}.txt"
+
+        constraints = []
+        hierarchy_dict = {}
+        for concept in self.iceberg_concepts:
+            print("Processing concept:", concept)
+            # extent, intent
+            if not concept or len(concept) < 2:
+                continue
+            intent_raw = concept[1]
+            extent_raw = concept[0]
+            intent_set = set(intent_raw)
+            extent_set = set(extent_raw)
+            intent_key = frozenset(intent_set)
+            if intent_key in hierarchy_dict.keys():
+                continue
+            hierarchy_dict[intent_key] = set()
+            for other_concept in self.iceberg_concepts:
+                if not other_concept or len(other_concept) < 2:
+                    continue
+                other_extent_raw = other_concept[0]
+                other_extent_set = set(other_extent_raw)
+                if extent_set == other_extent_set:
+                    continue
+                if other_extent_set.issubset(extent_set):
+                    hierarchy_dict[intent_key].add(frozenset(other_concept[1]))
+
+        print("Extracted hierarchy dict:", hierarchy_dict)
+
+        constraints = self._get_constraints_from_hierarchy_dict(hierarchy_dict)
+        logger.info(f"Saving {len(constraints)} constraints to {out_filename}")
+        with open(out_filename, "w") as f:
+            for constraint in constraints:
+                f.write(constraint + "\n")
+
+        logger.info("Constraints successfully saved.")
 
 if __name__ == "__main__":
     # Configure logger
@@ -71,7 +127,7 @@ if __name__ == "__main__":
         datefmt="%Y-%m-%d %H:%M:%S",
     )
 
-    banksearch_extractor = BankSearchExtractor()
+    banksearch_extractor = BankSearchGroundTruthExtractor()
     out_path = Path("resources/banksearch")
     out_path.mkdir(parents=True, exist_ok=True)
     banksearch_extractor.extract_all_mlb_constraints(out_path=out_path)
