@@ -153,4 +153,5 @@
               "| attributes:" (count (:columns ctx-json))
               "| iceberg concepts:" (count concepts)
               "| saved to:" saved-path)
-     concepts)))
+    ;;  concepts
+     )))
