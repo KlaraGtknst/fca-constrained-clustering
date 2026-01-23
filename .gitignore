@@ -1,4 +1,5 @@
 resources/Dataset/
+resources/banksearch/fca_topic_model_context_01.json
 results/
 tmp/
 .venv/ 
