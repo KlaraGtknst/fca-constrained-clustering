@@ -5,6 +5,8 @@ tmp/
 .venv/ 
 .idea/
 */__pycache__/
+*.svg
+*.pyc
 .cpcache/
 .DS_Store
 src/clustering/__pycache__/
