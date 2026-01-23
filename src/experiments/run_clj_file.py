@@ -46,12 +46,14 @@ context_path = ensure_zero_one_json(
     "resources/banksearch/fca_topic_model_context.json"
 )
 
+min_support = 0.9
+
 cmd = [
     "clojure",
     "-M",
     "-e",
     '(load-file "src/experiments/iceberg_lattice.clj") '
-    f'(run-iceberg "{context_path}" 0.9 "resources/banksearch/my_iceberg.edn")',
+    f'(run-iceberg "{context_path}" {min_support} "resources/banksearch/banksearch_{min_support}_iceberg.edn")',
 ]
 
 try:
