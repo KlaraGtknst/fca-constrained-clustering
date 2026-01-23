@@ -88,7 +88,16 @@
       (report-invalid-entry bad)
       (throw (ex-info "Invalid incidence entry (expected 0/1 or true/false)." bad)))
     (try
-      (contexts/make-context-from-matrix objects attributes incidence)
+      (do
+      (let [flat-incidence (vec (mapcat identity incidence))]
+        (println "Creating context from"
+                  (count objects) "objects and"
+                  (count attributes) "attributes..."
+                  "incidence matrix:" flat-incidence)
+      (contexts/make-context-from-matrix objects attributes flat-incidence))
+      (println "Context successfully created with"
+                 (count objects) "objects and"
+                 (count attributes) "attributes."))
       (catch AssertionError e
         (when-let [bad (first-invalid-entry raw-incidence incidence)]
           (report-invalid-entry bad))
