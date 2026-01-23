@@ -91,13 +91,10 @@
       (do
       (let [flat-incidence (vec (mapcat identity incidence))]
         (println "Creating context from"
-                  (count objects) "objects and"
-                  (count attributes) "attributes..."
-                  "incidence matrix:" flat-incidence)
-      (contexts/make-context-from-matrix objects attributes flat-incidence))
-      (println "Context successfully created with"
                  (count objects) "objects and"
-                 (count attributes) "attributes."))
+                 (count attributes) "attributes..."
+                 "| flattened incidence length:" (count flat-incidence))
+      (contexts/make-context-from-matrix objects attributes flat-incidence)))
       (catch AssertionError e
         (when-let [bad (first-invalid-entry raw-incidence incidence)]
           (report-invalid-entry bad))
@@ -113,6 +110,7 @@
   Returns:
   A vector of concepts, each in the form [extent intent]."
   [ctx min-support]
+  (println "Computing iceberg concepts with min-support =" min-support "...")
   (let [intents (lattices/titanic-iceberg-intent-seq ctx (double min-support))]
     (mapv (fn [intent]
             [(contexts/attribute-derivation ctx intent) intent])
