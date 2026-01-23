@@ -4,6 +4,7 @@ results/
 tmp/
 .venv/ 
 .idea/
+*/__pycache__/
 .cpcache/
 .DS_Store
 src/clustering/__pycache__/
