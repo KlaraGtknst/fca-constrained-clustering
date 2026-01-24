@@ -152,6 +152,8 @@ try:
         extractor = BankSearchTopicModelExtractor(iceberg_concepts=read_edn_concepts(edn_path))
         out_path = Path("resources/banksearch")
         out_path.mkdir(parents=True, exist_ok=True)
+        # FIXME: Due to one topic per document there is the uppermost concept with no topics, which leads to empty last constraint, which does not make sense
+        # I think, we NEED more than one topic per document to have meaningful constraints
         extractor.extract_all_mlb_constraints(out_path=out_path)
 
         print("Extracted iceberg concepts:", out_path)
