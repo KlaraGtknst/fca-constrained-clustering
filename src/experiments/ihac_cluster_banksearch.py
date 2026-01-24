@@ -74,21 +74,31 @@ if __name__ == "__main__":
     # ground truth context and constraints
     gt_ctx_path = Path("../../resources/banksearch/fca_gt_context.json")
     assert gt_ctx_path.exists(), f"Path does not exist: {gt_ctx_path}"
-    mlb_constraints_path = Path("../../resources/banksearch/mlb_banksearch.txt")
-    assert mlb_constraints_path.exists(), f"Path does not exist: {mlb_constraints_path}"
+    mlb_gt_constraints_path = Path("../../resources/banksearch/mlb_banksearch.txt")
+    assert mlb_gt_constraints_path.exists(), f"Path does not exist: {mlb_gt_constraints_path}"
+    mlb_tm_constraints_path = Path("../../resources/banksearch/mlb_topic_model_banksearch.txt")
+    assert mlb_tm_constraints_path.exists(), f"Path does not exist: {mlb_tm_constraints_path}"
     # save path for results
     save_path = Path("../../results/ihac")
     save_path.mkdir(parents=True, exist_ok=True)
 
-    ## topic model context w/o constraints
+    ## topic model context and MLB constraints
     tm_ctx, tm_bool_df = read_ctx_from_json(topic_model_ctx_path)
     logger.info(
         f"Loaded topic model context with {tm_ctx.n_objects} objects and {tm_ctx.n_attributes} attributes."
     )
     # Run iHAC on the boolean feature matrix (0/1).
     tm_X = tm_bool_df.astype(int).to_numpy()
-    ihac = iHAC(X=tm_X)
-    logger.info("Starting iHAC clustering on topic model context w/o constraints...")
+    # get topic model constraints
+    mlb_topic_model_constraints = []
+    with open(mlb_tm_constraints_path, "r") as f:
+        for line in f:
+            line = line.strip()
+            if line:
+                parts = [part.strip() for part in line.split(",") if part.strip()]
+                mlb_topic_model_constraints.append(tuple(parts))
+    ihac = iHAC(X=tm_X, constraints=mlb_topic_model_constraints)
+    logger.info("Starting iHAC clustering on topic model context with MLB constraints...")
     save_path = run_exp_on_data(
         logger=logger, X=tm_X, ihac=ihac, data_kind="topic_model"
     )
@@ -103,13 +113,13 @@ if __name__ == "__main__":
     gt_bool_df_int.index = [obj_to_idx[obj_id] for obj_id in gt_obj_ids]
     gt_ctx = context.FormalContext.from_pandas(gt_bool_df_int)
     # load MLB constraints
-    mlb_constraints = []
-    with open(mlb_constraints_path, "r") as f:
+    mlb_gt_constraints = []
+    with open(mlb_gt_constraints_path, "r") as f:
         for line in f:
             line = line.strip()
             if line:
                 parts = [part.strip() for part in line.split(",") if part.strip()]
-                mlb_constraints.append(tuple(obj_to_idx[obj_id] for obj_id in parts))
+                mlb_gt_constraints.append(tuple(obj_to_idx[obj_id] for obj_id in parts))
     logger.info(
         f"Loaded topic model context with {gt_ctx.n_objects} objects and {gt_ctx.n_attributes} attributes."
     )
@@ -117,7 +127,7 @@ if __name__ == "__main__":
     logger.info(
         "Starting iHAC clustering on ground truth context with MLB constraints..."
     )
-    ihac = iHAC(X=gt_X, constraints=mlb_constraints)
+    ihac = iHAC(X=gt_X, constraints=mlb_gt_constraints)
     save_path = run_exp_on_data(
         logger=logger, X=gt_X, ihac=ihac, data_kind="ground_truth"
     )
