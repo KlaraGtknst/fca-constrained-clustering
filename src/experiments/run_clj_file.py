@@ -149,7 +149,6 @@ try:
         plot_lattice_from_edn(edn_path, svg_path)
         print(f"Saved iceberg lattice SVG to {svg_path}")
 
-        # TODO: extract MLB constraints
         extractor = BankSearchTopicModelExtractor(iceberg_concepts=read_edn_concepts(edn_path))
         out_path = Path("resources/banksearch")
         out_path.mkdir(parents=True, exist_ok=True)
