@@ -1,4 +1,5 @@
 import logging
+import os
 from pathlib import Path
 import sys
 import json
@@ -69,17 +70,18 @@ if __name__ == "__main__":
     )
     ## paths
     # obtained from topic model
-    topic_model_ctx_path = Path("../../resources/banksearch/fca_context.json")
+    print(Path(os.curdir).absolute())
+    topic_model_ctx_path = Path("resources/banksearch/fca_topic_model_context.json")
     assert topic_model_ctx_path.exists(), f"Path does not exist: {topic_model_ctx_path}"
     # ground truth context and constraints
-    gt_ctx_path = Path("../../resources/banksearch/fca_gt_context.json")
+    gt_ctx_path = Path("resources/banksearch/fca_gt_context.json")
     assert gt_ctx_path.exists(), f"Path does not exist: {gt_ctx_path}"
-    mlb_gt_constraints_path = Path("../../resources/banksearch/mlb_banksearch.txt")
+    mlb_gt_constraints_path = Path("resources/banksearch/mlb_banksearch.txt")
     assert mlb_gt_constraints_path.exists(), f"Path does not exist: {mlb_gt_constraints_path}"
-    mlb_tm_constraints_path = Path("../../resources/banksearch/mlb_topic_model_banksearch.txt")
+    mlb_tm_constraints_path = Path("resources/banksearch/mlb_topic_model_banksearch.txt")
     assert mlb_tm_constraints_path.exists(), f"Path does not exist: {mlb_tm_constraints_path}"
     # save path for results
-    save_path = Path("../../results/ihac")
+    save_path = Path("results/ihac")
     save_path.mkdir(parents=True, exist_ok=True)
 
     ## topic model context and MLB constraints
