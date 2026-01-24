@@ -86,6 +86,11 @@ class iHAC(BaseClusteringWrapper):
         new_id = -1
         count = 0
         for idx, (a, b, c) in enumerate(self.constraints):
+            for topic_id in [a,b,c]:
+                if topic_id == '""':
+                    topic_id = 0
+                elif isinstance(topic_id, str):
+                    topic_id = int(topic_id)
             # skip already violated constraints
             if idx in self.violated_constraints:
                 continue
