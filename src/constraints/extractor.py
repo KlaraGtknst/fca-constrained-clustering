@@ -115,7 +115,11 @@ class BankSearchTopicModelExtractor(BaseExtractor):
         logger.info(f"Saving {len(constraints)} constraints to {out_filename}")
         with open(out_filename, "w") as f:
             for constraint in constraints:
-                f.write(constraint + "\n")
+                # Convert frozensets (e.g., frozenset({'7'}),frozenset({'2'}),frozenset()) back to normal sets or lists (e.g., "7","2", "")
+                constraint_str = constraint.replace("frozenset({", "").replace("})", "")
+                constraint_str = constraint_str.replace("frozenset(", '"').replace(")", '"')
+                constraint_str = constraint_str.replace("'", '"')
+                f.write(constraint_str + "\n")
 
         logger.info("Constraints successfully saved.")
 
