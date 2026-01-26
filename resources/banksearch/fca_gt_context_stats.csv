@@ -1,2 +1,2 @@
-total_topics,avg_docs_per_topic,min_docs_per_topic,max_docs_per_topic,avg_topics_per_doc
-11,1000.0,1000,1000,1.0
+total_topics,avg_docs_per_topic,min_docs_per_topic,max_docs_per_topic,avg_topics_per_doc,num_docs
+11,1000.0,1000,1000,1.0,11000
