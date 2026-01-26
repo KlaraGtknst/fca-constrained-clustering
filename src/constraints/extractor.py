@@ -109,7 +109,7 @@ class BankSearchTopicModelExtractor(BaseExtractor):
                 if other_extent_set.issubset(extent_set):
                     hierarchy_dict[intent_key].add(frozenset(other_concept[1]))
 
-        print("Extracted hierarchy dict:", hierarchy_dict)
+        print(f"Extracted hierarchy dict: {hierarchy_dict} of len {len(hierarchy_dict)}")
 
         constraints = self._get_constraints_from_hierarchy_dict(hierarchy_dict)
         logger.info(f"Saving {len(constraints)} constraints to {out_filename}")
@@ -121,7 +121,7 @@ class BankSearchTopicModelExtractor(BaseExtractor):
                 constraint_str = constraint_str.replace("'", '')
                 f.write(constraint_str + "\n")
 
-        logger.info("Constraints successfully saved.")
+        logger.info(f"Constraints successfully saved to {out_filename}.")
 
 if __name__ == "__main__":
     # Configure logger
