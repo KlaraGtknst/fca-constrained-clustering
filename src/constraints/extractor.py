@@ -87,7 +87,7 @@ class BankSearchTopicModelExtractor(BaseExtractor):
         constraints = []
         hierarchy_dict = {}
         for concept in self.iceberg_concepts:
-            print("Processing concept:", concept)
+            # logger.info("Processing concept:", concept)
             # extent, intent
             if not concept or len(concept) < 2:
                 continue
@@ -109,7 +109,7 @@ class BankSearchTopicModelExtractor(BaseExtractor):
                 if other_extent_set.issubset(extent_set):
                     hierarchy_dict[intent_key].add(frozenset(other_concept[1]))
 
-        print(f"Extracted hierarchy dict: {hierarchy_dict} of len {len(hierarchy_dict)}")
+        logger.info(f"Extracted hierarchy dict: {hierarchy_dict} of len {len(hierarchy_dict)}")
 
         constraints = self._get_constraints_from_hierarchy_dict(hierarchy_dict)
         logger.info(f"Saving {len(constraints)} constraints to {out_filename}")

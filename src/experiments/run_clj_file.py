@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 from pathlib import Path
 import subprocess
@@ -9,7 +10,12 @@ from edn_format import loads
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from constraints.extractor import BankSearchTopicModelExtractor
-
+logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S",
+    )
+logger = logging.getLogger(__name__)
 
 def _contains_bool(value):
     if isinstance(value, bool):
@@ -54,7 +60,7 @@ context_path = ensure_zero_one_json(
     "resources/banksearch/fca_topic_model_context.json"
 )
 
-min_support = 0.1
+min_support = 0.09
 
 cmd = [
     "clojure",
@@ -144,10 +150,10 @@ try:
         cwd="/Users/klara/Developer/fca-constrained-clustering",
         stderr=subprocess.STDOUT,
     )
-    print(out, end="")
+    # logger.info(out)
     if os.path.exists(edn_path):
         plot_lattice_from_edn(edn_path, svg_path)
-        print(f"Saved iceberg lattice SVG to {svg_path}")
+        logger.info(f"Saved iceberg lattice SVG to {svg_path}")
 
         extractor = BankSearchTopicModelExtractor(iceberg_concepts=read_edn_concepts(edn_path))
         out_path = Path("resources/banksearch")
@@ -156,8 +162,8 @@ try:
         # I think, we NEED more than one topic per document to have meaningful constraints
         extractor.extract_all_mlb_constraints(out_path=out_path)
 
-        print("Extracted iceberg concepts:", out_path)
+        logger.info(f"Saved extracted iceberg concepts to {out_path}")
 except subprocess.CalledProcessError as e:
-    print(e.output)
+    logger.error(e.output)
 
 
