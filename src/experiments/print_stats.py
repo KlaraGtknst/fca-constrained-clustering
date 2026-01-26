@@ -45,6 +45,7 @@ def compute_and_write_stats(input_path: Path, output_path: Path) -> None:
                 "min_docs_per_topic",
                 "max_docs_per_topic",
                 "avg_topics_per_doc",
+                "num_docs",
             ]
         )
         writer.writerow(
@@ -54,6 +55,7 @@ def compute_and_write_stats(input_path: Path, output_path: Path) -> None:
                 min_docs_per_topic,
                 max_docs_per_topic,
                 avg_topics_per_doc,
+                num_docs,
             ]
         )
 
@@ -61,6 +63,10 @@ def compute_and_write_stats(input_path: Path, output_path: Path) -> None:
 def main() -> None:
     input_path = Path("resources/banksearch/fca_gt_context.json")
     output_path = Path("resources/banksearch/fca_gt_context_stats.csv")
+    compute_and_write_stats(input_path, output_path)
+
+    input_path = Path("resources/banksearch/fca_topic_model_context_01.json")
+    output_path = Path("resources/banksearch/fca_topic_model_context_stats.csv")
     compute_and_write_stats(input_path, output_path)
 
 
