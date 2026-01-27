@@ -4,6 +4,7 @@ results/
 tmp/
 .venv/ 
 .idea/
+.clj-kondo/
 */__pycache__/
 *.svg
 *.pyc
