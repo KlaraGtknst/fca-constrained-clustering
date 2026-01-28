@@ -60,7 +60,7 @@ context_path = ensure_zero_one_json(
     "resources/banksearch/topic_model/fca_topic_model_context.json"
 )
 
-min_support = 0.9
+min_support = 0.05
 
 cmd = [
     "clojure",
@@ -132,7 +132,7 @@ context_path = ensure_zero_one_json(
 )
 
 edn_path = f"resources/banksearch/topic_model/banksearch_{min_support}_iceberg.edn"
-svg_path = f"resources/banksearch/topic_model/banksearch_{min_support}_iceberg.svg"
+svg_path = f"resources/banksearch/topic_model/plots/banksearch_{min_support}_iceberg.svg"
 cmd = [
     "clojure",
     "-M",
@@ -150,6 +150,7 @@ try:
     )
     logger.info(out)
     if os.path.exists(edn_path):
+        Path(svg_path).parent.mkdir(parents=True, exist_ok=True)
         plot_lattice_from_edn(edn_path, svg_path)
         logger.info(f"Saved iceberg lattice SVG to {svg_path}")
 
