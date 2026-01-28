@@ -10,6 +10,9 @@ tmp/
 *.svg
 !resources/banksearch/fca_contexts_comparison_stats.svg
 !results/lda/incidence_density_vs_threshold.svg
+resources/banksearch/topic_model/plots/
+resources/banksearch/topic_model/iceberg_sweep/
+!resources/banksearch/topic_model/plots/concepts_vs_support.svg
 *.pyc
 .cpcache/
 .DS_Store
