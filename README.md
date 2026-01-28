@@ -21,7 +21,8 @@ You need to define a `MIN_TOPIC_PROB` which is the threshold that decides whethe
 In order to get a feeling which value is fitting run `lda_threshold_plots.py`.
 You'll obtain plots like the one below which help you make informed choices about the threshold.
 ![LDA Document-Topic Incidence Density per Threshold on the BankSearch Dataset](https://file%2B.vscode-resource.vscode-cdn.net/Users/klara/Developer/fca-constrained-clustering/results/lda/incidence_density_vs_threshold.svg)
-Given this plot, a reasonable threshold would `0.3`, because it ensures the document-topic incidence is sparse.
+
+Given this plot, a reasonable threshold would `0.05`, because it ensures the document-topic incidence is sparse (i.e.,  incidence density just above `0.2`) and in terms of the elbow criterium.
 
 
 ### Contexts
