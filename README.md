@@ -24,6 +24,13 @@ You'll obtain plots like the one below which help you make informed choices abou
 
 Given this plot, a reasonable threshold would `0.05`, because it ensures the document-topic incidence is sparse (i.e.,  incidence density just above `0.2`) and in terms of the elbow criterium.
 
+Now, we've created a json file with the information which document has which topics, which are represented by which words.
+However, as of now, we only need the document-topic incidence.
+Thus, run `document_representation.py` to create a document-topic context json file.
+
+Next, we want to compare the topics from the topic model to the ground truth.
+Hence, run `print_stats.py`, which will produce a csv file that below.
+![alt text](https://file%2B.vscode-resource.vscode-cdn.net/Users/klara/Developer/fca-constrained-clustering/resources/banksearch/fca_contexts_comparison_stats.svg)
 
 ### Contexts
 Contexts are saved as .json file.
