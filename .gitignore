@@ -8,7 +8,6 @@ tmp/
 .idea/
 */__pycache__/
 *.svg
-resources/banksearch/topic_model/plots/
 resources/banksearch/topic_model/iceberg_sweep/
 resources/banksearch/topic_model/fca_topic_model_context_01.json
 *.pyc
