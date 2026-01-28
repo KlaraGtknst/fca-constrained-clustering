@@ -6,6 +6,7 @@ import matplotlib
 
 matplotlib.use("Agg")  # headless backend for saving figures
 import matplotlib.pyplot as plt
+from matplotlib.ticker import MultipleLocator, MaxNLocator
 
 from dataset2lda_topics import (
     load_banksearch_dataset,
@@ -56,15 +57,21 @@ def average_topics_per_threshold(prob_matrix, thresholds):
     return averages
 
 
-def plot_average_topics(thresholds, averages, output_path):
+def plot_average_topics(thresholds, averages, output_path, n_docs, n_topics):
     """
     Plot average number of topics per document as a function of threshold.
     """
     plt.figure(figsize=(7, 4))
-    plt.plot(thresholds, averages, marker="o")
+    plt.plot(thresholds, averages, marker="o", markersize=2)
     plt.xlabel("MIN_TOPIC_PROB threshold")
     plt.ylabel("Average topics per document")
-    plt.title("Average Topics per Document vs Threshold")
+    plt.title(
+        "Average Topics per Document vs Threshold\n"
+        f"# Documents = {n_docs} | # Topics = {n_topics}"
+    )
+    plt.gca().xaxis.set_major_locator(MultipleLocator(0.1))
+    # Reduce Y tick density to avoid overlap
+    plt.gca().yaxis.set_major_locator(MaxNLocator(nbins=6, prune=None))
     plt.grid(True, linestyle="--", alpha=0.4)
     plt.tight_layout()
     plt.savefig(output_path, format="svg")
@@ -72,7 +79,41 @@ def plot_average_topics(thresholds, averages, output_path):
     print(f"Saved average topics per document plot to {output_path}")
 
 
-def plot_incidence_density(prob_matrix, doc_ids, thresholds, output_dir):
+def incidence_density(prob_matrix, threshold):
+    """
+    Compute incidence density as (#ones / #cells) for a given threshold.
+    """
+    incidence = (prob_matrix >= threshold).astype(int)
+    ones = incidence.sum()
+    total = incidence.size
+    return ones / total if total > 0 else 0.0
+
+
+def plot_incidence_density_line(prob_matrix, thresholds, output_path, n_docs, n_topics):
+    """
+    Plot incidence density as a function of threshold.
+    """
+    densities = [incidence_density(prob_matrix, t) for t in thresholds]
+    print(f"Incidence densities for thresholds {thresholds}: {densities}")
+
+    plt.figure(figsize=(7, 4))
+    plt.plot(thresholds, densities, marker="o", markersize=2)
+    plt.xlabel("MIN_TOPIC_PROB threshold")
+    plt.ylabel("Incidence density (#ones / #cells)")
+    plt.title(
+        "Incidence Density vs Threshold\n"
+        f"# Documents = {n_docs} | # Topics = {n_topics}"
+    )
+    plt.gca().xaxis.set_major_locator(MultipleLocator(0.1))
+    plt.gca().yaxis.set_major_locator(MultipleLocator(0.1))
+    plt.grid(True, linestyle="--", alpha=0.4)
+    plt.tight_layout()
+    plt.savefig(output_path, format="svg")
+    plt.close()
+    print(f"Saved incidence density line plot to {output_path}")
+
+
+def plot_incidence_density(prob_matrix, doc_ids, thresholds, output_dir, n_docs, n_topics):
     """
     For each threshold, create a binary incidence matrix (1 if prob >= threshold else 0)
     and plot its density as a heatmap. Documents are rows and topics are columns.
@@ -87,7 +128,10 @@ def plot_incidence_density(prob_matrix, doc_ids, thresholds, output_dir):
         plt.colorbar(label="Incidence (0/1)")
         plt.xlabel("Topic")
         plt.ylabel("Document")
-        plt.title(f"Incidence Density (threshold={threshold})")
+        plt.title(
+            f"Incidence Density (threshold={threshold})\n"
+            f"# Documents = {n_docs} | # Topics = {n_topics}"
+        )
 
         # Keep topic labels; only show document labels if there are few docs
         plt.xticks(topic_ids, [f"T{t}" for t in topic_ids])
@@ -114,7 +158,8 @@ def main(
     """
     Train LDA on the BankSearch dataset and generate:
     1) Average topics per document vs threshold.
-    2) Incidence density heatmaps for each threshold.
+    2) Incidence density line plot vs threshold.
+    3) Incidence density heatmaps for each threshold.
     """
     if not dataset_path.exists():
         raise FileNotFoundError(
@@ -130,9 +175,14 @@ def main(
 
     averages = average_topics_per_threshold(prob_matrix, thresholds)
     avg_plot_path = Path(output_dir) / "avg_topics_per_threshold.svg"
-    plot_average_topics(thresholds, averages, avg_plot_path)
+    n_docs = len(doc_ids)
+    n_topics = NUM_TOPICS_CORPUS
+    plot_average_topics(thresholds, averages, avg_plot_path, n_docs, n_topics)
 
-    plot_incidence_density(prob_matrix, doc_ids, thresholds, output_dir)
+    density_line_path = Path(output_dir) / "incidence_density_vs_threshold.svg"
+    plot_incidence_density_line(prob_matrix, thresholds, density_line_path, n_docs, n_topics)
+
+    plot_incidence_density(prob_matrix, doc_ids, thresholds, output_dir, n_docs, n_topics)
 
 
 if __name__ == "__main__":
