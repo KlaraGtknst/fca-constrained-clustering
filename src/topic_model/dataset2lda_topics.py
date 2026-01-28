@@ -24,7 +24,7 @@ assert N_TOPICS_PER_DOC <= NUM_TOPICS_CORPUS, "Cannot extract more topics per do
 assert N_TOPICS_PER_DOC > 1, "Must extract at least one topic per document, otherwise later steps work on nominal scala which produces non-sense constraints."
 N_TOP_WORDS_PER_TOPIC = 10
 MIN_TOKEN_LENGTH = 3
-MIN_TOPIC_PROB = 0.3  # minimum topic probability per document; ensure at least 1 topic is kept
+MIN_TOPIC_PROB = 0.05  # minimum topic probability per document via elbow method
 
 
 # -----------------------------
