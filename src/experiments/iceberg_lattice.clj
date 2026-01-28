@@ -76,16 +76,16 @@
   Returns:
   A ConExp context suitable for lattice computations."
   [ctx-json]
-  ;;  transpose to get topics as rows (i.e., objects G) and documents as columns (i.e., attributes M)
-  (let [attributes (:index ctx-json)
-        objects (:columns ctx-json)
+  ;; objects G = topics = rows 
+  ;; attributes M = documents = columns
+  (let [objects (:index ctx-json)
+        attributes (:columns ctx-json)
         raw-incidence (:data ctx-json)
-        ;; transpose incidence: rows<->cols via (mapv vec (apply map vector incidence)); cf. below
-        incidence (mapv vec (apply map vector (mapv (fn [row]
+        incidence (mapv (fn [row]
                           (mapv (fn [x]
                                   (normalize-bit x))
                                 row))
-                        raw-incidence)))]
+                        raw-incidence)]
         ;; Debugging info and sanity checks
         ;; (println "Ones per row:::" (mapv #(count (filter identity %)) incidence))
         (let [flat (mapcat identity incidence)]
