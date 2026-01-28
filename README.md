@@ -21,7 +21,7 @@ You need to define a `MIN_TOPIC_PROB` which is the threshold that decides whethe
 In order to get a feeling which value is fitting run `lda_threshold_plots.py`.
 You'll obtain plots like the one below which help you make informed choices about the threshold.
 
-![Image: LDA Document-Topic Incidence Density per Threshold on the BankSearch Dataset](https://file%2B.vscode-resource.vscode-cdn.net/Users/klara/Developer/fca-constrained-clustering/results/lda/incidence_density_vs_threshold.svg)
+![Image: LDA Document-Topic Incidence Density per Threshold on the BankSearch Dataset](results/lda/incidence_density_vs_threshold.svg)
 
 Given this plot, a reasonable threshold would `0.05`, because it ensures the document-topic incidence is sparse (i.e.,  incidence density just above `0.2`) and in terms of the elbow criterium.
 
@@ -32,7 +32,7 @@ Thus, run `document_representation.py` to create a document-topic **context** js
 Next, we want to compare the topics from the topic model to the ground truth.
 Hence, run `print_stats.py`, which will produce a csv file that below.
 
-![Image: Comparison of the ground truth document-topic incidence and the topic model document-topic incidence of the BankSearch Dataset](https://file%2B.vscode-resource.vscode-cdn.net/Users/klara/Developer/fca-constrained-clustering/resources/banksearch/fca_contexts_comparison_stats.svg)
+![Image: Comparison of the ground truth document-topic incidence and the topic model document-topic incidence of the BankSearch Dataset](resources/banksearch/fca_contexts_comparison_stats.svg)
 
 We use the resulting document-topic context to extract topic hierarchies using iceberg lattices via the TITANIC algorithm.
 Iceberg alttices contain only concepts (A,B) whose intent has a support higher or equal to `min_supp`.
