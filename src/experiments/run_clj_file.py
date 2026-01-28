@@ -57,7 +57,7 @@ def ensure_zero_one_json(source_path):
     return translated_path
 
 context_path = ensure_zero_one_json(
-    "resources/banksearch/fca_topic_model_context.json"
+    "resources/banksearch/topic_model/fca_topic_model_context.json"
 )
 
 min_support = 0.9
@@ -67,7 +67,7 @@ cmd = [
     "-M",
     "-e",
     '(load-file "src/experiments/iceberg_lattice.clj") '
-    f'(run-iceberg "{context_path}" {min_support} "resources/banksearch/banksearch_{min_support}_iceberg.edn")',
+    f'(run-iceberg "{context_path}" {min_support} "resources/banksearch/topic_model/banksearch_{min_support}_iceberg.edn")',
 ]
 
 
@@ -128,12 +128,11 @@ def plot_lattice_from_edn(edn_path: str, svg_path: str):
     plt.close()
 
 context_path = ensure_zero_one_json(
-    "resources/banksearch/fca_topic_model_context.json"
+    "resources/banksearch/topic_model/fca_topic_model_context.json"
 )
 
-edn_path = f"resources/banksearch/banksearch_{min_support}_iceberg.edn"
-svg_path = f"resources/banksearch/banksearch_{min_support}_iceberg.svg"
-
+edn_path = f"resources/banksearch/topic_model/banksearch_{min_support}_iceberg.edn"
+svg_path = f"resources/banksearch/topic_model/banksearch_{min_support}_iceberg.svg"
 cmd = [
     "clojure",
     "-M",
@@ -157,7 +156,7 @@ try:
         iceberg_concepts = read_edn_concepts(edn_path)
         logger.info(f"Read {len(iceberg_concepts)} iceberg concepts from {edn_path}")
         extractor = BankSearchTopicModelExtractor(iceberg_concepts=iceberg_concepts)
-        out_path = Path("resources/banksearch")
+        out_path = Path("resources/banksearch/topic_model/")
         out_path.mkdir(parents=True, exist_ok=True)
         extractor.extract_all_mlb_constraints(out_path=out_path)
 

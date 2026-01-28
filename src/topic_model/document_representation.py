@@ -212,7 +212,7 @@ if __name__ == "__main__":
     dr.display_topic_words("65")  # show topic words
     fca_ctx = dr.to_fca_context()  # convert to FCA structure
     dr.display_ctx(fca_ctx)
-    savepath = Path("resources/banksearch")
+    savepath = Path("resources/banksearch/topic_model/")
     savepath.mkdir(True, exist_ok=True)
     dr.save_fca_context(savepath / "fca_topic_model_context.json")
 

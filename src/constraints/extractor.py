@@ -135,6 +135,6 @@ if __name__ == "__main__":
     )
 
     banksearch_extractor = BankSearchGroundTruthExtractor()
-    out_path = Path("resources/banksearch")
+    out_path = Path("resources/banksearch/topic_model/")
     out_path.mkdir(parents=True, exist_ok=True)
     banksearch_extractor.extract_all_mlb_constraints(out_path=out_path)
