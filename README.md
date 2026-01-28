@@ -13,7 +13,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### Topic Model
+### Workflow: Topic Model to MLB Constraints
 You can represent texts via their most representive topic.
 This topic can be derived from a Topic Model (here: LDA).
 Run `dataset2lda_topics.py` in order to obtain **topics**.
@@ -38,6 +38,12 @@ Intuively, remaining concepts are document-topic pairs, whose topics are represe
 To get a feeling for the choice of `min_supp` we run `plot_concepts_vs_support.py`, resulting in the following plot.
 ![Number of concepts in the iceberg lattice for different min_supp values on the BankSearch Dataset.](resources/banksearch/topic_model/plots/concepts_vs_support.svg)
 
-We find that the `min_supp`value should be no lower then `0.15`, otherwise less than `10` concepts remain.
-We choose `0.05`and obtain around `30`concepts.
+We find that the `min_supp` value should be no lower then `0.15`, otherwise less than `10` concepts remain.
+We choose `0.05` and obtain around `30`concepts.
 
+Using this knowledge run the `run_clj_file.py` file after adjusting the `min_supp` value accordingly.
+This generates a .edn file containing the iceberg concepts, and extracts the MLB constraint using the `BankSearchTopicModelExtractor` from the `extractor.py` file.
+
+The MLB constraints have the format `x,y,z` where `x` and `y` have to be meregd before `z`.
+If there is no explicit topic id for any of `x`, `y` or `z`, it is the union of its children. 
+For instance, if `x` and `y` have explicit names, but `z` has not, `z=x,y`; leading to: `x,y, x,y`
