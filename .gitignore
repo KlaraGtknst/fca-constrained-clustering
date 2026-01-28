@@ -1,11 +1,15 @@
 resources/Dataset/
 resources/banksearch/fca_topic_model_context_01.json
-results/
+results/hac/
+results/ihac/
+results/topic_model/
 tmp/
 .venv/ 
 .idea/
 */__pycache__/
 *.svg
+!resources/banksearch/fca_contexts_comparison_stats.svg
+!results/lda/incidence_density_vs_threshold.svg
 *.pyc
 .cpcache/
 .DS_Store
