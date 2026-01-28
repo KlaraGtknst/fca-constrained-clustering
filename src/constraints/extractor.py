@@ -110,6 +110,7 @@ class BankSearchTopicModelExtractor(BaseExtractor):
                 if extent_set == other_extent_set:
                     continue
                 if other_extent_set.issubset(extent_set):
+                    # TODO: how to handle not-explicitly represented concepts? Those that are only unions of more specific concepts
                     hierarchy_dict[intent_key].add(frozenset(other_concept[1]))
 
         logger.info(f"Extracted hierarchy dict: {hierarchy_dict} of len {len(hierarchy_dict)}")
