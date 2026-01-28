@@ -8,11 +8,8 @@ tmp/
 .idea/
 */__pycache__/
 *.svg
-!resources/banksearch/fca_contexts_comparison_stats.svg
-!results/lda/incidence_density_vs_threshold.svg
 resources/banksearch/topic_model/plots/
 resources/banksearch/topic_model/iceberg_sweep/
-!resources/banksearch/topic_model/plots/concepts_vs_support.svg
 resources/banksearch/topic_model/fca_topic_model_context_01.json
 *.pyc
 .cpcache/
@@ -345,3 +342,8 @@ TSWLatexianTemp*
 # option is specified. Footnotes are the stored in a file with suffix Notes.bib.
 # Uncomment the next line to have this generated file ignored.
 #*Notes.bib
+
+# whitelist
+!resources/banksearch/fca_contexts_comparison_stats.svg
+!results/lda/incidence_density_vs_threshold.svg
+!resources/banksearch/topic_model/plots/concepts_vs_support.svg
