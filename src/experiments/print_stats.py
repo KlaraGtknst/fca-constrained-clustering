@@ -24,6 +24,7 @@ def compute_and_write_stats(input_path: Path, output_path: Path) -> None:
                 row_sum += val
         total_ones += row_sum
 
+    print("Number of documents per topic:", col_sums)
     if num_topics:
         avg_docs_per_topic = total_ones / num_topics
         min_docs_per_topic = min(col_sums)
@@ -43,6 +44,7 @@ def compute_and_write_stats(input_path: Path, output_path: Path) -> None:
                 "total_topics",
                 "avg_docs_per_topic",
                 "min_docs_per_topic",
+                "support_of_min_topic",
                 "max_docs_per_topic",
                 "avg_topics_per_doc",
                 "num_docs",
@@ -53,6 +55,7 @@ def compute_and_write_stats(input_path: Path, output_path: Path) -> None:
                 num_topics,
                 avg_docs_per_topic,
                 min_docs_per_topic,
+                min_docs_per_topic / num_docs if num_docs else 0.0,
                 max_docs_per_topic,
                 avg_topics_per_doc,
                 num_docs,
@@ -61,10 +64,12 @@ def compute_and_write_stats(input_path: Path, output_path: Path) -> None:
 
 
 def main() -> None:
+    print("Computing stats for BankSearch Ground Truth FCA contexts...")
     input_path = Path("resources/banksearch/fca_gt_context.json")
     output_path = Path("resources/banksearch/fca_gt_context_stats.csv")
     compute_and_write_stats(input_path, output_path)
 
+    print("Computing stats for BankSearch Topic Model FCA contexts...")
     input_path = Path("resources/banksearch/fca_topic_model_context_01.json")
     output_path = Path("resources/banksearch/fca_topic_model_context_stats.csv")
     compute_and_write_stats(input_path, output_path)
