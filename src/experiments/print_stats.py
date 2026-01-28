@@ -65,13 +65,13 @@ def compute_and_write_stats(input_path: Path, output_path: Path) -> None:
 
 def main() -> None:
     print("Computing stats for BankSearch Ground Truth FCA contexts...")
-    input_path = Path("resources/banksearch/fca_gt_context.json")
-    output_path = Path("resources/banksearch/fca_gt_context_stats.csv")
+    input_path = Path("resources/banksearch/ground_truth/fca_gt_context.json")
+    output_path = Path("resources/banksearch/ground_truth/fca_gt_context_stats.csv")
     compute_and_write_stats(input_path, output_path)
 
     print("Computing stats for BankSearch Topic Model FCA contexts...")
-    input_path = Path("resources/banksearch/fca_topic_model_context_01.json")
-    output_path = Path("resources/banksearch/fca_topic_model_context_stats.csv")
+    input_path = Path("resources/banksearch/topic_model/fca_topic_model_context.json")
+    output_path = Path("resources/banksearch/topic_model/fca_topic_model_context_stats.csv")
     compute_and_write_stats(input_path, output_path)
 
 
