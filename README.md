@@ -16,7 +16,7 @@ pip install -r requirements.txt
 ### Topic Model
 You can represent texts via their most representive topic.
 This topic can be derived from a Topic Model (here: LDA).
-Run `dataset2lda_topics.py` in order to obtain topics.
+Run `dataset2lda_topics.py` in order to obtain **topics**.
 You need to define a `MIN_TOPIC_PROB` which is the threshold that decides whether a topic fits a document or not.
 In order to get a feeling which value is fitting run `lda_threshold_plots.py`.
 You'll obtain plots like the one below which help you make informed choices about the threshold.
@@ -26,13 +26,9 @@ Given this plot, a reasonable threshold would `0.05`, because it ensures the doc
 
 Now, we've created a json file with the information which document has which topics, which are represented by which words.
 However, as of now, we only need the document-topic incidence.
-Thus, run `document_representation.py` to create a document-topic context json file.
+Thus, run `document_representation.py` to create a document-topic **context** json file.
 
 Next, we want to compare the topics from the topic model to the ground truth.
 Hence, run `print_stats.py`, which will produce a csv file that below.
 ![alt text](https://file%2B.vscode-resource.vscode-cdn.net/Users/klara/Developer/fca-constrained-clustering/resources/banksearch/fca_contexts_comparison_stats.svg)
 
-### Contexts
-Contexts are saved as .json file.
-Run `document_representation.py` to obtain contexts.
-Ensure relevant files (e.g., `banksearch_lda_topics.json` for Topic Model approach) exist beforehand.
