@@ -91,8 +91,11 @@ class BankSearchTopicModelExtractor(BaseExtractor):
             # extent, intent
             if not concept or len(concept) < 2:
                 continue
-            intent_raw = concept[1]
-            extent_raw = concept[0]
+            # documents are objects, topics are attributes in FCA terminology
+            # i want MLB constraints on topics, so on intent
+            # concept (A, B): A extent (objects), B  intent (attributes)
+            intent_raw = concept[1] # all attributes shared by the extent A
+            extent_raw = concept[0] # all objects having the attributes in intent B
             intent_set = set(intent_raw)
             extent_set = set(extent_raw)
             intent_key = frozenset(intent_set)
