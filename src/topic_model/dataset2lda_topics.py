@@ -24,6 +24,7 @@ assert N_TOPICS_PER_DOC <= NUM_TOPICS_CORPUS, "Cannot extract more topics per do
 assert N_TOPICS_PER_DOC > 1, "Must extract at least one topic per document, otherwise later steps work on nominal scala which produces non-sense constraints."
 N_TOP_WORDS_PER_TOPIC = 10
 MIN_TOKEN_LENGTH = 3
+MIN_TOPIC_PROB = 0.5  # minimum topic probability per document; ensure at least 1 topic is kept
 
 
 # -----------------------------
@@ -136,20 +137,32 @@ def run_lda(doc_ids, documents):
     return lda, corpus, dictionary
 
 
-def extract_document_topics(lda, corpus, doc_ids, n_topics_per_doc=N_TOPICS_PER_DOC, n_top_words_per_topic=N_TOP_WORDS_PER_TOPIC):
+def extract_document_topics(
+    lda,
+    corpus,
+    doc_ids,
+    n_topics_per_doc=N_TOPICS_PER_DOC,
+    n_top_words_per_topic=N_TOP_WORDS_PER_TOPIC,
+    min_topic_prob=MIN_TOPIC_PROB,
+):
     """
     For each document:
-    - find the dominant topics
+    - find the dominant topics (above threshold, or top 1 if none)
     - extract top words for those topics
     Returns a dict: {doc_id: {topic_id: [top_words]}}
     """
     result = {}
 
     for doc_id, bow in zip(doc_ids, corpus):
-        # Get topic probabilities and pick top N topics
+        # Get topic probabilities and pick topics above threshold
         topic_probs = lda.get_document_topics(bow)
-        # Sort topics by probability descending and take top n_topics_per_doc
-        dominant_topics = sorted(topic_probs, key=lambda x: x[1], reverse=True)[:n_topics_per_doc]
+        # Keep topics above threshold; if none, fall back to top 1 topic
+        dominant_topics = [(topic, prob) for topic, prob in topic_probs if prob >= min_topic_prob]
+        if not dominant_topics:
+            print("No topics above threshold; falling back to top 1 topics.")
+            dominant_topics = sorted(topic_probs, key=lambda x: x[1], reverse=True)[:1]
+        else:
+            dominant_topics = sorted(dominant_topics, key=lambda x: x[1], reverse=True)[:min(len(dominant_topics), n_topics_per_doc)]
         dominant_topic_ids = [topic for topic, _ in dominant_topics]
 
         # Build dictionary {topic_id: [top_words]}
@@ -160,6 +173,7 @@ def extract_document_topics(lda, corpus, doc_ids, n_topics_per_doc=N_TOPICS_PER_
 
         result[doc_id] = words_only
 
+    print(f"Average number of topics per document: {sum(len(topics) for topics in result.values()) / len(result)}")
     return result
 
 
