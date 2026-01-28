@@ -19,7 +19,7 @@ from dataset2lda_topics import (
 # -----------------------------
 # Configuration
 # -----------------------------
-DEFAULT_THRESHOLDS = np.arange(0.0, 1.0, 0.05)
+DEFAULT_THRESHOLDS = np.arange(0.0, 1.0, 0.01)
 
 
 # -----------------------------
@@ -182,7 +182,7 @@ def main(
     density_line_path = Path(output_dir) / "incidence_density_vs_threshold.svg"
     plot_incidence_density_line(prob_matrix, thresholds, density_line_path, n_docs, n_topics)
 
-    plot_incidence_density(prob_matrix, doc_ids, thresholds, output_dir, n_docs, n_topics)
+    plot_incidence_density(prob_matrix, doc_ids, np.arange(0.1, 0.9, 0.3), output_dir, n_docs, n_topics)
 
 
 if __name__ == "__main__":
