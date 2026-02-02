@@ -1,7 +1,11 @@
+% defines commands used below to insert datastructure (for better readability)
+\input{chapters/extras/data_structure}
+\input{chapters/extras/attribute_exploartion_vis}
+
 \section{Method}
 \label{sec:method}
 
-Our methods builds a context using \ac{ae} with incomplete knowledge.
+Our methods builds a context using \ac{ae} (\autoref{subsec:incomplete_knowledge}) with incomplete knowledge (\autoref{subsec:incomplete_knowledge}).
 The ternary context models the solution space of possible hierarchies, and \ac{ae} restricts the space using constraints.
 The \ac{ae} algorithm asks a domain expert, here: \ac{mlb} constraints, about the validity of implications.
 The expert answers the queries by confirming or rejecting them.
@@ -9,64 +13,9 @@ In case of rejection, the expert provides counterexamples.
 
 In the following, we first outline how we derive \ac{mlb} constraints from external knowledge bases, i.e., building our domain expert, and \ac{fca} (\autoref{subsec:mlb_fca}).
 
+% \input{chapters/03_knowledge_extraction/formal_context_hierarchal_cluster.tex}
 
-% defines commands used below to insert datastructure (for better readability)
-\input{chapters/extras/data_structure}
-\input{chapters/extras/attribute_exploartion_vis}
-
-\subsection{\acs{mlb} constraints and \acs{fca}}
-
-Implications are usually defined on attribute sets rather than on object sets \cite{fca-book}, but we will work with object exploration since it aligns directly with constrained hierarchical clustering.
-\textcolor{gray}{The methodology proposed is directly applicable to both versions, differing only by the necessity of transposing the context for visualization via concept lattices.}
-We denote the data points $\mathcal{D}=\{d_A, d_B, d_C, d_D, \dots\}$ the set of objects $G$ and the clusters $c_i \in \mathcal{C}$ the set of attributes $M$.
-For simplicity, we explain our idea on the toy example given in \autoref{tab:formal_context}.
-\formalcontexttable{}
-
-The corresponding hierarchical cluster is given as a dendrogram in \autoref{fig:dendrogram}.
-The bottom elements are data points in $\mathcal{D}$.
-Iterative merging of clusters are indicated by agglomerating lines from the bottom to the top.
-\dendogram{}
-
-There are two directions to consider for proving the equivalence of both presentations.
-First, we will outline how a hierarchical cluster can be turned into its corresponding formal context and next, we will describe the other direction.
-In the following, we will describe the hierarchical cluster as a dendrogram.
-
-\subsubsection{Hierarchical cluster to formal context.}
-For each cluster on the lowest hierarchical level, i.e., the lowest line between leaf elements, add an attribute $c_i$ with $i > |\mathcal{C}|$.
-Next, update the incidence relation $I = I \cup \{ d | d \in c_i\}$, i.e., add each data point $d$ of that cluster to the new attribute's extent, such that $(c_i)'$ contains all data points of that cluster.
-Once all lower clusters have been processed, proceed with the next higher cluster hierarchy.
-For each cluster emerging from sub-clusters $c_i, c_j \in \mathcal{C}$, add a new attribute $c_i \vee c_j$.
-This attribute's extent contains all attributes in either one of the sub-cluster's extents, i.e., $(c_i \vee c_j)' = (c_i)'\cup(c_j)'$.
-Proceed likewise for all clusters on that hierarchy and repeat the process for higher level emerging clusters.
-
-
-\subsubsection{Formal context to hierarchical cluster.}
-Given a formal context $(G,M,I)$ where $G$ denotes the set of data points $\mathcal{D}$ and $M$ denotes the set of clusters $c_i \in \mathcal{C}$, all objects $d \in G$ are leaf nodes of the dendogram.
-For each attribute $a_i \in M$, identify any other attributes $a_j \in M$ whose extent is a superset of $a_i$'s extent.
-Save those attributes in a successor list (or better: set) $s_{a_i}$.
-% one could omit transitive constraints, but not necessary
-To keep track of already processed cluster attributes, initialize a list $processed$.
-To keep track of the constraints add a list of resulting constraints $r$.
-%
-Next, select one attribute $a_i$ with minimal extent cardinality $|(a_i)'|$, i.e., the smallest cluster.
-For any pair of objects in $a_i$'s extent, i.e. data points $d_i, d_j \in (a_i)'$, add a pairwise \texttt{must-link} constraint to $r$.
-To capture the hierarchical relation between the clusters, for $d_i, d_j$ and any object $d_k$ in $a_i$'s successor list's items' extent excluding $d_i, d_j$, i.e., data point $d_k \in (a)'\smallsetminus \{d_i, d_j\}$ for attribute $a \in s_{a_i}$, add a \texttt{\ac{mlb}} constraint $MLB_{d_i, d_j, d_k}$.
-Once all \ac{mlb} constraints for the pair $d_i, d_j$ and objects $d_k \in (a)'\smallsetminus \{d_i, d_j\}$ have been added, the next pair in $(a_i)'$ can be processed.
-Once all pairs in $(a_i)'$ have been processed, $a_i$ is added to $processed$.
-Repeat the steps for the next attribute $a_j$, i.e., cluster, with minimal extent cardinality $|(a_j)'|$ which has not yet been processed, i.e., is not element of $processed$ is selected.
-The algorithm ends once all cluster attributes have been added to $processed$.
-%
-The resulting set of \ac{mlb} constraints is models the solution space of possible clusters.
-Any clustering algorithm, i.e., including \ac{hac} and \ac{ihac}, that respects these \textit{hard} constraints can produce a possible solution that lives within this solution space.
-
-\subsubsection{Formal context to concept lattice.}
-Given a formal context $(G,M,I)$ where $G$ denotes the set of data points $\mathcal{D}$ and $M$ denotes the set of clusters $c_i \in \mathcal{C}$, we can compute a meaningful concept lattice representation.
-The resulting concept lattice for the formal context in \autoref{tab:formal_context} is given in \autoref{fig:concept_lattice}.
-
-\lattice{}
-
-
-\input{chapters/03_knowledge_extraction/ground_truth.tex}
+% \input{chapters/03_knowledge_extraction/ground_truth.tex}
 
 \subsection{Domain Expert}
 \subsubsection{External Knowledge}
