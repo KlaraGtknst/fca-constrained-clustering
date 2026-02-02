@@ -1,0 +1,98 @@
+\newcommand{\attrEx}{%
+\begin{tikzpicture}[
+  font=\small,
+  box/.style={draw, rounded corners=2pt, align=left, inner sep=6pt, fill=gray!5},
+  title/.style={font=\bfseries},
+  arr/.style={-Latex, thick},
+  darr/.style={Latex-Latex, thick},
+  note/.style={align=center, font=\scriptsize, text=black!70},
+  matrixbox/.style={draw, rounded corners=2pt, inner sep=6pt, fill=white},
+  every node/.style={line width=0.6pt}
+]
+
+% --- LEFT: Classic Attribute Exploration on K ---
+\node[box] (ae) {
+  {\title Classic Attribute Exploration}\\[-1mm]
+  Formal context $\mathbb{K}=(G,M,I)$\\
+  Implication: $A\to B,\; A,B\subseteq M$\\
+  Holds iff $A'\subseteq B'$
+};
+
+% --- MIDDLE: Duality / Transpose ---
+\node[box, right=18mm of ae] (dual) {
+  {\title Duality (FCA)}\\[-1mm]
+  Object Exploration on $\mathbb{K}$\\
+  $\equiv$ Attribute Exploration on $\mathbb{K}^T$\\
+  with $\mathbb{K}^T=(M,G,I^T)$
+};
+
+\draw[darr] (ae.east) -- node[note, above]{transpose / duality} (dual.west);
+
+% --- RIGHT: Object Exploration definition ---
+\node[box, right=18mm of dual] (oe) {
+  {\title Object Exploration (our setting)}\\[-1mm]
+  Object implication: $X\to Y,\; X,Y\subseteq G$\\
+  Valid in $\mathbb{K}$ iff\\
+  $\forall c\in M:\; X\subseteq c' \Rightarrow Y\subseteq c'$
+};
+
+% --- BELOW: Partial context table with ?, x, - ---
+\node[matrixbox, below=18mm of dual, anchor=north] (pctx) {
+\begin{tikzpicture}[baseline]
+  \matrix (mc) [matrix of nodes,
+    nodes={minimum width=6.5mm, minimum height=5.5mm, align=center},
+    row sep=-\pgflinewidth, column sep=-\pgflinewidth,
+    nodes in empty cells,
+  ] {
+    & \node{\bfseries $c_1$}; & \node{\bfseries $c_2$}; & \node{\bfseries $c_3$}; & \node{\bfseries $\cdots$};\\
+    \node{\bfseries $g_1$}; & $\times$ & ? & $-$ & ?\\
+    \node{\bfseries $g_2$}; & ? & $\times$ & ? & $-$\\
+    \node{\bfseries $g_3$}; & $-$ & ? & $\times$ & ?\\
+    \node{\bfseries $\vdots$}; & ? & $-$ & ? & $\ddots$\\
+  };
+  % grid lines
+  \draw[black!60] (mc.north west) rectangle (mc.south east);
+  \foreach \r in {2,...,5} {
+    \draw[black!25] ([xshift=0mm]mc-\r-1.north west) -- ([xshift=0mm]mc-\r-5.north east);
+  }
+  \foreach \c in {2,...,5} {
+    \draw[black!25] ([yshift=0mm]mc-1-\c.north west) -- ([yshift=0mm]mc-5-\c.south west);
+  }
+\end{tikzpicture}
+};
+
+\node[title, above=2mm of pctx] (pctxTitle) {$\mathbb{K}_{part}=(G,M,\{\times,-,?\},J)$};
+
+\node[note, below=2mm of pctx] (legend) {
+$\times$ = definitely in cluster \quad
+$-$ = definitely not in cluster \quad
+$?$ = unknown
+};
+
+% --- Query/Update loop: MLB constraints as expert ---
+\node[box, below=18mm of pctx, anchor=north] (expert) {
+  {\title Expert / Oracle}\\[-1mm]
+  Queries answered by\\
+  \textbf{MLB constraints}
+};
+
+\draw[arr] (oe.south) |- node[note, pos=0.25, right]{propose candidate\\object implication $X\to Y$} (pctx.north east);
+\draw[arr] (pctx.south) -- node[note, right]{ask about unknown incidences ($?$)} (expert.north);
+\draw[arr] (expert.west) -| node[note, pos=0.25, left]{fill in\\$\times$ or $-$} ([xshift=-18mm]pctx.south west) -- (pctx.south west);
+
+% --- Emphasize exploration goal ---
+\node[box, left=0mm of expert, xshift=-35mm] (goal) {
+  {\title Goal}\\[-1mm]
+  Replace $?$ by $\times$ or $-$\\
+  until implications stabilize
+};
+\draw[arr] (goal.east) -- (expert.west);
+
+% --- Optional: a small "workflow" caption at bottom ---
+\node[note, below=10mm of expert] (cap) {
+Exploration iteratively refines $\mathbb{K}_{part}$ by querying the oracle,\\
+thereby determining valid object implications (cluster-based dependencies).
+};
+
+\end{tikzpicture}
+}

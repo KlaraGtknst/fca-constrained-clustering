@@ -1,8 +1,0 @@
-Commercial Banks,Building Societies,Finance
-Commercial Banks,Insurance Agencies,Finance
-Building Societies,Insurance Agencies,Finance
-Astronomy,Biology,Science
-C/C++,Java,Programming
-C/C++,Visual Basic,Programming
-Java,Visual Basic,Programming
-Soccer,Motor Racing,Sport

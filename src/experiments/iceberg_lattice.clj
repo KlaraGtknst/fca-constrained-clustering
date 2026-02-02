@@ -76,6 +76,8 @@
   Returns:
   A ConExp context suitable for lattice computations."
   [ctx-json]
+  ;; objects G = topics = rows 
+  ;; attributes M = documents = columns
   (let [objects (:index ctx-json)
         attributes (:columns ctx-json)
         raw-incidence (:data ctx-json)
@@ -84,6 +86,14 @@
                                   (normalize-bit x))
                                 row))
                         raw-incidence)]
+        ;; Debugging info and sanity checks
+        ;; (println "Ones per row:::" (mapv #(count (filter identity %)) incidence))
+        (let [flat (mapcat identity incidence)]
+          (println "Total entries:" (count flat))
+          (println "Ones:" (count (filter #(== 1 %) flat)))
+          (println "Zeros:" (count (filter zero? flat))))
+        (println "Distinct normalized values:" (set (mapcat identity incidence)))
+
     (when-let [bad (first-invalid-entry raw-incidence incidence)]
       (report-invalid-entry bad)
       (throw (ex-info "Invalid incidence entry (expected 0/1 or true/false)." bad)))
@@ -149,6 +159,7 @@
          concepts (iceberg-concepts ctx min-support)
          saved-path (save-iceberg-concepts concepts output-path)]
      (println "Loaded context from" context-path
+              "| min support:" min-support
               "| objects:" (count (:index ctx-json))
               "| attributes:" (count (:columns ctx-json))
               "| iceberg concepts:" (count concepts)

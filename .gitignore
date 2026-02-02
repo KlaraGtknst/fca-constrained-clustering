@@ -1,12 +1,16 @@
 resources/Dataset/
 resources/banksearch/fca_topic_model_context_01.json
-results/
+results/hac/
+results/ihac/
+results/topic_model/
 tmp/
 .venv/ 
 .idea/
 .clj-kondo/
 */__pycache__/
 *.svg
+resources/banksearch/topic_model/iceberg_sweep/
+resources/banksearch/topic_model/fca_topic_model_context_01.json
 *.pyc
 .cpcache/
 .DS_Store
@@ -338,3 +342,8 @@ TSWLatexianTemp*
 # option is specified. Footnotes are the stored in a file with suffix Notes.bib.
 # Uncomment the next line to have this generated file ignored.
 #*Notes.bib
+
+# whitelist
+!resources/banksearch/fca_contexts_comparison_stats.svg
+!results/lda/incidence_density_vs_threshold.svg
+!resources/banksearch/topic_model/plots/concepts_vs_support.svg

@@ -91,8 +91,11 @@ class BankSearchTopicModelExtractor(BaseExtractor):
             # extent, intent
             if not concept or len(concept) < 2:
                 continue
-            intent_raw = concept[1]
-            extent_raw = concept[0]
+            # documents are objects, topics are attributes in FCA terminology
+            # i want MLB constraints on topics, so on intent
+            # concept (A, B): A extent (objects), B  intent (attributes)
+            intent_raw = concept[1] # all attributes shared by the extent A
+            extent_raw = concept[0] # all objects having the attributes in intent B
             intent_set = set(intent_raw)
             extent_set = set(extent_raw)
             intent_key = frozenset(intent_set)
@@ -107,6 +110,7 @@ class BankSearchTopicModelExtractor(BaseExtractor):
                 if extent_set == other_extent_set:
                     continue
                 if other_extent_set.issubset(extent_set):
+                    # TODO: how to handle not-explicitly represented concepts? Those that are only unions of more specific concepts
                     hierarchy_dict[intent_key].add(frozenset(other_concept[1]))
 
         logger.info(f"Extracted hierarchy dict: {hierarchy_dict} of len {len(hierarchy_dict)}")
@@ -132,6 +136,6 @@ if __name__ == "__main__":
     )
 
     banksearch_extractor = BankSearchGroundTruthExtractor()
-    out_path = Path("resources/banksearch")
+    out_path = Path("resources/banksearch/topic_model/")
     out_path.mkdir(parents=True, exist_ok=True)
     banksearch_extractor.extract_all_mlb_constraints(out_path=out_path)

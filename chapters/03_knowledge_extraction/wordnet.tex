@@ -1,0 +1,49 @@
+\subsubsection{WordNet}
+Synsets etc.~\cite{fellbaum2010wordnet}
+WordNet can be used to derive constraints from expert ontologies by mapping each category term (lemma) to the synsets (senses) in which it appears and then exploiting ``IS-A'' relations between synsets: terms that share a synset can yield synonymy-based must-link constraints (cf. Figure~\ref{fig:wordnet-must-link-constraints}), and terms whose synsets are connected by an ``IS-A'' path can yield hierarchical constraints (cf. Figure~\ref{fig:wordnet-mlb-constraints}) whose strength depends on the shortest path distance to a common ancestor.
+\begin{figure}[t]
+    \centering
+    \begin{tikzpicture}[
+            term/.style={draw, rounded corners, align=center, inner sep=3pt},
+            rel/.style={->, >=latex}
+        ]
+        % Same synset -> must-link constraint
+        \node[term] (a) {term A};
+        \node[term, below=6mm of a] (b) {term B};
+        \node[term, right=14mm of a] (s1) {synset S1\\(same sense)};
+        \node[align=center, right=12mm of s1] {must-link};
+        \draw[rel] (a) -- (s1);
+        \draw[rel] (b) -- (s1);
+
+    \end{tikzpicture}
+    \caption{Deriving constraints from shared synsets in WordNet.}
+    \label{fig:wordnet-must-link-constraints}
+\end{figure}
+\begin{figure}[t]
+    \centering
+    \begin{tikzpicture}[
+            term/.style={draw, rounded corners, align=center, inner sep=3pt},
+            rel/.style={->, >=latex}
+        ]
+
+        % Connected synsets -> hierarchical constraint
+        \begin{scope}[xshift=80mm]
+            \node[term] (c) {term C};
+            \node[term, below=8mm of c] (d) {term D};
+            \node[term, right=14mm of c] (s2) {synset S2};
+            \node[term, below=8mm of s2] (s3) {synset S3};
+            \node[term, right=14mm of s2] (anc) {common ancestor\\synset A};
+            \node[align=center, right=12mm of anc] {hierarchical\\constraint\\(distance)};
+            \draw[rel] (c) -- (s2);
+            \draw[rel] (d) -- (s3);
+            \draw[rel] (s2) -- node[above]{IS-A} (anc);
+            \draw[rel] (s3) -- node[below]{IS-A} (anc);
+        \end{scope}
+    \end{tikzpicture}
+    \caption{Deriving constraints from connected ``IS-A'' chains in WordNet.}
+    \label{fig:wordnet-mlb-constraints}
+\end{figure}
+This mapping also provides a coverage signal, because terms absent from any synset cannot be constrained through WordNet.
+In our analysis, coverage is high, and if ``groups'' is empty, there are no overlapping synsets among category terms.
+Although about 3000 shared ``IS-A'' chains exist, only 22 term pairs have distance 1, so the strongest hierarchical relations are sparse.
+These observations highlight limitations: constraints are only obtainable for terms represented in WordNet; must-link constraints may be unavailable if categories do not share synsets; and ``IS-A''/\ac{mlb} constraints can be weak when common ancestors are distant, which reduces their practical discriminative power and may introduce noise in constraint strength estimation.

@@ -1,0 +1,107 @@
+The authors of \cite{cigarran_twitter_fca_2016} apply \ac{fca} to a Twitter dataset to extract insights into the topics present.
+% different: Use terms as attributes -> like frequency based and not semantic based (like our topic model)
+In their methodology, tweets serve as objects, while words occurring within the tweets act as attributes.
+They assume that tweets forming a formal concept, i.e., those sharing the same terminology, correspond to the same topic.
+Upper concepts in the resulting concept lattice represent general topics,
+whereas lower-level concepts reflect more specific themes.
+% different: Discard not only bottom concepts and do not use TITANIC
+However, a key limitation of their approach is the excessive number of concepts generated, making interpretation challenging.
+To mitigate this, they introduce upper and lower frequency thresholds,
+discarding terms whose occurrence falls outside these predefined bounds,
+arguing that the former are too general and the latter too specific for meaningful analysis.
+While their approach provides valuable means as how to derive topic structures from text data,
+it relies purely on term frequency as attributes rather than
+leveraging the semantic relationships inherent in topic models, as we do in this work.
+
+The authors of \cite{wang_topic_feature_2021} employ \ac{fca} to structure topic representations derived from a topic model.
+They construct two matrices:
+One capturing document-topic probabilities obtained through their ILDA model and
+another representing topic-word probabilities, restricted to the top ten words per topic.
+% different number of topic words, but same idea
+% Their approach considers only the top ten words per topic,
+% thereby representing topics in a manner comparable to our work.
+% different: Manual topic categorization
+Unlike our approach, which automatically derives hierarchical relationships,
+their method relies on manual categorization of topics into broader thematic groups.
+These manually curated categories are subsequently visualized using a \ac{fca}-inspired order diagrams to reflect topic generalization.
+In contrast, our approach seeks to infer hierarchical topic structures automatically, without requiring manual intervention.
+
+The authors of \cite{wang_topic_hierarchy_2023} also leverage \ac{fca} to structure topic hierarchies.
+% different Topic Model
+They utilize LDA for topic modeling, encoding documents based on the distribution of topics.
+% same: use threshold
+Similar to our approach, they introduce a thresholding mechanism to retain only relevant topics per document.
+However, a major divergence lies in their reliance on HowNet, a linguistic knowledge base.
+% to extract for each word senses and a set of words describing the senses.
+% This enables them to construct a document–sememes concept lattice,
+% which supports fine-grained document retrieval.
+% Documents are considered to be objects whereas sememes are treated as attributes.
+% different goal
+Their primary objective is to facilitate precise querying,
+using a concept lattice to provide a more nuanced representation of documents beyond mere word-level indexing.
+% different rules to reduce size
+To manage the complexity of the lattice, they eliminate concepts whose attribute sets exhibit excessively high or low support.
+While effective for information retrieval, their approach differs from ours in fundamental ways.
+The focus of our approach is uncovering hierarchical relationships within topic structures across the dataset,
+rather than enhancing document retrieval.
+We do not discard high-support concepts,
+as they provide crucial insights into overarching themes.
+% Instead, we implicitly filter out low-support concepts through the TITANIC approach,
+% ensuring that only representative structures are retained for analysis.
+
+% FCA Topic Modeling
+Our approach builds on the work of the authors of \cite{angelov_topic_modeling_2024} who propose extracting two relational structures from topic models.
+The first structure is a weighted document-topic relation, i.e., which topics $t_i$ are present in which documents $d_j$.
+The second structure is a weighted topic-word relation, i.e., which words $w_k$ are present in which topics $t_i$.
+These relations are subsequently used to derive incidence matrices,
+as visualized in Tables \ref{tab:doc-topic} and \ref{tab:term-topic}.
+% Each row in Table \ref{tab:doc-topic} represents the topics assigned to a document,
+% while each row in Table  \ref{tab:term-topic} captures the topics in which a term appears.
+
+\begin{table}[t]
+    \centering
+    \begin{minipage}{0.5275\textwidth}
+        \centering
+        \caption{Document-topic relation}
+        \label{tab:doc-topic}
+        \begin{tabular}{|c|c|c|c|c|}
+            \hline
+            \backslashbox{Documents}{Topics} & $t_1$     & $t_2$     & $\cdots$ & $t_n$     \\ \hline
+            $d_1$                            & $w_{1,1}$ & $w_{1,2}$ & $\cdots$ & $w_{1,n}$ \\ \hline
+            $d_2$                            & $w_{2,1}$ & $w_{2,2}$ & $\cdots$ & $w_{2,n}$ \\ \hline
+            $\vdots$                         & $\vdots$  & $\vdots$  & $\ddots$ & $\vdots$  \\ \hline
+            $d_l$                            & $w_{l,1}$ & $w_{l,2}$ & $\cdots$ & $w_{l,n}$ \\ \hline
+        \end{tabular}
+    \end{minipage}%
+    \hfill
+    \begin{minipage}{0.465\textwidth}
+        \centering
+        \caption{Term-topic relation}
+        \label{tab:term-topic}
+        \begin{tabular}{|c|c|c|c|c|}
+            \hline
+            \backslashbox{Terms}{Topics} & $t_1$           & $t_2$           & $\cdots$ & $t_n$           \\ \hline
+            $s_1$                        & $\hat{w}_{1,1}$ & $\hat{w}_{1,2}$ & $\cdots$ & $\hat{w}_{1,n}$ \\ \hline
+            $s_2$                        & $\hat{w}_{2,1}$ & $\hat{w}_{2,2}$ & $\cdots$ & $\hat{w}_{2,n}$ \\ \hline
+            $\vdots$                     & $\vdots$        & $\vdots$        & $\ddots$ & $\vdots$        \\ \hline
+            $s_l$                        & $\hat{w}_{l,1}$ & $\hat{w}_{l,2}$ & $\cdots$ & $\hat{w}_{l,n}$ \\ \hline
+        \end{tabular}
+    \end{minipage}
+\end{table}
+
+% Since both Tables \ref{tab:doc-topic} and \ref{tab:term-topic} contain values in the range $[0,1]$,
+% the authors propose additional processing steps to derive binary relations.
+To compute a binary relation from the document-topic relation, they apply a thresholding approach,
+while for the term-topic relation, they retain only the top $n$ words per topic.
+Subsequently, the authors compute the formal concepts of high support.
+Their approach enables a structured representation of topic hierarchies,
+which they demonstrate on academic papers from machine learning conferences.
+The approach lacks the possibility to compare subsets of the whole dataset, which might stem from an organization of files into directories.
+% However, since the papers represent independent documents,
+% their method lacks the ability to aggregate information across documents to derive insights into broader thematic structures.
+% how our approach differs
+By contrast, our approach addresses this limitation by explicitly incorporating cross-directory topic structures,
+allowing for a more comprehensive analysis of thematic relationships spanning multiple data sources.
+Furthermore, our method is not restricted to only textual data.
+
+% Additionally, our methodology integrates text extracted from images, further enhancing the depth of topic modeling beyond purely textual data.

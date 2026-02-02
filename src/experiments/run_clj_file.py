@@ -57,17 +57,17 @@ def ensure_zero_one_json(source_path):
     return translated_path
 
 context_path = ensure_zero_one_json(
-    "resources/banksearch/fca_topic_model_context.json"
+    "resources/banksearch/topic_model/fca_topic_model_context.json"
 )
 
-min_support = 0.09
+min_support = 0.05
 
 cmd = [
     "clojure",
     "-M",
     "-e",
     '(load-file "src/experiments/iceberg_lattice.clj") '
-    f'(run-iceberg "{context_path}" {min_support} "resources/banksearch/banksearch_{min_support}_iceberg.edn")',
+    f'(run-iceberg "{context_path}" {min_support} "resources/banksearch/topic_model/banksearch_{min_support}_iceberg.edn")',
 ]
 
 
@@ -75,7 +75,7 @@ cmd = [
 def read_edn_concepts(path: str):
     with open(path, "r") as f:
         edn_data = loads(f.read())
-    print(f"Reading EDN concepts from {path}... {edn_data}")
+    logger.info(f"Reading EDN concepts from {path}...")#{edn_data}
     return edn_data
 
 
@@ -107,7 +107,7 @@ def _hasse_edges(concepts):
 def plot_lattice_from_edn(edn_path: str, svg_path: str):
     concepts = read_edn_concepts(edn_path)
     for concept in concepts:
-        print("n docs", len(concept[0]), "n topics", len(concept[1]), "which are: ", concept[1])
+        logger.info(f"n docs {len(concept[0])} n topics {len(concept[1])}")#, "which are: ", concept[1])
     edges = _hasse_edges(concepts)
     graph = nx.DiGraph()
     for idx, (_, intent) in enumerate(concepts):
@@ -128,13 +128,11 @@ def plot_lattice_from_edn(edn_path: str, svg_path: str):
     plt.close()
 
 context_path = ensure_zero_one_json(
-    "resources/banksearch/fca_topic_model_context.json"
+    "resources/banksearch/topic_model/fca_topic_model_context.json"
 )
 
-min_support = 0.1
-edn_path = f"resources/banksearch/banksearch_{min_support}_iceberg.edn"
-svg_path = f"resources/banksearch/banksearch_{min_support}_iceberg.svg"
-
+edn_path = f"resources/banksearch/topic_model/banksearch_{min_support}_iceberg.edn"
+svg_path = f"resources/banksearch/topic_model/plots/banksearch_{min_support}_iceberg.svg"
 cmd = [
     "clojure",
     "-M",
@@ -150,16 +148,17 @@ try:
         cwd="/Users/klara/Developer/fca-constrained-clustering",
         stderr=subprocess.STDOUT,
     )
-    # logger.info(out)
+    logger.info(out)
     if os.path.exists(edn_path):
+        Path(svg_path).parent.mkdir(parents=True, exist_ok=True)
         plot_lattice_from_edn(edn_path, svg_path)
         logger.info(f"Saved iceberg lattice SVG to {svg_path}")
 
-        extractor = BankSearchTopicModelExtractor(iceberg_concepts=read_edn_concepts(edn_path))
-        out_path = Path("resources/banksearch")
+        iceberg_concepts = read_edn_concepts(edn_path)
+        logger.info(f"Read {len(iceberg_concepts)} iceberg concepts from {edn_path}")
+        extractor = BankSearchTopicModelExtractor(iceberg_concepts=iceberg_concepts)
+        out_path = Path("resources/banksearch/topic_model/")
         out_path.mkdir(parents=True, exist_ok=True)
-        # FIXME: Due to one topic per document there is the uppermost concept with no topics, which leads to empty last constraint, which does not make sense
-        # I think, we NEED more than one topic per document to have meaningful constraints
         extractor.extract_all_mlb_constraints(out_path=out_path)
 
         logger.info(f"Saved extracted iceberg concepts to {out_path}")

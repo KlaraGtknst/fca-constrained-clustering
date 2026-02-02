@@ -1,0 +1,119 @@
+\newcommand{\docTopicInc}{
+\begin{figure}[h]
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[
+  font=\small,
+  >=Latex,
+  node distance=14mm and 16mm,
+  box/.style={draw, rounded corners=2pt, thick, minimum height=9mm, align=center},
+  arrow/.style={->, thick},
+  label/.style={font=\small\bfseries},
+]
+
+% -------------------------
+% Left: document corpus (cylinder)
+% -------------------------
+\node (corpus) [cylinder, shape border rotate=90, aspect=1.5,
+               draw, thick, minimum height=18mm, minimum width=16mm] {};
+\node[below=1mm of corpus] {\textbf{document}};
+\node[below=4mm of corpus.south] {\textbf{corpus}};
+
+% -------------------------
+% Topic model text + arrow
+% -------------------------
+\node (tm) [right=24mm of corpus, align=center] {\textbf{Topic model}\\[-1mm]\textbf{LDA}};
+\draw[arrow] (corpus.east) -- (tm.west);
+
+% -------------------------
+% Stack of topic vectors
+% -------------------------
+% back plates (to look like a stack)
+\node (stack3) [draw, thick, rounded corners=2pt, minimum width=40mm, minimum height=14mm,
+                right=18mm of tm, xshift=3mm, yshift=3mm, fill=white] {};
+\node (stack2) [draw, thick, rounded corners=2pt, minimum width=40mm, minimum height=14mm,
+                right=18mm of tm, xshift=1.5mm, yshift=1.5mm, fill=white] {};
+\node (stack1) [box, minimum width=40mm, minimum height=14mm, right=18mm of tm, fill=white] 
+  {$\{t_{i0},\ldots,t_{in}\}\in\mathbb{R}^{n}$};
+
+\draw[arrow] (tm.east) -- (stack1.west);
+
+\node[below=1mm of stack1] {\textbf{topic vector}};
+\node[below=4mm of stack1.south] {$\forall{\text{ document }i}$};
+
+% -------------------------
+% Delta arrow
+% -------------------------
+\node (delta) [right=18mm of stack1, label] {$\delta$};
+\draw[arrow] (stack1.east) -- (delta.west);
+
+% -------------------------
+% Right: docs x topics table
+% -------------------------
+\node (tab) [right=14mm of delta, inner sep=0pt] {%
+\begin{tikzpicture}[font=\small, thick]
+  % Table parameters
+  \def\w{15mm}   % col width
+  \def\h{9mm}    % row height
+  \def\ncols{4}  % header has: t1 t2 ... tn (we'll draw 4 columns)
+  \def\nrows{5}  % docs: d1 d2 ... dl (we'll draw 5 rows total incl header lines)
+
+  % Outer frame (docs column + topic columns)
+  \draw (0,0) rectangle ({(1+\ncols)*\w},{\nrows*\h});
+
+  % Vertical lines (separate docs column and topic columns)
+  \draw (\w,0) -- (\w,{\nrows*\h});
+  \foreach \c in {2,...,\ncols} {
+    \draw ({\c*\w},0) -- ({\c*\w},{\nrows*\h});
+  }
+
+  % Horizontal lines
+  \foreach \r in {1,...,\numexpr\nrows-1\relax} {
+    \draw (0,\r*\h) -- ({(1+\ncols)*\w},\r*\h);
+    }
+
+
+  % Slanted top-left "topics/docs" header split
+  \draw (0,{\nrows*\h}) -- (\w,{\nrows*\h-\h});
+  \node[anchor=west] at (5mm,{\nrows*\h-2mm}) {\textbf{topics}};
+  \node[anchor=west] at (1mm,{\nrows*\h-\h+2mm}) {\textbf{docs}};
+
+  % Column headers for topics
+  \node at ({1.4*\w},{\nrows*\h-0.5*\h}) {$t_1$};
+  \node at ({2.4*\w},{\nrows*\h-0.5*\h}) {$t_2$};
+  \node at ({3.4*\w},{\nrows*\h-0.5*\h}) {$\cdots$};
+  \node at ({4.4*\w},{\nrows*\h-0.5*\h}) {$t_n$};
+
+  % Row labels (docs)
+  \node at ({0.4*\w},{\nrows*\h-1.5*\h}) {$d_1$};
+  \node at ({0.4*\w},{\nrows*\h-2.5*\h}) {$d_2$};
+  \node at ({0.4*\w},{\nrows*\h-3.5*\h}) {$\vdots$};
+  \node at ({0.4*\w},{\nrows*\h-4.5*\h}) {$d_\ell$};
+
+  % Example weights
+  \node at ({1.4*\w},{\nrows*\h-1.5*\h}) {$w_{1,1}$};
+  \node at ({2.4*\w},{\nrows*\h-1.5*\h}) {$w_{1,2}$};
+  \node at ({3.4*\w},{\nrows*\h-1.5*\h}) {$\cdots$};
+  \node at ({4.4*\w},{\nrows*\h-1.5*\h}) {$w_{1,n}$};
+  \node at ({1.4*\w},{\nrows*\h-2.5*\h}) {$w_{2,1}$};
+  \node at ({2.4*\w},{\nrows*\h-2.5*\h}) {$w_{2,2}$};
+  \node at ({3.4*\w},{\nrows*\h-2.5*\h}) {$\cdots$};
+  \node at ({4.4*\w},{\nrows*\h-2.5*\h}) {$w_{2,n}$};
+  \node at ({1.4*\w},{\nrows*\h-3.5*\h}) {$\vdots$};
+  \node at ({2.4*\w},{\nrows*\h-3.5*\h}) {$\vdots$};
+  \node at ({3.4*\w},{\nrows*\h-3.5*\h}) {$\ddots$};
+  \node at ({4.4*\w},{\nrows*\h-3.5*\h}) {$\vdots$};
+  \node at ({1.4*\w},{\nrows*\h-4.5*\h}) {$w_{\ell,1}$};
+  \node at ({2.4*\w},{\nrows*\h-4.5*\h}) {$w_{\ell,2}$};
+  \node at ({3.4*\w},{\nrows*\h-4.5*\h}) {$\cdots$};
+  \node at ({4.4*\w},{\nrows*\h-4.5*\h}) {$w_{\ell,n}$};
+\end{tikzpicture}
+};
+
+\draw[arrow] (delta.east) -- (tab.west);
+
+\end{tikzpicture}
+}
+\caption{Deriving document-topic incidence matrix from topic model.}
+\label{fig:doc_topic_inc}
+\end{figure}}
