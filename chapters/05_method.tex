@@ -1,6 +1,7 @@
 % defines commands used below to insert datastructure (for better readability)
 \input{chapters/extras/data_structure}
 \input{chapters/extras/attribute_exploartion_vis}
+\input{chapters/extras/titanic_vis.tex}
 
 \section{Method}
 \label{sec:method}
@@ -26,6 +27,28 @@ topic models~\cite{gutekunst2025conceptual} for enriching the dataset with categ
 
 % \input{chapters/03_knowledge_extraction/wordnet.tex}
 \input{chapters/03_knowledge_extraction/topic_models.tex}
+
+\subsubsection{Topic Filtering}
+% copied from other paper
+Computing concept lattices for large datasets presents a significant challenge, as the size of a concept lattice can grow exponentially with respect
+to the size of the context.
+Consequently, complete visualizations of large concept lattices may obscure important hierarchical
+relationships within the data, hindering human interpretation.
+To address this issue, \cite{stumme_titanic_2002} introduced the TITANIC algorithm,
+which computes iceberg concept lattices.
+An iceberg concept lattice includes only the top-level concepts,
+specifically those corresponding to frequent attribute sets.
+
+The authors define a minimum support threshold,
+$minsupp \in [0,1]$, below which attribute sets are not considered frequent.
+An attribute set $B \subseteq M$ is deemed frequent in $\mathbb{K}$ if its support
+$$supp(B) = \frac{\left| B' \right|}{\left| G \right|}$$ meets or exceeds the $minsupp$ threshold.
+A concept $(A, B)$ is considered frequent if its intent $B$ constitutes a frequent attribute set.
+The iceberg concept lattice of a context $\mathbb{K}$ comprises all such frequent concepts.
+
+\displayTITANIC{}
+
+\subsubsection{\ac{mlb} Constraints from Formal Concept Lattice}
 
 
 \subsection{\acl{ae}\textcolor{red}{: Dominik}}

@@ -1,0 +1,140 @@
+\newcommand{\displayTITANIC}{\begin{figure}[h]
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[
+  font=\small,
+  >=Latex,
+  thick,
+  arrow/.style={->, line width=1.2pt},
+]
+
+% -------------------------
+% Left: docs x topics table  (YOUR CODE, unchanged)
+% -------------------------
+\node (tab) [inner sep=0pt] {%
+\begin{tikzpicture}[font=\small, thick]
+  % Table parameters
+  \def\w{15mm}   % col width
+  \def\h{9mm}    % row height
+  \def\ncols{4}  % header has: t1 t2 ... tn (we'll draw 4 columns)
+  \def\nrows{5}  % docs: d1 d2 ... dl (we'll draw 5 rows total incl header lines)
+
+  % Outer frame (docs column + topic columns)
+  \draw (0,0) rectangle ({(1+\ncols)*\w},{\nrows*\h});
+
+  % Vertical lines (separate docs column and topic columns)
+  \draw (\w,0) -- (\w,{\nrows*\h});
+  \foreach \c in {2,...,\ncols} {
+    \draw ({\c*\w},0) -- ({\c*\w},{\nrows*\h});
+  }
+
+  % Horizontal lines
+  \foreach \r in {1,...,\numexpr\nrows-1\relax} {
+    \draw (0,\r*\h) -- ({(1+\ncols)*\w},\r*\h);
+  }
+
+  % Slanted top-left "topics/docs" header split
+  \draw (0,{\nrows*\h}) -- (\w,{\nrows*\h-\h});
+  \node[anchor=west] at (5mm,{\nrows*\h-2mm}) {\textbf{topics}};
+  \node[anchor=west] at (1mm,{\nrows*\h-\h+2mm}) {\textbf{docs}};
+
+  % Column headers for topics
+  \node at ({1.4*\w},{\nrows*\h-0.5*\h}) {$t_1$};
+  \node at ({2.4*\w},{\nrows*\h-0.5*\h}) {$t_2$};
+  \node at ({3.4*\w},{\nrows*\h-0.5*\h}) {$\cdots$};
+  \node at ({4.4*\w},{\nrows*\h-0.5*\h}) {$t_n$};
+
+  % Row labels (docs)
+  \node at ({0.4*\w},{\nrows*\h-1.5*\h}) {$d_1$};
+  \node at ({0.4*\w},{\nrows*\h-2.5*\h}) {$d_2$};
+  \node at ({0.4*\w},{\nrows*\h-3.5*\h}) {$\vdots$};
+  \node at ({0.4*\w},{\nrows*\h-4.5*\h}) {$d_\ell$};
+
+  % Example weights
+  \node at ({1.4*\w},{\nrows*\h-1.5*\h}) {$w_{1,1}$};
+  \node at ({2.4*\w},{\nrows*\h-1.5*\h}) {$w_{1,2}$};
+  \node at ({3.4*\w},{\nrows*\h-1.5*\h}) {$\cdots$};
+  \node at ({4.4*\w},{\nrows*\h-1.5*\h}) {$w_{1,n}$};
+
+  \node at ({1.4*\w},{\nrows*\h-2.5*\h}) {$w_{2,1}$};
+  \node at ({2.4*\w},{\nrows*\h-2.5*\h}) {$w_{2,2}$};
+  \node at ({3.4*\w},{\nrows*\h-2.5*\h}) {$\cdots$};
+  \node at ({4.4*\w},{\nrows*\h-2.5*\h}) {$w_{2,n}$};
+
+  \node at ({1.4*\w},{\nrows*\h-3.5*\h}) {$\vdots$};
+  \node at ({2.4*\w},{\nrows*\h-3.5*\h}) {$\vdots$};
+  \node at ({3.4*\w},{\nrows*\h-3.5*\h}) {$\ddots$};
+  \node at ({4.4*\w},{\nrows*\h-3.5*\h}) {$\vdots$};
+
+  \node at ({1.4*\w},{\nrows*\h-4.5*\h}) {$w_{\ell,1}$};
+  \node at ({2.4*\w},{\nrows*\h-4.5*\h}) {$w_{\ell,2}$};
+  \node at ({3.4*\w},{\nrows*\h-4.5*\h}) {$\cdots$};
+  \node at ({4.4*\w},{\nrows*\h-4.5*\h}) {$w_{\ell,n}$};
+\end{tikzpicture}
+};
+
+% -------------------------
+% Middle: "TITANIC" label + big arrow
+% -------------------------
+% Anchor for TITANIC + mountain group
+\coordinate (titanicAnchor) at ($(tab.east)+(20mm,4mm)$);
+
+\node (titanicLabel) [anchor=west, font=\bfseries\Large]
+  at (titanicAnchor) {TITANIC};
+
+% mountain squiggle + connected horizontal line (tight)
+\draw[line width=1.2pt]
+  ($(titanicAnchor)+(-14mm,0mm)$) --
+  ($(titanicAnchor)+(-11mm,4mm)$) --
+  ($(titanicAnchor)+(-9mm, 2mm)$) --
+  ($(titanicAnchor)+(-6mm, 6mm)$) --
+  ($(titanicAnchor)+(-3mm, 0mm)$);
+
+
+
+
+% big arrow from table to tree
+\coordinate (arrowStart) at ($(tab.east)+(6mm,0mm)$);
+% define where the arrow should end
+\coordinate (arrowEnd) at ($(tab.east)+(60mm,0mm)$);
+
+\draw[arrow] (arrowStart) -- (arrowEnd);
+
+
+\begin{scope}[shift={(arrowEnd)}, xshift=30mm]
+  % colors
+  \colorlet{nodegreen}{green!60!black}
+
+  % coordinates (tree layout)
+  \coordinate (R)  at (0,22mm);     % root (green)
+  \coordinate (A)  at (-16mm,12mm); % green
+  \coordinate (B)  at ( 16mm,12mm); % green
+
+  \coordinate (A1) at (-26mm, 0mm);
+  \coordinate (A2) at (-10mm, 0mm);
+
+  \coordinate (B1) at (  6mm, 0mm);
+  \coordinate (B2) at ( 26mm, 0mm);
+
+  % edges: green-to-green are green + bold
+  \draw[nodegreen, line width=2.0pt] (R) -- (A);
+  \draw[nodegreen, line width=2.0pt] (R) -- (B);
+
+  % remaining edges (black)
+  \draw[line width=1.2pt] (A) -- (A1);
+  \draw[line width=1.2pt] (A) -- (A2);
+  \draw[line width=1.2pt] (B) -- (B1);
+  \draw[line width=1.2pt] (B) -- (B2);
+
+  % nodes (open circles)
+  \foreach \p/\c in {R/nodegreen, A/nodegreen, B/nodegreen,
+                    A1/black, A2/black, B1/black, B2/black} {
+    \draw[line width=1.6pt, \c, fill=white] (\p) circle [radius=2.3mm];
+  }
+
+\end{scope}
+\end{tikzpicture}
+}
+\caption{TITANIC algorithm on document-topic incidence.}
+\label{fig:titanic}
+\end{figure}}
