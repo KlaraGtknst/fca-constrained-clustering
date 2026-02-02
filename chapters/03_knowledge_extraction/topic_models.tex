@@ -1,0 +1,10 @@
+\subsubsection{Topic Models}
+
+A topic model is a generative model for documents, where documents are mixtures of $K$ topics and topics are mixtures of words (i.e., multinomial distribution over a word vocabulary).
+Topic models rely on the bag-of-words assumption, i.e., ignoring the order of words.
+We employed gensim's \ac{lda}\footnote{\url{https://radimrehurek.com/gensim/models/ldamodel.html} (30.12.2025)}.
+\ac{lda} is unsupervised and based on statistical bayesian topic models~\cite{alghamdi_survey_2015}.
+
+We build 200 latent topics across the data corpus, and extract the 10 most dominant topics per document each represented by the 10 most probable words per topic.
+The resulting structure is \texttt{\{document $d_1$: [topic $t_{11}$: [word $w_{t_{11}-1}$, \dots, word $w_{t_{11}-10}$], topic $t_{12}$ \dots], document $d_2$:\dots \}}.
+The number of initial topics (i.e., 200) is chosen arbitrarily.
