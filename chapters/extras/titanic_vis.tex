@@ -127,9 +127,16 @@
   \draw[line width=1.2pt] (B) -- (B2);
 
   % nodes (open circles)
-  \foreach \p/\c in {R/nodegreen, A/nodegreen, B/nodegreen,
-                    A1/black, A2/black, B1/black, B2/black} {
-    \draw[line width=1.6pt, \c, fill=white] (\p) circle [radius=2.3mm];
+  \foreach \p/\c/\lw in {
+    R/nodegreen/1.8pt,
+    A/nodegreen/1.8pt,
+    B/nodegreen/1.8pt,
+    A1/black/1.2pt,
+    A2/black/1.2pt,
+    B1/black/1.2pt,
+    B2/black/1.2pt
+  } {
+    \draw[line width=\lw, draw=\c, fill=white] (\p) circle [radius=2.3mm];
   }
 
 \end{scope}

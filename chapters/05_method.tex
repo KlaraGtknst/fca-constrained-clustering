@@ -50,6 +50,58 @@ The iceberg concept lattice of a context $\mathbb{K}$ comprises all such frequen
 
 \subsubsection{\ac{mlb} Constraints from Formal Concept Lattice}
 
+Starting from the three elements $\{x,y,z\}$ arranged as displayed in \autoref{fig:concept_lattice2mlb}, the mapping $\mathrm{MLB}$ produces the constraint $(x,y,z)$.
+
+\begin{figure}[t]
+\centering
+\resizebox{0.5\textwidth}{!}{%
+\begin{tikzpicture}[
+  >=Latex,
+  line cap=round, line join=round,
+  thick,
+]
+  % --- styles
+  \colorlet{nodegreen}{green!60!black}
+  \tikzset{
+    gedge/.style={draw=nodegreen, line width=1.8pt},
+    gnode/.style={draw=nodegreen, fill=white, line width=1.8pt},
+    arrow/.style={->, line width=1.8pt, draw=black},
+  }
+
+  % --- coordinates for the small tree
+  \coordinate (X) at (0,0);
+  \coordinate (Y) at (4,0);
+  \coordinate (Z) at (2,2.4);
+
+  % --- green edges
+  \draw[gedge] (Z) -- (X);
+  \draw[gedge] (Z) -- (Y);
+
+  % --- green open nodes
+  \draw[gnode] (X) circle [radius=0.28];
+  \draw[gnode] (Y) circle [radius=0.28];
+  \draw[gnode] (Z) circle [radius=0.30];
+
+  % --- labels near nodes
+  \node[anchor=north east, font=\Large] at ($(X)+(-0.1,-0.25)$) {$x$};
+  \node[anchor=north,      font=\Large] at ($(Y)+(0.00,-0.25)$) {$y$};
+  \node[anchor=west,       font=\Large] at ($(Z)+(0.25,0.05)$) {$z$};
+
+  % --- middle arrow + label "MLB"
+  \coordinate (Astart) at (5.0,0.9);
+  \coordinate (Aend)   at (8,0.9);
+  \draw[arrow] (Astart) -- (Aend);
+  \node[font=\bfseries\Large] at ($(Astart)!0.5!(Aend)+(0,0.65)$) {MLB};
+
+  % --- right-side text "x,y,z"
+  \node[font=\bfseries\Large] at (9.5,0.75) {$x,y,z$};
+
+\end{tikzpicture}%
+}
+\caption{From a concept lattice to \ac{mlb} constraints.}
+\label{fig:concept_lattice2mlb}
+\end{figure}
+
 
 \subsection{\acl{ae}\textcolor{red}{: Dominik}}
 
