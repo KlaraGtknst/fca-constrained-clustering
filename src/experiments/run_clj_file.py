@@ -10,12 +10,14 @@ from edn_format import loads
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from constraints.extractor import BankSearchTopicModelExtractor
+
 logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
-        datefmt="%Y-%m-%d %H:%M:%S",
-    )
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
 logger = logging.getLogger(__name__)
+
 
 def _contains_bool(value):
     if isinstance(value, bool):
@@ -56,6 +58,7 @@ def ensure_zero_one_json(source_path):
         json.dump(converted, translated_file, indent=2, ensure_ascii=True)
     return translated_path
 
+
 context_path = ensure_zero_one_json(
     "resources/banksearch/topic_model/fca_topic_model_context.json"
 )
@@ -71,11 +74,10 @@ cmd = [
 ]
 
 
-
 def read_edn_concepts(path: str):
     with open(path, "r") as f:
         edn_data = loads(f.read())
-    logger.info(f"Reading EDN concepts from {path}...")#{edn_data}
+    logger.info(f"Reading EDN concepts from {path}...")  # {edn_data}
     return edn_data
 
 
@@ -107,7 +109,9 @@ def _hasse_edges(concepts):
 def plot_lattice_from_edn(edn_path: str, svg_path: str):
     concepts = read_edn_concepts(edn_path)
     for concept in concepts:
-        logger.info(f"n docs {len(concept[0])} n topics {len(concept[1])}")#, "which are: ", concept[1])
+        logger.info(
+            f"n docs {len(concept[0])} n topics {len(concept[1])}"
+        )  # , "which are: ", concept[1])
     edges = _hasse_edges(concepts)
     graph = nx.DiGraph()
     for idx, (_, intent) in enumerate(concepts):
@@ -127,12 +131,15 @@ def plot_lattice_from_edn(edn_path: str, svg_path: str):
     plt.savefig(svg_path, format="svg", bbox_inches="tight")
     plt.close()
 
+
 context_path = ensure_zero_one_json(
     "resources/banksearch/topic_model/fca_topic_model_context.json"
 )
 
 edn_path = f"resources/banksearch/topic_model/banksearch_{min_support}_iceberg.edn"
-svg_path = f"resources/banksearch/topic_model/plots/banksearch_{min_support}_iceberg.svg"
+svg_path = (
+    f"resources/banksearch/topic_model/plots/banksearch_{min_support}_iceberg.svg"
+)
 cmd = [
     "clojure",
     "-M",
@@ -142,10 +149,13 @@ cmd = [
 ]
 
 try:
+    path = "/Users/klara/Developer/fca-constrained-clustering"
+    if not os.path.exists(path):
+        path = "/Users/klara/Developer/Uni/FCA/fca-constrained-clustering"
     out = subprocess.check_output(
         cmd,
         text=True,
-        cwd="/Users/klara/Developer/fca-constrained-clustering",
+        cwd=path,
         stderr=subprocess.STDOUT,
     )
     logger.info(out)
@@ -164,5 +174,3 @@ try:
         logger.info(f"Saved extracted iceberg concepts to {out_path}")
 except subprocess.CalledProcessError as e:
     logger.error(e.output)
-
-
