@@ -7,49 +7,73 @@
 \section{Method}
 \label{sec:method}
 
-Our methods builds a context using \ac{ae} (\autoref{subsec:incomplete_knowledge}) with incomplete knowledge (\autoref{subsec:incomplete_knowledge}).
-The ternary context models the solution space of possible hierarchies, and \ac{ae} restricts the space using constraints.
-The \ac{ae} algorithm asks a domain expert, here: \ac{mlb} constraints, about the validity of implications.
-The expert answers the queries by confirming or rejecting them.
-In case of rejection, the expert provides counterexamples.
+Our approach integrates \ac{fca} with topic modeling to generate hierarchical document clusters guided by \ac{mlb} constraints. The method consists of five main stages: topic model construction, document-topic incidence matrix formation, concept lattice extraction, constraint generation, and \ac{ae} (\autoref{subsec:incomplete_knowledge}) with incomplete knowledge (\autoref{subsec:incomplete_knowledge}).
 
-In the following, we first outline how we derive \ac{mlb} constraints from external knowledge bases, i.e., building our domain expert, and \ac{fca} (\autoref{subsec:mlb_fca}).
+% The ternary context models the solution space of possible hierarchies, and \ac{ae} restricts the space using constraints.
+% The \ac{ae} algorithm asks a domain expert, here: \ac{mlb} constraints, about the validity of implications.
+% The expert answers the queries by confirming or rejecting them.
+% In case of rejection, the expert provides counterexamples.
 
-% \input{chapters/03_knowledge_extraction/formal_context_hierarchal_cluster.tex}
+\subsection{Topic Model Construction}
 
-% \input{chapters/03_knowledge_extraction/ground_truth.tex}
-
-\subsection{Domain Expert}
-\subsubsection{External Knowledge}
-
-We employed external knowledge bases such as 
-% WordNet~\cite{fellbaum2010wordnet} and 
-topic models~\cite{gutekunst2025conceptual} for enriching the dataset with categories.
+% We employed external knowledge bases such as 
+% % WordNet~\cite{fellbaum2010wordnet} and 
+% topic models~\cite{gutekunst2025conceptual} for enriching the dataset with categories.
 
 % \input{chapters/03_knowledge_extraction/wordnet.tex}
 \input{chapters/03_knowledge_extraction/topic_models.tex}
 
-\subsubsection{Topic Filtering}
+
+
+\subsection{Formal Context Construction}
+
+The binary incidence relation $I$ defines a formal context $\mathbb{K} = (G, M, I)$, where $G$ is the set of documents (i.e., objects), $M$ is the set of topics (i.e., attributes), and $I$ specifies which topics apply to which documents. 
+To validate the quality of our topic model-derived context, we compare it against ground truth labels when available. Figure~\ref{fig:context_comparison} presents a comparative analysis of the incidence properties.
+
+\begin{figure}[htbp]
+    \centering
+    \includesvg[width=0.8\textwidth]{resources/banksearch/fca_contexts_comparison_stats.svg}
+    \caption{Comparison of ground truth document-topic incidence and topic model-derived incidence for the BankSearch dataset. The comparison includes metrics such as incidence density, coverage, and topic distribution statistics.\todo{Use table not image}}
+    \label{fig:context_comparison}
+\end{figure}
+
+\subsection{Topic Filtering via TITANIC}
+
 % copied from other paper
-Computing concept lattices for large datasets presents a significant challenge, as the size of a concept lattice can grow exponentially with respect
-to the size of the context.
-Consequently, complete visualizations of large concept lattices may obscure important hierarchical
-relationships within the data, hindering human interpretation.
-To address this issue, \cite{stumme_titanic_2002} introduced the TITANIC algorithm,
-which computes iceberg concept lattices.
+Computing complete concept lattices of $\mathbb{K}$ for large datasets presents a significant challenge, as the size of a concept lattice can grow exponentially with respect to the size of the context.
+Consequently, complete visualizations of large concept lattices may obscure important hierarchical relationships within the data, hindering human interpretation.
+To address this issue, \cite{stumme_titanic_2002} introduced the TITANIC algorithm, which computes iceberg concept lattices.
 An iceberg concept lattice includes only the top-level concepts,
 specifically those corresponding to frequent attribute sets.
 
 The authors define a minimum support threshold,
 $minsupp \in [0,1]$, below which attribute sets are not considered frequent.
-An attribute set $B \subseteq M$ is deemed frequent in $\mathbb{K}$ if its support
-$$supp(B) = \frac{\left| B' \right|}{\left| G \right|}$$ meets or exceeds the $minsupp$ threshold.
+An attribute set $B \subseteq M$ is deemed frequent in $\mathbb{K}$ if its support $$supp(B) = \frac{\left| B' \right|}{\left| G \right|}$$ meets or exceeds the $minsupp$ threshold.
 A concept $(A, B)$ is considered frequent if its intent $B$ constitutes a frequent attribute set.
-The iceberg concept lattice of a context $\mathbb{K}$ comprises all such frequent concepts.
+The iceberg concept lattice of a context $\mathbb{K}$ comprises all such frequent concepts (cf. Figure~\ref{fig:titanic}).
 
 \displayTITANIC{}
 
-\subsubsection{\ac{mlb} Constraints from Formal Concept Lattice}
+Intuitively, this restriction retains only those document-topic combinations where the topic set is representative of at least $\mathtt{min\_supp} \times 100\%$ of the corpus.
+
+The choice of minimum support significantly influences the granularity of the extracted hierarchy. Figure~\ref{fig:concepts_support} demonstrates this relationship for the BankSearch dataset.
+
+\begin{figure}[htbp]
+    \centering
+    \includesvg[width=0.7\textwidth]{resources/banksearch/topic_model/plots/concepts_vs_support.svg}
+    \caption{Number of concepts in the iceberg lattice as a function of minimum support threshold for the BankSearch dataset. The curve exhibits the expected monotonic decrease, with support values below 0.15 yielding fewer than 10 concepts. We select min\_supp = 0.05, resulting in approximately 30 concepts.}
+    \label{fig:concepts_support}
+\end{figure}
+
+Based on this analysis, we select $\text{min\_supp} = 0.05$ to balance hierarchy richness with conceptual interpretability, yielding approximately 30 concepts for our experimental corpus.
+
+
+% \input{chapters/03_knowledge_extraction/formal_context_hierarchal_cluster.tex}
+
+% \input{chapters/03_knowledge_extraction/ground_truth.tex}
+
+
+\subsection{\ac{mlb} Constraints}
 
 Starting from the three elements $\{x,y,z\}$ arranged as displayed in \autoref{fig:concept_lattice2mlb}, the mapping $\mathrm{MLB}$ produces the constraint $(x,y,z)$.
 
