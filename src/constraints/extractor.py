@@ -63,7 +63,7 @@ class BaseExtractor(ABC):
         assert all(isinstance(c, (str, frozenset)) for c in children), f"each child label must be a string, but got {[type(c) for c in children]}."
         assert len(children) >= self.min_num_children, f"need at least {self.min_num_children} children to form pairwise constraints, got {len(children)}: {children}."
 
-        # FIXME: How to work with one-element children? I suggest a: {b} -> (b,a,a) constraint which enforces b to be clustered with a
+        # one-element children: {b} -> (b,a,a) constraint which enforces b to be clustered with a
         if len(children) == 1:
             c1 = next(iter(children))
             logger.warning(f"Only one child {c1} for parent {parent}; generating single-child constraint.")
@@ -242,6 +242,47 @@ class BankSearchTopicModelExtractor(BaseExtractor):
         assert isinstance(fs, frozenset), f"Input must be a frozenset, but got {type(fs)}."
         return ",".join(sorted(fs))
 
+    def _get_constraints_from_hierarchy_dict(self, hierarchy_dict: dict) -> List[str]:
+        """
+        Build MLB constraints with the "siblings + uncle" rule for topic models.
+
+        Rule:
+          - a and b are siblings (share the same parent P),
+          - c is an uncle of a and b (another child of P's parent).
+          a, b, and c can be internal or leaf nodes.
+
+        Example:
+                1
+              /   \
+             2     3
+                  / \
+                 4   5
+          -> (4,5,2)
+          (not (4,5,3) because 3 is the parent/meet of 4 and 5;
+           not (2,3,1) because 2 and 3 are not siblings under the same parent).
+        """
+        assert isinstance(hierarchy_dict, dict), "hierarchy_dict must be a dict."
+        assert len(hierarchy_dict) > 0, "hierarchy_dict must not be empty."
+
+        constraints_set = set()
+        min_siblings = max(2, self.min_num_children)
+        for grandparent, gp_children in hierarchy_dict.items():
+            gp_children = list(gp_children)
+            if len(gp_children) < 2:
+                continue  # need at least one parent and one uncle
+            for parent in gp_children:
+                parent_children = hierarchy_dict.get(parent, set())
+                if len(parent_children) < min_siblings:
+                    continue
+                sibling_pairs = list(combinations(sorted(parent_children), 2))
+                for uncle in gp_children:
+                    if uncle == parent:
+                        continue
+                    for a, b in sibling_pairs:
+                        constraints_set.add(f"{a},{b},{uncle}")
+
+        return sorted(constraints_set)
+
     def extract_all_mlb_constraints(self, out_path: Path):
         """
         Extract all MLB constraints from hierarchy in iceberg concepts.
@@ -254,15 +295,17 @@ class BankSearchTopicModelExtractor(BaseExtractor):
         Output:
           Writes:
           `mlb_topic_model_banksearch.txt` with MLB constraints in ID form.
-          Each label is an intent ID (C*), except the empty intent which is "top".
-          `mlb_topic_model_banksearch_ids_map.json` mapping IDs to their intent conjunction strings.
+          Each label is an intent/extent ID (C*), except the empty intent/extent which is "top"/"bottom".
+          `mlb_topic_model_banksearch_ids_map.json` mapping IDs to their strings.
 
           Example constraint line in txt file:
             C2,C5,C1
-          Example JSON entry:
-            "C5": "topicC,topicD"
-            "top": ""
+          Example JSON entry: <type> is either document (for extent) or topic (for intent):
+            "C5": "<type>C,<type>D"
+            "top": "", # for empty intent
+            "bottom": "", # for empty extent
         """
+        extent_based = True  # we want constraints on documents (extent), not topics (intent)
         assert isinstance(out_path, Path), "out_path must be a pathlib.Path."
         assert self.iceberg_concepts, "iceberg_concepts is empty."
         out_path.mkdir(parents=True, exist_ok=True)
@@ -270,7 +313,7 @@ class BankSearchTopicModelExtractor(BaseExtractor):
 
         # hierarchy_dict: parent intent ID is key, set of child intent IDs is value
         hierarchy_dict = defaultdict(set)
-        translate_intents = {}  # map frozenset(intent) -> ID (or "top" for empty)
+        translate_sets = {}  # map frozenset(set) -> ID (or "top"/"bottom" for empty intent/extent)
         set_id_counter = 1
         normalized_concepts = list(self._iter_valid_concepts())
         assert normalized_concepts, "no valid concepts after validation."
@@ -278,7 +321,7 @@ class BankSearchTopicModelExtractor(BaseExtractor):
         def get_set_id(_set: set, extent_based:bool=True) -> str:
             """
             Map an set to a stable label:
-              - empty set -> "top"
+              - empty set -> "top" or "bottom"
               - singleton or conjunction -> unique C* ID
 
             Input:
@@ -292,15 +335,15 @@ class BankSearchTopicModelExtractor(BaseExtractor):
             nonlocal set_id_counter
             if len(_set) == 0:
                 key = frozenset()
-                if key in translate_intents and translate_intents[key] != special_id:
+                if key in translate_sets and translate_sets[key] != special_id:
                     raise ValueError(f"Conflicting mapping for empty set; expected '{special_id}'.")
-                translate_intents[key] = special_id
+                translate_sets[key] = special_id
                 return special_id
             key = self._get_sorted_str_of_frozenset(frozenset(_set))
-            if key not in translate_intents:
-                translate_intents[key] = f"C{set_id_counter}"
+            if key not in translate_sets:
+                translate_sets[key] = f"C{set_id_counter}"
                 set_id_counter += 1
-            return translate_intents[key]
+            return translate_sets[key]
 
         for extent_set, intent_set in normalized_concepts:
             # documents are objects, topics are attributes in FCA terminology
@@ -308,9 +351,10 @@ class BankSearchTopicModelExtractor(BaseExtractor):
             # concept (A, B): A extent (objects), B  intent (attributes)
             # extent_set: all documents sharing the intent
             # intent_set: all topics shared by the extent
-            extent_key = get_set_id(extent_set)
+            reference_set = extent_set if extent_based else intent_set
+            outer_key = get_set_id(reference_set, extent_based=extent_based)
 
-            if extent_key in hierarchy_dict.keys():
+            if outer_key in hierarchy_dict.keys():
                 continue    # already processed
             for other_extent_set, other_intent_set in normalized_concepts:
                 if extent_set == other_extent_set:
@@ -319,8 +363,9 @@ class BankSearchTopicModelExtractor(BaseExtractor):
                 if other_extent_set.issubset(extent_set):
                     # Require intent_set ⊆ other_intent_set so children are true specializations (should always hold in FCA)
                     assert intent_set.issubset(other_intent_set) and intent_set != other_intent_set, "Invalid concept hierarchy: parent intent must be a proper subset of child intent."
-                    other_extent_key = get_set_id(other_extent_set)
-                    hierarchy_dict[extent_key].add(other_extent_key)
+                    other_set = other_extent_set if extent_based else other_intent_set
+                    other_set_key = get_set_id(other_set, extent_based=extent_based)
+                    hierarchy_dict[outer_key].add(other_set_key)
                     
 
         def assert_acyclic(graph):
@@ -393,13 +438,13 @@ class BankSearchTopicModelExtractor(BaseExtractor):
         
         with open(out_filename_ids_map, "w") as f:
             json.dump(
-                {v: self._get_sorted_str_of_frozenset(k) for k, v in translate_intents.items()},
+                {v: self._get_sorted_str_of_frozenset(k) for k, v in translate_sets.items()},
                 f,
                 indent=2,
                 sort_keys=True,
             )
         logger.info(
-            f"Saved {len(translate_intents)} intent identifier mappings to {out_filename_ids_map}"
+            f"Saved {len(translate_sets)} intent identifier mappings to {out_filename_ids_map}"
         )
 
 if __name__ == "__main__":
