@@ -46,6 +46,10 @@ We choose `0.05` and obtain around `30`concepts.
 
 Using this knowledge run the `run_clj_file.py` file after adjusting the `min_supp` value accordingly.
 This generates a .edn file containing the iceberg concepts, and extracts the MLB constraint using the `BankSearchTopicModelExtractor` from the `extractor.py` file.
+Moreover, the resulting iceberg concepts lattice visualization is automatically generated and saved.
+It is displayed below. 
+
+![Iceberg Concept Lattice of the BankSearch Dataset with min-support of 0.05.](resources/banksearch/topic_model/plots/banksearch_0.05_iceberg.svg)
 
 The MLB constraints have the format `x,y,z` where `x` and `y` have to be meregd before `z`.
 If there is no explicit topic id for any of `x`, `y` or `z`, it is the union of its children. 

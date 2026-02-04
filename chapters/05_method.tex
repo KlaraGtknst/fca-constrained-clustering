@@ -66,7 +66,14 @@ The choice of minimum support significantly influences the granularity of the ex
 \end{figure}
 
 Based on this analysis, we select $\text{min\_supp} = 0.05$ to balance hierarchy richness with conceptual interpretability, yielding approximately 30 concepts for our experimental corpus.
+The resulting iceberg concept lattice is visualized in Figure~\ref{fig:iceberg_concept_lattice}.
 
+\begin{figure}[htbp]
+    \centering
+    \includesvg[width=\textwidth]{resources/banksearch/topic_model/plots/banksearch_0.05_iceberg.svg}
+    \caption{Iceberg concept lattice for $\mathtt{min\_supp} = 0.05$, resulting in approximately 30 concepts. The number above the node denote the topic IDs in the intent, while the number below indicates the count of documents in the extent.}
+    \label{fig:iceberg_concept_lattice}
+\end{figure}
 
 % \input{chapters/03_knowledge_extraction/formal_context_hierarchal_cluster.tex}
 
