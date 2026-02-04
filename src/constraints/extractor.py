@@ -300,7 +300,7 @@ class BankSearchTopicModelExtractor(BaseExtractor):
                 # translate conjunction of one or multiple topics into unique ID (also trabslate one, bc easier to handle later on)
                 # get existing ID if already translated, else create new
                 intent_key = translate_intents.setdefault(
-                    frozenset(intent_set), f"CJ{len(translate_intents.keys()) + 1}"
+                    frozenset(intent_set), f"C{len(translate_intents.keys()) + 1}"
                 )
                 # logger.info(
                 #     f"Translating conjunction {intent_set} into unique ID {intent_key}"
@@ -322,7 +322,7 @@ class BankSearchTopicModelExtractor(BaseExtractor):
                 # check relation over extents subset-relation (documents)
                 if other_extent_set.issubset(extent_set):
                     other_intent_key = translate_intents.setdefault(
-                    frozenset(other_intent_set), f"CJ{len(translate_intents.keys()) + 1}"
+                    frozenset(other_intent_set), f"C{len(translate_intents.keys()) + 1}"
                     )
                     # exclude parent in children, bc (1) will create conjunctions ("parent,child" as child which than needs to be mapped to unique ID) and (2) does not make sense to have parent as child in a must-link constraint
                     intent_diff = other_intent_set.difference(intent_set)
