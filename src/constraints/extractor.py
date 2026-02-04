@@ -401,7 +401,6 @@ class BankSearchTopicModelExtractor(BaseExtractor):
         )
 
 if __name__ == "__main__":
-    # Configure logger
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s [%(levelname)s] %(message)s",
