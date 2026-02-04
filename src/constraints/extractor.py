@@ -9,6 +9,8 @@ import logging
 
 import edn_format
 
+from attribute_exploration.domain_expert import DomainExpert
+
 logger = logging.getLogger(__name__)
 
 
@@ -241,6 +243,19 @@ class BankSearchTopicModelExtractor(BaseExtractor):
             return fs
         assert isinstance(fs, frozenset), f"Input must be a frozenset, but got {type(fs)}."
         return ",".join(sorted(fs))
+
+    def _get_constraints_from_domain_expert(self, ) -> bool:
+        """
+        Check if implication (d_x, d_y, d_z) holds in iceberg concepts.
+
+        Input:
+          `d_x`, `d_y`, `d_z`: document IDs as strings.
+        Output:
+          True if implication holds, False otherwise.
+        """
+        domain_expert = DomainExpert(concepts=self.iceberg_concepts)
+        # top concept has empty intent and extent of all documents; bottom concept has empty extent and intent of all topics
+        all_documents = domain_expert.concepts.sorted(key=lambda c: len(c[1]))[-1][0]
 
     def _get_constraints_from_hierarchy_dict(self, hierarchy_dict: dict) -> List[str]:
         """
