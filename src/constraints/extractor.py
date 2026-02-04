@@ -271,44 +271,46 @@ class BankSearchTopicModelExtractor(BaseExtractor):
         # hierarchy_dict: parent intent ID is key, set of child intent IDs is value
         hierarchy_dict = defaultdict(set)
         translate_intents = {}  # map frozenset(intent) -> ID (or "top" for empty)
-        intent_id_counter = 1
+        set_id_counter = 1
         normalized_concepts = list(self._iter_valid_concepts())
         assert normalized_concepts, "no valid concepts after validation."
 
-        def get_intent_id(intent_set):
+        def get_set_id(_set: set, extent_based:bool=True) -> str:
             """
-            Map an intent set to a stable label:
+            Map an set to a stable label:
               - empty set -> "top"
               - singleton or conjunction -> unique C* ID
 
             Input:
-              `intent_set`: set of topic labels, e.g. {"topicA"} or {"topicA","topicB"}.
+              `_set`: set of topic labels, e.g. {"topicA"} or {"topicA","topicB"}.
+                `extent_based`: if True, the set is an extent (documents), else intent (topics).
 
             Output:
-              String ID for the intent, e.g. "C3" (or "top" for empty).
+              String ID for the set, e.g. "C3" (or "top" for empty).
             """
-            nonlocal intent_id_counter
-            if len(intent_set) == 0:
+            special_id = "bottom" if extent_based else "top"   # bottom for extents, top for intents
+            nonlocal set_id_counter
+            if len(_set) == 0:
                 key = frozenset()
-                if key in translate_intents and translate_intents[key] != "top":
-                    raise ValueError("Conflicting mapping for empty intent; expected 'top'.")
-                translate_intents[key] = "top"
-                return "top"
-            key = self._get_sorted_str_of_frozenset(frozenset(intent_set))
+                if key in translate_intents and translate_intents[key] != special_id:
+                    raise ValueError(f"Conflicting mapping for empty set; expected '{special_id}'.")
+                translate_intents[key] = special_id
+                return special_id
+            key = self._get_sorted_str_of_frozenset(frozenset(_set))
             if key not in translate_intents:
-                translate_intents[key] = f"C{intent_id_counter}"
-                intent_id_counter += 1
+                translate_intents[key] = f"C{set_id_counter}"
+                set_id_counter += 1
             return translate_intents[key]
 
         for extent_set, intent_set in normalized_concepts:
             # documents are objects, topics are attributes in FCA terminology
-            # i want MLB constraints on topics, so on intent
+            # i want MLB constraints on documents (-> extent), not on topics
             # concept (A, B): A extent (objects), B  intent (attributes)
             # extent_set: all documents sharing the intent
             # intent_set: all topics shared by the extent
-            intent_key = get_intent_id(intent_set)
+            extent_key = get_set_id(extent_set)
 
-            if intent_key in hierarchy_dict.keys():
+            if extent_key in hierarchy_dict.keys():
                 continue    # already processed
             for other_extent_set, other_intent_set in normalized_concepts:
                 if extent_set == other_extent_set:
@@ -317,8 +319,8 @@ class BankSearchTopicModelExtractor(BaseExtractor):
                 if other_extent_set.issubset(extent_set):
                     # Require intent_set ⊆ other_intent_set so children are true specializations (should always hold in FCA)
                     assert intent_set.issubset(other_intent_set) and intent_set != other_intent_set, "Invalid concept hierarchy: parent intent must be a proper subset of child intent."
-                    other_intent_key = get_intent_id(other_intent_set)
-                    hierarchy_dict[intent_key].add(other_intent_key)
+                    other_extent_key = get_set_id(other_extent_set)
+                    hierarchy_dict[extent_key].add(other_extent_key)
                     
 
         def assert_acyclic(graph):
