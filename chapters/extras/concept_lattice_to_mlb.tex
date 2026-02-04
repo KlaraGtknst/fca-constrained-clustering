@@ -1,6 +1,7 @@
-\newcommand{\latticeToMLB}{\begin{figure}[t]
+\newcommand{\latticeToMLB}{%
+\begin{figure}[t]
 \centering
-\resizebox{0.5\textwidth}{!}{%
+\resizebox{0.85\textwidth}{!}{%
 \begin{tikzpicture}[
   >=Latex,
   line cap=round, line join=round,
@@ -12,39 +13,52 @@
     gedge/.style={draw=nodegreen, line width=1.8pt},
     gnode/.style={draw=nodegreen, fill=white, line width=1.8pt},
     arrow/.style={->, line width=1.8pt, draw=black},
+    lbl/.style={font=\Large},
   }
 
-  % --- coordinates for the small tree
-  \coordinate (X) at (0,0);
-  \coordinate (Y) at (4,0);
-  \coordinate (Z) at (2,2.4);
+  % --- coordinates (tree on the left)
+  \coordinate (n1) at (0,2.8);
+  \coordinate (n2) at (-1.6,1.4);
+  \coordinate (n3) at ( 1.6,1.4);
+  \coordinate (n4) at ( 0.8,0.0);
+  \coordinate (n5) at ( 2.4,0.0);
 
   % --- green edges
-  \draw[gedge] (Z) -- (X);
-  \draw[gedge] (Z) -- (Y);
+  \draw[gedge] (n1) -- (n2);
+  \draw[gedge] (n1) -- (n3);
+  \draw[gedge] (n3) -- (n4);
+  \draw[gedge] (n3) -- (n5);
 
   % --- green open nodes
-  \draw[gnode] (X) circle [radius=0.28];
-  \draw[gnode] (Y) circle [radius=0.28];
-  \draw[gnode] (Z) circle [radius=0.30];
+  \draw[gnode] (n1) circle [radius=0.30];
+  \draw[gnode] (n2) circle [radius=0.28];
+  \draw[gnode] (n3) circle [radius=0.28];
+  \draw[gnode] (n4) circle [radius=0.26];
+  \draw[gnode] (n5) circle [radius=0.26];
 
-  % --- labels near nodes
-  \node[anchor=north east, font=\Large] at ($(X)+(-0.1,-0.25)$) {$x$};
-  \node[anchor=north,      font=\Large] at ($(Y)+(0.00,-0.25)$) {$y$};
-  \node[anchor=west,       font=\Large] at ($(Z)+(0.25,0.05)$) {$z$};
+  % --- labels (node numbers)
+  \node[lbl, anchor=south] at ($(n1)+(0,-0.85)$) {$p$};
+  \node[lbl, anchor=north] at ($(n2)+(0,-0.25)$) {$x$};
+  \node[lbl, anchor=north] at ($(n3)+(0,-0.25)$) {$q$};
+  \node[lbl, anchor=north] at ($(n4)+(0,-0.25)$) {$y$};
+  \node[lbl, anchor=north] at ($(n5)+(0,-0.25)$) {$z$};
 
-  % --- middle arrow + label "MLB"
-  \coordinate (Astart) at (5.0,0.9);
-  \coordinate (Aend)   at (8,0.9);
+  % --- middle arrow + label
+  \coordinate (Astart) at (3.6,1.4);
+  \coordinate (Aend)   at (6.6,1.4);
   \draw[arrow] (Astart) -- (Aend);
-  \node[font=\bfseries\Large] at ($(Astart)!0.5!(Aend)+(0,0.65)$) {MLB};
+  \node[font=\bfseries\Large] at ($(Astart)!0.5!(Aend)+(0,0.6)$) {\ac{mlb}};
 
-  % --- right-side text "x,y,z"
-  \node[font=\bfseries\Large] at (9.5,0.75) {$x,y,z$};
+  % --- right-side explanation (siblings + uncle)
+  \node[anchor=west, font=\Large] at (7.1,1.8) {$(y,z,x)$};
+  \node[anchor=west, font=\Large] at (7.1,1.1)
+    {\small not $(y,z,q)$ because $q$ is the parent/meet of $y$ and $z$;};
+  \node[anchor=west, font=\Large] at (7.1,0.5)
+    {\small not $(x,q,p)$ because $p$ is the parent/meet of $x$ and $q$.};
 
 \end{tikzpicture}%
 }
-\caption{From a concept lattice to \ac{mlb} constraints.}
+\caption{Building \ac{mlb} constraints using the ``siblings + uncle'' rule, where siblings $y,z$ are connected to the same parent node $q$ and $x$ is the uncle node.}
 \label{fig:concept_lattice2mlb}
-\end{figure}
+\end{figure}%
 }
