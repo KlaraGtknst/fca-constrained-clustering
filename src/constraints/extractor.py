@@ -242,25 +242,6 @@ class BankSearchTopicModelExtractor(BaseExtractor):
         assert isinstance(fs, frozenset), f"Input must be a frozenset, but got {type(fs)}."
         return ",".join(sorted(fs))
 
-    @staticmethod
-    def _atomic_label(concept: frozenset) -> str:
-        """
-        Extract a label from an atomic concept.
-
-        Input:
-          `concept`: frozenset with 0 or 1 elements.
-          Example: frozenset({"topicA"}) or frozenset().
-
-        Output:
-          "" for empty, or the single label as a string.
-        """
-        assert isinstance(concept, frozenset), f"concept must be a frozenset, but got {type(concept)}."
-        if not concept:
-            return ""
-        if len(concept) == 1:
-            return next(iter(concept))
-        raise ValueError("Expected atomic concept with length 0 or 1.")
-
     def extract_all_mlb_constraints(self, out_path: Path):
         """
         Extract all MLB constraints from hierarchy in iceberg concepts.
