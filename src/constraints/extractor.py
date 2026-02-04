@@ -28,8 +28,7 @@ class BaseExtractor(ABC):
         # empty children are bottom nodes, i.e., most specific concepts (topics) without sub-concepts
         # intuitively, they cannot be parents of must-link constraints, because they have no specifications (children/ sub-concepts)
 
-        # FIXME: How to work with one-element children? I suggest a: {b} -> (b,a,none) constraint which enforces b to be clustered with a
-        # will none be "" or some special label?
+        # FIXME: How to work with one-element children? I suggest a: {b} -> (b,a,a) constraint which enforces b to be clustered with a
         self.min_num_children = min_num_children # minimum number of children to form pairwise constraints
         assert self.min_num_children >= 1, "min_num_children must be at least 1."
 
@@ -47,23 +46,24 @@ class BaseExtractor(ABC):
 
     def _get_mlb_constraints(self, parent: Union[str, frozenset], children: Union[List[Union[str, frozenset]], set[Union[str, frozenset]]]) -> List[str]:
         """
-        Generate all pairwise combinations of children with parent included (do not consider order of childern).
+        Generate all pairwise combinations of children with parent (do not consider order of childern).
 
         Input:
-          `parent`: label for the parent concept, e.g. "Savings".
-          `children`: list of child labels, e.g. ["Checking", "Loans", "Investments"].
+          `parent`: label/ID for the parent concept, e.g. "Savings" or "C3".
+          `children`: iterable of child labels/IDs, e.g. ["Checking", "Loans", "Investments"] or {"C4", "C5"}.
 
         Output:
           List of MLB constraint strings in "child1,child2,parent" format, e.g.
-          ["Checking,Loans,Savings", "Checking,Investments,Savings", "Loans,Investments,Savings"].
+          ["Checking,Loans,Savings", "Checking,Investments,Savings", "Loans,Investments,Savings"]
+          or with IDs:
+          ["C4,C5,C3", "C4,C6,C3"].
         """
         assert isinstance(parent, (str, frozenset)), f"parent must be a string label, but got {type(parent)}."
         assert isinstance(children, (list, set)), f"children must be a list/set of string labels, but got {type(children)}."
         assert all(isinstance(c, (str, frozenset)) for c in children), f"each child label must be a string, but got {[type(c) for c in children]}."
         assert len(children) >= self.min_num_children, f"need at least {self.min_num_children} children to form pairwise constraints, got {len(children)}: {children}."
 
-        # FIXME: How to work with one-element children? I suggest a: {b} -> (b,a,none) constraint which enforces b to be clustered with a
-        # will none be "" or some special label?
+        # FIXME: How to work with one-element children? I suggest a: {b} -> (b,a,a) constraint which enforces b to be clustered with a
         if len(children) == 1:
             c1 = next(iter(children))
             logger.warning(f"Only one child {c1} for parent {parent}; generating single-child constraint.")
@@ -79,8 +79,9 @@ class BaseExtractor(ABC):
         Build MLB constraints from a parent -> children mapping.
 
         Input:
-          `hierarchy_dict`: dict mapping parent labels to iterable child labels, e.g.
-          {"Savings": ["Checking", "Loans"]}. The parent is above the children in the concept hierarchy.
+          `hierarchy_dict`: dict mapping parent labels/IDs to iterable child labels/IDs, e.g.
+          {"Savings": ["Checking", "Loans"]} or {"C3": {"C4", "C5"}}.
+          The parent is above the children in the concept hierarchy.
 
         Output:
           Flat list of "child1,child2,parent" constraint strings.
@@ -226,7 +227,7 @@ class BankSearchTopicModelExtractor(BaseExtractor):
             yield extent_set, intent_set
 
     @staticmethod
-    def _conjunction_key(concept: frozenset) -> str:
+    def _get_sorted_str_of_frozenset(fs: Union[frozenset, str]) -> str:
         """
         Canonical string key for a conjunction of labels.
 
@@ -236,8 +237,10 @@ class BankSearchTopicModelExtractor(BaseExtractor):
         Output:
           Comma-joined, sorted string, e.g. "topicA,topicB".
         """
-        assert isinstance(concept, frozenset), f"concept must be a frozenset, but got {type(concept)}."
-        return ",".join(sorted(concept))
+        if isinstance(fs, str):
+            return fs
+        assert isinstance(fs, frozenset), f"Input must be a frozenset, but got {type(fs)}."
+        return ",".join(sorted(fs))
 
     @staticmethod
     def _atomic_label(concept: frozenset) -> str:
@@ -269,25 +272,24 @@ class BankSearchTopicModelExtractor(BaseExtractor):
 
         Output:
           Writes:
-          `mlb_topic_model_banksearch.txt` with raw labels (may contain conjunction strings, or in other words: if concepts have no explicit label they are denoted their comma-joined children).
-          `mlb_topic_model_banksearch_ids.txt` with compact IDs for conjunctions.
-          `mlb_topic_model_banksearch_ids_map.json` mapping IDs to conjunction strings.
+          `mlb_topic_model_banksearch.txt` with MLB constraints in ID form.
+          Each label is an intent ID (C*), except the empty intent which is "top".
+          `mlb_topic_model_banksearch_ids_map.json` mapping IDs to their intent conjunction strings.
+
           Example constraint line in txt file:
-            topicC,topicD,topicA,topicB
-          Example line in ids file:
-            CJ1,topicA,topicB
+            C2,C5,C1
           Example JSON entry:
-            "CJ1": "topicC,topicD"
+            "C5": "topicC,topicD"
+            "top": ""
         """
         assert isinstance(out_path, Path), "out_path must be a pathlib.Path."
         assert self.iceberg_concepts, "iceberg_concepts is empty."
         out_path.mkdir(parents=True, exist_ok=True)
         out_filename = out_path / f"mlb_topic_model_{self.dataset_name}.txt"
 
-        # Build hierarchy_dict: parent intent -> set of child intents.
-        # Each intent is represented as a string ID.
+        # hierarchy_dict: parent intent ID is key, set of child intent IDs is value
         hierarchy_dict = defaultdict(set)
-        translate_intents = {}  # replace conjunctions with unique IDs
+        translate_intents = {}  # map frozenset(intent) -> ID (or "top" for empty)
         intent_id_counter = 1
         normalized_concepts = list(self._iter_valid_concepts())
         assert normalized_concepts, "no valid concepts after validation."
@@ -297,6 +299,12 @@ class BankSearchTopicModelExtractor(BaseExtractor):
             Map an intent set to a stable label:
               - empty set -> "top"
               - singleton or conjunction -> unique C* ID
+
+            Input:
+              `intent_set`: set of topic labels, e.g. {"topicA"} or {"topicA","topicB"}.
+
+            Output:
+              String ID for the intent, e.g. "C3" (or "top" for empty).
             """
             nonlocal intent_id_counter
             if len(intent_set) == 0:
@@ -305,7 +313,7 @@ class BankSearchTopicModelExtractor(BaseExtractor):
                     raise ValueError("Conflicting mapping for empty intent; expected 'top'.")
                 translate_intents[key] = "top"
                 return "top"
-            key = frozenset(intent_set)
+            key = self._get_sorted_str_of_frozenset(frozenset(intent_set))
             if key not in translate_intents:
                 translate_intents[key] = f"C{intent_id_counter}"
                 intent_id_counter += 1
@@ -326,10 +334,11 @@ class BankSearchTopicModelExtractor(BaseExtractor):
                     continue
                 # check relation over extents subset-relation (documents)
                 if other_extent_set.issubset(extent_set):
-                    # Require intent_set ⊆ other_intent_set so children are true specializations.
-                    if intent_set.issubset(other_intent_set) and intent_set != other_intent_set:
-                        other_intent_key = get_intent_id(other_intent_set)
-                        hierarchy_dict[intent_key].add(other_intent_key)
+                    # Require intent_set ⊆ other_intent_set so children are true specializations (should always hold in FCA)
+                    assert intent_set.issubset(other_intent_set) and intent_set != other_intent_set, "Invalid concept hierarchy: parent intent must be a proper subset of child intent."
+                    other_intent_key = get_intent_id(other_intent_set)
+                    hierarchy_dict[intent_key].add(other_intent_key)
+                    
 
         def assert_acyclic(graph):
             visiting = set()
@@ -353,9 +362,9 @@ class BankSearchTopicModelExtractor(BaseExtractor):
 
         assert_acyclic(hierarchy_dict)
 
-        # hierarchy_dict currently contains transitive edges, which leads to more constraints than necessary
-        # we need to remove transitive edges to get the right hierarchy for constraint generation
-        # approach: for each parent, check each child, and remove all descendants from parent's children
+        # hierarchy_dict currently contains transitive edges, which leads to more constraints than necessary.
+        # We remove transitive edges: if parent -> child and parent -> grandchild via child,
+        # then drop parent -> grandchild.
         def all_descendants(node, graph, memo):
             if node in memo:
                 return memo[node]
@@ -372,7 +381,7 @@ class BankSearchTopicModelExtractor(BaseExtractor):
             children = set(hierarchy_dict[parent])
             to_remove = set()
             for child in children:
-                # remove descendants of the child (not the child itself)
+                # Remove descendants of the child (not the child itself).
                 to_remove |= all_descendants(child, graph_snapshot, memo) - {child}
             if to_remove:
                 logger.info(
@@ -391,13 +400,7 @@ class BankSearchTopicModelExtractor(BaseExtractor):
         logger.info(f"Got {len(constraints)} constraints: {constraints}")
         with open(out_filename, "w") as f:
             for constraint in constraints:
-                # Convert frozensets (e.g., frozenset({'7'}),frozenset({'2'}),frozenset()) back to normal sets or lists (e.g., "7","2", "")
-                constraint_str = constraint.replace("frozenset({", "").replace("})", "")
-                constraint_str = constraint_str.replace("frozenset(", '"').replace(
-                    ")", '"'
-                )
-                constraint_str = constraint_str.replace("'", "")
-                f.write(constraint_str + "\n")
+                f.write(constraint + "\n")
         logger.info(f"Saved {len(constraints)} constraints to {out_filename}")
 
     
@@ -407,7 +410,7 @@ class BankSearchTopicModelExtractor(BaseExtractor):
         
         with open(out_filename_ids_map, "w") as f:
             json.dump(
-                {v: self._conjunction_key(k) for k, v in translate_intents.items()},
+                {v: self._get_sorted_str_of_frozenset(k) for k, v in translate_intents.items()},
                 f,
                 indent=2,
                 sort_keys=True,
