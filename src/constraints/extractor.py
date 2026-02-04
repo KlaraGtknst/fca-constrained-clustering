@@ -285,34 +285,39 @@ class BankSearchTopicModelExtractor(BaseExtractor):
         out_filename = out_path / f"mlb_topic_model_{self.dataset_name}.txt"
 
         # Build hierarchy_dict: parent intent -> set of child intents.
-        # Each intent is a frozenset of topic labels.
+        # Each intent is represented as a string ID.
         hierarchy_dict = defaultdict(set)
-        translate_intents = {}  # replace conjunctions with unique IDs 
+        translate_intents = {}  # replace conjunctions with unique IDs
+        intent_id_counter = 1
         normalized_concepts = list(self._iter_valid_concepts())
         assert normalized_concepts, "no valid concepts after validation."
+
+        def get_intent_id(intent_set):
+            """
+            Map an intent set to a stable label:
+              - empty set -> "top"
+              - singleton or conjunction -> unique C* ID
+            """
+            nonlocal intent_id_counter
+            if len(intent_set) == 0:
+                key = frozenset()
+                if key in translate_intents and translate_intents[key] != "top":
+                    raise ValueError("Conflicting mapping for empty intent; expected 'top'.")
+                translate_intents[key] = "top"
+                return "top"
+            key = frozenset(intent_set)
+            if key not in translate_intents:
+                translate_intents[key] = f"C{intent_id_counter}"
+                intent_id_counter += 1
+            return translate_intents[key]
+
         for extent_set, intent_set in normalized_concepts:
             # documents are objects, topics are attributes in FCA terminology
             # i want MLB constraints on topics, so on intent
             # concept (A, B): A extent (objects), B  intent (attributes)
             # extent_set: all documents sharing the intent
             # intent_set: all topics shared by the extent
-            if len(intent_set) >= 1:  
-                # translate conjunction of one or multiple topics into unique ID (also trabslate one, bc easier to handle later on)
-                # get existing ID if already translated, else create new
-                intent_key = translate_intents.setdefault(
-                    frozenset(intent_set), f"C{len(translate_intents.keys()) + 1}"
-                )
-                # logger.info(
-                #     f"Translating conjunction {intent_set} into unique ID {intent_key}"
-                # )
-            else:  # empty intent set -> should be top element
-                intent_key = "top"
-                if intent_key not in translate_intents.values():
-                    translate_intents[frozenset(intent_set)] = intent_key
-                else: 
-                    raise ValueError("Multiple concepts with empty intent found; expected only one top concept.")
-
-            # logger.info(f"Current intent_key: {intent_key} from intent_set: {intent_set}")
+            intent_key = get_intent_id(intent_set)
 
             if intent_key in hierarchy_dict.keys():
                 continue    # already processed
@@ -321,44 +326,10 @@ class BankSearchTopicModelExtractor(BaseExtractor):
                     continue
                 # check relation over extents subset-relation (documents)
                 if other_extent_set.issubset(extent_set):
-                    other_intent_key = translate_intents.setdefault(
-                    frozenset(other_intent_set), f"C{len(translate_intents.keys()) + 1}"
-                    )
-                    # exclude parent in children, bc (1) will create conjunctions ("parent,child" as child which than needs to be mapped to unique ID) and (2) does not make sense to have parent as child in a must-link constraint
-                    intent_diff = other_intent_set.difference(intent_set)
-                    # logger.info(f"Comparing parent intent_set {intent_set} (key {intent_key}) with child other_intent_set {other_intent_set} (key {other_intent_key}), intent_diff: {intent_diff}")
-                    if len(intent_diff) >= 1:
-                        # add string to dictionary of sets
-                        hierarchy_dict[intent_key].add(other_intent_key) # save all children in a set to avoid duplicates
-                    else:
-                        logger.warning(
-                            f"Skipping adding child intent {other_intent_set} to parent {intent_key} because no new topics are added."
-                        )
-
-        # hierarchy_dict currently contains transitive edges, which leads to more constraints than necessary
-        # we need to remove transitive edges to get the right hierarchy for constraint generation
-        # approach: for each parent, check each child, and remove grandchildren from parent's children
-        def all_descendants(node, graph, memo):
-            if node in memo:
-                return memo[node]
-            desc = set()
-            for ch in graph.get(node, set()):
-                desc.add(ch)
-                desc |= all_descendants(ch, graph, memo)
-            memo[node] = desc
-            return desc
-
-        memo = {}
-        for parent in list(hierarchy_dict.keys()):
-            children = set(hierarchy_dict[parent])
-            to_remove = set()
-            for child in children:
-                # remove descendants of the child (not the child itself)
-                to_remove |= all_descendants(child, hierarchy_dict, memo) - {child}
-            if to_remove:
-                logger.info("Removing %d transitive children from parent '%s'.", len(to_remove), parent)
-            hierarchy_dict[parent] = children - to_remove
-
+                    # Require intent_set ⊆ other_intent_set so children are true specializations.
+                    if intent_set.issubset(other_intent_set) and intent_set != other_intent_set:
+                        other_intent_key = get_intent_id(other_intent_set)
+                        hierarchy_dict[intent_key].add(other_intent_key)
 
         def assert_acyclic(graph):
             visiting = set()
@@ -382,6 +353,32 @@ class BankSearchTopicModelExtractor(BaseExtractor):
 
         assert_acyclic(hierarchy_dict)
 
+        # hierarchy_dict currently contains transitive edges, which leads to more constraints than necessary
+        # we need to remove transitive edges to get the right hierarchy for constraint generation
+        # approach: for each parent, check each child, and remove all descendants from parent's children
+        def all_descendants(node, graph, memo):
+            if node in memo:
+                return memo[node]
+            desc = set()
+            for ch in graph.get(node, set()):
+                desc.add(ch)
+                desc |= all_descendants(ch, graph, memo)
+            memo[node] = desc
+            return desc
+
+        graph_snapshot = {k: set(v) for k, v in hierarchy_dict.items()}
+        memo = {}
+        for parent in list(hierarchy_dict.keys()):
+            children = set(hierarchy_dict[parent])
+            to_remove = set()
+            for child in children:
+                # remove descendants of the child (not the child itself)
+                to_remove |= all_descendants(child, graph_snapshot, memo) - {child}
+            if to_remove:
+                logger.info(
+                    "Removing %d transitive children from parent '%s'.", len(to_remove), parent
+                )
+            hierarchy_dict[parent] = children - to_remove
 
         logger.info(
             f"Extracted hierarchy dict: {hierarchy_dict} of len {len(hierarchy_dict)} without any cycles."
