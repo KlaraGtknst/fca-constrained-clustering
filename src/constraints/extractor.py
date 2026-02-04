@@ -244,18 +244,47 @@ class BankSearchTopicModelExtractor(BaseExtractor):
         assert isinstance(fs, frozenset), f"Input must be a frozenset, but got {type(fs)}."
         return ",".join(sorted(fs))
 
-    def _get_constraints_from_domain_expert(self, ) -> bool:
+    def _get_constraints_from_domain_expert(self, ) -> List[str]:
         """
         Check if implication (d_x, d_y, d_z) holds in iceberg concepts.
 
         Input:
           `d_x`, `d_y`, `d_z`: document IDs as strings.
         Output:
-          True if implication holds, False otherwise.
+          List of constraints as strings in the form "d_x,d_y,d_z".
         """
         domain_expert = DomainExpert(concepts=self.iceberg_concepts)
         # top concept has empty intent and extent of all documents; bottom concept has empty extent and intent of all topics
-        all_documents = domain_expert.concepts.sorted(key=lambda c: len(c[1]))[-1][0]
+        all_documents = next(
+            extent for extent, intent in domain_expert.concepts if len(intent) == 0
+        )
+        all_documents = list(all_documents)
+        # Precompute lowest extent containing each document
+        lowest_extent = {
+            d: domain_expert._lowest_extent_containing({d}) for d in all_documents
+        }
+        constraints = []
+        meet_cache = {}
+
+        for d_x, d_y in combinations(all_documents, 2):
+            ex = lowest_extent[d_x]
+            ey = lowest_extent[d_y]
+            if ex is None or ey is None:
+                continue
+
+            key = (d_x, d_y)
+            if key not in meet_cache:
+                meet_cache[key] = domain_expert._lowest_extent_containing(ex | ey)
+
+            meet = meet_cache[key]
+            if not meet:
+                continue
+
+            for d_z in meet:
+                if d_z != d_x and d_z != d_y:
+                    logger.info(f"Adding constraint ({d_x}, {d_y}, {d_z}) from domain expert.")
+                    constraints.append(f"{d_x},{d_y},{d_z}")
+        return constraints
 
     def _get_constraints_from_hierarchy_dict(self, hierarchy_dict: dict) -> List[str]:
         """
@@ -438,7 +467,8 @@ class BankSearchTopicModelExtractor(BaseExtractor):
         assert hierarchy_dict, "hierarchy_dict is empty; no constraints can be formed."
 
         # Convert hierarchy dict into MLB constraints (child1, child2, parent).
-        constraints = self._get_constraints_from_hierarchy_dict(hierarchy_dict)
+        # constraints = self._get_constraints_from_hierarchy_dict(hierarchy_dict)
+        constraints = self._get_constraints_from_domain_expert()
         assert constraints, "no constraints generated; check iceberg_concepts content."
         logger.info(f"Got {len(constraints)} constraints: {constraints}")
         with open(out_filename, "w") as f:
