@@ -271,6 +271,7 @@ class BankSearchTopicModelExtractor(BaseExtractor):
             ey = lowest_extent[d_y]
             if ex is None or ey is None:
                 continue
+            assert isinstance(ex, set) and isinstance(ey, set), f"extents must be sets, but are {type(ex)} and {type(ey)}."
 
             key = (d_x, d_y)
             if key not in meet_cache:

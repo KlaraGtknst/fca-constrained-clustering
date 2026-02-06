@@ -110,7 +110,7 @@ class DomainExpert:
         if not candidates:
             return None
         # Choose the smallest extent; break ties deterministically.
-        return min(candidates, key=_sorted_key)
+        return set(min(candidates, key=_sorted_key))
 
     def implies(self, d_x: str, d_y: str, d_z: str) -> ImplicationResult:
         """
