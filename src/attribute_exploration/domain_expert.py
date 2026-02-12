@@ -74,8 +74,10 @@ class DomainExpert:
       - Let e_y be the lowest concept extent containing d_y.
       - Let meet(e_x, e_y) be the lowest concept extent that contains all
         documents in e_x ∪ e_y.
+        # FIXME: Wrong, d_z should not be in meet (contradicts property II)
       - The implication is True iff d_z ∈ meet(e_x, e_y).
 
+        # FIXME: Wrong
     If False, returns a counterexample `[e_i, e_j]` where:
       - e_i is the lowest extent containing {d_x, d_y} without d_z
       - e_j is the lowest extent containing {d_z}
@@ -129,9 +131,9 @@ class DomainExpert:
             implies("d1","d3","d2") -> True
             implies("d2","d3","d4") -> False, counterexample=[["d2","d3"],["d4"]]
         """
-        assert isinstance(d_x, str) and isinstance(d_y, str) and isinstance(d_z, str), (
-            "d_x, d_y, d_z must be strings."
-        )
+        assert (
+            isinstance(d_x, str) and isinstance(d_y, str) and isinstance(d_z, str)
+        ), "d_x, d_y, d_z must be strings."
         e_x = self._lowest_extent_containing({d_x})
         e_y = self._lowest_extent_containing({d_y})
         if e_x is None or e_y is None:
