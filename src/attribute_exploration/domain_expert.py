@@ -77,8 +77,8 @@ class DomainExpert:
       - The implication is True iff d_z ∈ meet(e_x, e_y).
 
     If False, returns a counterexample `[e_i, e_j]` where:
-      - e_i is the lowest extent containing {d_x, d_z}
-      - e_j is the lowest extent containing {d_y}
+      - e_i is the lowest extent containing {d_x, d_y} without d_z
+      - e_j is the lowest extent containing {d_z}
     (as suggested: e_i contains d_x and d_z; e_j contains d_y)
     """
 
@@ -109,7 +109,7 @@ class DomainExpert:
         candidates = [e for e in self.extents if docs.issubset(e)]
         if not candidates:
             return None
-        # Choose the smallest extent; break ties deterministically.
+        # Choose the smallest extent; there should be no ties(, but we break ties deterministically just in case).
         return set(min(candidates, key=_sorted_key))
 
     def implies(self, d_x: str, d_y: str, d_z: str) -> ImplicationResult:
@@ -144,7 +144,7 @@ class DomainExpert:
         if d_z in meet:
             return ImplicationResult(True, None)
 
-        # Counterexample per instruction:
+        # Counterexample:
         e_j = self._lowest_extent_containing(meet | {d_x, d_y, d_z})
         if meet is None or e_j is None:
             return ImplicationResult(False, None)
