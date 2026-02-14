@@ -46,62 +46,90 @@ class BaseExtractor(ABC):
         """
         raise NotImplementedError("Subclasses must implement extract_all_mlb_constraints.")
 
-    def _get_mlb_constraints(self, parent: Union[str, frozenset], children: Union[List[Union[str, frozenset]], set[Union[str, frozenset]]]) -> List[str]:
+    @staticmethod
+    def _node_to_label(node: Union[str, frozenset]) -> str:
+        """Convert hierarchy node identifier to a comma-free label string."""
+        if isinstance(node, str):
+            return node
+        assert isinstance(node, frozenset), f"node must be a string or frozenset, but got {type(node)}."
+        assert all(isinstance(item, str) for item in node), "frozenset node items must be strings."
+        # Keep labels comma-free because constraints are serialized as CSV-like triples.
+        return "|".join(sorted(node))
+
+    def _get_mlb_constraints(
+        self,
+        third_node: Union[str, frozenset],
+        siblings: Union[List[Union[str, frozenset]], set[Union[str, frozenset]], tuple[Union[str, frozenset], ...]],
+    ) -> List[str]:
         """
-        Generate all pairwise combinations of children with parent (do not consider order of childern).
+        Build MLB constraints for one sibling group against one third node.
 
         Input:
-          `parent`: label/ID for the parent concept, e.g. "Savings" or "C3".
-          `children`: iterable of child labels/IDs, e.g. ["Checking", "Loans", "Investments"] or {"C4", "C5"}.
+          `third_node`: label/ID of the comparison node (typically an uncle), e.g. "Science" or "C3".
+          `siblings`: iterable of sibling labels/IDs under the same parent, e.g.
+          ["Checking", "Loans", "Investments"] or {"C4", "C5"}.
 
         Output:
-          List of MLB constraint strings in "child1,child2,parent" format, e.g.
-          ["Checking,Loans,Savings", "Checking,Investments,Savings", "Loans,Investments,Savings"]
-          or with IDs:
-          ["C4,C5,C3", "C4,C6,C3"].
+          List of MLB constraint strings in "sibling_a,sibling_b,third_node" format.
         """
-        assert isinstance(parent, (str, frozenset)), f"parent must be a string label, but got {type(parent)}."
-        assert isinstance(children, (list, set)), f"children must be a list/set of string labels, but got {type(children)}."
-        assert all(isinstance(c, (str, frozenset)) for c in children), f"each child label must be a string, but got {[type(c) for c in children]}."
-        assert len(children) >= self.min_num_children, f"need at least {self.min_num_children} children to form pairwise constraints, got {len(children)}: {children}."
+        assert isinstance(third_node, (str, frozenset)), f"third_node must be a string/frozenset label, but got {type(third_node)}."
+        assert isinstance(siblings, (list, set, tuple)), f"siblings must be a list/set/tuple of labels, but got {type(siblings)}."
+        assert all(isinstance(node, (str, frozenset)) for node in siblings), (
+            f"each sibling must be a string/frozenset label, but got {[type(node) for node in siblings]}"
+        )
 
-        # one-element children: {b} -> (b,a,a) constraint which enforces b to be clustered with a
-        if len(children) == 1:
-            c1 = next(iter(children))
-            logger.warning(f"Only one child {c1} for parent {parent}; generating single-child constraint.")
-            return [f"{c1},{parent},{parent}"]
+        min_siblings = max(2, self.min_num_children)
+        if len(siblings) < min_siblings:
+            return []
 
-        # implicit concepts without explicit labels (e.g., conjunctions of multiple attributes) should be (already) replaced by unique IDs before this point
-        assert "," not in parent, "parent label must not contain commas."
-        assert all("," not in c for c in children), "child labels must not contain commas."
-        return [f"{c1},{c2},{parent}" for c1, c2 in combinations(children, 2)]
+        third_label = self._node_to_label(third_node)
+        sibling_labels = [self._node_to_label(node) for node in siblings]
+        assert "," not in third_label, "third_node label must not contain commas."
+        assert all("," not in label for label in sibling_labels), "sibling labels must not contain commas."
+
+        sibling_labels = sorted(set(sibling_labels))
+        return [f"{sibling_a},{sibling_b},{third_label}" for sibling_a, sibling_b in combinations(sibling_labels, 2)]
 
     def _get_constraints_from_hierarchy_dict(self, hierarchy_dict: dict) -> List[str]:
         """
-        Build MLB constraints from a parent -> children mapping.
+        Build MLB constraints from a hierarchy dictionary using sibling-uncle logic.
 
         Input:
-          `hierarchy_dict`: dict mapping parent labels/IDs to iterable child labels/IDs, e.g.
-          {"Savings": ["Checking", "Loans"]} or {"C3": {"C4", "C5"}}.
-          The parent is above the children in the concept hierarchy.
+          `hierarchy_dict`: dict mapping parent -> direct children.
+          Each parent is treated as sibling of every other parent (implicit root),
+          so for:
+            parent: {child_a, child_b}
+            uncle:  {cousin_a, cousin_b}
+          constraints include:
+            (child_a, child_b, uncle), (cousin_a, cousin_b, parent)
 
         Output:
-          Flat list of "child1,child2,parent" constraint strings.
+          Flat, sorted list of "sibling_a,sibling_b,uncle" constraint strings.
         """
         assert isinstance(hierarchy_dict, dict), "hierarchy_dict must be a dict."
         assert len(hierarchy_dict) > 0, "hierarchy_dict must not be empty."
-        constraints = []
-        for parent, children in hierarchy_dict.items():
-            assert isinstance(parent, (str, frozenset)), f"hierarchy_dict keys must be strings or frozensets, but got {type(parent)}."
-            assert isinstance(children, (list, set, tuple)), f"hierarchy_dict values must be iterables, but got {type(children)}."
-            if len(children) < self.min_num_children:
-                logger.warning(f"Parent {parent} has less than {self.min_num_children} children; skipping constraint generation; children: {children}.")
-                continue
-            constraints.extend(
-                self._get_mlb_constraints(parent=parent, children=children)
+
+        for node, children in hierarchy_dict.items():
+            assert isinstance(node, (str, frozenset)), (
+                f"hierarchy_dict keys must be strings or frozensets, but got {type(node)}."
+            )
+            assert isinstance(children, (list, set, tuple)), (
+                f"hierarchy_dict values must be iterables, but got {type(children)}."
             )
 
-        return constraints
+        nodes = list(hierarchy_dict.keys())
+        constraints_set = set()
+        # only work on flat hierarchy
+        for parent in nodes:
+            siblings = hierarchy_dict[parent]
+            for uncle in nodes:
+                if uncle == parent:
+                    continue
+                constraints_set.update(
+                    self._get_mlb_constraints(third_node=uncle, siblings=siblings)
+                )
+
+        return sorted(constraints_set)
 
 
 class BankSearchGroundTruthExtractor(BaseExtractor):
@@ -115,7 +143,7 @@ class BankSearchGroundTruthExtractor(BaseExtractor):
 
         Output:
           Sets `self.path2category_hierarchy` to:
-          "resources/banksearch/category_hierarchy.json".
+          "resources/banksearch/ground_truth/category_hierarchy.json".
 
         Expected input file structure:
           A JSON object mapping parent label -> list of child labels, e.g.
@@ -126,7 +154,7 @@ class BankSearchGroundTruthExtractor(BaseExtractor):
         """
         super().__init__(dataset_name="banksearch")
         self.path2category_hierarchy = Path(
-            "resources/banksearch/category_hierarchy.json"
+            "resources/banksearch/ground_truth/category_hierarchy.json"
         )
         assert (
             self.path2category_hierarchy.exists()
@@ -136,7 +164,10 @@ class BankSearchGroundTruthExtractor(BaseExtractor):
     def extract_all_mlb_constraints(self, out_path: Path):
         """
         Extract all MLB constraints from hierarchy dictionary.
-        Only works for flat hierarchies so far.
+        Use siblings-uncle logic:
+        parent: {child_a, child_b},
+        uncle: {cousin_a, cousin_b},
+        results in (child_a, child_b, uncle), (cousin_a, cousin_b, parent)
 
         :param out_path: Path to save MLB constraints to (as txt file).
 
@@ -145,8 +176,8 @@ class BankSearchGroundTruthExtractor(BaseExtractor):
 
         Output:
           Writes a txt file `mlb_banksearch.txt` containing lines like:
-          Checking,Loans,Accounts
-          Savings,Checking,Accounts
+          Commercial Banks,Building Societies,Science
+          Astronomy,Biology,Finance
         """
         assert isinstance(out_path, Path), "out_path must be a pathlib.Path."
         out_path.mkdir(parents=True, exist_ok=True)
