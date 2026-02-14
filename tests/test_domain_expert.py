@@ -6,9 +6,26 @@ PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 SRC_PATH = os.path.join(PROJECT_ROOT, "src")
 sys.path.append(SRC_PATH)
 from constraints.extractor import BankSearchTopicModelExtractor
+from constraints.extractor import BankSearchGroundTruthExtractor
 
 
 class TestDomainExpertConstraints(unittest.TestCase):
+    def test_get_mlb_constraints_sibling_uncle_shape(self):
+        extractor = BankSearchTopicModelExtractor(iceberg_concepts=[])
+        constraints = extractor._get_mlb_constraints(
+            third_node="uncle",
+            siblings={"child_b", "child_a"},
+        )
+        self.assertEqual(constraints, ["child_a,child_b,uncle"])
+
+    def test_get_mlb_constraints_skips_single_sibling(self):
+        extractor = BankSearchTopicModelExtractor(iceberg_concepts=[])
+        constraints = extractor._get_mlb_constraints(
+            third_node="uncle",
+            siblings={"child_a"},
+        )
+        self.assertEqual(constraints, [])
+
     def test_get_constraints_from_domain_expert_minimal(self):
         # Minimal lattice:
         # top extent contains all docs, intent is empty.
@@ -54,6 +71,19 @@ class TestDomainExpertConstraints(unittest.TestCase):
 
         # Only (4,5,2) should appear.
         self.assertEqual(constraints, ["4,5,2"])
+
+    def test_ground_truth_hierarchy_dict_uncle_rule(self):
+        hierarchy = {
+            "parent": {"child_a", "child_b"},
+            "uncle": {"cousin_a", "cousin_b"},
+        }
+        extractor = BankSearchGroundTruthExtractor()
+        constraints = extractor._get_constraints_from_hierarchy_dict(hierarchy)
+
+        self.assertEqual(
+            set(constraints),
+            {"child_a,child_b,uncle", "cousin_a,cousin_b,parent"},
+        )
 
 
 if __name__ == "__main__":
