@@ -1,6 +1,6 @@
 import logging
 from dataclasses import dataclass
-from typing import Iterable, List, Optional, Sequence, Set, Tuple
+from typing import Iterable, List, Optional, Set, Tuple
 
 from edn_format import loads
 
@@ -74,12 +74,13 @@ class DomainExpert:
       - Let e_y be the lowest concept extent containing d_y.
       - Let meet(e_x, e_y) be the lowest concept extent that contains all
         documents in e_x ∪ e_y.
-      - The implication is True iff d_z ∈ meet(e_x, e_y).
+      - The implication is True iff
+        - Property 1: for all concept extents e_xz with d_x, d_z in e_xz -> d_y in e_xz
+        - and Property 2: not d_z ∈ meet(e_x, e_y)
 
     If False, returns a counterexample `[e_i, e_j]` where:
-      - e_i is the lowest extent containing {d_x, d_z}
+      - e_i is the lowest extent containing {d_x, d_z} and not d_y
       - e_j is the lowest extent containing {d_y}
-    (as suggested: e_i contains d_x and d_z; e_j contains d_y)
     """
 
     def __init__(self, concepts: List[Tuple[Set[str], Set[str]]]):
@@ -92,7 +93,17 @@ class DomainExpert:
         Output:
           Loads and stores the lattice concepts as sets of strings.
         """
-        self.concepts = concepts
+        # Normalize to string sets so extent operations are always well-defined.
+        normalized_concepts: List[Tuple[Set[str], Set[str]]] = []
+        for concept in concepts:
+            if not concept or len(concept) < 2:
+                continue
+            extent, intent = concept[0], concept[1]
+            normalized_concepts.append(
+                (set(map(str, extent)), set(map(str, intent)))
+            )
+
+        self.concepts = normalized_concepts
         assert self.concepts, "No concepts loaded."
         self.extents = [extent for extent, _ in self.concepts]
 
@@ -112,6 +123,21 @@ class DomainExpert:
         # Choose the smallest extent; break ties deterministically.
         return set(min(candidates, key=_sorted_key))
 
+    def _lowest_extent_containing_without(
+        self, required_docs: Set[str], forbidden_doc: str
+    ) -> Optional[Set[str]]:
+        """
+        Return the smallest extent containing all required docs but excluding one doc.
+        """
+        candidates = [
+            e
+            for e in self.extents
+            if required_docs.issubset(e) and forbidden_doc not in e
+        ]
+        if not candidates:
+            return None
+        return set(min(candidates, key=_sorted_key))
+
     def implies(self, d_x: str, d_y: str, d_z: str) -> ImplicationResult:
         """
         Check whether the implication (d_x, d_y, d_z) holds.
@@ -121,31 +147,43 @@ class DomainExpert:
 
         Output:
           ImplicationResult:
-            - is_true=True, counterexample=None if d_z is in the meet.
-            - is_true=False, counterexample=[e_i, e_j] if not.
-
-        Example:
-          If e_x={"d1","d2","d4"}, e_y={"d2","d3"}, meet={"d1","d2","d3","d4"}:
-            implies("d1","d3","d2") -> True
-            implies("d2","d3","d4") -> False, counterexample=[["d2","d3"],["d4"]]
+            - is_true=True, counterexample=None iff:
+              (1) every extent containing {d_x, d_z} also contains d_y, and
+              (2) d_z is not in meet(e_x, e_y), where e_x/e_y are the lowest
+                  extents containing d_x/d_y.
+            - is_true=False otherwise. If available, counterexample=[e_i, e_j]
+              with e_i the lowest extent containing {d_x, d_z} and excluding d_y,
+              and e_j the lowest extent containing {d_y}.
         """
         assert isinstance(d_x, str) and isinstance(d_y, str) and isinstance(d_z, str), (
             "d_x, d_y, d_z must be strings."
         )
+        # Property 1:
+        #   for all extents e_xz with d_x, d_z in e_xz -> d_y in e_xz
+        violating_extents = [
+            e for e in self.extents if {d_x, d_z}.issubset(e) and d_y not in e
+        ]
+        property_1 = len(violating_extents) == 0
+
+        # Property 2:
+        #   d_z not in meet(e_x, e_y), where meet is the lowest extent
+        #   containing e_x ∪ e_y.
         e_x = self._lowest_extent_containing({d_x})
         e_y = self._lowest_extent_containing({d_y})
-        if e_x is None or e_y is None:
-            return ImplicationResult(False, None)
+        meet = (
+            self._lowest_extent_containing(set(e_x) | set(e_y))
+            if e_x is not None and e_y is not None
+            else None
+        )
+        property_2 = meet is not None and d_z not in meet
 
-        meet = self._lowest_extent_containing(set(e_x) | set(e_y))
-        if meet is None:
-            return ImplicationResult(False, None)
-
-        if d_z in meet:
+        if property_1 and property_2:
             return ImplicationResult(True, None)
 
-        # Counterexample per instruction:
-        e_j = self._lowest_extent_containing(meet | {d_x, d_y, d_z})
-        if meet is None or e_j is None:
+        e_i = self._lowest_extent_containing_without({d_x, d_z}, d_y)
+        if not e_i:
+            e_i = self._lowest_extent_containing_without({d_y, d_z}, d_x)
+        e_j = self._lowest_extent_containing({d_y})
+        if e_i is None or e_j is None:
             return ImplicationResult(False, None)
-        return ImplicationResult(False, [sorted(meet), sorted(e_j)])
+        return ImplicationResult(False, [sorted(e_i), sorted(e_j)])
