@@ -139,6 +139,24 @@
   (spit output-path (pr-str concepts))
   output-path)
 
+(defn get-iceberg-context
+  "Rows = iceberg concepts, cols = attributes, cell=1 iff attribute in concept intent."
+  [iceberg-concepts]
+  (let [columns (->> iceberg-concepts (map second) (mapcat identity) distinct sort vec)
+        index   (mapv #(str "c" %) (range (count iceberg-concepts)))
+        data    (mapv (fn [[_ intent]]
+                        (let [intent-set (set intent)]
+                          (mapv (fn [a] (if (contains? intent-set a) 1 0)) columns)))
+                      iceberg-concepts)]
+    {:index index :columns columns :data data}))
+
+(defn save-context-json
+  [ctx-json ^String output-path]
+  (with-open [w (io/writer output-path)]
+    (json/write ctx-json w))
+  output-path)
+
+
 (defn run-iceberg
   "Public entry point for Python usage.
 
@@ -157,12 +175,16 @@
    (let [ctx-json (read-context-json context-path)
          ctx (context-from-json ctx-json)
          concepts (iceberg-concepts ctx min-support)
-         saved-path (save-iceberg-concepts concepts output-path)]
+         saved-path (save-iceberg-concepts concepts output-path)
+         (save-context-json (get-iceberg-context concepts)
+                   "resources/banksearch/topic_model/iceberg_context.json")
+        ]
      (println "Loaded context from" context-path
               "| min support:" min-support
               "| objects:" (count (:index ctx-json))
               "| attributes:" (count (:columns ctx-json))
               "| iceberg concepts:" (count concepts)
-              "| saved to:" saved-path)
+              "| concepts saved to:" saved-path
+              "| context saved to: resources/banksearch/topic_model/iceberg_context.json")
     ;;  concepts
      )))
