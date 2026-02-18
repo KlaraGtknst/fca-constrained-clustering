@@ -1,6 +1,7 @@
 (ns user
   (:require [clojure.data.json :as json]
             [clojure.java.io :as io]
+            [clojure.set :as set]
             [clojure.string :as str]
             [conexp.fca.contexts :as contexts]
             [conexp.fca.lattices :as lattices]))
@@ -141,15 +142,24 @@
   output-path)
 
 (defn get-iceberg-context
-  "Rows = iceberg concepts, cols = attributes, cell=1 iff attribute in concept intent."
+  "Rows = individual documents (objects), cols = topics (attributes).
+  A document gets 1 for a topic if it appears in any concept extent whose intent contains that topic."
   [iceberg-concepts]
   (let [columns (->> iceberg-concepts (map second) (mapcat identity) distinct sort vec)
-;;         index   (mapv #(str "c" %) (range (count iceberg-concepts)))
-        index   (mapv first iceberg-concepts)   ;; preserve original ids/extents
-        data    (mapv (fn [[_ intent]]
-                        (let [intent-set (set intent)]
-                          (mapv (fn [a] (if (contains? intent-set a) 1 0)) columns)))
-                      iceberg-concepts)]
+        index   (->> iceberg-concepts (map first) (mapcat identity) distinct sort vec)
+        object->topics
+        (reduce (fn [acc [extent intent]]
+                  (let [intent-set (set intent)]
+                    (reduce (fn [m obj]
+                              (update m obj (fnil set/union #{}) intent-set))
+                            acc
+                            extent)))
+                {}
+                iceberg-concepts)
+        data    (mapv (fn [obj]
+                        (let [topic-set (get object->topics obj #{})]
+                          (mapv (fn [a] (if (contains? topic-set a) 1 0)) columns)))
+                      index)]
     {:index index :columns columns :data data}))
 
 (defn save-context-json
