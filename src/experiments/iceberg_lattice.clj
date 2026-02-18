@@ -176,7 +176,7 @@
          ctx (context-from-json ctx-json)
          concepts (iceberg-concepts ctx min-support)
          saved-path (save-iceberg-concepts concepts output-path)
-         (save-context-json (get-iceberg-context concepts)
+         cxt-save-path (save-context-json (get-iceberg-context concepts)
                    "resources/banksearch/topic_model/iceberg_context.json")
         ]
      (println "Loaded context from" context-path
