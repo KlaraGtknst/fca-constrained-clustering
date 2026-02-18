@@ -41,8 +41,12 @@ def _convert_bools_to_ints(value):
 
 def ensure_zero_one_json(source_path):
     translated_path = source_path.replace(".json", "_01.json")
-    with open(source_path, "r", encoding="utf-8") as source_file:
-        data = json.load(source_file)
+    try:
+        with open(source_path, "r", encoding="utf-8") as source_file:
+            data = json.load(source_file)
+    except FileNotFoundError:
+        print(f"File {source_path} not found. Current pwd: {os.getcwd()}")
+        raise (FileNotFoundError)
 
     if not _contains_bool(data):
         return source_path
@@ -58,9 +62,9 @@ def ensure_zero_one_json(source_path):
         json.dump(converted, translated_file, indent=2, ensure_ascii=True)
     return translated_path
 
-
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 context_path = ensure_zero_one_json(
-    "resources/banksearch/topic_model/fca_topic_model_context.json"
+        str(PROJECT_ROOT) + "/resources/banksearch/topic_model/fca_topic_model_context.json"
 )
 
 min_support = 0.05
@@ -162,10 +166,6 @@ def plot_lattice_from_edn(edn_path: str, svg_path: str, min_support: float):
     plt.savefig(svg_path, format="svg", bbox_inches="tight")
     plt.close()
 
-
-context_path = ensure_zero_one_json(
-    "resources/banksearch/topic_model/fca_topic_model_context.json"
-)
 
 edn_path = f"resources/banksearch/topic_model/banksearch_{min_support}_iceberg.edn"
 svg_path = (
