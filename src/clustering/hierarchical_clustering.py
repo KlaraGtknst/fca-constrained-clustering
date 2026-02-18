@@ -6,12 +6,14 @@ from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Dict, List, Literal, Optional, Sequence, Set, Tuple
 
+import matplotlib
+matplotlib.use("Agg", force=True)
 import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
 from scipy.cluster.hierarchy import dendrogram, linkage
 from sklearn.cluster import AgglomerativeClustering
-from sklearn.manifold import TSNE
+from sklearn.decomposition import PCA
 
 
 logger = logging.getLogger(__name__)
@@ -43,10 +45,9 @@ class BaseClusteringWrapper(ABC):
         if data.shape[1] < 2:
             raise ValueError("Need at least 2 dimensions for scatter plotting.")
         elif data.shape[1] > 2:
-            # Reduce to 2D using tsne
-            logger.info("Reducing data to 2D using t-SNE for plotting.")
-            tsne = TSNE(n_components=2, init="random", random_state=42)
-            reduced_data = tsne.fit_transform(data)
+            # PCA is deterministic and much cheaper than t-SNE for iterative plotting.
+            logger.info("Reducing data to 2D using PCA for plotting.")
+            reduced_data = PCA(n_components=2, random_state=42).fit_transform(data)
             return reduced_data[:, 0], reduced_data[:, 1]
         return data[:, 0], data[:, 1]
 
@@ -163,22 +164,35 @@ class BaseClusteringWrapper(ABC):
         constraints: Optional[Sequence[Tuple[int, int, int]]] = None,
     ) -> None:
         plt.figure(figsize=self.figsize)
-        scatter = plt.scatter(x=x, y=y, c=labels, cmap="tab10")
+        unique_labels = sorted(set(labels.tolist()))
+        n_colors = max(len(unique_labels), 2)
+        # Dynamic discrete palette: avoids tab10 color reuse for >10 clusters.
+        cmap = plt.get_cmap("gist_ncar", n_colors)
+        label_to_idx = {label_id: idx for idx, label_id in enumerate(unique_labels)}
+        color_idx = np.array([label_to_idx[label_id] for label_id in labels], dtype=float)
+        scatter = plt.scatter(
+            x=x,
+            y=y,
+            c=color_idx,
+            cmap=cmap,
+            vmin=0,
+            vmax=n_colors - 1,
+        )
         plt.xlabel("X")
         plt.ylabel("Y")
         plt.title(title)
         for idx, (x_val, y_val) in enumerate(zip(x, y)):
             plt.text(x_val, y_val, f"$x_{{{idx}}}$", fontsize=7, ha="left", va="bottom")
         handles = []
-        unique_labels = sorted(set(labels.tolist()))
         for label_id in unique_labels:
+            color_pos = label_to_idx[label_id]
             handles.append(
                 plt.Line2D(
                     [],
                     [],
                     marker="o",
                     linestyle="",
-                    color=scatter.cmap(scatter.norm(label_id)),
+                    color=scatter.cmap(scatter.norm(color_pos)),
                     label=f"Cluster {label_id}",
                 )
             )
@@ -299,16 +313,21 @@ class BaseClusteringWrapper(ABC):
 
         if png_paths:
             images = [Image.open(path) for path in png_paths]
+            gif_frames = [img.convert("P", palette=Image.Palette.ADAPTIVE) for img in images]
             gif_path = out_path / f"{dataset_name}_{method_name}_{gif_name}"
-            images[0].save(
+            gif_frames[0].save(
                 gif_path,
                 save_all=True,
-                append_images=images[1:],
+                append_images=gif_frames[1:],
                 duration=gif_duration_ms,
                 loop=0,
+                optimize=False,
+                disposal=2,
             )
             for image in images:
                 image.close()
+            for frame in gif_frames:
+                frame.close()
             for path in png_paths:
                 path.unlink(missing_ok=True)
             tmp_dir.rmdir()
