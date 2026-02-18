@@ -153,13 +153,13 @@ class BankSearchGroundTruthExtractor(BaseExtractor):
           }
         """
         super().__init__(dataset_name="banksearch")
-        self.path2category_hierarchy = Path(
+        self.path2category_hierarchy = PROJECT_ROOT / Path(
             "resources/banksearch/ground_truth/category_hierarchy.json"
         )
         assert (
             self.path2category_hierarchy.exists()
             and self.path2category_hierarchy.is_file()
-        ), f"Path to input categories is erroneous, check {self.path2category_hierarchy}."
+        ), f"Path to input categories is erroneous, check {self.path2category_hierarchy}. Current pwd: {os.getcwd()}"
 
     def extract_all_mlb_constraints(self, out_path: Path):
         """
@@ -525,6 +525,7 @@ class BankSearchTopicModelExtractor(BaseExtractor):
         )
 
 if __name__ == "__main__":
+    PROJECT_ROOT = Path(__file__).resolve().parents[2]
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s [%(levelname)s] %(message)s",
@@ -532,6 +533,6 @@ if __name__ == "__main__":
     )
 
     banksearch_extractor = BankSearchGroundTruthExtractor()
-    out_path = Path("resources/banksearch/topic_model/")
+    out_path = Path(str(PROJECT_ROOT) + "/resources/banksearch/ground_truth/")
     out_path.mkdir(parents=True, exist_ok=True)
     banksearch_extractor.extract_all_mlb_constraints(out_path=out_path)
