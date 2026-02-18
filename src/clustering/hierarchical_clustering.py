@@ -163,6 +163,12 @@ class BaseClusteringWrapper(ABC):
         *,
         constraints: Optional[Sequence[Tuple[int, int, int]]] = None,
     ) -> None:
+        """
+        Save one scatter frame for a single clustering state.
+
+        Uses a dynamic discrete colormap sized to the number of clusters in
+        this frame to keep cluster colors distinctive.
+        """
         plt.figure(figsize=self.figsize)
         unique_labels = sorted(set(labels.tolist()))
         n_colors = max(len(unique_labels), 2)
@@ -235,22 +241,34 @@ class BaseClusteringWrapper(ABC):
     ) -> None:
         """Display a scatter plot for a clustering assignment."""
         plt.figure(figsize=self.figsize)
-        scatter = plt.scatter(x=x, y=y, c=labels, cmap="tab10")
+        unique_labels = sorted(set(labels.tolist()))
+        n_colors = max(len(unique_labels), 2)
+        cmap = plt.get_cmap("gist_ncar", n_colors)
+        label_to_idx = {label_id: idx for idx, label_id in enumerate(unique_labels)}
+        color_idx = np.array([label_to_idx[label_id] for label_id in labels], dtype=float)
+        scatter = plt.scatter(
+            x=x,
+            y=y,
+            c=color_idx,
+            cmap=cmap,
+            vmin=0,
+            vmax=n_colors - 1,
+        )
         plt.xlabel("X")
         plt.ylabel("Y")
         plt.title(f"{dataset_name} - {method_name} - {title}")
         for idx, (x_val, y_val) in enumerate(zip(x, y)):
             plt.text(x_val, y_val, f"$x_{{{idx}}}$", fontsize=7, ha="left", va="bottom")
         handles = []
-        unique_labels = sorted(set(labels.tolist()))
         for label_id in unique_labels:
+            color_pos = label_to_idx[label_id]
             handles.append(
                 plt.Line2D(
                     [],
                     [],
                     marker="o",
                     linestyle="",
-                    color=scatter.cmap(scatter.norm(label_id)),
+                    color=scatter.cmap(scatter.norm(color_pos)),
                     label=f"Cluster {label_id}",
                 )
             )
@@ -276,7 +294,7 @@ class BaseClusteringWrapper(ABC):
         constraints: Optional[Sequence[Tuple[int, int, int]]] = None,
     ):
         """
-        Save scatter plots (SVG) for each clustering level and a GIF over levels.
+        Save scatter plots for each clustering level and one animated GIF.
 
         Args:
             data: Input data (n_samples, n_features).
@@ -286,6 +304,10 @@ class BaseClusteringWrapper(ABC):
             title_prefix: Prefix for plot titles.
             gif_name: Filename for the GIF.
             gif_duration_ms: Duration per frame in milliseconds.
+
+        Notes:
+            - frame colors are chosen dynamically per level
+            - GIF is encoded with infinite looping (`loop=0`)
         """
         out_path.mkdir(parents=True, exist_ok=True)
         x, y = self._ensure_2d(data)
@@ -313,6 +335,7 @@ class BaseClusteringWrapper(ABC):
 
         if png_paths:
             images = [Image.open(path) for path in png_paths]
+            # Convert to indexed mode so loop metadata is respected consistently.
             gif_frames = [img.convert("P", palette=Image.Palette.ADAPTIVE) for img in images]
             gif_path = out_path / f"{dataset_name}_{method_name}_{gif_name}"
             gif_frames[0].save(

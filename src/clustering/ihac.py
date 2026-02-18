@@ -12,7 +12,14 @@ from clustering.hierarchical_clustering import BaseClusteringWrapper
 
 
 class iHAC(BaseClusteringWrapper):
-    """Incremental HAC with MLB constraints and compressed duplicate initialization."""
+    """
+    Incremental HAC with MLB constraints.
+
+    This implementation reduces runtime by:
+    - compressing unconstrained duplicate vectors at initialization
+    - checking only constraint subsets relevant to each merge candidate
+    - plotting via compressed active-cluster representatives
+    """
 
     def __init__(
         self,
@@ -24,7 +31,7 @@ class iHAC(BaseClusteringWrapper):
         """
         Args:
             X: n x d feature matrix.
-            constraints: List of tuples (i, j, k) meaning i & j must merge before k.
+            constraints: MLB triples (i, j, k), i.e. i and j should merge before k.
             figsize: Matplotlib figure size for plotting.
         """
         super().__init__(figsize=figsize)
@@ -157,6 +164,10 @@ class iHAC(BaseClusteringWrapper):
         Args:
             merge_a: First cluster being merged.
             merge_b: Second cluster being merged.
+
+        Notes:
+            Only constraints touching merge_a or merge_b are evaluated.
+            This avoids scanning all constraints for every candidate pair.
         """
         new_id = -1
         count = 0
@@ -301,7 +312,7 @@ class iHAC(BaseClusteringWrapper):
 
     def clustering_steps(self) -> List[List[Set[int]]]:
         """
-        Return clustering after each merge as a list of partitions.
+        Return clustering states over original points after each merge.
 
         Returns:
             List of partitions after each merge.
@@ -316,9 +327,10 @@ class iHAC(BaseClusteringWrapper):
 
     def active_cluster_steps(self, include_initial: bool = True) -> List[List[Set[int]]]:
         """
-        Return partitions over representative indices, not all original points.
+        Return partitions over representative indices (compressed view).
 
         This is designed for lightweight plotting after duplicate compression.
+        If `include_initial` is True, step 1 is the initial active-cluster state.
         """
         steps = list(self.reduced_snapshots)
         if include_initial:
@@ -335,9 +347,11 @@ class iHAC(BaseClusteringWrapper):
         filename: str = "dendrogram_steps.svg",
     ) -> Path:
         """
-        Save a styled dendrogram using the actual iHAC merge sequence.
+        Save a styled dendrogram based on the actual iHAC merge sequence.
 
-        Leaves represent the compressed initial active clusters.
+        Leaves represent compressed initial active clusters.
+        Heights use merge-step indices so all tree levels stay visible even when
+        constrained distances collapse to similar values.
         """
         out_path.mkdir(parents=True, exist_ok=True)
         n_leaves = len(self.initial_cluster_ids)
