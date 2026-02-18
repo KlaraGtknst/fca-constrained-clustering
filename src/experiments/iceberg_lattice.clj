@@ -1,6 +1,7 @@
 (ns user
   (:require [clojure.data.json :as json]
             [clojure.java.io :as io]
+            [clojure.string :as str]
             [conexp.fca.contexts :as contexts]
             [conexp.fca.lattices :as lattices]))
 
@@ -143,7 +144,8 @@
   "Rows = iceberg concepts, cols = attributes, cell=1 iff attribute in concept intent."
   [iceberg-concepts]
   (let [columns (->> iceberg-concepts (map second) (mapcat identity) distinct sort vec)
-        index   (mapv #(str "c" %) (range (count iceberg-concepts)))
+;;         index   (mapv #(str "c" %) (range (count iceberg-concepts)))
+        index   (mapv first iceberg-concepts)   ;; preserve original ids/extents
         data    (mapv (fn [[_ intent]]
                         (let [intent-set (set intent)]
                           (mapv (fn [a] (if (contains? intent-set a) 1 0)) columns)))
@@ -154,6 +156,26 @@
   [ctx-json ^String output-path]
   (with-open [w (io/writer output-path)]
     (json/write ctx-json w))
+  output-path)
+
+(defn csv-escape
+  [v]
+  (let [s (cond
+            (string? v) v
+            :else (pr-str v))]
+    (str "\"" (str/replace s "\"" "\"\"") "\"")))
+
+(defn save-context-csv
+  [ctx-json ^String output-path]
+  (let [header (str/join "," (cons (csv-escape "index")
+                                   (map csv-escape (:columns ctx-json))))
+        rows (map (fn [idx row]
+                    (str/join "," (cons (csv-escape idx)
+                                        (map csv-escape row))))
+                  (:index ctx-json)
+                  (:data ctx-json))
+        content (str (str/join "\n" (cons header rows)) "\n")]
+    (spit output-path content))
   output-path)
 
 
@@ -175,9 +197,12 @@
    (let [ctx-json (read-context-json context-path)
          ctx (context-from-json ctx-json)
          concepts (iceberg-concepts ctx min-support)
+         iceberg-context (get-iceberg-context concepts)
          saved-path (save-iceberg-concepts concepts output-path)
-         cxt-save-path (save-context-json (get-iceberg-context concepts)
-                   "resources/banksearch/topic_model/iceberg_context.json")
+         cxt-save-path (save-context-json iceberg-context
+                                          "resources/banksearch/topic_model/iceberg_context.json")
+         cxt-save-path-csv (save-context-csv iceberg-context
+                                             "resources/banksearch/topic_model/iceberg_context.csv")
         ]
      (println "Loaded context from" context-path
               "| min support:" min-support
@@ -185,6 +210,7 @@
               "| attributes:" (count (:columns ctx-json))
               "| iceberg concepts:" (count concepts)
               "| concepts saved to:" saved-path
-              "| context saved to: resources/banksearch/topic_model/iceberg_context.json")
+              "| context saved to:" cxt-save-path
+              "| context csv saved to:" cxt-save-path-csv)
     ;;  concepts
      )))

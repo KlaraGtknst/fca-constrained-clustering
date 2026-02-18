@@ -171,6 +171,7 @@ edn_path = f"resources/banksearch/topic_model/banksearch_{min_support}_iceberg.e
 svg_path = (
     f"resources/banksearch/topic_model/plots/banksearch_{min_support}_iceberg.svg"
 )
+iceberg_context_csv_path = "resources/banksearch/topic_model/iceberg_context.csv"
 cmd = [
     "clojure",
     "-M",
@@ -194,6 +195,8 @@ try:
         Path(svg_path).parent.mkdir(parents=True, exist_ok=True)
         plot_lattice_from_edn(edn_path, svg_path, min_support)
         logger.info(f"Saved iceberg lattice SVG to {svg_path}")
+        if os.path.exists(iceberg_context_csv_path):
+            logger.info(f"Saved iceberg context CSV to {iceberg_context_csv_path}")
 
         iceberg_concepts = read_edn_concepts(edn_path)
         logger.info(f"Read {len(iceberg_concepts)} iceberg concepts from {edn_path}")
