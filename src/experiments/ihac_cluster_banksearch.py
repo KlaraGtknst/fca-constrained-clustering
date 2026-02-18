@@ -68,42 +68,19 @@ if __name__ == "__main__":
         format="%(asctime)s [%(levelname)s] %(message)s",
         datefmt="%Y-%m-%d %H:%M:%S",
     )
-    ## paths
-    # obtained from topic model
-    print(Path(os.curdir).absolute())
-    topic_model_ctx_path = Path("resources/banksearch/fca_topic_model_context.json")
-    assert topic_model_ctx_path.exists(), f"Path does not exist: {topic_model_ctx_path}"
+    PROJECT_ROOT = Path(__file__).resolve().parents[2]
     # ground truth context and constraints
-    gt_ctx_path = Path("resources/banksearch/fca_gt_context.json")
+    gt_ctx_path = PROJECT_ROOT / "resources/banksearch/ground_truth/fca_gt_context.json" # stores which document covers
+    # which topics
     assert gt_ctx_path.exists(), f"Path does not exist: {gt_ctx_path}"
-    mlb_gt_constraints_path = Path("resources/banksearch/mlb_banksearch.txt")
+    mlb_gt_constraints_path = PROJECT_ROOT / "resources/banksearch/ground_truth/mlb_banksearch.txt"  # stores MLB constraints
+    # extracted
+    # from GT/ user topic hierarchy
     assert mlb_gt_constraints_path.exists(), f"Path does not exist: {mlb_gt_constraints_path}"
-    mlb_tm_constraints_path = Path("resources/banksearch/mlb_topic_model_banksearch.txt")
-    assert mlb_tm_constraints_path.exists(), f"Path does not exist: {mlb_tm_constraints_path}"
-    # save path for results
-    save_path = Path("results/ihac")
-    save_path.mkdir(parents=True, exist_ok=True)
 
-    ## topic model context and MLB constraints
-    tm_ctx, tm_bool_df = read_ctx_from_json(topic_model_ctx_path)
-    logger.info(
-        f"Loaded topic model context with {tm_ctx.n_objects} objects and {tm_ctx.n_attributes} attributes."
-    )
-    # Run iHAC on the boolean feature matrix (0/1).
-    tm_X = tm_bool_df.astype(int).to_numpy()
-    # get topic model constraints
-    mlb_topic_model_constraints = []
-    with open(mlb_tm_constraints_path, "r") as f:
-        for line in f:
-            line = line.strip()
-            if line:
-                parts = [part.strip() for part in line.split(",") if part.strip()]
-                mlb_topic_model_constraints.append(tuple(parts))
-    ihac = iHAC(X=tm_X, constraints=mlb_topic_model_constraints)
-    logger.info("Starting iHAC clustering on topic model context with MLB constraints...")
-    save_path = run_exp_on_data(
-        logger=logger, X=tm_X, ihac=ihac, data_kind="topic_model"
-    )
+    # save path for results
+    save_path = PROJECT_ROOT / "results/ihac/ground_truth/"
+    save_path.mkdir(parents=True, exist_ok=True)
 
     ## ground truth context with MLB constraints
     # topics are string labels; need to map to int IDs for clustering
@@ -132,17 +109,4 @@ if __name__ == "__main__":
     ihac = iHAC(X=gt_X, constraints=mlb_gt_constraints)
     save_path = run_exp_on_data(
         logger=logger, X=gt_X, ihac=ihac, data_kind="ground_truth"
-    )
-
-    # TODO: Compare clusterings to known labels
-
-    ## Takes time to compute the full lattice; do last
-    # visualize the context's concept lattice
-    lattice = ConceptLattice.from_context(tm_ctx)
-    viz = LineVizNx(lattice)
-    viz.draw()
-    plt.savefig(save_path / "banksearch_lattice.png")
-    plt.show()
-    logger.info(
-        f"Saved lattice visualization to {save_path / 'banksearch_lattice.png'}"
     )
