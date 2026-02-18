@@ -1,8 +1,24 @@
-Commercial Banks,Building Societies,Finance
-Commercial Banks,Insurance Agencies,Finance
-Building Societies,Insurance Agencies,Finance
-Astronomy,Biology,Science
-C/C++,Java,Programming
-C/C++,Visual Basic,Programming
-Java,Visual Basic,Programming
-Soccer,Motor Racing,Sport
+Astronomy,Biology,Finance
+Astronomy,Biology,Programming
+Astronomy,Biology,Sport
+Building Societies,Commercial Banks,Programming
+Building Societies,Commercial Banks,Science
+Building Societies,Commercial Banks,Sport
+Building Societies,Insurance Agencies,Programming
+Building Societies,Insurance Agencies,Science
+Building Societies,Insurance Agencies,Sport
+C/C++,Java,Finance
+C/C++,Java,Science
+C/C++,Java,Sport
+C/C++,Visual Basic,Finance
+C/C++,Visual Basic,Science
+C/C++,Visual Basic,Sport
+Commercial Banks,Insurance Agencies,Programming
+Commercial Banks,Insurance Agencies,Science
+Commercial Banks,Insurance Agencies,Sport
+Java,Visual Basic,Finance
+Java,Visual Basic,Science
+Java,Visual Basic,Sport
+Motor Racing,Soccer,Finance
+Motor Racing,Soccer,Programming
+Motor Racing,Soccer,Science
