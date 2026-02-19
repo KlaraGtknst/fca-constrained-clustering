@@ -1,4 +1,5 @@
 import logging
+import csv
 from pathlib import Path
 from typing import List, Sequence, Set, Tuple, Optional, Dict
 
@@ -10,14 +11,18 @@ from scipy.cluster.hierarchy import dendrogram, is_valid_linkage
 
 from clustering.hierarchical_clustering import BaseClusteringWrapper
 
+ConstraintTriple = Tuple[int, int, int]
+EquivConstraintTriple = Tuple[Tuple[int, ...], Tuple[int, ...], Tuple[int, ...]]
+
 
 class iHAC(BaseClusteringWrapper):
     """
     Incremental HAC with MLB constraints.
 
     This implementation reduces runtime by:
-    - compressing unconstrained duplicate vectors at initialization
+    - compressing duplicate vectors at initialization
     - checking only constraint subsets relevant to each merge candidate
+    - evaluating MLB constraints lazily over row-equivalence classes
     - plotting via compressed active-cluster representatives
     """
 
@@ -29,15 +34,36 @@ class iHAC(BaseClusteringWrapper):
         figsize: tuple[int, int] = (10, 6),
     ) -> None:
         """
-        Args:
-            X: n x d feature matrix.
-            constraints: MLB triples (i, j, k), i.e. i and j should merge before k.
-            figsize: Matplotlib figure size for plotting.
+        Initialize iHAC state and precompute structures needed for fast constrained merges.
+
+        Parameters
+        ----------
+        X:
+          Feature matrix (`n_points x n_features`).
+        constraints:
+          Optional MLB triples `(i, j, k)` as document indices.
+          iHAC evaluates them with row-equivalence expansion semantics internally.
+        figsize:
+          Matplotlib figure size used by plotting helpers.
+
+        Notes
+        -----
+        For constraint checks, iHAC uses lazy class-level semantics:
+        each constrained point is interpreted together with all row-equivalent points
+        (identical feature rows). This preserves the semantics of full cartesian
+        constraint expansion without materializing expanded triples.
         """
         super().__init__(figsize=figsize)
         self.X = X
         self.n = X.shape[0]
-        self.constraints = [tuple(map(int, c)) for c in constraints] if constraints else []
+        self.constraints: List[ConstraintTriple] = (
+            [tuple(map(int, c)) for c in constraints] if constraints else []
+        )
+        self._validate_constraints_in_bounds()
+        self.row_equiv_members: Dict[int, Tuple[int, ...]] = self._build_row_equivalence_members()
+        self.constraint_equiv_members: List[EquivConstraintTriple] = (
+            self._build_constraint_equiv_members()
+        )
 
         # Cluster bookkeeping
         self.clusters: Dict[int, Set[int]] = {}
@@ -54,6 +80,7 @@ class iHAC(BaseClusteringWrapper):
 
         # Track merges for dendrogram plotting
         self.merge_history = []
+        self.merged_cluster_members_steps: List[Set[int]] = []
         self.snapshots = []
         self.reduced_snapshots = []
         self.initial_representative_points: List[int] = []
@@ -65,17 +92,71 @@ class iHAC(BaseClusteringWrapper):
 
         # Map active cluster -> constraints involving at least one member point.
         # This lets violation checks inspect only relevant constraints for a candidate merge.
-        self.cluster_to_constraint_idxs: Dict[int, Set[int]] = {
-            cid: set() for cid in self.active_clusters
-        }
-        for idx, (a, b, c) in enumerate(self.constraints):
+        self.cluster_to_constraint_idxs: Dict[int, Set[int]] = (
+            self._index_constraints_by_active_cluster()
+        )
+
+    def _validate_constraints_in_bounds(self) -> None:
+        """Validate that all constraint point indices reference existing rows in `X`."""
+        for a, b, c in self.constraints:
             for point_idx in (a, b, c):
                 if point_idx < 0 or point_idx >= self.n:
                     raise ValueError(
                         f"Constraint point index {point_idx} out of bounds for n={self.n}."
                     )
+
+    def _build_row_equivalence_members(self) -> Dict[int, Tuple[int, ...]]:
+        """
+        Group points by identical feature rows and map each point to its full group.
+
+        The mapping enables lazy class-level MLB checks without materializing the full
+        cartesian expansion of equivalent-point constraints.
+        """
+        groups: Dict[bytes, List[int]] = {}
+        for idx in range(self.n):
+            groups.setdefault(self.X[idx].tobytes(), []).append(idx)
+        members_by_point: Dict[int, Tuple[int, ...]] = {}
+        for members in groups.values():
+            ordered = tuple(sorted(members))
+            for point_idx in ordered:
+                members_by_point[point_idx] = ordered
+        return members_by_point
+
+    def _build_constraint_equiv_members(self) -> List[EquivConstraintTriple]:
+        """
+        Precompute row-equivalent member tuples for each base MLB triple.
+
+        Returns
+        -------
+        list[EquivConstraintTriple]
+          For each base `(a, b, c)` triple, stores
+          `(row_equiv(a), row_equiv(b), row_equiv(c))`.
+        """
+        return [
+            (
+                self.row_equiv_members[a],
+                self.row_equiv_members[b],
+                self.row_equiv_members[c],
+            )
+            for (a, b, c) in self.constraints
+        ]
+
+    def _index_constraints_by_active_cluster(self) -> Dict[int, Set[int]]:
+        """
+        Build an inverted index from active cluster id to relevant constraint indices.
+
+        A constraint is considered relevant to a cluster if the cluster currently contains
+        at least one point from any row-equivalence class involved in that constraint.
+        """
+        cluster_to_constraint_idxs: Dict[int, Set[int]] = {
+            cid: set() for cid in self.active_clusters
+        }
+        for idx, (members_a, members_b, members_c) in enumerate(self.constraint_equiv_members):
+            touched_points = set(members_a) | set(members_b) | set(members_c)
+            for point_idx in touched_points:
                 cid = self.point_to_cluster[point_idx]
-                self.cluster_to_constraint_idxs[cid].add(idx)
+                cluster_to_constraint_idxs[cid].add(idx)
+        return cluster_to_constraint_idxs
 
     def _add_initial_cluster(self, cluster_id: int, members: Set[int]) -> None:
         """Add one initial active cluster and register its representative index."""
@@ -95,30 +176,19 @@ class iHAC(BaseClusteringWrapper):
 
     def _initialize_clusters(self) -> None:
         """
-        Build initial clusters with duplicate compression.
+        Build initial clusters by compressing identical feature rows.
 
-        Optimization:
-        - unconstrained points with identical feature vectors are merged immediately
-          into one active cluster.
-        - constrained points are kept as singleton seeds to preserve MLB semantics.
+        All documents with identical topic-incidence vectors are merged into one initial
+        active cluster, including documents touched by constraints. Constraint semantics
+        are still enforced lazily at class level via row-equivalence sets.
         """
-        constrained_points = {
-            p for triple in self.constraints for p in triple if 0 <= p < self.n
-        }
         groups: Dict[bytes, List[int]] = {}
         for idx in range(self.n):
             key = self.X[idx].tobytes()
             groups.setdefault(key, []).append(idx)
 
         for members in groups.values():
-            constrained = [idx for idx in members if idx in constrained_points]
-            unconstrained = [idx for idx in members if idx not in constrained_points]
-
-            for point_idx in constrained:
-                self._add_initial_cluster(point_idx, {point_idx})
-
-            if unconstrained:
-                self._add_initial_cluster(unconstrained[0], set(unconstrained))
+            self._add_initial_cluster(members[0], set(members))
 
         logging.info(
             "iHAC initialization: %d points -> %d active clusters (%d constraints).",
@@ -139,22 +209,20 @@ class iHAC(BaseClusteringWrapper):
         xj = self.cluster_centroids[j]
         return -np.linalg.norm(xi - xj)
 
-    def _mapped_cluster_id(
-        self, cluster_id: int, merge_a: int, merge_b: int, new_id: int
-    ) -> int:
+    def _mapped_cluster_id(self, cluster_id: int, merge_a: int, merge_b: int) -> int:
         """
-        Map old cluster IDs to the new cluster for violation checks.
-        If cluster_id is part of merge, return new_id; else return cluster_id.
+        Map old cluster IDs under a hypothetical merge.
+
+        If `cluster_id` is either merge operand, it maps to a shared placeholder
+        id (`-1`) that represents the post-merge cluster.
 
         Args:
             cluster_id: Cluster ID to map.
             merge_a: First cluster being merged.
             merge_b: Second cluster being merged.
-            new_id: New cluster ID.
         """
-        # replace merged clusters with cluster ID on highest dendogram level
         if cluster_id == merge_a or cluster_id == merge_b:
-            return new_id
+            return -1
         return cluster_id
 
     def _new_violations_count(self, merge_a: int, merge_b: int) -> int:
@@ -169,48 +237,109 @@ class iHAC(BaseClusteringWrapper):
             Only constraints touching merge_a or merge_b are evaluated.
             This avoids scanning all constraints for every candidate pair.
         """
-        new_id = -1
         count = 0
-        relevant_constraints = self.cluster_to_constraint_idxs.get(
-            merge_a, set()
-        ) | self.cluster_to_constraint_idxs.get(merge_b, set())
-        for idx in relevant_constraints:
-            a, b, c = self.constraints[idx]
+        for idx in self._relevant_constraints_for_merge(merge_a, merge_b):
             # skip already violated constraints
             if idx in self.violated_constraints:
                 continue
-            # get current cluster assignments
-            ca = self.point_to_cluster[a]
-            cb = self.point_to_cluster[b]
-            cc = self.point_to_cluster[c]
-            # already clustered -> no violation possible
-            if ca == cb:
-                continue
-            # returns -1 if cluster ca/cb/cc was merged, else returns current cluster id (-> detector of membership after merge)
-            ca_m = self._mapped_cluster_id(ca, merge_a, merge_b, new_id)
-            cb_m = self._mapped_cluster_id(cb, merge_a, merge_b, new_id)
-            cc_m = self._mapped_cluster_id(cc, merge_a, merge_b, new_id)
-            # check if ca or cb was merged with cc -> if yes, violates the constraint
-            if ca_m != cb_m and (cc_m == ca_m or cc_m == cb_m):
+            if self._is_constraint_violated(idx, merge_a=merge_a, merge_b=merge_b):
                 count += 1
         return count
 
+    def _relevant_constraints_for_merge(self, merge_a: int, merge_b: int) -> Set[int]:
+        """
+        Return constraint indices potentially affected by merging `merge_a` and `merge_b`.
+        """
+        return self.cluster_to_constraint_idxs.get(
+            merge_a, set()
+        ) | self.cluster_to_constraint_idxs.get(merge_b, set())
+
+    @staticmethod
+    def _has_distinct_partner(values: Set[int], anchor: int) -> bool:
+        """Return True if `values` contains at least one element different from `anchor`."""
+        return any(value != anchor for value in values)
+
+    def _is_constraint_violated(
+        self,
+        constraint_idx: int,
+        *,
+        merge_a: Optional[int] = None,
+        merge_b: Optional[int] = None,
+    ) -> bool:
+        """
+        Check one MLB constraint under current clustering or a hypothetical merge.
+
+        The check is class-level: each base point in a triple is replaced by all points
+        with identical feature rows. This is equivalent to explicit cartesian expansion
+        of constraints, but evaluated lazily.
+        """
+        members_a, members_b, members_c = self.constraint_equiv_members[constraint_idx]
+        clusters_a = self._cluster_ids_for_members(members_a, merge_a=merge_a, merge_b=merge_b)
+        clusters_b = self._cluster_ids_for_members(members_b, merge_a=merge_a, merge_b=merge_b)
+        clusters_c = self._cluster_ids_for_members(members_c, merge_a=merge_a, merge_b=merge_b)
+        return self._violates_expanded_semantics(clusters_a, clusters_b, clusters_c)
+
+    def _cluster_ids_for_members(
+        self,
+        members: Tuple[int, ...],
+        *,
+        merge_a: Optional[int] = None,
+        merge_b: Optional[int] = None,
+    ) -> Set[int]:
+        """
+        Collect cluster IDs for a tuple of point indices, optionally after a hypothetical merge.
+        """
+        cluster_ids: Set[int] = set()
+        for point_idx in members:
+            cluster_ids.add(
+                self._cluster_id_for_point(
+                    point_idx,
+                    merge_a=merge_a,
+                    merge_b=merge_b,
+                )
+            )
+        return cluster_ids
+
+    def _cluster_id_for_point(
+        self,
+        point_idx: int,
+        *,
+        merge_a: Optional[int] = None,
+        merge_b: Optional[int] = None,
+    ) -> int:
+        """
+        Return the cluster id for one point, with optional merge projection.
+        """
+        cluster_id = self.point_to_cluster[point_idx]
+        if merge_a is None or merge_b is None:
+            return cluster_id
+        return self._mapped_cluster_id(cluster_id, merge_a, merge_b)
+
+    def _violates_expanded_semantics(
+        self, clusters_a: Set[int], clusters_b: Set[int], clusters_c: Set[int]
+    ) -> bool:
+        """
+        Evaluate the expanded MLB violation rule from class-level cluster sets.
+
+        Equivalent expanded rule:
+        `exists a in A, b in B, c in C: cluster(a) != cluster(b)` and
+        `(cluster(c) == cluster(a) or cluster(c) == cluster(b))`.
+        """
+        for cluster_a in clusters_a:
+            if cluster_a in clusters_c and self._has_distinct_partner(clusters_b, cluster_a):
+                return True
+        for cluster_b in clusters_b:
+            if cluster_b in clusters_c and self._has_distinct_partner(clusters_a, cluster_b):
+                return True
+        return False
+
     def _update_violated_constraints(self) -> None:
-        """Mark constraints violated by the current partition."""
-        for idx, (a, b, c) in enumerate(self.constraints):
+        """Mark constraints violated by the current partition (class-level, lazy)."""
+        for idx in range(len(self.constraints)):
             # no need to double-check already violated constraints
             if idx in self.violated_constraints:
                 continue
-            # obtain current cluster assignments
-            ca = self.point_to_cluster[a]
-            cb = self.point_to_cluster[b]
-            # already clustered -> no violation possible
-            if ca == cb:
-                continue
-            # cluster assignment of point c
-            cc = self.point_to_cluster[c]
-            # check if c is now in the same cluster as a or b -> mark as violated
-            if cc == ca or cc == cb:
+            if self._is_constraint_violated(idx):
                 self.violated_constraints.add(idx)
 
     def merge(self, i: int, j: int, merge_sim: Optional[float] = None) -> None:
@@ -228,6 +357,8 @@ class iHAC(BaseClusteringWrapper):
         # set of data point indices in the new cluster
         new_cluster = self.clusters[i] | self.clusters[j]
         self.clusters[new_id] = new_cluster
+        # Persist the cluster formed at this merge step for downstream context export.
+        self.merged_cluster_members_steps.append(set(new_cluster))
         rep_size_i = self.cluster_rep_sizes[i]
         rep_size_j = self.cluster_rep_sizes[j]
         new_rep_size = rep_size_i + rep_size_j
@@ -274,6 +405,59 @@ class iHAC(BaseClusteringWrapper):
         self.reduced_snapshots.append(
             [set(self.cluster_rep_members[cid]) for cid in sorted(self.active_clusters)]
         )
+
+    def merge_step_context_matrix(self) -> np.ndarray:
+        """
+        Build a document-by-merge-step incidence matrix from merge history.
+
+        Rows correspond to original document indices (`0..n-1`), columns correspond to
+        merge steps (`1..m`). Entry `(doc, step)` is 1 iff the document belongs to the
+        cluster formed at that merge step.
+        """
+        n_steps = len(self.merged_cluster_members_steps)
+        context = np.zeros((self.n, n_steps), dtype=np.uint8)
+        for step_idx, merged_members in enumerate(self.merged_cluster_members_steps):
+            if merged_members:
+                context[list(merged_members), step_idx] = 1
+        return context
+
+    def save_merge_step_context_csv(
+        self,
+        out_path: Path,
+        *,
+        filename: str = "merge_step_context.csv",
+        object_names: Optional[Sequence[str]] = None,
+    ) -> Path:
+        """
+        Save merge-step incidence context as CSV.
+
+        CSV schema:
+        - first column: `object`
+        - following columns: `merge_step_1 ... merge_step_m`
+        - values: 0/1 membership in the cluster created at each merge step.
+        """
+        out_path.mkdir(parents=True, exist_ok=True)
+        context = self.merge_step_context_matrix()
+        if object_names is None:
+            row_names = [str(i) for i in range(self.n)]
+        else:
+            if len(object_names) != self.n:
+                raise ValueError(
+                    f"Expected {self.n} object names, got {len(object_names)}."
+                )
+            row_names = [str(name) for name in object_names]
+
+        csv_path = out_path / filename
+        header = ["object"] + [
+            f"merge_step_{step_idx}" for step_idx in range(1, context.shape[1] + 1)
+        ]
+        with open(csv_path, "w", encoding="utf-8", newline="") as f:
+            writer = csv.writer(f)
+            writer.writerow(header)
+            for obj_idx, obj_name in enumerate(row_names):
+                writer.writerow([obj_name] + context[obj_idx, :].astype(int).tolist())
+        logging.info("Saved merge-step context CSV: %s", csv_path)
+        return csv_path
 
     def run(self) -> List[Set[int]]:
         """
