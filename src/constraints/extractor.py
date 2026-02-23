@@ -7,11 +7,8 @@ import json
 from itertools import combinations
 import logging
 
-import edn_format
-
-from attribute_exploration.domain_expert import DomainExpert
-
 logger = logging.getLogger(__name__)
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 
 class BaseExtractor(ABC):
