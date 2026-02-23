@@ -4,7 +4,8 @@
             [clojure.set :as set]
             [clojure.string :as str]
             [conexp.fca.contexts :as contexts]
-            [conexp.fca.lattices :as lattices]))
+            [conexp.fca.lattices :as lattices]
+            [conexp.io.contexts :as io-contexts]))
 
 ;; This file is designed to be loaded from a REPL or from Python via `(load-file ...)`.
 ;; After loading, call `run-iceberg` to compute iceberg concepts from the JSON context.
@@ -188,6 +189,15 @@
     (spit output-path content))
   output-path)
 
+(defn save-context-burmeister
+  [ctx-json ^String output-path]
+  (let [flat-incidence (vec (mapcat identity (:data ctx-json)))
+        ctx (contexts/make-context-from-matrix (:index ctx-json)
+                                               (:columns ctx-json)
+                                               flat-incidence)]
+    (io-contexts/write-context :burmeister ctx output-path))
+  output-path)
+
 
 (defn run-iceberg
   "Public entry point for Python usage.
@@ -209,10 +219,12 @@
          concepts (iceberg-concepts ctx min-support)
          iceberg-context (get-iceberg-context concepts)
          saved-path (save-iceberg-concepts concepts output-path)
-         cxt-save-path (save-context-json iceberg-context
-                                          "resources/banksearch/topic_model/iceberg_context.json")
-         cxt-save-path-csv (save-context-csv iceberg-context
-                                             "resources/banksearch/topic_model/iceberg_context.csv")
+         json-save-path (save-context-json iceberg-context
+                                           "resources/banksearch/topic_model/iceberg_context.json")
+         csv-save-path (save-context-csv iceberg-context
+                                         "resources/banksearch/topic_model/iceberg_context.csv")
+         burmeister-save-path (save-context-burmeister iceberg-context
+                                                       "resources/banksearch/topic_model/iceberg_context.cxt")
         ]
      (println "Loaded context from" context-path
               "| min support:" min-support
@@ -220,7 +232,8 @@
               "| attributes:" (count (:columns ctx-json))
               "| iceberg concepts:" (count concepts)
               "| concepts saved to:" saved-path
-              "| context saved to:" cxt-save-path
-              "| context csv saved to:" cxt-save-path-csv)
+              "| context json saved to:" json-save-path
+              "| context csv saved to:" csv-save-path
+              "| context Burmeister saved to:" burmeister-save-path)
     ;;  concepts
      )))
