@@ -315,13 +315,12 @@ class BankSearchGroundTruthExtractor(BaseExtractor):
 
             missing = [token for token in (x, y, z) if token not in topic_to_rep]
             if missing:
-                for token in missing:
-                    topic_to_rep[token] = token
-                # TODO: we could also ignore constraints that do not have corresponding documents
-                print(
-                    "Warning: Cannot map topic(s) to representative document(s): "
+                # ignore constraints that do not have corresponding documents, bc they are represented by those below
+                logger.warning(
+                    "Cannot map topic(s) to representative document(s): "
                     + ", ".join(sorted(missing)) + f"\nusing {topic_to_rep}"
                 )
+                continue
 
             doc_x, doc_y, doc_z = topic_to_rep[x], topic_to_rep[y], topic_to_rep[z]
             document_constraints.add(f"{doc_x},{doc_y},{doc_z}")
