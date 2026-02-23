@@ -43,8 +43,6 @@ class DocumentRepresentaterBase:
         if not self.doc_vectors.index.is_unique:
             raise ValueError("Document IDs (DataFrame index) must be unique.")
 
-        print("Number of original documents per topic:\n", self.doc_vectors.sum(axis=0).to_string())
-
         equivalent_docs: dict[tuple, list] = defaultdict(list)
         for doc_id, row in self.doc_vectors.iterrows():
             signature = tuple(row.tolist())
