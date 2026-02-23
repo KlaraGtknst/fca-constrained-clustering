@@ -2,13 +2,16 @@
 Traditional attribute exploration iteratively elicits domain knowledge from an expert to construct a formal context.
 When multiple experts are involved, potential inconsistencies are typically disregarded by relying on systems of shared implications.
 
-In this work, we investigate the differences between two knowledge-base-informed concept lattices.
+In this work, we address these inconsistencies and investigate the differences between two knowledge-base-informed
+concept lattices on the BankSearch dataset.
 We employ \ac{mlb}-constrained attribute exploration and knowledge extraction from a statistical corpus-based knowledge
 base.
 The \ac{mlb} constraints are systematically derived from a gold-label topic hierarchy and subsequently mapped onto the corresponding document corpus.
 As a second knowledge base, we utilize an \ac{lda} topic model, which constructs a document–topic context through statistical inference over the same corpus.
 
 The impact of both knowledge bases is evaluated qualitatively through human assessment and quantitatively by intersecting the resulting formal contexts.
+While qualitative analysis showed that both concept lattices differ greatly, their intersection proved to be a
+valuable way of combining potentially conflicting knowledge bases.
 
 \keywords{Constraints  \and \acs{fca} \and Attribute Exploration \and \acs{nlp} \and Text Mining
         \and Hierarchical Topic Representation \and Semantic Analysis.}
