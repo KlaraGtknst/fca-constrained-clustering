@@ -2,10 +2,12 @@ from abc import ABC
 from collections import defaultdict
 import os
 from pathlib import Path
-from typing import List, Union
+from typing import List, Literal, Union
 import json
 from itertools import combinations
 import logging
+
+from topic_model.document_representation import DocumentGroundTruthRepresenter
 
 logger = logging.getLogger(__name__)
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -26,8 +28,6 @@ class BaseExtractor(ABC):
 
         # empty children are bottom nodes, i.e., most specific concepts (topics) without sub-concepts
         # intuitively, they cannot be parents of must-link constraints, because they have no specifications (children/ sub-concepts)
-
-        # FIXME: How to work with one-element children? I suggest a: {b} -> (b,a,a) constraint which enforces b to be clustered with a
         self.min_num_children = min_num_children # minimum number of children to form pairwise constraints
         assert self.min_num_children >= 1, "min_num_children must be at least 1."
 
@@ -157,6 +157,8 @@ class BankSearchGroundTruthExtractor(BaseExtractor):
             self.path2category_hierarchy.exists()
             and self.path2category_hierarchy.is_file()
         ), f"Path to input categories is erroneous, check {self.path2category_hierarchy}. Current pwd: {os.getcwd()}"
+        document_repr = DocumentGroundTruthRepresenter(data_path=str(PROJECT_ROOT) + "/resources/Dataset")
+        self.clarified_document_df, self.equivalence_dict = document_repr.convert_documents_to_clarified_vectors()
 
     def _get_constraints_from_hierarchy_dict(self, hierarchy_dict: dict) -> List[str]:
         """
@@ -267,10 +269,102 @@ class BankSearchGroundTruthExtractor(BaseExtractor):
 
         return sorted(constraints_set)
 
+    @staticmethod
+    def _resolve_ground_truth_topic_alias(topic_label: str) -> str:
+        """
+        Normalize topic labels so hierarchy labels match context column labels.
+        """
+        alias_map = {
+            "C/C++": "C",
+        }
+        return alias_map.get(topic_label, topic_label)
+
+    def _topic_to_representative_doc_map(self) -> dict[str, str]:
+        """
+        Build a mapping from topic label -> representative document id from clarified context.
+
+        Assumption for ground truth:
+          each document belongs to exactly one topic label (one-hot rows).
+        """
+        assert not self.clarified_document_df.empty, "clarified_document_df is empty."
+        topic_to_rep: dict[str, str] = {}
+
+        for topic in self.clarified_document_df.columns:
+            matching_reps = self.clarified_document_df.index[self.clarified_document_df[topic] == 1].tolist()
+            if not matching_reps:
+                continue
+            # Deterministic representative if multiple rows are active for a label.
+            topic_to_rep[str(topic)] = str(sorted(matching_reps)[0])
+
+        return topic_to_rep
+
+    def _map_topic_constraints_to_representative_documents(
+        self, topic_constraints: List[str]
+    ) -> List[str]:
+        """
+        Convert topic-level MLB triples to representative-document MLB triples.
+        If a topic has no documents associated with it, the constraint topic is left as is.
+        """
+        topic_to_rep = self._topic_to_representative_doc_map()
+        document_constraints = set()
+
+        for line in topic_constraints:
+            parts = [part.strip() for part in line.split(",")]
+            assert len(parts) == 3, f"Invalid MLB constraint format: '{line}'."
+            x, y, z = (self._resolve_ground_truth_topic_alias(token) for token in parts)
+
+            missing = [token for token in (x, y, z) if token not in topic_to_rep]
+            if missing:
+                for token in missing:
+                    topic_to_rep[token] = token
+                # TODO: we could also ignore constraints that do not have corresponding documents
+                print(
+                    "Warning: Cannot map topic(s) to representative document(s): "
+                    + ", ".join(sorted(missing)) + f"\nusing {topic_to_rep}"
+                )
+
+            doc_x, doc_y, doc_z = topic_to_rep[x], topic_to_rep[y], topic_to_rep[z]
+            document_constraints.add(f"{doc_x},{doc_y},{doc_z}")
+
+        return sorted(document_constraints)
+
+    def _save_equivalence_classes(self, out_path: Path) -> Path:
+        """
+        Save representative-document equivalence classes to JSON.
+
+        Output format:
+          {
+            "rep_doc_id_1": ["doc_a", "doc_b", ...],
+            "rep_doc_id_2": ["doc_x", ...]
+          }
+        """
+        assert isinstance(out_path, Path), "out_path must be a pathlib.Path."
+        assert isinstance(self.equivalence_dict, dict), "equivalence_dict must be a dict."
+        out_filename = out_path / f"mlb_{self.dataset_name}_equivalence_classes.json"
+
+        normalized = {}
+        for representative, members in self.equivalence_dict.items():
+            rep_key = str(representative)
+            if isinstance(members, set):
+                member_list = sorted(str(doc_id) for doc_id in members)
+            else:
+                member_list = sorted(str(doc_id) for doc_id in list(members))
+            normalized[rep_key] = member_list
+
+        with open(out_filename, "w", encoding="utf-8") as f:
+            json.dump(normalized, f, indent=2, sort_keys=True)
+        logger.info(
+            "Saved %d equivalence classes to %s.", len(normalized), out_filename
+        )
+        return out_filename
+
     def extract_all_mlb_constraints(self, out_path: Path):
         """
         Extract all MLB constraints from hierarchy dictionary.
         A triple (x, y, z) is emitted iff MLB Properties 1 and 2 hold.
+        We save MLB constraints on "topic" or "document" basis.
+        In other words, whether MLB constraints should be on topics or documents.
+        We assume a clarified context (i.e., each row in the document-topic incidence is unique.
 
         :param out_path: Path to save MLB constraints to (as txt file).
 
@@ -284,7 +378,6 @@ class BankSearchGroundTruthExtractor(BaseExtractor):
         """
         assert isinstance(out_path, Path), "out_path must be a pathlib.Path."
         out_path.mkdir(parents=True, exist_ok=True)
-        out_filename = out_path / f"mlb_{self.dataset_name}.txt"
 
         logger.info(f"Loading hierarchy from {self.path2category_hierarchy}")
         with open(self.path2category_hierarchy, "r") as f:
@@ -292,12 +385,18 @@ class BankSearchGroundTruthExtractor(BaseExtractor):
 
         assert isinstance(hierarchy_dict, dict), "category_hierarchy.json must contain a JSON object."
         assert hierarchy_dict, "category_hierarchy.json must not be empty."
-        constraints = self._get_constraints_from_hierarchy_dict(hierarchy_dict)
-        assert constraints, "no constraints generated; check hierarchy structure."
-        logger.info(f"Saving {len(constraints)} constraints to {out_filename}")
-        with open(out_filename, "w") as f:
-            for constraint in constraints:
-                f.write(constraint + "\n")
+        topic_constraints = self._get_constraints_from_hierarchy_dict(hierarchy_dict)
+
+        docids_constraints = self._map_topic_constraints_to_representative_documents(topic_constraints)
+        for constraint_type, constraints in zip(["docids", "topics"], [docids_constraints, topic_constraints]):
+            assert constraints, f"{constraint_type} constraints not generated; check hierarchy structure."
+            out_filename = out_path / f"mlb_{self.dataset_name}_{constraint_type}.txt"
+            logger.info(f"Saving {len(constraints)} {constraint_type} constraints to {out_filename}")
+            with open(out_filename, "w") as f:
+                for constraint in constraints:
+                    f.write(constraint + "\n")
+
+        self._save_equivalence_classes(out_path=out_path)
 
         logger.info("Constraints successfully saved.")
 
