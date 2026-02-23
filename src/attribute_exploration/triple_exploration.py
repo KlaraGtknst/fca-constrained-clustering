@@ -1,5 +1,7 @@
 import sys
 import os
+from pathlib import Path
+
 
 # --- 1. MLB Oracle & Logic ---
 class MLBOracle:
@@ -187,7 +189,12 @@ def generate_context_obj(oracle):
 # --- MAIN ---
 
 if __name__ == "__main__":
-    constraint_file = "resources/banksearch/ground_truth/mlb_banksearch_docids.txt"
+    PROJECT_ROOT = Path(__file__).resolve().parents[2]
+    constraint_file = Path("resources/banksearch/ground_truth/mlb_banksearch_docids.txt")
+    save_file = "mlb.cxt"
+    if not Path(constraint_file).is_file():
+        constraint_file = PROJECT_ROOT / constraint_file
+        save_file = PROJECT_ROOT / "resources/banksearch/ground_truth" / save_file
 
     oracle = MLBOracle(constraint_file)
     
@@ -195,4 +202,4 @@ if __name__ == "__main__":
     ctx = generate_context_obj(oracle)
     
     # 2. Als .cxt speichern
-    ctx.save_cxt("mlb.cxt")
+    ctx.save_cxt(save_file)
