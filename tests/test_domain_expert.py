@@ -2,6 +2,7 @@ import os
 import sys
 import unittest
 from collections import defaultdict
+import pandas as pd
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 SRC_PATH = os.path.join(PROJECT_ROOT, "src")
@@ -108,6 +109,21 @@ class TestGroundTruthConstraints(unittest.TestCase):
                         expected.add((x, y, z))
 
         self.assertEqual(produced, expected)
+
+    def test_map_topic_constraints_to_representative_documents(self):
+        self.extractor.clarified_document_df = pd.DataFrame(
+            data={
+                "TopicA": [1, 0, 0],
+                "TopicB": [0, 1, 0],
+                "C": [0, 0, 1],
+            },
+            index=["doc_a_rep", "doc_b_rep", "doc_c_rep"],
+        )
+
+        mapped = self.extractor._map_topic_constraints_to_representative_documents(
+            ["TopicA,TopicB,C/C++"]
+        )
+        self.assertEqual(mapped, ["doc_a_rep,doc_b_rep,doc_c_rep"])
 
 
 if __name__ == "__main__":
