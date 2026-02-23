@@ -164,12 +164,18 @@
     {:index index :columns columns :data data}))
 
 (defn save-context-json
+  "Writes a context map in this project's matrix JSON shape:
+  {:index [...], :columns [...], :data [[0/1 ...] ...]}.
+
+  Returns the output path."
   [ctx-json ^String output-path]
   (with-open [w (io/writer output-path)]
     (json/write ctx-json w))
   output-path)
 
 (defn csv-escape
+  "Escapes a value for CSV output by converting it to string,
+  doubling embedded quotes, and surrounding with quotes."
   [v]
   (let [s (cond
             (string? v) v
@@ -177,6 +183,11 @@
     (str "\"" (str/replace s "\"" "\"\"") "\"")))
 
 (defn save-context-csv
+  "Writes a context map as CSV with header:
+  index,<attr1>,<attr2>,...
+  and one row per object from :index/:data.
+
+  Returns the output path."
   [ctx-json ^String output-path]
   (let [header (str/join "," (cons (csv-escape "index")
                                    (map csv-escape (:columns ctx-json))))
@@ -190,6 +201,10 @@
   output-path)
 
 (defn save-context-burmeister
+  "Writes a context map as Burmeister FCA format (.cxt) using conexp-clj.
+  The map must follow {:index [...], :columns [...], :data [[0/1 ...] ...]}.
+
+  Returns the output path."
   [ctx-json ^String output-path]
   (let [flat-incidence (vec (mapcat identity (:data ctx-json)))
         ctx (contexts/make-context-from-matrix (:index ctx-json)
