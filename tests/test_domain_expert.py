@@ -72,7 +72,7 @@ class TestDomainExpertConstraints(unittest.TestCase):
         # Only (4,5,2) should appear.
         self.assertEqual(constraints, ["4,5,2"])
 
-    def test_ground_truth_hierarchy_dict_uncle_rule(self):
+    def test_ground_truth_hierarchy_dict_property_based(self):
         hierarchy = {
             "parent": {"child_a", "child_b"},
             "uncle": {"cousin_a", "cousin_b"},
@@ -82,7 +82,26 @@ class TestDomainExpertConstraints(unittest.TestCase):
 
         self.assertEqual(
             set(constraints),
-            {"child_a,child_b,uncle", "cousin_a,cousin_b,parent"},
+            {
+                "child_a,child_b,cousin_a",
+                "child_a,child_b,cousin_b",
+                "child_a,child_b,uncle",
+                "child_a,parent,cousin_a",
+                "child_a,parent,cousin_b",
+                "child_a,parent,uncle",
+                "child_b,parent,cousin_a",
+                "child_b,parent,cousin_b",
+                "child_b,parent,uncle",
+                "cousin_a,cousin_b,child_a",
+                "cousin_a,cousin_b,child_b",
+                "cousin_a,cousin_b,parent",
+                "cousin_a,uncle,child_a",
+                "cousin_a,uncle,child_b",
+                "cousin_a,uncle,parent",
+                "cousin_b,uncle,child_a",
+                "cousin_b,uncle,child_b",
+                "cousin_b,uncle,parent",
+            },
         )
 
 

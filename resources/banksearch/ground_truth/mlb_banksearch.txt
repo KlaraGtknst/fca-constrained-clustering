@@ -1,24 +1,186 @@
+Astronomy,Biology,Building Societies
+Astronomy,Biology,C/C++
+Astronomy,Biology,Commercial Banks
 Astronomy,Biology,Finance
+Astronomy,Biology,Insurance Agencies
+Astronomy,Biology,Java
+Astronomy,Biology,Motor Racing
 Astronomy,Biology,Programming
+Astronomy,Biology,Soccer
 Astronomy,Biology,Sport
+Astronomy,Biology,Visual Basic
+Astronomy,Science,Building Societies
+Astronomy,Science,C/C++
+Astronomy,Science,Commercial Banks
+Astronomy,Science,Finance
+Astronomy,Science,Insurance Agencies
+Astronomy,Science,Java
+Astronomy,Science,Motor Racing
+Astronomy,Science,Programming
+Astronomy,Science,Soccer
+Astronomy,Science,Sport
+Astronomy,Science,Visual Basic
+Biology,Science,Building Societies
+Biology,Science,C/C++
+Biology,Science,Commercial Banks
+Biology,Science,Finance
+Biology,Science,Insurance Agencies
+Biology,Science,Java
+Biology,Science,Motor Racing
+Biology,Science,Programming
+Biology,Science,Soccer
+Biology,Science,Sport
+Biology,Science,Visual Basic
+Building Societies,Commercial Banks,Astronomy
+Building Societies,Commercial Banks,Biology
+Building Societies,Commercial Banks,C/C++
+Building Societies,Commercial Banks,Java
+Building Societies,Commercial Banks,Motor Racing
 Building Societies,Commercial Banks,Programming
 Building Societies,Commercial Banks,Science
+Building Societies,Commercial Banks,Soccer
 Building Societies,Commercial Banks,Sport
+Building Societies,Commercial Banks,Visual Basic
+Building Societies,Finance,Astronomy
+Building Societies,Finance,Biology
+Building Societies,Finance,C/C++
+Building Societies,Finance,Java
+Building Societies,Finance,Motor Racing
+Building Societies,Finance,Programming
+Building Societies,Finance,Science
+Building Societies,Finance,Soccer
+Building Societies,Finance,Sport
+Building Societies,Finance,Visual Basic
+Building Societies,Insurance Agencies,Astronomy
+Building Societies,Insurance Agencies,Biology
+Building Societies,Insurance Agencies,C/C++
+Building Societies,Insurance Agencies,Java
+Building Societies,Insurance Agencies,Motor Racing
 Building Societies,Insurance Agencies,Programming
 Building Societies,Insurance Agencies,Science
+Building Societies,Insurance Agencies,Soccer
 Building Societies,Insurance Agencies,Sport
+Building Societies,Insurance Agencies,Visual Basic
+C/C++,Java,Astronomy
+C/C++,Java,Biology
+C/C++,Java,Building Societies
+C/C++,Java,Commercial Banks
 C/C++,Java,Finance
+C/C++,Java,Insurance Agencies
+C/C++,Java,Motor Racing
 C/C++,Java,Science
+C/C++,Java,Soccer
 C/C++,Java,Sport
+C/C++,Programming,Astronomy
+C/C++,Programming,Biology
+C/C++,Programming,Building Societies
+C/C++,Programming,Commercial Banks
+C/C++,Programming,Finance
+C/C++,Programming,Insurance Agencies
+C/C++,Programming,Motor Racing
+C/C++,Programming,Science
+C/C++,Programming,Soccer
+C/C++,Programming,Sport
+C/C++,Visual Basic,Astronomy
+C/C++,Visual Basic,Biology
+C/C++,Visual Basic,Building Societies
+C/C++,Visual Basic,Commercial Banks
 C/C++,Visual Basic,Finance
+C/C++,Visual Basic,Insurance Agencies
+C/C++,Visual Basic,Motor Racing
 C/C++,Visual Basic,Science
+C/C++,Visual Basic,Soccer
 C/C++,Visual Basic,Sport
+Commercial Banks,Finance,Astronomy
+Commercial Banks,Finance,Biology
+Commercial Banks,Finance,C/C++
+Commercial Banks,Finance,Java
+Commercial Banks,Finance,Motor Racing
+Commercial Banks,Finance,Programming
+Commercial Banks,Finance,Science
+Commercial Banks,Finance,Soccer
+Commercial Banks,Finance,Sport
+Commercial Banks,Finance,Visual Basic
+Commercial Banks,Insurance Agencies,Astronomy
+Commercial Banks,Insurance Agencies,Biology
+Commercial Banks,Insurance Agencies,C/C++
+Commercial Banks,Insurance Agencies,Java
+Commercial Banks,Insurance Agencies,Motor Racing
 Commercial Banks,Insurance Agencies,Programming
 Commercial Banks,Insurance Agencies,Science
+Commercial Banks,Insurance Agencies,Soccer
 Commercial Banks,Insurance Agencies,Sport
+Commercial Banks,Insurance Agencies,Visual Basic
+Finance,Insurance Agencies,Astronomy
+Finance,Insurance Agencies,Biology
+Finance,Insurance Agencies,C/C++
+Finance,Insurance Agencies,Java
+Finance,Insurance Agencies,Motor Racing
+Finance,Insurance Agencies,Programming
+Finance,Insurance Agencies,Science
+Finance,Insurance Agencies,Soccer
+Finance,Insurance Agencies,Sport
+Finance,Insurance Agencies,Visual Basic
+Java,Programming,Astronomy
+Java,Programming,Biology
+Java,Programming,Building Societies
+Java,Programming,Commercial Banks
+Java,Programming,Finance
+Java,Programming,Insurance Agencies
+Java,Programming,Motor Racing
+Java,Programming,Science
+Java,Programming,Soccer
+Java,Programming,Sport
+Java,Visual Basic,Astronomy
+Java,Visual Basic,Biology
+Java,Visual Basic,Building Societies
+Java,Visual Basic,Commercial Banks
 Java,Visual Basic,Finance
+Java,Visual Basic,Insurance Agencies
+Java,Visual Basic,Motor Racing
 Java,Visual Basic,Science
+Java,Visual Basic,Soccer
 Java,Visual Basic,Sport
+Motor Racing,Soccer,Astronomy
+Motor Racing,Soccer,Biology
+Motor Racing,Soccer,Building Societies
+Motor Racing,Soccer,C/C++
+Motor Racing,Soccer,Commercial Banks
 Motor Racing,Soccer,Finance
+Motor Racing,Soccer,Insurance Agencies
+Motor Racing,Soccer,Java
 Motor Racing,Soccer,Programming
 Motor Racing,Soccer,Science
+Motor Racing,Soccer,Visual Basic
+Motor Racing,Sport,Astronomy
+Motor Racing,Sport,Biology
+Motor Racing,Sport,Building Societies
+Motor Racing,Sport,C/C++
+Motor Racing,Sport,Commercial Banks
+Motor Racing,Sport,Finance
+Motor Racing,Sport,Insurance Agencies
+Motor Racing,Sport,Java
+Motor Racing,Sport,Programming
+Motor Racing,Sport,Science
+Motor Racing,Sport,Visual Basic
+Programming,Visual Basic,Astronomy
+Programming,Visual Basic,Biology
+Programming,Visual Basic,Building Societies
+Programming,Visual Basic,Commercial Banks
+Programming,Visual Basic,Finance
+Programming,Visual Basic,Insurance Agencies
+Programming,Visual Basic,Motor Racing
+Programming,Visual Basic,Science
+Programming,Visual Basic,Soccer
+Programming,Visual Basic,Sport
+Soccer,Sport,Astronomy
+Soccer,Sport,Biology
+Soccer,Sport,Building Societies
+Soccer,Sport,C/C++
+Soccer,Sport,Commercial Banks
+Soccer,Sport,Finance
+Soccer,Sport,Insurance Agencies
+Soccer,Sport,Java
+Soccer,Sport,Programming
+Soccer,Sport,Science
+Soccer,Sport,Visual Basic

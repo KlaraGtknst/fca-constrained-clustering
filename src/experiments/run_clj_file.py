@@ -9,7 +9,6 @@ from matplotlib import pyplot as plt
 from edn_format import loads
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from constraints.extractor import BankSearchTopicModelExtractor
 
 logging.basicConfig(
     level=logging.INFO,
@@ -200,11 +199,6 @@ try:
 
         iceberg_concepts = read_edn_concepts(edn_path)
         logger.info(f"Read {len(iceberg_concepts)} iceberg concepts from {edn_path}")
-        extractor = BankSearchTopicModelExtractor(iceberg_concepts=iceberg_concepts)
-        out_path = Path("resources/banksearch/topic_model/")
-        out_path.mkdir(parents=True, exist_ok=True)
-        extractor.extract_all_mlb_constraints(out_path=out_path)
 
-        logger.info(f"Saved extracted iceberg concepts to {out_path}")
 except subprocess.CalledProcessError as e:
     logger.error(e.output)

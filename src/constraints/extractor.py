@@ -92,7 +92,7 @@ class BaseExtractor(ABC):
 
     def _get_constraints_from_hierarchy_dict(self, hierarchy_dict: dict) -> List[str]:
         """
-        Build MLB constraints from a hierarchy dictionary using sibling-uncle logic.
+        Build MLB constraints from a hierarchy dictionary using extended sibling-uncle logic.
 
         Input:
           `hierarchy_dict`: dict mapping parent -> direct children.
@@ -161,13 +161,119 @@ class BankSearchGroundTruthExtractor(BaseExtractor):
             and self.path2category_hierarchy.is_file()
         ), f"Path to input categories is erroneous, check {self.path2category_hierarchy}. Current pwd: {os.getcwd()}"
 
+    def _get_constraints_from_hierarchy_dict(self, hierarchy_dict: dict) -> List[str]:
+        """
+        Build all MLB triples (x, y, z) over hierarchy nodes that satisfy:
+          Property 1:  all clusters containing x and z also contain y
+          Property 2:  there exists a cluster containing x and y, but not z
+
+        We model "d in c" as: d is a descendant (or equal) of cluster node c.
+        For a node `n`, let Anc(n) be the set of ancestors of `n` (including `n` itself).
+        Then:
+          Property 1 <=> Anc(x) ∩ Anc(z) ⊆ Anc(y)
+          Property 2 <=> (Anc(x) ∩ Anc(y)) \\ Anc(z) != ∅
+
+        If `hierarchy_dict` is a forest (multiple roots), a synthetic root is added
+        internally to connect top-level roots. The synthetic root is never emitted as
+        a constraint item.
+        """
+        assert isinstance(hierarchy_dict, dict), "hierarchy_dict must be a dict."
+        assert hierarchy_dict, "hierarchy_dict must not be empty."
+
+        children_by_parent = {}
+        parents_by_child = defaultdict(set)
+        real_nodes = set()
+
+        for parent, children in hierarchy_dict.items():
+            assert isinstance(parent, (str, frozenset))
+            assert isinstance(children, (list, set, tuple))
+            assert all(isinstance(child, (str, frozenset)) for child in children)
+
+            normalized_children = set(children)
+            children_by_parent[parent] = normalized_children
+
+            real_nodes.add(parent)
+            real_nodes.update(normalized_children)
+
+            for child in normalized_children:
+                parents_by_child[child].add(parent)
+
+        if len(real_nodes) < 3:
+            return []
+
+        for node in real_nodes:
+            parents_by_child.setdefault(node, set())
+
+        # Support forests by adding one synthetic super-root above top-level roots.
+        synthetic_root = "__synthetic_root__"
+        while synthetic_root in real_nodes:
+            synthetic_root += "_"
+        roots = [node for node in real_nodes if len(parents_by_child[node]) == 0]
+        if roots:
+            for root in roots:
+                parents_by_child[root].add(synthetic_root)
+            parents_by_child[synthetic_root] = set()
+
+        ancestors_cache = {}
+        visiting = set()
+
+        def ancestors(node):
+            if node in ancestors_cache:
+                return ancestors_cache[node]
+            if node in visiting:
+                raise AssertionError(f"Cycle detected in hierarchy at node '{node}'.")
+            visiting.add(node)
+            result = {node}
+            for parent in parents_by_child.get(node, set()):
+                result |= ancestors(parent)
+            visiting.remove(node)
+            ancestors_cache[node] = result
+            return result
+
+        # Precompute ancestor closures for all emitted nodes and auxiliary nodes.
+        all_nodes_for_ancestry = set(real_nodes)
+        if roots:
+            all_nodes_for_ancestry.add(synthetic_root)
+        ancestors_by_node = {node: ancestors(node) for node in all_nodes_for_ancestry}
+
+        # Enumerate unordered (x, y) pairs only once (MLB is symmetric in x/y).
+        labels = {node: self._node_to_label(node) for node in real_nodes}
+        sorted_nodes = sorted(real_nodes, key=lambda node: labels[node])
+        constraints_set = set()
+
+        for idx, x in enumerate(sorted_nodes):
+            ancestors_x = ancestors_by_node[x]
+            label_x = labels[x]
+            for y in sorted_nodes[idx + 1 :]:
+                ancestors_y = ancestors_by_node[y]
+                label_y = labels[y]
+                common_xy = ancestors_x & ancestors_y
+                if not common_xy:
+                    continue
+                for z in sorted_nodes:
+                    if z == x or z == y:
+                        continue
+                    ancestors_z = ancestors_by_node[z]
+
+                    # Property 2: there exists c with x,y in c and z not in c.
+                    if not (common_xy - ancestors_z):
+                        continue
+                    # Property 1: every c containing x,z also contains y.
+                    # remove clusters containing y from clusters containing x and z -> if anything left: property
+                    # violated
+                    if (ancestors_x & ancestors_z) - ancestors_y:
+                        continue
+                    # Symmetric Property 1: (y,z) -> x
+                    if (ancestors_y & ancestors_z) - ancestors_x:
+                        continue
+                    constraints_set.add(f"{label_x},{label_y},{labels[z]}")
+
+        return sorted(constraints_set)
+
     def extract_all_mlb_constraints(self, out_path: Path):
         """
         Extract all MLB constraints from hierarchy dictionary.
-        Use siblings-uncle logic:
-        parent: {child_a, child_b},
-        uncle: {cousin_a, cousin_b},
-        results in (child_a, child_b, uncle), (cousin_a, cousin_b, parent)
+        A triple (x, y, z) is emitted iff MLB Properties 1 and 2 hold.
 
         :param out_path: Path to save MLB constraints to (as txt file).
 
@@ -198,331 +304,6 @@ class BankSearchGroundTruthExtractor(BaseExtractor):
 
         logger.info("Constraints successfully saved.")
 
-
-class BankSearchTopicModelExtractor(BaseExtractor):
-
-    def __init__(self, iceberg_concepts: List):
-        """
-        Initialize the topic-model extractor.
-
-        Input:
-          `iceberg_concepts`: list of FCA concepts in the form (extent, intent).
-          Example:
-            [
-              (["doc1", "doc2"], ["topicA", "topicB"]),
-              (["doc2"], ["topicA"])
-            ]
-          where extent = list of document IDs and intent = list of topic labels.
-
-        Output:
-          Sets `self.iceberg_concepts`.
-        """
-        assert isinstance(iceberg_concepts, (list, edn_format.immutable_list.ImmutableList)), f"iceberg_concepts must be a list, but got {type(iceberg_concepts)}."
-        super().__init__(dataset_name="banksearch")
-        self.iceberg_concepts = iceberg_concepts
-
-    def _iter_valid_concepts(self):
-        """
-        Iterate over iceberg concepts with validation and normalization.
-
-        Input:
-          `self.iceberg_concepts`: list-like of concepts in (extent, intent) form.
-
-        Output:
-          Yields `(extent_set, intent_set)` where both are Python sets.
-
-        Skips:
-          Concepts that are None, too short, of the wrong container type, or
-          have non-iterable extent/intent members.
-        """
-        for concept in self.iceberg_concepts:
-            # extent, intent
-            if not concept or len(concept) < 2:
-                continue
-            if not isinstance(
-                concept, (list, tuple, edn_format.immutable_list.ImmutableList)
-            ):
-                logger.warning(
-                    "Skipping concept: expected tuple/list-like (extent, intent) but got %s.",
-                    type(concept),
-                )
-                continue
-            extent_raw, intent_raw = concept[0], concept[1]
-            if not hasattr(extent_raw, "__iter__") or not hasattr(intent_raw, "__iter__"):
-                logger.warning(
-                    "Skipping concept: extent/intent must be iterable, got extent=%s intent=%s.",
-                    type(extent_raw),
-                    type(intent_raw),
-                )
-                continue
-            extent_set = set(extent_raw)
-            intent_set = set(intent_raw)
-            yield extent_set, intent_set
-
-    @staticmethod
-    def _get_sorted_str_of_frozenset(fs: Union[frozenset, str]) -> str:
-        """
-        Canonical string key for a conjunction of labels.
-
-        Input:
-          `concept`: frozenset of labels, e.g. frozenset({"topicA", "topicB"}).
-
-        Output:
-          Comma-joined, sorted string, e.g. "topicA,topicB".
-        """
-        if isinstance(fs, str):
-            return fs
-        assert isinstance(fs, frozenset), f"Input must be a frozenset, but got {type(fs)}."
-        return ",".join(sorted(fs))
-
-    def _get_constraints_from_domain_expert(self, ) -> List[str]:
-        """
-        Check if implication (d_x, d_y, d_z) holds in iceberg concepts.
-
-        Input:
-          `d_x`, `d_y`, `d_z`: document IDs as strings.
-        Output:
-          List of constraints as strings in the form "d_x,d_y,d_z".
-        """
-        domain_expert = DomainExpert(concepts=self.iceberg_concepts)
-        # top concept has empty intent and extent of all documents; bottom concept has empty extent and intent of all topics
-        all_documents = next(
-            extent for extent, intent in domain_expert.concepts if len(intent) == 0
-        )
-        all_documents = list(all_documents)
-        # Precompute lowest extent containing each document
-        lowest_extent = {
-            d: domain_expert._lowest_extent_containing({d}) for d in all_documents
-        }
-        constraints = []
-        meet_cache = {}
-
-        for d_x, d_y in combinations(all_documents, 2):
-            ex = lowest_extent[d_x]
-            ey = lowest_extent[d_y]
-            if ex is None or ey is None:
-                continue
-            assert isinstance(ex, set) and isinstance(ey, set), f"extents must be sets, but are {type(ex)} and {type(ey)}."
-
-            key = (d_x, d_y)
-            if key not in meet_cache:
-                meet_cache[key] = domain_expert._lowest_extent_containing(ex | ey)
-
-            meet = meet_cache[key]
-            if not meet:
-                continue
-
-            for d_z in meet:
-                if d_z != d_x and d_z != d_y:
-                    logger.info(f"Adding constraint ({d_x}, {d_y}, {d_z}) from domain expert.")
-                    constraints.append(f"{d_x},{d_y},{d_z}")
-        return constraints
-
-    def _get_constraints_from_hierarchy_dict(self, hierarchy_dict: dict) -> List[str]:
-        """
-        Build MLB constraints with the "siblings + uncle" rule for topic models.
-
-        Rule:
-          - a and b are siblings (share the same parent P),
-          - c is an uncle of a and b (another child of P's parent).
-          a, b, and c can be internal or leaf nodes.
-
-        Example:
-                1
-              /   \
-             2     3
-                  / \
-                 4   5
-          -> (4,5,2)
-          (not (4,5,3) because 3 is the parent/meet of 4 and 5;
-           not (2,3,1) because 2 and 3 are not siblings under the same parent).
-        """
-        assert isinstance(hierarchy_dict, dict), "hierarchy_dict must be a dict."
-        assert len(hierarchy_dict) > 0, "hierarchy_dict must not be empty."
-
-        constraints_set = set()
-        min_siblings = max(2, self.min_num_children)
-        for grandparent, gp_children in hierarchy_dict.items():
-            gp_children = list(gp_children)
-            if len(gp_children) < 2:
-                continue  # need at least one parent and one uncle
-            for parent in gp_children:
-                parent_children = hierarchy_dict.get(parent, set())
-                if len(parent_children) < min_siblings:
-                    continue
-                sibling_pairs = list(combinations(sorted(parent_children), 2))
-                for uncle in gp_children:
-                    if uncle == parent:
-                        continue
-                    for a, b in sibling_pairs:
-                        constraints_set.add(f"{a},{b},{uncle}")
-
-        return sorted(constraints_set)
-
-    def extract_all_mlb_constraints(self, out_path: Path):
-        """
-        Extract all MLB constraints from hierarchy in iceberg concepts.
-
-        :param out_path: Path to save MLB constraints to (as txt file).
-
-        Input:
-          `out_path`: directory path to write files to.
-
-        Output:
-          Writes:
-          `mlb_topic_model_banksearch.txt` with MLB constraints in ID form.
-          Each label is an intent/extent ID (C*), except the empty intent/extent which is "top"/"bottom".
-          `mlb_topic_model_banksearch_ids_map.json` mapping IDs to their strings.
-
-          Example constraint line in txt file:
-            C2,C5,C1
-          Example JSON entry: <type> is either document (for extent) or topic (for intent):
-            "C5": "<type>C,<type>D"
-            "top": "", # for empty intent
-            "bottom": "", # for empty extent
-        """
-        extent_based = True  # we want constraints on documents (extent), not topics (intent)
-        assert isinstance(out_path, Path), "out_path must be a pathlib.Path."
-        assert self.iceberg_concepts, "iceberg_concepts is empty."
-        out_path.mkdir(parents=True, exist_ok=True)
-        out_filename = out_path / f"mlb_topic_model_{self.dataset_name}.txt"
-
-        # hierarchy_dict: parent intent ID is key, set of child intent IDs is value
-        hierarchy_dict = defaultdict(set)
-        translate_sets = {}  # map frozenset(set) -> ID (or "top"/"bottom" for empty intent/extent)
-        set_id_counter = 1
-        normalized_concepts = list(self._iter_valid_concepts())
-        assert normalized_concepts, "no valid concepts after validation."
-
-        def get_set_id(_set: set, extent_based:bool=True) -> str:
-            """
-            Map an set to a stable label:
-              - empty set -> "top" or "bottom"
-              - singleton or conjunction -> unique C* ID
-
-            Input:
-              `_set`: set of topic labels, e.g. {"topicA"} or {"topicA","topicB"}.
-                `extent_based`: if True, the set is an extent (documents), else intent (topics).
-
-            Output:
-              String ID for the set, e.g. "C3" (or "top" for empty).
-            """
-            special_id = "bottom" if extent_based else "top"   # bottom for extents, top for intents
-            nonlocal set_id_counter
-            if len(_set) == 0:
-                key = frozenset()
-                if key in translate_sets and translate_sets[key] != special_id:
-                    raise ValueError(f"Conflicting mapping for empty set; expected '{special_id}'.")
-                translate_sets[key] = special_id
-                return special_id
-            key = self._get_sorted_str_of_frozenset(frozenset(_set))
-            if key not in translate_sets:
-                translate_sets[key] = f"C{set_id_counter}"
-                set_id_counter += 1
-            return translate_sets[key]
-
-        for extent_set, intent_set in normalized_concepts:
-            # documents are objects, topics are attributes in FCA terminology
-            # i want MLB constraints on documents (-> extent), not on topics
-            # concept (A, B): A extent (objects), B  intent (attributes)
-            # extent_set: all documents sharing the intent
-            # intent_set: all topics shared by the extent
-            reference_set = extent_set if extent_based else intent_set
-            outer_key = get_set_id(reference_set, extent_based=extent_based)
-
-            if outer_key in hierarchy_dict.keys():
-                continue    # already processed
-            for other_extent_set, other_intent_set in normalized_concepts:
-                if extent_set == other_extent_set:
-                    continue
-                # check relation over extents subset-relation (documents)
-                if other_extent_set.issubset(extent_set):
-                    # Require intent_set ⊆ other_intent_set so children are true specializations (should always hold in FCA)
-                    assert intent_set.issubset(other_intent_set) and intent_set != other_intent_set, "Invalid concept hierarchy: parent intent must be a proper subset of child intent."
-                    other_set = other_extent_set if extent_based else other_intent_set
-                    other_set_key = get_set_id(other_set, extent_based=extent_based)
-                    hierarchy_dict[outer_key].add(other_set_key)
-                    
-
-        def assert_acyclic(graph):
-            visiting = set()
-            visited = set()
-
-            def dfs(node, stack):
-                if node in visiting:
-                    cycle = " -> ".join(stack + [node])
-                    raise AssertionError(f"Cycle detected: {cycle}")
-                if node in visited:
-                    return
-                visiting.add(node)
-                for child in graph.get(node, set()):
-                    if child in graph:  # only traverse nodes that are also parents
-                        dfs(child, stack + [node])
-                visiting.remove(node)
-                visited.add(node)
-
-            for node in graph:
-                dfs(node, [])
-
-        assert_acyclic(hierarchy_dict)
-
-        # hierarchy_dict currently contains transitive edges, which leads to more constraints than necessary.
-        # We remove transitive edges: if parent -> child and parent -> grandchild via child,
-        # then drop parent -> grandchild.
-        def all_descendants(node, graph, memo):
-            if node in memo:
-                return memo[node]
-            desc = set()
-            for ch in graph.get(node, set()):
-                desc.add(ch)
-                desc |= all_descendants(ch, graph, memo)
-            memo[node] = desc
-            return desc
-
-        graph_snapshot = {k: set(v) for k, v in hierarchy_dict.items()}
-        memo = {}
-        for parent in list(hierarchy_dict.keys()):
-            children = set(hierarchy_dict[parent])
-            to_remove = set()
-            for child in children:
-                # Remove descendants of the child (not the child itself).
-                to_remove |= all_descendants(child, graph_snapshot, memo) - {child}
-            if to_remove:
-                logger.info(
-                    "Removing %d transitive children from parent '%s'.", len(to_remove), parent
-                )
-            hierarchy_dict[parent] = children - to_remove
-
-        logger.info(
-            f"Extracted hierarchy dict: {hierarchy_dict} of len {len(hierarchy_dict)} without any cycles."
-        )
-        assert hierarchy_dict, "hierarchy_dict is empty; no constraints can be formed."
-
-        # Convert hierarchy dict into MLB constraints (child1, child2, parent).
-        # constraints = self._get_constraints_from_hierarchy_dict(hierarchy_dict)
-        constraints = self._get_constraints_from_domain_expert()
-        assert constraints, "no constraints generated; check iceberg_concepts content."
-        logger.info(f"Got {len(constraints)} constraints: {constraints}")
-        with open(out_filename, "w") as f:
-            for constraint in constraints:
-                f.write(constraint + "\n")
-        logger.info(f"Saved {len(constraints)} constraints to {out_filename}")
-
-    
-        out_filename_ids_map = (
-            out_path / f"mlb_topic_model_{self.dataset_name}_ids_map.json"
-        )
-        
-        with open(out_filename_ids_map, "w") as f:
-            json.dump(
-                {v: self._get_sorted_str_of_frozenset(k) for k, v in translate_sets.items()},
-                f,
-                indent=2,
-                sort_keys=True,
-            )
-        logger.info(
-            f"Saved {len(translate_sets)} intent identifier mappings to {out_filename_ids_map}"
-        )
 
 if __name__ == "__main__":
     PROJECT_ROOT = Path(__file__).resolve().parents[2]
