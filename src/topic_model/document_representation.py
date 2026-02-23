@@ -1,6 +1,7 @@
 from pathlib import Path
 import json
 import re
+from collections import defaultdict
 from matplotlib import pyplot as plt
 import numpy as np
 import pandas as pd
@@ -20,6 +21,46 @@ class DocumentRepresentaterBase:
         Returns a DataFrame: rows = documents, columns = topics, values = 0/1
         """
         raise NotImplementedError()
+
+    def convert_documents_to_clarified_vectors(self) -> tuple[pd.DataFrame, dict]:
+        """
+        Collapse equivalent document rows (same topic vector) into one representative row.
+
+        Returns
+        -------
+        tuple[pd.DataFrame, dict]
+          (1) clarified_df:
+              DataFrame with one representative document per equivalence class.
+              Columns are unchanged from `convert_documents_to_vectors`.
+          (2) representative_to_docs:
+              Mapping representative_doc_id -> set of document IDs in that class.
+        """
+        if self.doc_vectors.empty:
+            self.doc_vectors = self.convert_documents_to_vectors()
+        if self.doc_vectors.empty:
+            return self.doc_vectors.copy(), {}
+
+        if not self.doc_vectors.index.is_unique:
+            raise ValueError("Document IDs (DataFrame index) must be unique.")
+
+        print("Number of original documents per topic:\n", self.doc_vectors.sum(axis=0).to_string())
+
+        equivalent_docs: dict[tuple, list] = defaultdict(list)
+        for doc_id, row in self.doc_vectors.iterrows():
+            signature = tuple(row.tolist())
+            equivalent_docs[signature].append(doc_id)
+
+        representative_to_docs: dict = {}
+        representative_ids: list = []
+        for doc_ids in equivalent_docs.values():
+            sorted_doc_ids = sorted(doc_ids)
+            representative = sorted_doc_ids[0]
+            representative_ids.append(representative)
+            representative_to_docs[representative] = set(sorted_doc_ids)
+
+        representative_ids = sorted(representative_ids)
+        clarified_df = self.doc_vectors.loc[representative_ids].copy()
+        return clarified_df, representative_to_docs
 
     def to_fca_context(self) -> context.FormalContext:
         """
@@ -168,7 +209,7 @@ class DocumentGroundTruthRepresenter(DocumentRepresentaterBase):
         assert (
             self.path2groundtruth.exists()
         ), f"Path does not exist: {self.path2groundtruth}"
-        self.save_path = Path("resources/banksearch")
+        self.save_path = Path("/resources/banksearch")
 
     def convert_documents_to_vectors(self) -> pd.DataFrame:
         """
