@@ -1,11 +1,15 @@
 \begin{abstract}
-We present FCA-constrained clustering, an approach to document clustering that combines \ac{fca} with topic modeling through constraint-based attribute exploration. 
-Our method constructs an incidence relation between documents and \textcolor{red}{clusters} using attribute exploration, where the exploration process is guided by an expert, i.e., a set of \ac{mlb} constraints. 
-These constraints are automatically extracted from an external knowledge base derived from the topic model \ac{lda}. 
-Specifically, we apply \ac{lda} to assign topics to documents in the corpus, retaining only the most representative topics to ensure their relevance. 
-From the resulting iceberg concept lattice of documents and their associated topics, we systematically extract MLB constraints that encode semantic relationships between topics. 
-These constraints serve to prune the solution space of all possible clusterings derivable from the attribute exploration incidence relation, effectively incorporating domain knowledge from the topic model into the \textcolor{red}{clustering process} using \ac{fca}. 
-Our approach demonstrates how statistical topic modeling can inform and constrain clusterings.
-    \keywords{Clustering  \and \acs{fca} \and \acs{nlp} \and Text Mining
+Traditional attribute exploration iteratively discovers domain information using a domain expert.
+Inconsistencies between multiple experts are usually ignored by using systems of shared implications.
+In this work, we analyze the difference between two different knowledge base informed concept lattices.
+We employ \ac{mlb}-constrained attribute exploration and knowledge extraction based on a statistical knowledge base.
+\ac{mlb} constraints are systematically extracted from a gold-label topic hierarchy and subsequently mapped to the
+corresponding document corpus.
+The second knowledge base, namely a \ac{lda} topic model, builds a document-topic-context based on statistical
+inference of the document corpus.
+The impact of both knowledge basis are compared both qualitatively (human) and quantitatively by intersecting both
+contexts.
+
+    \keywords{Constraints  \and \acs{fca} \and Attribute Exploration \and \acs{nlp} \and Text Mining
         \and Hierarchical Topic Representation \and Semantic Analysis.}
 \end{abstract}
