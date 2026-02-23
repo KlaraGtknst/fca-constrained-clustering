@@ -187,7 +187,7 @@ def generate_context_obj(oracle):
 # --- MAIN ---
 
 if __name__ == "__main__":
-    constraint_file = "resources/banksearch/ground_truth/mlb_banksearch.txt"
+    constraint_file = "resources/banksearch/ground_truth/mlb_banksearch_docids.txt"
 
     oracle = MLBOracle(constraint_file)
     
