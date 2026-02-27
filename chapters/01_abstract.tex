@@ -1,21 +1,17 @@
 \begin{abstract}
-Traditional attribute exploration iteratively elicits domain knowledge from an expert to construct a formal context.
-When multiple experts contribute, inconsistencies are commonly resolved by restricting the exploration to systems of
-shared implications, thereby potentially discarding conflicting knowledge.
+In this work, we propose a method to compare and merge knowledge derived from \acs{mlb} constraints with an additional
+knowledge source in the form of a hierarchy, such as a topic model.
+We apply this approach to the BankSearch dataset by exploring the universe of a closure operator provided by the \acs{mlb} constraints.
+These constraints are derived from a gold-label topic hierarchy and subsequently mapped onto the corresponding document corpus.
+As our supplementary hierarchical knowledge source, we utilize an \ac{lda} topic model, which constructs a
+document–topic context through statistical inference over the same corpus.
 
-In this work, we explicitly address such inconsistencies by investigating the structural differences between two
-knowledge-base-informed concept lattices derived from the BankSearch dataset.
-We employ \acs{mlb}-constrained attribute exploration and knowledge extraction from a statistically
-derived corpus-based knowledge base.
-The \acs{mlb} constraints are systematically obtained from a gold-label topic hierarchy and subsequently mapped onto
-the corresponding document corpus.
-As an alternative knowledge source, we utilize an \acs{lda} topic model, which constructs a document–topic context
-through statistical inference over the same corpus.
-
-The impact of both knowledge bases is evaluated qualitatively through human assessment and quantitatively by analyzing
-the intersection of the resulting formal contexts.
-While the qualitative analysis reveals substantial structural differences between the two concept lattices, their
-intersection provides a principled mechanism for consolidating potentially conflicting knowledge bases.
+To understand the interplay between these sources, we examine the structural differences between the resulting
+knowledge-base-informed concept lattices.
+The influence of both knowledge bases is assessed qualitatively through manual review and quantitatively by analyzing
+the intersection of their conceptual structure.
+While the qualitative review highlights distinct structural variations between the two concept lattices, their
+intersection offers a practical approach for consolidating these differing knowledge representations.
 
 \keywords{Constraints  \and \acs{fca} \and Attribute Exploration \and \acs{nlp} \and Text Mining
         \and Hierarchical Topic Representation \and Semantic Analysis.}
