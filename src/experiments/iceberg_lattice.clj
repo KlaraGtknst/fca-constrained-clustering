@@ -15,8 +15,8 @@
   "resources/banksearch/fca_topic_model_context.json")
 
 (def default-output-path
-  "Default path where iceberg concepts are saved as EDN."
-  "resources/banksearch/iceberg_concepts.edn")
+  "Default path where iceberg concepts are saved in Burmeister format."
+  "resources/banksearch/iceberg_concepts.cxt")
 
 (defn read-context-json
   "Reads the FCA context JSON from disk.
@@ -163,43 +163,6 @@
                       index)]
     {:index index :columns columns :data data}))
 
-(defn save-context-json
-  "Writes a context map in this project's matrix JSON shape:
-  {:index [...], :columns [...], :data [[0/1 ...] ...]}.
-
-  Returns the output path."
-  [ctx-json ^String output-path]
-  (with-open [w (io/writer output-path)]
-    (json/write ctx-json w))
-  output-path)
-
-(defn csv-escape
-  "Escapes a value for CSV output by converting it to string,
-  doubling embedded quotes, and surrounding with quotes."
-  [v]
-  (let [s (cond
-            (string? v) v
-            :else (pr-str v))]
-    (str "\"" (str/replace s "\"" "\"\"") "\"")))
-
-(defn save-context-csv
-  "Writes a context map as CSV with header:
-  index,<attr1>,<attr2>,...
-  and one row per object from :index/:data.
-
-  Returns the output path."
-  [ctx-json ^String output-path]
-  (let [header (str/join "," (cons (csv-escape "index")
-                                   (map csv-escape (:columns ctx-json))))
-        rows (map (fn [idx row]
-                    (str/join "," (cons (csv-escape idx)
-                                        (map csv-escape row))))
-                  (:index ctx-json)
-                  (:data ctx-json))
-        content (str (str/join "\n" (cons header rows)) "\n")]
-    (spit output-path content))
-  output-path)
-
 (defn save-context-burmeister
   "Writes a context map as Burmeister FCA format (.cxt) using conexp-clj.
   The map must follow {:index [...], :columns [...], :data [[0/1 ...] ...]}.
@@ -220,7 +183,7 @@
   Usage:
   - (run-iceberg 0.9) ; uses `default-context-path` and `default-output-path`
   - (run-iceberg \"path/to/context.json\" 0.9)
-  - (run-iceberg \"path/to/context.json\" 0.9 \"path/to/output.edn\")
+  - (run-iceberg \"path/to/context.json\" 0.9 \"path/to/output.cxt\")
 
   Returns:
   A vector of iceberg concepts. Prints a short summary and writes the concepts to disk."
@@ -233,22 +196,15 @@
          ctx (context-from-json ctx-json)
          concepts (iceberg-concepts ctx min-support)
          iceberg-context (get-iceberg-context concepts)
-         saved-path (save-iceberg-concepts concepts output-path)
-         json-save-path (save-context-json iceberg-context
-                                           "resources/banksearch/topic_model/iceberg_context.json")
-         csv-save-path (save-context-csv iceberg-context
-                                         "resources/banksearch/topic_model/iceberg_context.csv")
-         burmeister-save-path (save-context-burmeister iceberg-context
-                                                       "resources/banksearch/topic_model/iceberg_context.cxt")
+         concepts-save-path (save-iceberg-concepts concepts (str output-path ".edn"))
+         burmeister-save-path (save-context-burmeister iceberg-context (str output-path ".cxt"))
         ]
      (println "Loaded context from" context-path
               "| min support:" min-support
               "| objects:" (count (:index ctx-json))
               "| attributes:" (count (:columns ctx-json))
               "| iceberg concepts:" (count concepts)
-              "| concepts saved to:" saved-path
-              "| context json saved to:" json-save-path
-              "| context csv saved to:" csv-save-path
+              "| concepts (for later visualization) saved to: " concepts-save-path
               "| context Burmeister saved to:" burmeister-save-path)
     ;;  concepts
      )))

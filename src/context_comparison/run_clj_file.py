@@ -136,6 +136,7 @@ if __name__ == "__main__":
     call_clojure_analyze(cxt2, 0.0)
 
     # Plot PNGs from the EDN concepts that Clojure produced
+    # FIXME: use Burmeister format to save formal (iceberg) context
     edn1 = RESULTS_DIR / "iceberg_context_concepts.edn"
     edn2 = RESULTS_DIR / "mlb_expanded_concepts.edn"
 
