@@ -1,21 +1,18 @@
 \begin{abstract}
 \ac{fca} enables the generation of hierarchical conceptual order without requiring an expert ontology.
 Given this advantage, the question arises as to whether the resulting structure aligns with existing knowledge.
-To ensure a coherent generation of the concept hierarchy, the use of hierarchical constraints,
-also referred to as \ac{mlb} constraints, has been proposed.
+To ensure a coherent generation of the concept hierarchy, the use of hierarchical constraints, also referred to as \ac{mlb} constraints, has been proposed.
 
 In this work, we introduce a method for comparing and integrating knowledge derived from \acs{mlb} constraints with an additional source of structured knowledge in the form of a hierarchy, such as a topic model.
 We apply this approach to the BankSearch dataset by exploring the universe of a closure operator provided by the \acs{mlb} constraints.
 These constraints are derived from a gold-label topic hierarchy and subsequently mapped onto the corresponding document corpus.
-As our supplementary hierarchical knowledge source, we utilize an \ac{lda} topic model, which constructs a
-document-topic context through statistical inference over the same corpus.
+As our supplementary hierarchical knowledge source, we utilize an \ac{lda} topic model, which constructs a document-topic context through statistical inference over the same corpus.
 
-To understand the interplay between these sources, we examine the structural differences between the resulting
-knowledge-base-informed concept lattices.
+To understand the interplay between these sources, we examine the structural differences between the resulting knowledge-base-informed concept lattices.
 The influence of both knowledge bases is assessed qualitatively through manual review and quantitatively by analyzing
 the intersection of their conceptual structure.
 While the qualitative review highlights distinct structural variations between the two concept lattices, their
 intersection offers a practical approach for consolidating these differing knowledge representations.
 
-\keywords{\acs{fca} \and Constraints \and Topic Modeling \and Clustering.}
+\keywords{\acl{fca} \and Constraints \and Topic Modeling.}
 \end{abstract}
