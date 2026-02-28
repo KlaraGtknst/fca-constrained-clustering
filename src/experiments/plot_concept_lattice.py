@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import logging
 from pathlib import Path
-from typing import Any, Iterable, List, Sequence, Tuple
+from typing import Any, Iterable, List, Sequence, Tuple, Optional
 
 import networkx as nx
 from edn_format import loads
@@ -28,7 +28,7 @@ class IcebergLatticePlotter:
         edn_path: str | Path,
         svg_path: str | Path,
         *,
-        min_support: float = 0.05,
+        min_support: Optional[float] = None,
         figsize: tuple[float, float] = (18, 5),
         node_size: int = 20,
         edge_width: float = 0.6,
@@ -122,7 +122,7 @@ class IcebergLatticePlotter:
         pos: dict[int, tuple[float, float]],
         concepts: Sequence[Concept],
         svg_path: Path,
-        min_support: float,
+        min_support: Optional[float],
         figsize: tuple[float, float],
         node_size: int,
         edge_width: float,
@@ -168,11 +168,10 @@ class IcebergLatticePlotter:
             )
 
         plt.axis("off")
-        plt.title(
-            "Iceberg Concept Lattice\n"
-            f"min_support={min_support}\n"
-            "Node labels: top = intent (attributes), bottom = |A| (number of objects).",
-            fontsize=12,
-        )
+        title = "Iceberg Concept Lattice"
+        if min_support is not None:
+            title += f"\nmin_support={min_support}"
+        title += "Node labels: top = intent (attributes), bottom = |A| (number of objects)."
+        plt.title(title,fontsize=12)
         plt.savefig(svg_path, format="svg", bbox_inches="tight")
         plt.close()
