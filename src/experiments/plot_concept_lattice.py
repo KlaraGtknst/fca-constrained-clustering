@@ -171,7 +171,7 @@ class IcebergLatticePlotter:
         title = "Iceberg Concept Lattice"
         if min_support is not None:
             title += f"\nmin_support={min_support}"
-        title += "Node labels: top = intent (attributes), bottom = |A| (number of objects)."
+        title += "\nNode labels: top = intent (attributes), bottom = |A| (number of objects)."
         plt.title(title,fontsize=12)
         plt.savefig(svg_path, format="svg", bbox_inches="tight")
         plt.close()
