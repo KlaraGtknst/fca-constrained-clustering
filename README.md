@@ -56,3 +56,17 @@ It is displayed below.
 The MLB constraints have the format `x,y,z` where `x` and `y` have to be meregd before `z`.
 If there is no explicit topic id for any of `x`, `y` or `z`, it is the union of its children. 
 For instance, if `x` and `y` have explicit names, but `z` has not, `z=x,y`; leading to: `x,y, x,y`
+
+## Comparison of MLB and topic model context
+
+Given the context's concepts as `.edn` files, we can compare the concepts of the topic model iceberg context with the 
+concepts of 
+the MLB context.
+Both Hasse diagrams are plotted and saved running `src/context_comparison/run_clj_file.py` and are shown below.
+Additional statistics are also generated when running that file.
+
+Topic Model Iceberg Lattice of the BankSearch Dataset with min-support of 0.05:
+![iceberg_context_0.05_lattice.svg](results/context_comparison/iceberg_context_0.05_lattice.svg)
+
+Concepts Lattice of the MLB context on the BankSearch Dataset:
+![mlb_expanded_lattice.svg](results/context_comparison/mlb_expanded_lattice.svg)
