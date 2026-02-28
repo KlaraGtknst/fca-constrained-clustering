@@ -4,9 +4,8 @@ import os
 from pathlib import Path
 import subprocess
 import sys
-import networkx as nx
-from matplotlib import pyplot as plt
-from edn_format import loads
+
+from experiments.plot_concept_lattice import IcebergLatticePlotter
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
@@ -91,5 +90,12 @@ try:
         stderr=subprocess.STDOUT,
     )
     logger.info(out)
+
+    root = Path.cwd().parents[1]
+
+    edn_path = root / f"resources/banksearch/topic_model/banksearch_{min_support}_iceberg.edn"
+    svg_path = root / f"resources/banksearch/topic_model/plots/banksearch_{min_support}_iceberg.svg"
+
+    IcebergLatticePlotter().plot(edn_path, svg_path, min_support=min_support)
 except subprocess.CalledProcessError as e:
     logger.error(e.output)
