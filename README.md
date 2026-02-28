@@ -47,9 +47,6 @@ We choose `0.05` and obtain around `30`concepts.
 Using this knowledge run the `run_clj_file.py` file after adjusting the `min_supp` value accordingly.
 This generates a `.cxt` and an `.edn` file containing the iceberg context and icebergs concepts, respectively.
 You may now plot the resulting iceberg concepts lattice by running `plot_concept_lattice.py`.
-It is displayed below. 
-
-![Iceberg Concept Lattice of the BankSearch Dataset with min-support of 0.05.](resources/banksearch/topic_model/plots/banksearch_0.05_iceberg.svg)
 
 
 ### MLB Constraints
@@ -66,7 +63,7 @@ Both Hasse diagrams are plotted and saved running `src/context_comparison/run_cl
 Additional statistics are also generated when running that file.
 
 Topic Model Iceberg Lattice of the BankSearch Dataset with min-support of 0.05:
-![iceberg_context_0.05_lattice.svg](results/context_comparison/iceberg_context_0.05_lattice.svg)
+![Iceberg Concept Lattice of the BankSearch Dataset with min-support of 0.05.](results/context_comparison/iceberg_context_0.05_lattice.svg)
 
 Concepts Lattice of the MLB context on the BankSearch Dataset:
 ![mlb_expanded_lattice.svg](results/context_comparison/mlb_expanded_lattice.svg)
