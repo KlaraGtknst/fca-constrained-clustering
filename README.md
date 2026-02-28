@@ -35,7 +35,7 @@ Hence, run `print_stats.py`, which will produce a csv file that below.
 ![Image: Comparison of the ground truth document-topic incidence and the topic model document-topic incidence of the BankSearch Dataset](resources/banksearch/fca_contexts_comparison_stats.svg)
 
 We use the resulting document-topic context to extract topic hierarchies using iceberg lattices via the TITANIC algorithm.
-Iceberg lattices contain only concepts (A,B) whose intent has a support higher or equal to `min_supp`.
+Iceberg lattices contain only concepts `(A,B)` whose intent has a support higher or equal to `min_supp`.
 Intuively, remaining concepts are document-topic pairs, whose topics are representative for at least `min_supp` $\times 100 \%$ of the documents in the corpus. 
 To get a feeling for the choice of `min_supp` we run `plot_concepts_vs_support.py`, resulting in the following plot.
 
