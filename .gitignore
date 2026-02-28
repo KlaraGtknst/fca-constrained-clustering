@@ -348,3 +348,5 @@ TSWLatexianTemp*
 !results/lda/incidence_density_vs_threshold.svg
 !resources/banksearch/topic_model/plots/concepts_vs_support.svg
 !resources/banksearch/topic_model/plots/banksearch_0.05_iceberg.svg
+!results/context_comparison/mlb_expanded_lattice.svg
+!results/context_comparison/iceberg_context_0.05_lattice.svg
