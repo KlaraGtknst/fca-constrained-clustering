@@ -106,14 +106,10 @@ def plot_lattice_from_edn(edn_path: str, svg_path: str, min_support: float):
     plt.close()
 
 
-cxt_path = f"resources/banksearch/topic_model/banksearch_{min_support}_iceberg"
-svg_path = (
+svg_path = Path(os.getcwd()).parents[1] / (
 f"resources/banksearch/topic_model/plots/banksearch_{min_support}_iceberg.svg"
 )
-iceberg_context_csv_path = "resources/banksearch/topic_model/iceberg_context.csv"
-path = "/Users/klara/Developer/fca-constrained-clustering"
-
-edn_path = Path(path) / (cxt_path + ".edn")
+edn_path = Path(os.getcwd()).parents[1] / f"resources/banksearch/topic_model/banksearch_{min_support}_iceberg.edn"
 print(edn_path)
 if os.path.exists(edn_path):
     logger.info("Path exists.")
@@ -124,5 +120,5 @@ if os.path.exists(edn_path):
     iceberg_concepts = read_edn_concepts(edn_path)
     logger.info(f"Read {len(iceberg_concepts)} iceberg concepts from {edn_path}")
 else:
-    logger.error(f"Path {cxt_path} does not exist, current pwd {os.getcwd()}")
+    logger.error(f"Path {edn_path} does not exist, current pwd {os.getcwd()}")
 
