@@ -45,8 +45,8 @@ We find that the `min_supp` value should be no lower then `0.15`, otherwise less
 We choose `0.05` and obtain around `30`concepts.
 
 Using this knowledge run the `run_clj_file.py` file after adjusting the `min_supp` value accordingly.
-This generates a .edn file containing the iceberg concept.
-Moreover, the resulting iceberg concepts lattice visualization is automatically generated and saved.
+This generates a `.cxt` and an `.edn` file containing the iceberg context and icebergs concepts, respectively.
+You may now plot the resulting iceberg concepts lattice by running `plot_concept_lattice.py`.
 It is displayed below. 
 
 ![Iceberg Concept Lattice of the BankSearch Dataset with min-support of 0.05.](resources/banksearch/topic_model/plots/banksearch_0.05_iceberg.svg)
