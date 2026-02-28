@@ -13,7 +13,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### Workflow: Topic Model to MLB Constraints
+### Topic Model 
 You can represent texts via their most representive topic.
 This topic can be derived from a Topic Model (here: LDA).
 Run `dataset2lda_topics.py` in order to obtain **topics**.
@@ -35,7 +35,7 @@ Hence, run `print_stats.py`, which will produce a csv file that below.
 ![Image: Comparison of the ground truth document-topic incidence and the topic model document-topic incidence of the BankSearch Dataset](resources/banksearch/fca_contexts_comparison_stats.svg)
 
 We use the resulting document-topic context to extract topic hierarchies using iceberg lattices via the TITANIC algorithm.
-Iceberg alttices contain only concepts (A,B) whose intent has a support higher or equal to `min_supp`.
+Iceberg lattices contain only concepts (A,B) whose intent has a support higher or equal to `min_supp`.
 Intuively, remaining concepts are document-topic pairs, whose topics are representative for at least `min_supp` $\times 100 \%$ of the documents in the corpus. 
 To get a feeling for the choice of `min_supp` we run `plot_concepts_vs_support.py`, resulting in the following plot.
 
@@ -45,12 +45,14 @@ We find that the `min_supp` value should be no lower then `0.15`, otherwise less
 We choose `0.05` and obtain around `30`concepts.
 
 Using this knowledge run the `run_clj_file.py` file after adjusting the `min_supp` value accordingly.
-This generates a .edn file containing the iceberg concepts, and extracts the MLB constraint using the `BankSearchTopicModelExtractor` from the `extractor.py` file.
+This generates a .edn file containing the iceberg concept.
 Moreover, the resulting iceberg concepts lattice visualization is automatically generated and saved.
 It is displayed below. 
 
 ![Iceberg Concept Lattice of the BankSearch Dataset with min-support of 0.05.](resources/banksearch/topic_model/plots/banksearch_0.05_iceberg.svg)
 
+
+### MLB Constraints
 The MLB constraints have the format `x,y,z` where `x` and `y` have to be meregd before `z`.
 If there is no explicit topic id for any of `x`, `y` or `z`, it is the union of its children. 
 For instance, if `x` and `y` have explicit names, but `z` has not, `z=x,y`; leading to: `x,y, x,y`
