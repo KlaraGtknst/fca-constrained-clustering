@@ -62,7 +62,7 @@ if __name__ == "__main__":
         logger.warning(f"EDN not found: {edn1_path}")
 
     if edn2_path.exists():
-        IcebergLatticePlotter().plot(edn2_path, img2_path, min_support=None)
+        IcebergLatticePlotter().plot(edn2_path, img2_path, min_support=None, omit_transitive_intents=True)
         logger.info(f"Saved PNG to {img2_path}")
     else:
         logger.warning(f"EDN not found: {edn2_path}")
