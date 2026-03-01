@@ -67,3 +67,14 @@ Topic Model Iceberg Lattice of the BankSearch Dataset with min-support of 0.05:
 
 Concepts Lattice of the MLB context on the BankSearch Dataset:
 ![mlb_expanded_lattice.svg](results/context_comparison/mlb_expanded_lattice.svg)
+
+# Comparison of the two lattices
+Run `src/context_comparison/compare_concepts.py`, `src/context_comparison/run_clj_file.py` and `src/context_comparison/explore_cxt.py`.
+
+`compare_concepts.py` produces (among other things) a heatmap of the similarity between the concepts of the two 
+contexts, which is shown below. Similarity is calculated via the Jaccard similarity of the extents of the concepts, which are sets of documents.
+
+
+![heatmap.svg](results/context_comparison/CONCEPT_SIM/heatmap.svg)
+
+Heatmap of Jaccard similarity between both contexts (based on shared concept extents).
