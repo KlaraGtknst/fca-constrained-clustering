@@ -1,0 +1,218 @@
+{
+  "inputs": {
+    "cxt": "resources/banksearch/ground_truth/mlb_expanded.cxt",
+    "gt": "resources/banksearch/ground_truth/fca_gt_context.json"
+  },
+  "doc_universe_check": {
+    "cxt_num_docs": 11000,
+    "gt_num_docs": 11000,
+    "missing_in_gt_sample": [],
+    "missing_in_cxt_sample": []
+  },
+  "params": {
+    "max_gt_combo": 3,
+    "max_mi_combo": 3
+  },
+  "matches": [
+    {
+      "direction": "Mi_EQUALS_GT",
+      "target": "M3 == Biology",
+      "target_size": 1000,
+      "op": "EQUALS",
+      "items": [
+        "M3",
+        "Biology"
+      ]
+    },
+    {
+      "direction": "Mi_EQUALS_GT",
+      "target": "M4 == Astronomy",
+      "target_size": 1000,
+      "op": "EQUALS",
+      "items": [
+        "M4",
+        "Astronomy"
+      ]
+    },
+    {
+      "direction": "Mi_EQUALS_GT_COMBO",
+      "target": "M0",
+      "target_size": 2000,
+      "op": "UNION",
+      "items": [
+        "Motor Racing",
+        "Sport"
+      ]
+    },
+    {
+      "direction": "Mi_EQUALS_GT_COMBO",
+      "target": "M1",
+      "target_size": 2000,
+      "op": "UNION",
+      "items": [
+        "Soccer",
+        "Sport"
+      ]
+    },
+    {
+      "direction": "Mi_EQUALS_GT_COMBO",
+      "target": "M10",
+      "target_size": 2000,
+      "op": "UNION",
+      "items": [
+        "Commercial Banks",
+        "Insurance Agencies"
+      ]
+    },
+    {
+      "direction": "Mi_EQUALS_GT_COMBO",
+      "target": "M11",
+      "target_size": 2000,
+      "op": "UNION",
+      "items": [
+        "Building Societies",
+        "Commercial Banks"
+      ]
+    },
+    {
+      "direction": "Mi_EQUALS_GT_COMBO",
+      "target": "M2",
+      "target_size": 2000,
+      "op": "UNION",
+      "items": [
+        "Motor Racing",
+        "Soccer"
+      ]
+    },
+    {
+      "direction": "Mi_EQUALS_GT_COMBO",
+      "target": "M5",
+      "target_size": 2000,
+      "op": "UNION",
+      "items": [
+        "C",
+        "Visual Basic"
+      ]
+    },
+    {
+      "direction": "Mi_EQUALS_GT_COMBO",
+      "target": "M6",
+      "target_size": 2000,
+      "op": "UNION",
+      "items": [
+        "Java",
+        "Visual Basic"
+      ]
+    },
+    {
+      "direction": "Mi_EQUALS_GT_COMBO",
+      "target": "M7",
+      "target_size": 2000,
+      "op": "UNION",
+      "items": [
+        "C",
+        "Java"
+      ]
+    },
+    {
+      "direction": "Mi_EQUALS_GT_COMBO",
+      "target": "M9",
+      "target_size": 2000,
+      "op": "UNION",
+      "items": [
+        "Building Societies",
+        "Insurance Agencies"
+      ]
+    },
+    {
+      "direction": "GT_EQUALS_MI_COMBO",
+      "target": "Building Societies",
+      "target_size": 1000,
+      "op": "INTERSECTION",
+      "items": [
+        "M9",
+        "M11"
+      ]
+    },
+    {
+      "direction": "GT_EQUALS_MI_COMBO",
+      "target": "C",
+      "target_size": 1000,
+      "op": "INTERSECTION",
+      "items": [
+        "M5",
+        "M7"
+      ]
+    },
+    {
+      "direction": "GT_EQUALS_MI_COMBO",
+      "target": "Commercial Banks",
+      "target_size": 1000,
+      "op": "INTERSECTION",
+      "items": [
+        "M10",
+        "M11"
+      ]
+    },
+    {
+      "direction": "GT_EQUALS_MI_COMBO",
+      "target": "Insurance Agencies",
+      "target_size": 1000,
+      "op": "INTERSECTION",
+      "items": [
+        "M9",
+        "M10"
+      ]
+    },
+    {
+      "direction": "GT_EQUALS_MI_COMBO",
+      "target": "Java",
+      "target_size": 1000,
+      "op": "INTERSECTION",
+      "items": [
+        "M6",
+        "M7"
+      ]
+    },
+    {
+      "direction": "GT_EQUALS_MI_COMBO",
+      "target": "Motor Racing",
+      "target_size": 1000,
+      "op": "INTERSECTION",
+      "items": [
+        "M0",
+        "M2"
+      ]
+    },
+    {
+      "direction": "GT_EQUALS_MI_COMBO",
+      "target": "Soccer",
+      "target_size": 1000,
+      "op": "INTERSECTION",
+      "items": [
+        "M1",
+        "M2"
+      ]
+    },
+    {
+      "direction": "GT_EQUALS_MI_COMBO",
+      "target": "Sport",
+      "target_size": 1000,
+      "op": "INTERSECTION",
+      "items": [
+        "M0",
+        "M1"
+      ]
+    },
+    {
+      "direction": "GT_EQUALS_MI_COMBO",
+      "target": "Visual Basic",
+      "target_size": 1000,
+      "op": "INTERSECTION",
+      "items": [
+        "M5",
+        "M6"
+      ]
+    }
+  ]
+}
