@@ -56,3 +56,13 @@ There are only three pairs of concepts with a Jaccard similarity above $0.6$ (ex
 \end{itemize}
 The respective ground truth concepts are located in the middle of the concept lattice, which has no significant meaning to the ground truth topics.
 This indicates there is little overall similarity between the two concept lattices, which is expected given the different underlying data and the iceberg restriction for the topic model-based lattice.
+
+\subsection{Consistency-lattice vs. Coherence-lattice}
+
+\textcolor{red}{TODO}
+
+The consistency-lattice is derived from intersecting the ground truth lattice with the topic model-based lattice.
+In this case only the top node is shared between the two lattices, which results in a consistency-lattice with only one concept.
+
+The coherence-lattice is derived from building a context from document extents with Jaccard similarities greater than $0.6$.
+The membership of the documents in the intersection of those extents is used to define the new attributes.
