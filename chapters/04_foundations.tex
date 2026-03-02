@@ -8,80 +8,12 @@ Subsequently, in Section~\ref{sec:foundations_mlb}, discuss  \ac{mlb} constraint
 \subsection{\ac{fca}}
 \label{sec:foundations_fca}
 
-\input{chapters/extras/FCA}
+\input{chapters/04_foundations/FCA}
 
-% \subsubsection{Canonical Basis}
-% (also: Duquenne-Guigues basis or stem basis \cite{ganter_conceptual_2016}).
-% A formal context $(G, M, I)$ can also be defined via a set of implications $\mathcal{L}$ that is sound (i.e., each implication in $\mathcal{L}$ holds in $(G, M, I)$), complete (i.e., each implication that holds in $(G, M, I)$ follows from $\mathcal{L}$), and nonredundant (i.e., no implication in $\mathcal{L}$ follows from other implications in $\mathcal{L}$).
-% The canonical basis is $\{P \rightarrow P'' \smallsetminus P | P$ is pseudo-closed$\}$.
-% A finite subset $P \subseteq M$ is pseudo-closed if and only if (i) $P \neq P''$ (i.e., $P$ is not closed and in other words: $P$ is not a concept intent) and (ii) if $Q \subsetneq P$ is a pseudo-closed proper subset of $P$, then $Q'' \subset P$ (i.e., $P$ contains the closure of every pseudo-closed subset with fewer elements).
-% If (i) and (ii) holds true, $P$ is a pseudo-intent of $(G, M, I)$.
-% The canonical basis is nonredundant, i.e., no implication in the canonical basis is dispensable.
-% It is not the only implication basis, but there is no implication basis with fewer implications \cite{ganter_conceptual_2016}.
+% \input{chapters/04_foundations/canonical_basis.tex}
 
+\input{chapters/04_foundations/mlb.tex}
 
-\subsection{\acl{mlb} Constraints}
-\label{sec:foundations_mlb}
+% \input{chapters/04_foundations/attribute_exploration.tex}
 
-The purpose of clustering is to structure data without any class labels.
-This is especially useful in real world applications since data often lacks labels and the annotation process is expensive.
-% Partitional clustering groups data points into clusters based on a similarity measure~\cite{bade_hierarchical_2014}.
-% With hard clustering, each data point belongs to only one cluster, while soft clustering allows membership to multiple clusters~\cite{schutz_comprehensive_2023}.
-% 
-Clustering algorithms group data points based on different criteria into clusters.
-The overall goal is to minimize the intra-cluster distances and maximize the inter-cluster distances.
-Prior knowledge about the dataset can be modelled as constraints. %~\cite{bade_hierarchical_2014}.
-The simplest constraints are pairwise \textit{must-link} and \textit{cannot-link} constraints.
-% Pairwise constraints can be either instance-based or metric-based.
-% Instance-based constraints directly the clustering algorithm by enforcing constraints on their instance pairs.
-% They can be hard or soft, allowing different degrees of constraint violation.
-% Metric-based constraints map the constraints to the distance metric or similarity measure of the clustering algorithm.
-Pairwise constraints are limited to partitional clustering.
-% \subsubsection{Hierarchical clustering}
-Opposed to partitional clustering, hierarchical clustering groups the data on different levels of granularity~\cite{bade_hierarchical_2014}.
-% Hence, partitional clustering is a special case of hierarchical clustering with one level of granularity.
-So-called \ac{mlb} constraints introduce prior knowledge into hierarchical clustering.
-A \ac{mlb} constraint
-\begin{eqnarray}
-    MLB_{x y z} = (d_x, d_y, d_z)
-    \label{eq:mlb_xyz}
-\end{eqnarray}
-specifies an agglomerating order on three data points $d_x, d_y, d_z$.
-Symmetry applies for the first two elements.
-For the \ac{mlb} constraint in \eqref{eq:mlb_xyz} both \autoref{def:mlb_implication} and \autoref{def:mlb_counterexample} must hold true.
-This means that the must-link constraint between the first and second item is stronger than that between the first and third item.
-\begin{definition}[\ac{mlb} Implication]
-    \label{def:mlb_implication}\\
-    Given \ac{mlb} constraint $MLB_{x y z}$:
-    $\forall c \in H: d_x \in c \wedge d_z \in c \rightarrow d_y \in c$
-\end{definition}
-\begin{definition}[\ac{mlb} Counter Example]
-    \label{def:mlb_counterexample}\\
-    Given \ac{mlb} constraint $MLB_{x y z}$:
-    $\exists c \in H: d_x \in c \wedge d_y \in c \wedge d_z \notin c$
-\end{definition}
-% A \ac{mlb} constraint for hierarchical clustering can be transformed into multiple pairwise constraints for partitional clustering by adding one must-link constraint between $d_x$ and $d_y$ and two cannot-links between $d_x, d_z$ and $d_y, d_z$~\cite{bade_hierarchical_2014}.
-
-% \subsubsection{Concept hierarchies} 
-% Concept hierarchies structure information into hierarchies and facilitate working with knowledge-bases~\cite{cimiano_learning_2005}.
-
-
-% \subsection{\ac{fca}}
-% \label{subsec:fca}
-
-
-
-
-% \subsubsection{Attribute Exploration}
-% \label{subsec:basic_ae}
-% Attribute exploration tries to build the implication theory (i.e., set of implications true for all objects) of the entire domain.
-% Every implication that holds true for all objects follows from the canonical basis.
-% For every implication that does not hold in general, there is a counterexample among the objects.
-% The exploration algorithm repeatedly asks the domain expert about undecided formulas either confirming them or disproving them by extending the object set with additional evidence \cite{ganter_conceptual_2016}.
-
-% \subsubsection{Incomplete knowledge}
-% \label{subsec:incomplete_knowledge}
-% An incomplete lattice is a ternary context $(G,M,W,I)$ with values $W=\{\times, ?, \circ\}$ where $? < \times$ and $? < \circ$.
-% $<$ is an order over the amount of information.
-% $I(g,m)=?$ symbolizes the lack of knowledge about the relation between object $g$ and attribute $m$ \cite{holzer_incompleteFCA_2001}.
-% \textcolor{red}{TODO: \cite{hille_incomplete_2025,burmeister_treatment_2000}}
+% \input{chapters/04_foundations/incomplete_knowledge.tex}
