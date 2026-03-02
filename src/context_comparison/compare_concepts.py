@@ -277,6 +277,9 @@ def find_unique_high_similarity_pairs(sim: np.ndarray,
 
         a = concepts_a[i]
         b = concepts_b[j]
+        if len(a.intent) == 0 or len(b.intent) == 0:
+            # top element
+            continue
         inter = a.extent & b.extent
         union = a.extent | b.extent
 
@@ -330,6 +333,132 @@ def save_high_pairs(out_dir: Path, high_pairs: List[Dict[str, Any]]) -> None:
                 "intersection_size": row["intersection_size"],
                 "union_size": row["union_size"],
             })
+
+# ============================================================
+# Coherence context export (Burmeister format)
+# ============================================================
+
+def read_high_pairs_csv(path: Path) -> List[Dict[str, Any]]:
+    """
+    Read high similarity pairs from CSV written by save_high_pairs().
+
+    Returns
+    -------
+    list[dict]
+        Each dict has: similarity (float), a_intent (set[str]), b_intent (set[str])
+    """
+    pairs: List[Dict[str, Any]] = []
+    if not path.exists():
+        return pairs
+
+    with path.open("r", encoding="utf-8", newline="") as f:
+        r = csv.DictReader(f)
+        for row in r:
+            # Intents are stored as space-separated strings
+            a_intent = set(filter(None, (row["a_intent"] or "").split()))
+            b_intent = set(filter(None, (row["b_intent"] or "").split()))
+            pairs.append({
+                "similarity": float(row["similarity"]),
+                "a_intent": a_intent,
+                "b_intent": b_intent,
+            })
+    return pairs
+
+
+def write_burmeister_context(
+    objects: Sequence[str],
+    attributes: Sequence[str],
+    has_attr: Sequence[Set[str]],
+    path: Path,
+) -> None:
+    """
+    Write a formal context in Burmeister format.
+
+    Format:
+      B
+      <blank>
+      <#objects>
+      <#attributes>
+      <blank>
+      <object names...>
+      <attribute names...>
+      <incidence matrix rows...>   (X or .)
+
+    Parameters
+    ----------
+    objects:
+        Object names (documents).
+    attributes:
+        Attribute names (here: high-similarity pair identifiers).
+    has_attr:
+        List of sets; has_attr[j] is the set of objects that have attribute j.
+    """
+    if len(attributes) != len(has_attr):
+        raise ValueError("attributes and has_attr must have the same length")
+
+    with path.open("w", encoding="utf-8", newline="\n") as f:
+        f.write("B\n\n")
+        f.write(f"{len(objects)}\n")
+        f.write(f"{len(attributes)}\n\n")
+
+        for o in objects:
+            f.write(f"{o}\n")
+        for a in attributes:
+            f.write(f"{a}\n")
+
+        # incidence: one row per object, one column per attribute
+        for o in objects:
+            row = "".join("X" if o in has_attr[j] else "." for j in range(len(attributes)))
+            f.write(row + "\n")
+
+
+def build_coherence_context_from_high_pairs(
+    concepts_a: Sequence[Concept],
+    concepts_b: Sequence[Concept],
+    all_objects: Sequence[str],
+    high_pairs: Sequence[Dict[str, Any]],
+    out_path: Path,
+) -> None:
+    """
+    Build a Burmeister context where:
+      - Objects = all documents (all_objects)
+      - Attributes = high-similarity concept pairs
+      - Incidence: document gets 'X' if it lies in extent(A) ∩ extent(B)
+
+    Parameters
+    ----------
+    concepts_a, concepts_b:
+        Concept lists used to compute similarity (restricted versions).
+    all_objects:
+        Complete object universe (e.g. sorted(common_objs)).
+    high_pairs:
+        Output of find_unique_high_similarity_pairs().
+    out_path:
+        Output file path for Burmeister context.
+    """
+    # Map intent -> extent (fast lookup)
+    a_by_intent = {frozenset(c.intent): c.extent for c in concepts_a}
+    b_by_intent = {frozenset(c.intent): c.extent for c in concepts_b}
+
+    attributes: List[str] = []
+    has_attr: List[Set[str]] = []
+
+    for idx, row in enumerate(high_pairs):
+        a_int = frozenset(row["a_intent"])
+        b_int = frozenset(row["b_intent"])
+
+        ea = a_by_intent.get(a_int)
+        eb = b_by_intent.get(b_int)
+        if ea is None or eb is None:
+            continue
+
+        intersection = ea & eb
+        # sim = float(row["similarity"])
+
+        attributes.append(f"c{idx}")# f"pair_{idx:04d}_sim_{sim:.3f}"
+        has_attr.append(intersection)
+
+    write_burmeister_context(objects=list(all_objects), attributes=attributes, has_attr=has_attr, path=out_path, )
 
 
 # ============================================================
@@ -412,6 +541,14 @@ def main() -> None:
         if high_pairs:
             save_high_pairs(out_dir, high_pairs)
 
+            # --------------------------------------------
+            # Build "coherence" context from high pairs CSV
+            # --------------------------------------------
+            coherence_path = out_dir / "coherence_context.cxt"
+            build_coherence_context_from_high_pairs(concepts_a=concepts_a_r, concepts_b=concepts_b_r,
+                    all_objects=sorted(common_objs),  # "all documents as objects" (common universe)
+                    high_pairs=high_pairs, out_path=coherence_path, )
+
     # ----------------------------
     # Save top-k matches per concept in A
     # ----------------------------
@@ -447,6 +584,7 @@ def main() -> None:
             "top_matches_csv": "top_matches.csv" if sim.size and args.top_k > 0 else None,
             "high_similarity_pairs_csv": "high_similarity_pairs.csv" if sim.size else None,
             "high_similarity_pairs_json": "high_similarity_pairs.json" if sim.size else None,
+            "coherence_context": "coherence_context.cxt" if sim.size else None,
         },
     }
     write_json(meta, out_dir / "similarity_metadata.json")
