@@ -80,3 +80,14 @@ There is less hierarchy compared to the ground truth lattice, which is expected 
     \caption{Topic model document-topic iceberg concept lattice for the BankSearch dataset.}
     \label{fig:iceberg_topic_context}
 \end{figure}
+
+To find out whether both concept lattices share similar document clusters (i.e., overlapping concept extents), we compute the Jaccard similarity between all pairs of concepts from both lattices, which is visualized in the heatmap in Figure~\ref{fig:concept_similarity}.
+Most concept extent pairs have a Jaccard similarity near zero, indicating no overlap in their respective document clusters.
+There are only three pairs of concepts with a Jaccard similarity above $0.6$ (excluding the top node), which as follows:
+\begin{itemize}
+    \item $M12, M13, M14$ from the ground truth lattice and concept with intent $\{1\}$ from the topic model-based lattice with a Jaccard similarity of $0.7716$.
+    \item $M12, M13, M8$ from the ground truth lattice and concept with intent $\{7\}$ from the topic model-based lattice with a Jaccard similarity of $0.6761$.
+    \item $M13, M14, M8$ from the ground truth lattice and concept with intent $\{8\}$ from the topic model-based lattice with a Jaccard similarity of $0.6010$.
+\end{itemize}
+The respective ground truth concepts are located in the middle of the concept lattice, which has no significant meaning to the ground truth topics.
+This indicates there is little overall similarity between the two concept lattices, which is expected given the different underlying data and the iceberg restriction for the topic model-based lattice.
