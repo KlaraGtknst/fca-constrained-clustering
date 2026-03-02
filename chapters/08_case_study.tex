@@ -44,7 +44,7 @@ Mean and variance is reported over five runs \cite{bade_hierarchical_2014}.
 Notably, the number of BankSearch documents considered for both concepts lattices differs, where the topic model-based lattice includes only 10\,970 documents that did not contain any errornous texts, while the ground truth lattice encompasses all 11\,000 documents with their respective gold standard labels.
 This is due to the requirement of sound text input to the topic model for valid topic assignment, which necessitated the exclusion of documents with corrupted text data.
 
-Moreover, while the ground truth lattice in Figure~\ref{fig:mlb_context} contains the complete set of concepts derived from the gold standard labels, the topic model-based lattice in Figure~\ref{fig:iceberg_topic_context} is an iceberg lattice that includes only those concepts whose intents meet a minimum support threshold of $0.05$, i.e., excluding the most specific concepts.
+Moreover, while the ground truth lattice in Figure~\ref{fig:mlb_context} contains the complete set of concepts derived from the gold standard labels, the topic model-based lattice in Figure~\ref{fig:iceberg_concept_lattice} is an iceberg lattice that includes only those concepts whose intents meet a minimum support threshold of $0.05$, i.e., excluding the most specific concepts.
 This necessacity arises from the size of the original sized topic model-based lattice, which contains over 590 concepts (cf. Figure~\ref{fig:concepts_support}), rendering it impractical for visualization and interpretation.
 
 \begin{figure}[htbp]
@@ -68,7 +68,7 @@ We find that the original ground truth topics (except for $M3$ and $M4$) are res
     \label{fig:iceberg_concept_lattice}
 \end{figure}
 
-The topic model-based lattice in Figure~\ref{fig:iceberg_topic_context} contains 30 concepts with a support of at least $0.05$ based on a subset of all BankSearch documents, which are denoted by their respective topic IDs in the intent.
+The topic model-based lattice in Figure~\ref{fig:iceberg_concept_lattice} contains 30 concepts with a support of at least $0.05$ based on a subset of all BankSearch documents, which are denoted by their respective topic IDs in the intent.
 Opposed to the \ac{mlb}-informed concept lattice, the original topics are not directly represented in the topic model-based lattice.
 Structurally, the iceberg lattice contains only two levels apart from the top node.
 There is less hierarchy compared to the ground truth lattice, which is expected given the cut due to the iceberg restriction.
