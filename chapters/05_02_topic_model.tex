@@ -1,9 +1,7 @@
 
 \subsection{Topic Model}
 \label{sec:topic_model}
-The topic-model-based method comprises four main stages: topic model construction, document–topic incidence matrix formation, and concept lattice extraction.
-
-\subsubsection{Topic Model Construction}
+The topic-model-based method comprises four main stages: topic model construction, document–topic incidence matrix formation, and concept filtering via TITANIC \cite{gutekunst2025conceptual}.
 
 % We employed external knowledge bases such as 
 % % WordNet~\cite{fellbaum2010wordnet} and 
@@ -14,7 +12,7 @@ The topic-model-based method comprises four main stages: topic model constructio
 
 
 
-\subsection{Formal Context Construction}
+\subsubsection{Formal Context Construction}
 
 The binary incidence relation $I$ defines a formal context $\mathbb{K} = (G, M, I)$, where $G$ is the set of documents (i.e., objects), $M$ is the set of topics (i.e., attributes), and $I$ specifies which topics apply to which documents. 
 To validate the quality of our topic model-derived context, we compare it against ground truth labels when available. Figure~\ref{fig:context_comparison} presents a comparative analysis of the incidence properties.
@@ -26,7 +24,7 @@ To validate the quality of our topic model-derived context, we compare it agains
     \label{fig:context_comparison}
 \end{figure}
 
-\subsection{Topic Filtering via TITANIC}
+\subsubsection{Concept Filtering via TITANIC}
 
 % copied from other paper
 Computing complete concept lattices of $\mathbb{K}$ for large datasets presents a significant challenge, as the size of a concept lattice can grow exponentially with respect to the size of the context.
@@ -56,10 +54,3 @@ The choice of minimum support significantly influences the granularity of the ex
 
 Based on this analysis, we select $\text{min\_supp} = 0.05$ to balance hierarchy richness with conceptual interpretability, yielding approximately 30 concepts for our experimental corpus.
 The resulting iceberg concept lattice is visualized in Figure~\ref{fig:iceberg_concept_lattice}.
-
-\begin{figure}[htbp]
-    \centering
-    \includesvg[width=\textwidth]{results/context_comparison/iceberg_context_0.05_lattice.svg}
-    \caption{Iceberg concept lattice for $\mathtt{min\_supp} = 0.05$, resulting in approximately 30 concepts. The number above the node denote the topic IDs in the intent, while the number below indicates the count of documents in the extent.}
-    \label{fig:iceberg_concept_lattice}
-\end{figure}

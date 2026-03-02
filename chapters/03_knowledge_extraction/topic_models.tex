@@ -1,6 +1,6 @@
 \input{chapters/extras/topic_model_vis.tex}
-% \subsubsection{Topic Models}
 
+\subsubsection{Topic Model Construction}
 A topic model is a generative model for documents, where documents are mixtures of $K$ topics and topics are mixtures of words (i.e., multinomial distribution over a word vocabulary).
 Topic models rely on the bag-of-words assumption, i.e., ignoring the order of words.
 We employed gensim's \ac{lda}\footnote{\url{https://radimrehurek.com/gensim/models/ldamodel.html} (30.12.2025)}.
@@ -20,7 +20,7 @@ Figure~\ref{fig:incidence_density} illustrates this relationship for the BankSea
 \end{figure}
 
 % The resulting structure is \texttt{\{document $d_1$: [topic $t_{11}$: [word $w_{t_{11}-1}$, \dots, word $w_{t_{11}-10}$], topic $t_{12}$ \dots], document $d_2$:\dots \}}.
-
+\subsubsection{Document–Topic Incidence Matrix Formation}
 \docTopicInc{}
 
 We define a threshold parameter $\delta$ (denoted \texttt{MIN\_TOPIC\_PROB} in implementation) such that document $d$ is assigned topic $t$ if and only if $\theta_{dt} \geq \delta$. 
