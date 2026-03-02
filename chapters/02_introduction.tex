@@ -1,72 +1,34 @@
 \section{Introduction}
 \label{sec:introduction}
 
-% Stefan's notes for introduction part below:
-% 0) In the following steps becomes clear the major terms we need to define are (expert) ontologies (concept hierarchies) and concept hiearchy generation.
-% 1) What are concept hierarchies and why are them valuable? (Cimiano (2005) first page, Le (2019), first page)
-% 2) When get traditional expert ontologies into trouble? and why is concept hierarchy generation useful? Cimiano (2005) motivates the usage of concept hierarchy generation due to the fact of a knowledge 
-% acquisition bottleneck we have by using traditional expert ontologies; Le (2019) first page write about increase scalability, coverage.
-% === until this point nothing is new - it's required to give the reader an orientation what is category where are talking about. ===
-% === instead point 3: This is NEW and OUR unique point! ===
-% 3) The basic assumption of concept hierarchy generation states that individually generated artefacts consists of knowledge structures which are not present in expert ontologies. For that reason generated concept hierarchies cover knowledge structures exclusively, which are not present in expert ontologies.
+Concept hierarchies, i.e., systems of is-a relationships with a node at the top level, form the backbone of expert ontologies such as WORDNET (Miller et al., 1990; Miller
+and Fellbaum, 1998). Concept hierarchies allow to structure information into categories, thus fostering its search and reuse. Further, they allow to formulate rules as well
+as relations in an abstract and concise way, facilitating the development, refinement and reuse of a knowledge-base.~\cite{cimiano_learning_2005} Expert ontologies focus on the manual
+creation of high-quality ontologies. In contrast, concept hierarchy generation focuses on the automated creation of concept hierarchies, which is not only more scalable but
+also enables concept hierarchies in areas not normally covered by existing expert ontologies.~\cite{cimiano_learning_2005,le2019inferring}
 
-% 4) Such a view assumes that there is no intersection between the knowledge structure of expert ontologies and generated concept hierarchies, which seems to be a bit naive. A more realistic perspective is that expert ontologies will have valid knowledge to a certain degree and user-individual concept hierarchies should be consistent to it.
+Concept hierarchies are usually generated using explicit patterns in the text — known as Hearst patterns~\cite{hearst1992hyponyms} — to extract concept hierarchies (e.g. ~\cite{le2019inferring}).
+Alternatively, it is also possible to generate a concept hierarchy by using latent information from text and based on this, a concept hierarchy is calculated that does not
+require the explicit occurrence of certain patterns in the text. It is possible to represent latent information from texts as a binary object attribute matrix~\cite{cimiano_learning_2005}
+and to derive a concept hierarchy from this using Formal Concept Analysis (FCA)~\cite{fca-book}. The basic assumption behind the generation of latent concept hierarchies
+is that individually generated artifacts consist of knowledge structures that are not present in expert ontologies. For this reason, generated concept hierarchies exclusively
+cover knowledge structures that are not contained in expert ontologies. This view assumes that there is no overlap between the knowledge structure of expert ontologies and
+generated concept hierarchies, which seems somewhat naive. A more realistic perspective is that expert ontologies have a certain degree of valid hierarchical background
+knowledge and that generated concept hierarchies should be consistent with this.
 
-% === TO THIS POINT, we have only motivated thate category where we are in! We need show now in POINT 5 that other similar approaches already exists. ===
-% 5) Are there other approaches thinking about a hybrid of expert ontology and concept hierarchy generation? What has been already proposed how can both approach benefit from each other?
-
-% *Methods to Enrich expert Ontologies*:
-% - Zheng, 2020: a lexical method based on formal concept analysis to identify potentially missing concepts in a given terminology by leveraging its intrinsic knowledge - concept names.
-% personalization by learning from periodic manual guidance and directing the learned models
-% towards personal preferences
-% - Hao, 2022: Missing hierarchical is-a relations and missing concepts are common quality issues in biomedical ontologies. Non-lattice subgraphs have been extensively studied for automatically identifying missing is-a relations in biomedical ontologies like SNOMED CT. However, little is known about non-lattice subgraphs’ capability to uncover new or missing concepts in biomedical ontologies. 
-
-% 6) In contrast to enrich an expert ontology consisting of general purpose knowledge structure, which are not sufficient domain specific use cases. An alternative is to generate concept hierarchy based on certain restrictions.
-% - Yang, 2011  Proposed a method for personalized concept hierarchy generation and enable manual guidance of the construction process by the user - called personalized concept hierarchy generation.
-% - Kommineni, 2024: Human Guidance and Concept Hierarchy Construction based on LLMs  
-% - Bade, 2015 introduce to use hierarchical constraints restrict the concept hierarchy generation on a similarity space.
-% => Vision: We want generate a Concept Hierarchy that stays consistent to existing Ontology Knowledge
-
-% 7) Why is it interesting to use hierarchical constraints?  (Hierarchical) Constraints are an interesting approach to reflect such knowledge in a flexible manner...
-
-% ==== NOW: Problem statement ===
-% - We now know that we interested in constrainted concept hiearchy generation based on hierarchical constraints. But what is missing?
-
-% 8) The rest constrainted concept hierarchy generation approach which is most close to ours proposed by Bade, is based on an similarity space. - Why is similarity space limited? -> other comment Verheyen...>
-% An alternative is to generate a concept hierarchy based on an object attribute space. In that case we there is no existing approach.
-
-% 9) The question arises whether constrainted concept hierarchy generation on an object attribute space can achieve an advantage to unconstrainted alternative, same as it has been shown constrainted concept hierarchy generation based similarity spaces.
-
-% ==REFERENCES 
-% Yang, H. (2012). Personalized concept hierarchy construction (Doctoral dissertation, Carnegie Mellon University).
-% Zheng, F., & Cui, L. (2020, December). A lexical-based formal concept analysis method to identify missing concepts in the nci thesaurus. In 2020 IEEE International Conference on Bioinformatics and Biomedicine (BIBM) (pp. 1757-1760). IEEE.
-% Zheng, F., Abeysinghe, R., & Cui, L. (2021). Identification of missing concepts in biomedical terminologies using sequence-based formal concept analysis. BMC Medical Informatics and Decision Making, 21(Suppl 7), 234.
-% Hao, X., Abeysinghe, R., Zheng, F., & Cui, L. (2021, December). Leveraging non-lattice subgraphs for suggestion of new concepts for SNOMED CT. In 2021 IEEE International Conference on Bioinformatics and Biomedicine (BIBM) (pp. 1805-1812). IEEE.
-% Kommineni, V. K., König-Ries, B., & Samuel, S. (2024). From human experts to machines: An LLM supported approach to ontology and knowledge graph construction. arXiv preprint arXiv:2403.08345.
+The interplay between the generation of concept hierarchies based on FCA and expert ontologies has already been discussed. FCA has already been used to identify potentially
+missing concepts in a specific expert ontology~\cite{zheng2020lexical,hao2021leveraging}. Since expert ontologies claim to be able to represent knowledge structures in general, domain-specific
+use cases often cannot be adequately represented with them. An alternative strategy is therefore to generate concept hierarchies based on specific constraints. An early attempt
+in this direction was the personalized generation of concept hierarchies, which enable manual guidance of the design process by the user~\cite{yang2012personalized} or more recently by incorporating
+an LLM~\cite{kommineni2024from}. Bade and Nürnberger~\cite{bade_personalized_2006,bade_hierarchical_2014} introduced the idea of using hierarchical constraints for generating concept hierarchies in a similarity space
+created from text. It have already shown that constraints can be used to restrict the generation of concept lattices~\cite{belohlavek2006formal,belohlavek2009formal}.
+With the incorporation of attribute weights, manual curation of restrictions has already become superfluous~\cite{belohlavek2011selecting}.
+Nevertheless, there is currently no approach that enables the integration of hierarchical constraints in FCA. In contrast to similarity-based concept hierarchy generation,
+FCA-based concept hierarchy generation would explain the internal structure of a generated concept hierarchy that appeared in the text.
 
 
-Traditionally, knowledge-based systems struggle to model the domain of a given text corpus~\cite{cimiano_learning_2005}. 
-Cimiano et Al. denote this problem ``knowledge acquisition bottleneck''.
-They propose an FCA-based approach to automatically derive concept hierarchies from domain-specific textual data to structure information into categories and facilitate work with knowledge-bases.
-Since many texts lack explicit definitions of terms due to basic domain-knowledge often being assumed rather than explicitly written (e.g., ``a tiger is a mammal''), Cimiano et Al. use syntactic dependencies based on the \textit{distributional hypothesis} to enrich texts with domain-knowledge in the form of an FCA word (pair) context.
-\textcolor{red}{NOTE: Their conclusion includes future work on using humans for ontological relation validation (Attr. Explor.???). They also compare generated ontologies with human-modeled ontologies via Precision, Recall, F-measure...}
-% Stefan's notes for introduction below:
-% It is not necessary to argue in detail with Cimiano's limitations why we have to fix it!
-
-% Keep in mind: If you want to have a concept hierarchy the most basic approach is to use structures given in an expert ontology (concept hierarchies are so called backbone of any ontology).
+%\textcolor{red}{NOTE: Their conclusion includes future work on using humans for ontological relation validation (Attr. Explor.???). They also compare generated ontologies with human-modeled ontologies via Precision, Recall, F-measure...}
 
 % Usually you
-Since this approach relies solely on syntactic structure present in the text corpus, the available knowledge is very limited.
-Hierarchical constraints can be thought of a tool to model certain degrees of certitude with respect to the information's validity.
-
-
-% 1) Cimiano (2005) motivates the usage of concept learning methods due to the fact of a knowledge acquisition bottleneck we have by using traditional expert ontologies
-% 2) A very basic assumption which follows is, that there is that coverage is low based on expert ontologies and and user-individual concept hierarchies (as backbone of ontologies) can fill this gap.
-% 3) A more realistic perspective is that expert ontologies will have valid knowledge to a certain degree and user-individual concept hierarchies should be consistent to it.
-% 4) (Hierarchical) Constraints are an interesting approach to reflect such knowledge in a flexible manner
-
-% Problem statement:
-Bade and Nürnberger~\cite{bade_personalized_2006,bade_hierarchical_2014} have observed that user-individual concept hierarchies based on a similarity space benefit from hierarchical constraints. 
-While concept hierarchies derived from hierarchical clustering based on distances in similarity spaces, these approaches are unable to model the structure of attributes. 
-\textcolor{red}{TODO: This becomes specially problematically in cases if user needs to model abstract domains whereas usually many (typically locale) attributes exists. (Verheyen 2016, Verheyen 2022) -> 2022: SpAM is a method where ppl move objects in 2D plane wrt. their (dis-)similarity to each other; I am not sure if this applies here (bc one issue is that ppl disregard n-1 other differences when moving one object in space)}
-
+%Since this approach relies solely on syntactic structure present in the text corpus, the available knowledge is very limited.
+%Hierarchical constraints can be thought of a tool to model certain degrees of certitude with respect to the information's validity.
