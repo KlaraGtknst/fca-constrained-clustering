@@ -1,3 +1,4 @@
+\input{chapters/extras/concept_lattice_to_mlb.tex}
 \subsection{\acl{mlb} Constraints}
 \label{sec:foundations_mlb}
 
@@ -28,6 +29,7 @@ specifies an agglomerating order on three data points $d_x, d_y, d_z$.
 Symmetry applies for the first two elements.
 For the \ac{mlb} constraint in \eqref{eq:mlb_xyz} both \autoref{def:mlb_implication} and \autoref{def:mlb_counterexample} must hold true.
 This means that the must-link constraint between the first and second item is stronger than that between the first and third item.
+We illustrated the resulting \ac{mlb} constraints on a small toy example in \autoref{fig:hierarchy_to_mlb}.
 \begin{definition}[\ac{mlb} Implication]
     \label{def:mlb_implication}\\
     Given \ac{mlb} constraint $MLB_{x y z}$:
@@ -38,6 +40,9 @@ This means that the must-link constraint between the first and second item is st
     Given \ac{mlb} constraint $MLB_{x y z}$:
     $\exists c \in H: d_x \in c \wedge d_y \in c \wedge d_z \notin c$
 \end{definition}
+
+\hierarchyToMLB{}
+
 % A \ac{mlb} constraint for hierarchical clustering can be transformed into multiple pairwise constraints for partitional clustering by adding one must-link constraint between $d_x$ and $d_y$ and two cannot-links between $d_x, d_z$ and $d_y, d_z$~\cite{bade_hierarchical_2014}.
 
 % \subsubsection{Concept hierarchies} 

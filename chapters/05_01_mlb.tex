@@ -1,125 +1,89 @@
-\subsection{Gold-label Topic Hierarchy}
-\label{sec:gt_mlb}
+\section{Computation of Constraint-Informed Concept Lattices}
+\label{sec:computation}
 
-The gold-label-based method, consists of constraint generation and formal context construction.
-\subsubsection{Topic Constraint Generation}
+Our approach integrates formal concept analysis with topic modeling to generate hierarchical document clusters guided by \ac{mlb} constraints. The core of our methodology relies on the insight that both the structural constraints provided by expert knowledge and the statistical patterns derived from topic models can be formalized as closure operators. By computing the intersection of their respective closure systems, we derive a concept lattice that respects both logical constraints and empirical data.
 
-Given an existing item hierarchy, \ac{mlb} constrainta are extracted such that they fullfill both \autoref{def:mlb_implication} and \autoref{def:mlb_counterexample}.
-We illustrated the resulting \ac{mlb} constraints on a small toy example in \autoref{fig:hierarchy_to_mlb}.
+In this section, we first provide the theoretical foundation, proving that \ac{mlb} constraints induce a valid closure operator and that the resulting lattice encapsulates the search space of all valid dendrograms. Subsequently, we present our algorithm for the efficient computation of this structure, utilizing an on-the-fly irreducibility check and an alternating closure composition.
 
-\hierarchyToMLB{}
+\subsection{Theoretical Analysis of MLB Constraints}
 
-\subsubsection{Formal Context Construction}
-Triple exploration etc.
-\subsection{\acl{ae}\textcolor{red}{: Dominik}}
+Let $G$ be the set of documents. A set of \ac{mlb} constraints is given as $\Sigma \subseteq G \times G \times G$. A constraint $(x, y, z) \in \Sigma$ dictates a hierarchical dependency: if documents $x$ and $z$ are grouped together in a cluster, $y$ must also be included.
 
-Since we deal with incomplete knowledge, we employ the an extension to traditional \ac{ae} as described in \autoref{subsec:basic_ae}, namely, Object Exploration in partial contexts, as described in \autoref{subsec:partial_cxt_ae}.
+\subsubsection{MLB Constraints as a Closure Operator}
+To utilize \ac{fca}, we must first establish that these constraints define a closure system.
 
-\todo{Widerspruchsfreiheit der Constraints!}\\
-\todo{Incorporating MLB constraints during object exploration (von Stefan)}
-\subsubsection{Object Exploration in Partial Contexts}
-\label{subsec:partial_cxt_ae}
-
-Classic Attribute Exploration, as defined by Ganter \cite{Ganter2016}, determines the implicational theory of a domain by interacting with a domain expert. Given a formal context $\mathbb{K} = (G, M, I)$, an attribute implication $A \to B$ (where $A, B \subseteq M$) holds if $A' \subseteq B'$.
-However, since our goal is to find dependencies between data points based on their cluster membership, we employ \textbf{Object Exploration}. Due to the duality of FCA, Object Exploration on $\mathbb{K}$ is equivalent to Attribute Exploration on the transposed context $\mathbb{K}^T = (M, G, I^T)$.
-
-An \textit{object implication} is of the form $X \to Y$ where $X, Y \subseteq G$ are sets of objects (here: data points). It is valid in $\mathbb{K}$ if every attribute (here: cluster $c \in M$) that contains all objects in $X$ also contains all objects in $Y$:
-\begin{equation}
-    \forall c \in M: X \subseteq c' \implies Y \subseteq c'
-\end{equation}
-
-In real-world clustering scenarios, the full hierarchy is not known \textit{a priori}. We therefore operate on a \textbf{Partial Context} (or incomplete context) $\mathbb{K}_{part} = (G, M, \{ \times, -, ? \}, J)$, following the theory of Burmeister and Holzer \cite{Holzer2001,BurmeisterHolzer}.
-The incidence relation $J$ maps pairs $(g,m)$ to one of three values:
-\begin{itemize}
-    \item $\times$ (True): Object $g$ is definitely in cluster $m$.
-    \item $-$ (False): Object $g$ is definitely not in cluster $m$.
-    \item $?$ (Unknown): The relation is not yet determined.
-\end{itemize}
-The goal of the exploration is to replace the question marks with definite values ($\times$ or $-$) by querying "expert knowledge", in our case, the MLB constraints.
-
-\todo{\cite{ferre_usability_2009}}
-
-% \attrEx{}
-\subsection{MLB Constraints as Exploratory Conditions}
-
-We interpret an MLB constraint $MLB_{xyz} = (d_x, d_y, d_z)$ not merely as a distance inequality ($dist(x,y) < dist(x,z)$), but as a composite logical condition governing the object implications in the partial context.
-From an FCA perspective, $MLB_{xyz}$ imposes two simultaneous requirements on the lattice structure: a \textit{Connectivity Requirement} (Validity) and a \textit{Separation Requirement} (Counter-example).
-
-\begin{definition}[MLB Connectivity via Implication]
-    \label{def:mlb_imp}
-    The condition that $d_y$ is strictly closer to $d_x$ than $d_z$ implies that no cluster can contain the distant pair $\{d_x, d_z\}$ without also containing the intermediate point $d_y$. This enforces the validity of the object implication:
-    \begin{equation}
-        \{d_x, d_z\} \to \{d_y\}
-    \end{equation}
-    In the partial context, if the exploration algorithm proposes this implication, the "expert" (the constraint system) must confirm it. This confirmation allows the derivation of new information: for any cluster $c$ where $J(d_x, c)=\times$ and $J(d_z, c)=\times$, the value $J(d_y, c)$ must be set to $\times$, resolving potential question marks.
+\begin{definition}[$\Sigma$-Consistency]
+A subset $A \subseteq G$ is called $\Sigma$-consistent (or valid) if for all $(x, y, z) \in \Sigma$, the condition $\{x, z\} \subseteq A \implies y \in A$ holds.
 \end{definition}
 
-\begin{definition}[MLB Separation via Counter-Example]
-    \label{def:mlb_sep}
-    The strict inequality ($<$) in the MLB constraint implies that there exists a level of granularity where $d_x$ and $d_y$ are clustered together, but $d_z$ is excluded. This constitutes a structural \textbf{counter-example} to the inverse implication $\{d_x, d_y\} \to \{d_z\}$.
-    Formally, the context must allow for (or be extended to include) a cluster attribute $c_{sep} \in M$ such that:
-    \begin{equation}
-        d_x \in c'_{sep} \land d_y \in c'_{sep} \land d_z \notin c'_{sep}
-    \end{equation}
-\end{definition}
+\begin{theorem}
+The mapping $\phi_{\Sigma}: \mathcal{P}(G) \to \mathcal{P}(G)$, which maps any set $A$ to the smallest $\Sigma$-consistent set containing $A$, is a closure operator.
+\end{theorem}
 
-If the exploration were to accept $\{d_x, d_y\} \to \{d_z\}$, it would imply that $d_z$ is inseparable from the pair $(d_x, d_y)$, violating the strict order of the MLB constraint. Thus, the existence of such a counter-example is necessary to model the constraint correctly.
+\begin{proof}
+Let $\mathcal{S}_{\Sigma}$ be the family of all $\Sigma$-consistent subsets of $G$. The set $G$ itself is trivially $\Sigma$-consistent (as it contains all elements). Furthermore, the intersection of any family of $\Sigma$-consistent sets is also $\Sigma$-consistent:
+Let $\{C_i\}_{i \in I}$ be a family of sets where each $C_i \in \mathcal{S}_{\Sigma}$. Let $D = \bigcap_{i \in I} C_i$.
+Suppose $\{x, z\} \subseteq D$ for some constraint $(x, y, z) \in \Sigma$. By definition of intersection, $\{x, z\} \subseteq C_i$ for all $i \in I$. Since each $C_i$ is consistent, $y \in C_i$ for all $i \in I$. Consequently, $y \in D$. Thus, $D$ is $\Sigma$-consistent.
 
-\subsection{The Exploration Algorithm with MLB Constraints}
+Since $\mathcal{S}_{\Sigma}$ is closed under arbitrary intersection, it forms a \emph{closure system}. The associated operator defined by $\phi_{\Sigma}(A) = \bigcap \{ S \in \mathcal{S}_{\Sigma} \mid A \subseteq S \}$ satisfies the axioms of a closure operator (extensivity, monotonicity, and idempotence).
+\qed
+\end{proof}
 
-Based on these definitions, we adapt the exploration algorithm to construct the hierarchy. The process starts with a partial context containing the data points $G$ and an initial set of (potentially empty or theoretical) cluster attributes $M$ initialized with $?$.
+Before applying $\phi_{\Sigma}$, we perform a saturation step on $\Sigma$ to ensure transitivity and completeness of the constraints, akin to computing the deductive closure of the constraint logic itself.
 
-The interaction loop proceeds as follows:
+\subsubsection{The Lattice as the Universe of Valid Dendrograms}
+A hierarchical clustering (dendrogram) is traditionally defined as a nested sequence of clusters. We define a valid hierarchy in the context of constraints as follows:
 
+\begin{definition}[Valid Hierarchy]
+A collection of subsets $\mathcal{H} \subseteq \mathcal{P}(G)$ is a valid hierarchy regarding $\Sigma$ if:
 \begin{enumerate}
-    \item \textbf{Hypothesis Generation:} The algorithm computes the canonical basis of object implications valid in the current partial context.
-
-    \item \textbf{Implication Query:} For a hypothesized implication $A \to B$, the system checks against the set of MLB constraints.
-          \begin{itemize}
-              \item If the implication corresponds to the connectivity requirement of an active constraint (e.g., $\{d_x, d_z\} \to \{d_y\}$ for $MLB_{xyz}$), it is \textbf{confirmed}. The context is updated by inferring $\times$ entries. \textcolor{orange}{Rest is ?.}
-              \item If the implication contradicts the separation requirement (e.g., $\{d_x, d_y\} \to \{d_z\}$), it is \textbf{rejected}.
-          \end{itemize}
-
-    \item \textbf{Counter-Example Generation:} Upon rejection, the algorithm requires a counter-example. The system generates a new cluster column (or identifies an existing one) representing the separation state defined in Definition \ref{def:mlb_sep}, explicitly setting $J(d_z, c_{sep}) = -$ while maintaining $J(d_x, c_{sep}) = \times$ and $J(d_y, c_{sep}) = \times$. \textcolor{orange}{Rest is ?.}
+    \item $G \in \mathcal{H}$ and $\emptyset \in \mathcal{H}$.
+    \item For any $A, B \in \mathcal{H}$, either $A \cap B = \emptyset$ or $A \subseteq B$ or $B \subseteq A$ (Nested property).
+    \item Every $A \in \mathcal{H}$ is $\Sigma$-consistent.
 \end{enumerate}
+\end{definition}
 
-This iterative process ensures that the resulting concept lattice, and thus the hierarchical clustering, is fully consistent with the topological constraints imposed by the MLB triples.
+We claim that the concept lattice generated by our closure operator contains every possible valid hierarchy.
 
-\subsection{The Solution Space: Partial Contexts and Dendrograms}
-\label{sec:solution_space}
+\begin{theorem}
+Let $\mathfrak{B}_{\Sigma}$ be the lattice of all closed sets under $\phi_{\Sigma}$. For any valid hierarchy $\mathcal{H}$, it holds that $\mathcal{H} \subseteq \mathfrak{B}_{\Sigma}$.
+\end{theorem}
 
-A fundamental question in constrained clustering is whether the resulting model covers all valid clustering possibilities or forces an arbitrary selection. In our approach, the output of the object exploration process is a partial context $\mathbb{K}_{part} = (G, M, \{\times, -, ?\}, J)$. We argue that this context acts as a compact representation of the entire solution space of valid dendrograms.
-\textcolor{orange}{Mathematischer Beweis?}
+\begin{proof}
+Let $C \in \mathcal{H}$ be an arbitrary cluster in a valid hierarchy. By the third condition of Definition 2, $C$ must be $\Sigma$-consistent.
+By the definition of our closure system $\mathcal{S}_{\Sigma}$, a set is closed if and only if it is $\Sigma$-consistent.
+Therefore, $C \in \mathcal{S}_{\Sigma}$. Since $\mathfrak{B}_{\Sigma}$ is the lattice formed by all elements of $\mathcal{S}_{\Sigma}$, it follows that $C \in \mathfrak{B}_{\Sigma}$.
+Consequently, the lattice contains every cluster of every possible hierarchy that respects the constraints.
+\qed
+\end{proof}
 
-\subsubsection{Consistent Completions as Valid Hierarchies}
-In the theory of incomplete knowledge, a partial context does not define a single closure system but rather a set of possible worlds. A \textit{completion} of $\mathbb{K}_{part}$ is a binary context $\mathbb{K}_{comp} = (G, M, I)$ where every $?$ in $J$ is replaced by either $\times$ or $-$ in $I$, such that all implications derived from the confirmed MLB constraints remain valid.
+This implies that the concept lattice $\underline{\mathfrak{B}}(\mathbb{K}_{\Sigma})$ constitutes the exact search space for constrained hierarchical clustering. Reducing the lattice to a specific dendrogram is possible by selecting a sub-order that satisfies the tree property (nestedness), for example, by prioritizing concepts with higher stability or topic coherence.
 
-Let $\mathcal{D}$ be the set of all possible dendrograms (strictly nested hierarchies of object sets) over $G$. We define a dendrogram $D \in \mathcal{D}$ to be \textit{admissible} with respect to a set of MLB constraints $\Sigma$ if for every $(d_x, d_y, d_z) \in \Sigma$, the ultra-metric condition induced by $D$ satisfies $dist_D(x, y) < dist_D(x, z)$.
+\subsection{Computation of the Integrated Concept Lattice}
+\label{sec:computation}
 
-\begin{proposition}
-    The partial context $\mathbb{K}_{part}$ derived from the exploration represents the set of all admissible dendrograms in the following sense:
-    \begin{enumerate}
-        \item Every admissible dendrogram corresponds to a consistent completion of $\mathbb{K}_{part}$.
-        \item The question marks in $\mathbb{K}_{part}$ represent the degrees of freedom remaining in the clustering process after satisfying all expert constraints.
-    \end{enumerate}
-\end{proposition}
+To integrate the background knowledge from the constraints with the latent knowledge from the topic model, we construct the intersection of their respective closure systems.
+Let $\mathbb{K}_{TM} = (G, M_{TM}, I_{TM})$ be the formal context derived from the \ac{lda} topic model (as described in Section 4.2). This context induces a standard \ac{fca} closure operator $\phi_{TM}(X) = X''$.
 
-Consequently, the partial context captures the necessary structural properties enforced by the constraints. If $J(g, m) = \times$, object $g$ \textit{must} be in cluster $m$ in every valid hierarchy. If $J(g, m) = -$, it is strictly forbidden. The remaining question marks indicate regions where the constraints do not enforce a specific topology, allowing for variation in the final clustering granularity.
-
-\subsubsection{Lattice Representation and Closed World Assumption}
-While $\mathbb{K}_{part}$ represents the potential solution space, a concrete concept lattice is required for visualization and further processing.
-Standard hierarchical clustering algorithms implicitly operate under a parsimony principle: clusters are not formed unless evident from data or constraints. We map this to FCA via a \textit{Closed World Assumption} (CWA) on the partial context.
-
-Let $\mathbb{K}_{min}$ be the pessimistic completion of $\mathbb{K}_{part}$ where all remaining unknown entries are treated as false:
+We seek the closure system containing those sets of documents that are closed under \emph{both} the \ac{mlb} constraints and the topic model logic:
 \begin{equation}
-    I_{min}(g, m) := \begin{cases}
-        \times & \text{if } J(g, m) = \times                          \\
-        -      & \text{otherwise (i.e., if } - \text{ or } ? \text{)}
-    \end{cases}
+    \mathcal{C}_{\cap} = \mathcal{C}_{\Sigma} \cap \mathcal{C}_{TM} = \{ A \subseteq G \mid \phi_{\Sigma}(A) = A \land \phi_{TM}(A) = A \}
 \end{equation}
 
-The concept lattice $\underline{\mathfrak{B}}(\mathbb{K}_{min})$ derived from this completion is the minimal structure satisfying all MLB connectivity requirements.
-It is important to note that a dendrogram is mathematically a tree, whereas $\underline{\mathfrak{B}}(\mathbb{K}_{min})$ is a lattice. The lattice contains all necessary clusters (concept extents) mandated by the constraints. Any specific dendrogram (a conflict-free hierarchy) consistent with the constraints is strictly embeddable in this lattice. Specifically, the clusters of such a dendrogram form a sub-order of the concept lattice's meet-semilattice.
+\subsubsection{Alternating Closure Composition}
+The closure operator $\phi_{\cap}$ corresponding to this intersection is the limit of the alternating composition of $\phi_{\Sigma}$ and $\phi_{TM}$. For any set $X \subseteq G$, we define a sequence $X_0 = X, X_{k+1} = \phi_{TM}(\phi_{\Sigma}(X_k))$. Since $G$ is finite and closure operators are extensive and monotone, this sequence converges to a fixpoint:
+\begin{equation}
+    \phi_{\cap}(X) = \lim_{k \to \infty} (\phi_{TM} \circ \phi_{\Sigma})^k (X)
+\end{equation}
+This combined operator ensures that any generated concept is valid with respect to the expert constraints while also being statistically supported by the topic model.
 
-Thus, our FCA-based approach generalizes the notion of a dendrogram: instead of forcing a single tree structure where data is ambiguous, the concept lattice visualizes the overlapping possibilities and the structural implications of the constraints, collapsing into a standard dendrogram only when the constraints (or the CWA) eliminate all degrees of freedom.
-\textcolor{orange}{Ist wirklich minimal?}
+\subsubsection{On-the-fly Computation of Irreducible Concepts}
+Generating the full lattice for large datasets is computationally expensive. However, to define a new, reduced formal context representing the merged knowledge, we only require the \textbf{$\cap$-irreducible} (meet-irreducible) elements of the lattice. An extent $A \in \mathcal{C}_{\cap}$ is $\cap$-irreducible if it cannot be represented as the intersection of its strict supersets.
+
+Instead of generating all closed sets and filtering them post-hoc, we employ an optimized version of Ganter's Next-Closure algorithm. During the canonical generation of closed sets, for a current closed set $A$, we perform an \emph{on-the-fly irreducibility check}. We inspect the immediate upper neighbors by tentatively adding elements $g \in G \setminus A$:
+\begin{equation}
+    I_{sup}(A) = \bigcap_{g \in G \setminus A} \phi_{\cap}(A \cup \{g\})
+\end{equation}
+If $I_{sup}(A) = A$, then $A$ is the intersection of its upper neighbors and thus \textbf{reducible}. If $I_{sup}(A) \supset A$, then $A$ is \textbf{irreducible}. This approach allows us to discard redundant concepts immediately upon generation, significantly reducing memory overhead.
+
+The resulting set of irreducible extents $\{E_1, \dots, E_k\}$ forms the attribute set of the final, knowledge-integrated formal context $\mathbb{K}_{merged} = (G, \{m_1, \dots, m_k\}, I_{merged})$, where $g \, I_{merged} \, m_i \iff g \in E_i$.
