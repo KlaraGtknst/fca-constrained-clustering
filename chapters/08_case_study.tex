@@ -1,13 +1,15 @@
 \section{Case Study}
 \label{sec:case_study}
 
-\textcolor{red}{TODO: As case study it would been interesting to show which hierarchy will be generated with hierarchical constraints and without.
-By example it should been shown whether the one or the other leads to more intuitive results.}
+We apply our method to the BankSearch dataset~\cite{bade_creating_2008}, which is introduced in \autoref{sec:banksearch_data}.
+The structure of the dataset requires an additional step of mapping topic-level \ac{mlb} constraints to document-level constraints, which is described in \autoref{sec:topic_document_mapping}.
+The findings of comparing the \ac{mlb} constrained concept lattice to a topic model-based iceberg lattice in \autoref{sec:lattice_comparison}.
 
 \input{chapters/06_dataset}
 
 
-\subsubsection{Topic-Document Constraint Mapping}
+\subsection{Topic-Document Constraint Mapping}
+\label{sec:topic_document_mapping}
 In the BankSearch dataset, we do not have a hierarchical structure of documents, but rather on topics.
 Hence, we extract \ac{mlb} constraints on the topic level, and map them to the document-level based on the topic assignments of the documents.
 In this case, each document is associated with exactly one topic, allowing for a straightforward mapping of the generated \ac{mlb} constraints to document-level constraints. 
