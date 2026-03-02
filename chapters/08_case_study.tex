@@ -15,8 +15,9 @@ We chose to omit any \ac{mlb} constraints involving categories that do not have 
 Instead of mapping each document to its assigned topic, resulting in exponentially many constraints, we translate the topic-level \ac{mlb} constraints to document-level constraints of representative documents.
 In other words: Each document belongs to an equivalence class defined by its assigned topic. 
 We select one representative document from each topic to serve as a proxy for the entire class in the constraint mapping.
-We denote this \textit{clarified} context, but expand the resulting lattices with the remaining documents for later analysis.
+% We denote this \textit{clarified} context, but expand the resulting lattices with the remaining documents for later analysis.
 For instance, if documents $d_x$, $d_y$, and $d_z$ are labeled with topics $x$, $y$, and $z$ respectively, then the MLB constraint $(x,y,z)$ directly translates to a document-level constraint $(d_x, d_y, d_z)$.
+This results in $81$ \ac{mlb} constraints, which are then used to construct the formal context for the \ac{mlb}-informed concept lattice.
 
 \subsection{Effectiviness Measures}
 \label{subsec:effectiveness_measures}
