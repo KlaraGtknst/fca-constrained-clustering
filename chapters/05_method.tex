@@ -7,14 +7,18 @@
 \section{Method}
 \label{sec:method}
 
-Our approach integrates \ac{fca} with topic modeling to generate hierarchical document clusters guided by \ac{mlb} constraints. The method consists of five main stages: topic model construction, document-topic incidence matrix formation, concept lattice extraction, constraint generation, and \ac{ae} (\autoref{subsec:incomplete_knowledge}) with incomplete knowledge (\autoref{subsec:incomplete_knowledge}).
+Our approach integrates \ac{fca} with external knowledge to construct concept lattices.
+These lattices can in turn be translated into hierarchical document clusters guided by the respective external knowledge source.
 
-% The ternary context models the solution space of possible hierarchies, and \ac{ae} restricts the space using constraints.
-% The \ac{ae} algorithm asks a domain expert, here: \ac{mlb} constraints, about the validity of implications.
-% The expert answers the queries by confirming or rejecting them.
-% In case of rejection, the expert provides counterexamples.
+We consider two types of external knowledge bases for our case study:
+(i) constraints derived from a gold-label topic hierarchy (\autoref{sec:gt_mlb}), and
+(ii) topic hierarchy obtained from a topic model (\autoref{sec:topic_model}).
 
-\subsection{Topic Model Construction}
+\subsection{Topic Model}
+\label{sec:topic_model}
+The topic-model-based method comprises four main stages: topic model construction, document–topic incidence matrix formation, and concept lattice extraction.
+
+\subsubsection{Topic Model Construction}
 
 % We employed external knowledge bases such as 
 % % WordNet~\cite{fellbaum2010wordnet} and 
@@ -79,8 +83,11 @@ The resulting iceberg concept lattice is visualized in Figure~\ref{fig:iceberg_c
 
 % \input{chapters/03_knowledge_extraction/ground_truth.tex}
 
+\subsection{Gold-label Topic Hierarchy}
+\label{sec:gt_mlb}
 
-\subsection{\ac{mlb} Constraints}
+The gold-label-based method, consists of topic constraint generation, topic–document constraint mapping, and formal context construction.
+\subsubsection{\ac{mlb} Constraints}
 
 Starting from the three elements $\{x,y,z\}$ arranged as displayed in \autoref{fig:concept_lattice2mlb}, the mapping $\mathrm{MLB}$ produces the constraint $(x,y,z)$.
 
