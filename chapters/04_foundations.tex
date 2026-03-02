@@ -1,27 +1,45 @@
 \section{Foundations}
 \label{sec:foundations}
 
-We introduce the necessary foundations for our approach in this section.
-We first present the origin of \ac{mlb} constraints in constrained hierarchical clustering, and subsequently introduce the necessary background on \ac{fca}.
+This section introduces the theoretical foundations underlying our approach. 
+In Section~\ref{sec:foundations_fca}, we first we present the necessary background on \ac{fca}, which provides the formal framework for representing hierarchical structures.
+Subsequently, in Section~\ref{sec:foundations_mlb}, discuss  \ac{mlb} constraints in constrained hierarchical clustering. 
+
+\subsection{\ac{fca}}
+\label{sec:foundations_fca}
+
+\input{chapters/extras/FCA}
+
+% \subsubsection{Canonical Basis}
+% (also: Duquenne-Guigues basis or stem basis \cite{ganter_conceptual_2016}).
+% A formal context $(G, M, I)$ can also be defined via a set of implications $\mathcal{L}$ that is sound (i.e., each implication in $\mathcal{L}$ holds in $(G, M, I)$), complete (i.e., each implication that holds in $(G, M, I)$ follows from $\mathcal{L}$), and nonredundant (i.e., no implication in $\mathcal{L}$ follows from other implications in $\mathcal{L}$).
+% The canonical basis is $\{P \rightarrow P'' \smallsetminus P | P$ is pseudo-closed$\}$.
+% A finite subset $P \subseteq M$ is pseudo-closed if and only if (i) $P \neq P''$ (i.e., $P$ is not closed and in other words: $P$ is not a concept intent) and (ii) if $Q \subsetneq P$ is a pseudo-closed proper subset of $P$, then $Q'' \subset P$ (i.e., $P$ contains the closure of every pseudo-closed subset with fewer elements).
+% If (i) and (ii) holds true, $P$ is a pseudo-intent of $(G, M, I)$.
+% The canonical basis is nonredundant, i.e., no implication in the canonical basis is dispensable.
+% It is not the only implication basis, but there is no implication basis with fewer implications \cite{ganter_conceptual_2016}.
+
+
+\subsection{\acl{mlb} Constraints}
+\label{sec:foundations_mlb}
 
 The purpose of clustering is to structure data without any class labels.
 This is especially useful in real world applications since data often lacks labels and the annotation process is expensive.
-Partitional clustering groups data points into clusters based on a similarity measure~\cite{bade_hierarchical_2014}.
+% Partitional clustering groups data points into clusters based on a similarity measure~\cite{bade_hierarchical_2014}.
 % With hard clustering, each data point belongs to only one cluster, while soft clustering allows membership to multiple clusters~\cite{schutz_comprehensive_2023}.
 % 
-% \subsubsection{Hierarchical clustering}
-Hierarchical clustering adds another level of usefulness by grouping the data on different levels of granularity~\cite{bade_hierarchical_2014}.
-Hence, partitional clustering is a special case of hierarchical clustering with one level of granularity.
-
 Clustering algorithms group data points based on different criteria into clusters.
-The overall goal is to minimize the inner-cluster distances and maximize the intra-cluster distances.
-Prior knowledge about the dataset can be modelled as constraints~\cite{bade_hierarchical_2014}.
+The overall goal is to minimize the intra-cluster distances and maximize the inter-cluster distances.
+Prior knowledge about the dataset can be modelled as constraints. %~\cite{bade_hierarchical_2014}.
 The simplest constraints are pairwise \textit{must-link} and \textit{cannot-link} constraints.
-Pairwise constraints can be either instance-based or metric-based.
-Instance-based constraints directly the clustering algorithm by enforcing constraints on their instance pairs.
-They can be hard or soft, allowing different degrees of constraint violation.
-Metric-based constraints map the constraints to the distance metric or similarity measure of the clustering algorithm.
+% Pairwise constraints can be either instance-based or metric-based.
+% Instance-based constraints directly the clustering algorithm by enforcing constraints on their instance pairs.
+% They can be hard or soft, allowing different degrees of constraint violation.
+% Metric-based constraints map the constraints to the distance metric or similarity measure of the clustering algorithm.
 Pairwise constraints are limited to partitional clustering.
+% \subsubsection{Hierarchical clustering}
+Opposed to partitional clustering, hierarchical clustering groups the data on different levels of granularity~\cite{bade_hierarchical_2014}.
+% Hence, partitional clustering is a special case of hierarchical clustering with one level of granularity.
 So-called \ac{mlb} constraints introduce prior knowledge into hierarchical clustering.
 A \ac{mlb} constraint
 \begin{eqnarray}
@@ -32,36 +50,26 @@ specifies an agglomerating order on three data points $d_x, d_y, d_z$.
 Symmetry applies for the first two elements.
 For the \ac{mlb} constraint in \eqref{eq:mlb_xyz} both \autoref{def:mlb_implication} and \autoref{def:mlb_counterexample} must hold true.
 This means that the must-link constraint between the first and second item is stronger than that between the first and third item.
-\begin{definition}[\ac{mlb} implication]
-    \label{def:mlb_implication}
+\begin{definition}[\ac{mlb} Implication]
+    \label{def:mlb_implication}\\
     Given \ac{mlb} constraint $MLB_{x y z}$:
     $\forall c \in H: d_x \in c \wedge d_z \in c \rightarrow d_y \in c$
 \end{definition}
-\begin{definition}[\ac{mlb} seperation via counter example]
-    \label{def:mlb_counterexample}
+\begin{definition}[\ac{mlb} Counter Example]
+    \label{def:mlb_counterexample}\\
     Given \ac{mlb} constraint $MLB_{x y z}$:
     $\exists c \in H: d_x \in c \wedge d_y \in c \wedge d_z \notin c$
 \end{definition}
-A \ac{mlb} constraint for hierarchical clustering can be transformed into multiple pairwise constraints for partitional clustering by adding one must-link constraint between $d_x$ and $d_y$ and two cannot-links between $d_x, d_z$ and $d_y, d_z$~\cite{bade_hierarchical_2014}.
+% A \ac{mlb} constraint for hierarchical clustering can be transformed into multiple pairwise constraints for partitional clustering by adding one must-link constraint between $d_x$ and $d_y$ and two cannot-links between $d_x, d_z$ and $d_y, d_z$~\cite{bade_hierarchical_2014}.
 
 % \subsubsection{Concept hierarchies} 
-Concept hierarchies structure information into hierarchies and facilitate working with knowledge-bases~\cite{cimiano_learning_2005}.
+% Concept hierarchies structure information into hierarchies and facilitate working with knowledge-bases~\cite{cimiano_learning_2005}.
 
 
 % \subsection{\ac{fca}}
 % \label{subsec:fca}
 
-% copied from last paper
-\input{chapters/extras/FCA}
 
-\subsubsection{Canonical Basis}
-(also: Duquenne-Guigues basis or stem basis \cite{ganter_conceptual_2016}).
-A formal context $(G, M, I)$ can also be defined via a set of implications $\mathcal{L}$ that is sound (i.e., each implication in $\mathcal{L}$ holds in $(G, M, I)$), complete (i.e., each implication that holds in $(G, M, I)$ follows from $\mathcal{L}$), and nonredundant (i.e., no implication in $\mathcal{L}$ follows from other implications in $\mathcal{L}$).
-The canonical basis is $\{P \rightarrow P'' \smallsetminus P | P$ is pseudo-closed$\}$.
-A finite subset $P \subseteq M$ is pseudo-closed if and only if (i) $P \neq P''$ (i.e., $P$ is not closed and in other words: $P$ is not a concept intent) and (ii) if $Q \subsetneq P$ is a pseudo-closed proper subset of $P$, then $Q'' \subset P$ (i.e., $P$ contains the closure of every pseudo-closed subset with fewer elements).
-If (i) and (ii) holds true, $P$ is a pseudo-intent of $(G, M, I)$.
-The canonical basis is nonredundant, i.e., no implication in the canonical basis is dispensable.
-It is not the only implication basis, but there is no implication basis with fewer implications \cite{ganter_conceptual_2016}.
 
 
 % \subsubsection{Attribute Exploration}
