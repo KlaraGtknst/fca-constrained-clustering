@@ -1,0 +1,53 @@
+
+\subsection{Comparison of Resulting Concept Lattices}
+
+Notably, the number of BankSearch documents considered for both concepts lattices differs, where the topic model-based lattice includes only 10\,970 documents that did not contain any errornous texts (as previously done by \cite{gutekunst2025conceptual}), while the ground truth lattice encompasses all 11\,000 documents with their respective gold standard labels.
+This is due to the requirement of sound text input to the topic model for valid topic assignment, which necessitated the exclusion of documents with corrupted text data.
+
+Moreover, while the ground truth lattice in Figure~\ref{fig:mlb_context} contains the complete set of concepts derived from the gold standard labels, the topic model-based lattice in Figure~\ref{fig:iceberg_concept_lattice} is an iceberg lattice that includes only those concepts whose intents meet a minimum support threshold of $0.05$, i.e., excluding the most specific concepts.
+This necessacity arises from the size of the original sized topic model-based lattice, which contains over 590 concepts (cf. Figure~\ref{fig:concepts_support}), rendering it impractical for visualization and interpretation.
+
+\begin{figure}[htbp]
+    \centering
+    \includesvg[width=0.8\textwidth]{results/context_comparison/mlb_expanded_lattice.svg}
+    \caption{Ground truth document-topic concept lattice for the BankSearch dataset.}
+    \label{fig:mlb_context}
+\end{figure}
+
+With reference to Figure \ref{fig:mlb_context}, the ground truth lattice attributes are denoted $Mi$, which stems from the script constructing the formal context from the \ac{mlb} constraints.
+We observe that there are $14$ attributes.
+However, manual analysis shows that not all directly correspond to the $14$ topics from the gold standard labels, but rather represent combinations of those topics.
+There are two attributes, namely $M3$ and $M4$, which are an exception in that they are directly associated with \texttt{Biology} and \texttt{Astronomy}, resepectively.
+Nine of the remaining ground truth topics are intersections of the attributes, e.g., \texttt{Sport} corresponds to $M0 \cap M1$, while its original children \texttt{Soccer} and \texttt{Motor Racing} are combinations of the attributes $M1 \cap M2$ and $M0 \cap M2$, respectively.
+We find that the original ground truth topics (except for $M3$ and $M4$) are respresented in the lowest level over the bottom node.
+
+\begin{figure}[htbp]
+    \centering
+    \includesvg[width=0.8\textwidth]{results/context_comparison/iceberg_context_0.05_lattice.svg}
+    \caption{Iceberg concept lattice for $\mathtt{min\_supp} = 0.05$ for the BankSearch dataset, resulting in approximately $30$ concepts. The number above the node denote the topic IDs in the intent, while the number below indicates the count of documents in the extent.}
+    \label{fig:iceberg_concept_lattice}
+\end{figure}
+
+The topic model-based lattice in Figure~\ref{fig:iceberg_concept_lattice} contains 30 concepts with a support of at least $0.05$ based on a subset of all BankSearch documents, which are denoted by their respective topic IDs in the intent.
+Opposed to the \ac{mlb}-informed concept lattice, the original topics are not directly represented in the topic model-based lattice.
+Structurally, the iceberg lattice contains only two levels apart from the top node.
+There is less hierarchy compared to the ground truth lattice, which is expected given the cut due to the iceberg restriction.
+
+
+\begin{figure}[htbp]
+    \centering
+    \includesvg[width=0.8\textwidth]{results/context_comparison/CONCEPT_SIM/heatmap.svg}
+    \caption{Topic model document-topic iceberg concept lattice for the BankSearch dataset.}
+    \label{fig:concept_lattice_similarity}
+\end{figure}
+
+To find out whether both concept lattices share similar document clusters (i.e., overlapping concept extents), we compute the Jaccard similarity between all pairs of concepts from both lattices, which is visualized in the heatmap in Figure~\ref{fig:concept_lattice_similarity}.
+Most concept extent pairs have a Jaccard similarity near zero, indicating no overlap in their respective document clusters.
+There are only three pairs of concepts with a Jaccard similarity above $0.6$ (excluding the top node), which as follows:
+\begin{itemize}
+    \item $\{M12, M13, M14\}$ from the ground truth lattice and concept with intent $\{1\}$ from the topic model-based lattice with a Jaccard similarity of $0.7716$.
+    \item $\{M12, M13, M8\}$ from the ground truth lattice and concept with intent $\{7\}$ from the topic model-based lattice with a Jaccard similarity of $0.6761$.
+    \item $\{M13, M14, M8\}$ from the ground truth lattice and concept with intent $\{8\}$ from the topic model-based lattice with a Jaccard similarity of $0.6010$.
+\end{itemize}
+The respective ground truth concepts are located in the middle of the concept lattice, which has no significant meaning to the ground truth topics.
+This indicates there is little overall similarity between the two concept lattices, which is expected given the different underlying data and the iceberg restriction for the topic model-based lattice.
