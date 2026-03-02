@@ -111,43 +111,43 @@ class FormalContext:
 
 # --- 3. Generierungs-Logik (Reduziert) ---
 
-def filter_irreducibles(all_clusters, all_docs_set):
-    clusters = [set(c) for c in all_clusters]
-    irreducibles = []
-    
-    # Top-Element (Cluster mit allen Docs) ist oft redundant für die Struktur
-    full_set = set(all_docs_set)
-    
-    for c in clusters:
-        # Wenn der Cluster alle Dokumente enthält, überspringen wir ihn oft (optional)
-        if c == full_set:
-            continue
-            
-        supersets = [s for s in clusters if c < s]
-        
-        if not supersets:
-            # Wenn es keine Obermengen gibt (und es nicht das FullSet war), behalten wir es
-            irreducibles.append(c)
-            continue
-            
-        intersection_of_supers = set(all_docs_set)
-        for s in supersets:
-            intersection_of_supers = intersection_of_supers.intersection(s)
-            
-        if c != intersection_of_supers:
-            irreducibles.append(c)
-            
-    return irreducibles
-
 def generate_context_obj(oracle):
     docs = oracle.sorted_docs
     n = len(docs)
+    all_docs_set = set(docs)
+    
     current_set = oracle.get_forced_closure(set())
-    valid_clusters = []
+    reduced_clusters =[] # Hier speichern wir direkt NUR die irreduziblen
     
     # Next-Closure Loop
     while True:
-        valid_clusters.append(current_set)
+        
+        # --- 1. ON-THE-FLY IRREDUZIBILITÄTS-CHECK ---
+        # Das Top-Element (alle Dokumente) ist konventionsgemäß nicht irreduzibel
+        if len(current_set) < n:
+            intersection_supersets = all_docs_set
+            is_irreducible = True
+            
+            # Wir testen das Hinzufügen jedes nicht enthaltenen Dokuments
+            for d in all_docs_set:
+                if d not in current_set:
+                    # Hülle des aktuellen Clusters + 1 neues Dokument
+                    candidate_closure = oracle.get_forced_closure(current_set | {d})
+                    intersection_supersets = intersection_supersets.intersection(candidate_closure)
+                    
+                    # Early Exit: Sobald der Schnitt auf das Cluster selbst schrumpft,
+                    # hat das Cluster mehrere obere Nachbarn und ist NICHT irreduzibel.
+                    if intersection_supersets == current_set:
+                        is_irreducible = False
+                        break
+            
+            # Nur speichern, wenn es die Prüfung bestanden hat!
+            if is_irreducible:
+                reduced_clusters.append(current_set)
+
+        # --- 2. STANDARD NEXT-CLOSURE (Nächstes Cluster berechnen) ---
+        # (Dieser Teil bleibt unverändert, da der Algorithmus die lexikalische 
+        # Reihenfolge benötigt, um weiterzulaufen)
         next_set = None
         current_indices = [oracle.doc_map[d] for d in current_set]
         
@@ -168,24 +168,25 @@ def generate_context_obj(oracle):
                         is_canonical = False; break
                 if is_canonical:
                     next_set = closure_docs; break
-        if next_set is None: break
+                    
+        if next_set is None: 
+            break
+            
         current_set = next_set
 
-    # Reduzieren auf irreduzible Merkmale
-    reduced_clusters = filter_irreducibles(valid_clusters, set(docs))
+    print(f"Gefundene irreduzible Cluster (Merkmale): {len(reduced_clusters)}")
     
+    # --- 3. INZIDENZMATRIX AUFBAUEN ---
     incidence = {d: set() for d in docs}
-    attr_names = []
+    attr_names =[]
     
     for i, cluster in enumerate(reduced_clusters):
-        # Name: M{i} oder eine Beschreibung
         attr_name = f"M{i}"
         attr_names.append(attr_name)
         for doc in cluster:
             incidence[doc].add(attr_name)
             
     return FormalContext(docs, attr_names, incidence)
-
 # --- MAIN ---
 
 if __name__ == "__main__":
