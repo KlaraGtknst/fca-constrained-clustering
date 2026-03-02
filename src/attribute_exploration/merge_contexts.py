@@ -103,10 +103,13 @@ class CombinedClosureOracle:
     def __init__(self, ctx1, ctx2):
         # Prüfen ob beide Kontexte über denselben Objekten operieren
         if set(ctx1.objects) != set(ctx2.objects):
-            raise ValueError("Die beiden Kontexte haben unterschiedliche Dokumentenmengen!")
+            print("Die beiden Kontexte haben unterschiedliche Dokumentenmengen! Nutze übereinstimmende Menge von "
+                  "Dokumenten")
+        objects = set(ctx1.objects).intersection(set(ctx2.objects))
+
             
         # Deterministische Sortierung (unabhängig davon, wie sie im File standen)
-        self.sorted_docs = sorted(list(ctx1.objects))
+        self.sorted_docs = sorted(list(objects))
         self.doc_map = {doc: i for i, doc in enumerate(self.sorted_docs)}
         
         self.c1 = ContextClosure(ctx1)
@@ -206,9 +209,10 @@ def generate_intersection_context(oracle):
 
 if __name__ == "__main__":
     # Pfade anpassen!
-    cxt1_path = "context1.cxt"
-    cxt2_path = "context2.cxt"
-    output_path = "intersection_context.cxt"
+    PROJECT_ROOT = Path(__file__).resolve().parents[2]
+    cxt1_path = PROJECT_ROOT / "resources/banksearch/ground_truth/mlb_expanded.cxt"
+    cxt2_path = PROJECT_ROOT / "resources/banksearch/topic_model/banksearch_0.05_iceberg.cxt"
+    output_path = PROJECT_ROOT / "results/context_comparison/intersection_context.cxt"
     
     if not (Path(cxt1_path).is_file() and Path(cxt2_path).is_file()):
         print("Bitte stelle sicher, dass 'context1.cxt' und 'context2.cxt' existieren.")
