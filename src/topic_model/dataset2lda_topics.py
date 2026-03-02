@@ -201,10 +201,10 @@ def main(dataset_path, output_file):
 
 
 if __name__ == "__main__":
-
-    dataset_path = Path("resources/Dataset")
+    PROJECT_ROOT = Path(__file__).resolve().parents[2]
+    dataset_path = PROJECT_ROOT / "resources/Dataset"
     assert dataset_path.exists(), "No input dataset exits, ensure to download it from http://lib.stat.cmu.edu/datasets/."
-    output_file = Path("resources/banksearch2topics")
+    output_file = PROJECT_ROOT / "resources/banksearch2topics"
 
     output_file.mkdir(parents=True, exist_ok=True)
     output_file = output_file / "banksearch_lda_topics.json"
