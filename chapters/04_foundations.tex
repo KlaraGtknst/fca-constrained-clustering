@@ -1,25 +1,21 @@
 \section{Foundations}
 \label{sec:foundations}
 
-\subsection{Constrained Clustering}
-\label{subsec:constrained_clustering}
+We introduce the necessary foundations for our approach in this section.
+We first present the origin of \ac{mlb} constraints in constrained hierarchical clustering, and subsequently introduce the necessary background on \ac{fca}.
 
-\subsubsection{Clustering}
 The purpose of clustering is to structure data without any class labels.
 This is especially useful in real world applications since data often lacks labels and the annotation process is expensive.
 Partitional clustering groups data points into clusters based on a similarity measure~\cite{bade_hierarchical_2014}.
-With hard clustering, each data point belongs to only one cluster, while soft clustering allows membership to multiple clusters~\cite{schutz_comprehensive_2023}.
-
-\subsubsection{Constraints}
-Constraints model prior knowledge about an optimum~\cite{bade_hierarchical_2014}.
-
-\subsubsection{Hierarchical clustering}
+% With hard clustering, each data point belongs to only one cluster, while soft clustering allows membership to multiple clusters~\cite{schutz_comprehensive_2023}.
+% 
+% \subsubsection{Hierarchical clustering}
 Hierarchical clustering adds another level of usefulness by grouping the data on different levels of granularity~\cite{bade_hierarchical_2014}.
 Hence, partitional clustering is a special case of hierarchical clustering with one level of granularity.
 
 Clustering algorithms group data points based on different criteria into clusters.
 The overall goal is to minimize the inner-cluster distances and maximize the intra-cluster distances.
-Prior knowledge about the dataset can be modelled as constraints.
+Prior knowledge about the dataset can be modelled as constraints~\cite{bade_hierarchical_2014}.
 The simplest constraints are pairwise \textit{must-link} and \textit{cannot-link} constraints.
 Pairwise constraints can be either instance-based or metric-based.
 Instance-based constraints directly the clustering algorithm by enforcing constraints on their instance pairs.
@@ -48,11 +44,12 @@ This means that the must-link constraint between the first and second item is st
 \end{definition}
 A \ac{mlb} constraint for hierarchical clustering can be transformed into multiple pairwise constraints for partitional clustering by adding one must-link constraint between $d_x$ and $d_y$ and two cannot-links between $d_x, d_z$ and $d_y, d_z$~\cite{bade_hierarchical_2014}.
 
-\subsubsection{Concept hierarchies} Concept hierarchies structure information into hierarchies and facilitate working with knowledge-bases~\cite{cimiano_learning_2005}.
+% \subsubsection{Concept hierarchies} 
+Concept hierarchies structure information into hierarchies and facilitate working with knowledge-bases~\cite{cimiano_learning_2005}.
 
 
-\subsection{\ac{fca}}
-\label{subsec:fca}
+% \subsection{\ac{fca}}
+% \label{subsec:fca}
 
 % copied from last paper
 \input{chapters/extras/FCA}
@@ -67,27 +64,16 @@ The canonical basis is nonredundant, i.e., no implication in the canonical basis
 It is not the only implication basis, but there is no implication basis with fewer implications \cite{ganter_conceptual_2016}.
 
 
-\subsubsection{Attribute Exploration}
-\label{subsec:basic_ae}
-Attribute exploration tries to build the implication theory (i.e., set of implications true for all objects) of the entire domain.
-Every implication that holds true for all objects follows from the canonical basis.
-For every implication that does not hold in general, there is a counterexample among the objects.
-The exploration algorithm repeatedly asks the domain expert about undecided formulas either confirming them or disproving them by extending the object set with additional evidence \cite{ganter_conceptual_2016}.
+% \subsubsection{Attribute Exploration}
+% \label{subsec:basic_ae}
+% Attribute exploration tries to build the implication theory (i.e., set of implications true for all objects) of the entire domain.
+% Every implication that holds true for all objects follows from the canonical basis.
+% For every implication that does not hold in general, there is a counterexample among the objects.
+% The exploration algorithm repeatedly asks the domain expert about undecided formulas either confirming them or disproving them by extending the object set with additional evidence \cite{ganter_conceptual_2016}.
 
-\subsubsection{Incomplete knowledge}
-\label{subsec:incomplete_knowledge}
-An incomplete lattice is a ternary context $(G,M,W,I)$ with values $W=\{\times, ?, \circ\}$ where $? < \times$ and $? < \circ$.
-$<$ is an order over the amount of information.
-$I(g,m)=?$ symbolizes the lack of knowledge about the relation between object $g$ and attribute $m$ \cite{holzer_incompleteFCA_2001}.
-\textcolor{red}{TODO: \cite{hille_incomplete_2025,burmeister_treatment_2000}}
-
-\input{chapters/extras/fca_clusters}
-% \fcaclusterconnection{}
-
-% \textcolor{red}{TODO: This image is misleading. Due to the fact that FCA is based on (G, M, I) which is the object attribute space.
-%     A similarity space is usually described by dissimilarities between G.
-%     The point is we have two independent knowledge representation models which are using hierarchical constraints. Both variants lead to a concept hierarchy.}
-
-% Dimensions in a 2D plot may be drawn to the same size but represent different concepts, units or value ranges.
-% The clusters obtained depend entirely on the variables (or dimensions) chosen.
-% Similarity may be based on subjective judgements or derived from formulas based on the object's attributes~\cite{kaufman_finding_2009}.
+% \subsubsection{Incomplete knowledge}
+% \label{subsec:incomplete_knowledge}
+% An incomplete lattice is a ternary context $(G,M,W,I)$ with values $W=\{\times, ?, \circ\}$ where $? < \times$ and $? < \circ$.
+% $<$ is an order over the amount of information.
+% $I(g,m)=?$ symbolizes the lack of knowledge about the relation between object $g$ and attribute $m$ \cite{holzer_incompleteFCA_2001}.
+% \textcolor{red}{TODO: \cite{hille_incomplete_2025,burmeister_treatment_2000}}
