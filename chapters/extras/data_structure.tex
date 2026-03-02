@@ -67,80 +67,6 @@ $\vdots$  &          &           &          & $\ddots$ \\ \hline
 \end{figure}
 }
 
-
-\newcommand{\deriveMLBconstraints}{\begin{figure}[h]
-\centering
-\resizebox{\linewidth}{!}{%
-\begin{tikzpicture}[
-    grow=down,
-    level distance=1.3cm,
-    sibling distance=3.8cm,
-    level 2/.style={sibling distance=1.5cm},
-    every node/.style={font=\small},
-    edge from parent/.style={draw, -},
-    dir/.style={
-        draw,
-        rectangle,
-        rounded corners,
-        minimum width=2.0cm,
-        minimum height=0.8cm,
-        inner sep=4pt
-    },
-    file/.style={
-        draw,
-        rectangle,
-        minimum width=1.1cm,
-        minimum height=0.6cm,
-        inner sep=4pt
-    }
-]
-
-% ------------------------
-% Left: File hierarchy
-% ------------------------
-\node[dir] (root) {\faFolderOpen\ Root}
-  child {
-    node[dir] (dirA) {\faFolderOpen\ Dir A}
-      child { node[file] (d1) {$d_1$} }
-      child { node[file] (d2) {$d_2$} }
-  }
-  child {
-    node[dir] (dirB) {\faFolderOpen\ Dir B}
-      child { node[file] (d3) {$d_3$} }
-      child { node[file] (d4) {$d_4$} }
-  };
-
-% ------------------------
-% Arrow to constraints
-% ------------------------
-\node[right=2.8cm of root] (arrowstart) {};
-\node[right=5.0cm of root] (arrowend) {};
-
-\draw[->, thick] (arrowstart) -- (arrowend)
-  node[midway, above] {\small derived};
-
-% ------------------------
-% Right: MLB constraints
-% ------------------------
-\node[
-  right=5.8cm of root,
-  anchor=north west,
-  align=left,
-  font=\small
-] (constraints) {
-\textbf{MLB Constraints}\\[0.4em]
-$\mathrm{MLB}(d_1, d_2, d_A)$\\
-% $\mathrm{MLB}(d_1, d_2, d_4)$\\
-$\mathrm{MLB}(d_3, d_4, d_B)$\\
-% $\mathrm{MLB}(d_3, d_4, d_2)$
-};
-
-\end{tikzpicture}%
-}
-\caption{Deriving \ac{mlb} constraints from a hierarchical folder structure.}
-\label{fig:derive_mlb_constraints}
-\end{figure}}
-
 \newcommand{\treebankstructure}{\begin{figure}[h]
 \centering
 \resizebox{0.5\linewidth}{!}{%
@@ -149,23 +75,23 @@ $\mathrm{MLB}(d_3, d_4, d_B)$\\
 
   % Left column
   \node (f1) [anchor=west] at (0.5,5.5) {\large$\bullet$ \textbf{Finance} (0)};
-  \node (f2) [anchor=west] at (1.0,5.0) {$\circ$ Commercial Banks (100)};
-  \node (f3) [anchor=west] at (1.0,4.5) {$\circ$ Building Societies (100)};
-  \node (f4) [anchor=west] at (1.0,4.0) {$\circ$ Insurance Agencies (100)};
+  \node (f2) [anchor=west] at (1.0,5.0) {$\circ$ Commercial Banks (1000)};
+  \node (f3) [anchor=west] at (1.0,4.5) {$\circ$ Building Societies (1000)};
+  \node (f4) [anchor=west] at (1.0,4.0) {$\circ$ Insurance Agencies (1000)};
 
   \node (s1) [anchor=west] at (0.5,3.2) {\large$\bullet$ \textbf{Science} (0)};
-  \node (s2) [anchor=west] at (1.0,2.7) {$\circ$ Astronomy (100)};
-  \node (s3) [anchor=west] at (1.0,2.2) {$\circ$ Biology (100)};
+  \node (s2) [anchor=west] at (1.0,2.7) {$\circ$ Astronomy (1000)};
+  \node (s3) [anchor=west] at (1.0,2.2) {$\circ$ Biology (1000)};
 
   % Right column
   \node (p1) [anchor=west] at (7.5,5.5) {\large$\bullet$ \textbf{Programming} (0)};
-  \node (p2) [anchor=west] at (8.0,5.0) {$\circ$ C/C++ (100)};
-  \node (p3) [anchor=west] at (8.0,4.5) {$\circ$ Java (100)};
-  \node (p4) [anchor=west] at (8.0,4.0) {$\circ$ Visual Basic (100)};
+  \node (p2) [anchor=west] at (8.0,5.0) {$\circ$ C/C++ (1000)};
+  \node (p3) [anchor=west] at (8.0,4.5) {$\circ$ Java (1000)};
+  \node (p4) [anchor=west] at (8.0,4.0) {$\circ$ Visual Basic (1000)};
 
-  \node (sp1) [anchor=west] at (7.5,3.2) {\large$\bullet$ \textbf{Sport} (100)};
-  \node (sp2) [anchor=west] at (8.0,2.7) {$\circ$ Soccer (100)};
-  \node (sp3) [anchor=west] at (8.0,2.2) {$\circ$ Motor Racing (100)};
+  \node (sp1) [anchor=west] at (7.5,3.2) {\large$\bullet$ \textbf{Sport} (1000)};
+  \node (sp2) [anchor=west] at (8.0,2.7) {$\circ$ Soccer (1000)};
+  \node (sp3) [anchor=west] at (8.0,2.2) {$\circ$ Motor Racing (1000)};
 
   % Dynamic outer box (this replaces the fixed rectangle)
   \node[
@@ -176,6 +102,6 @@ $\mathrm{MLB}(d_3, d_4, d_B)$\\
   ] {};
 \end{tikzpicture}%
 }
-\caption{Banksearch dataset \cite{bade_creating_2008}.}
+\caption{Banksearch dataset \cite{bade_creating_2008}. The number in the brackets behind any category indicates that the number of documents in the dataset that are labeled with the respective topic.}
 \label{fig:banksearch_categories}
 \end{figure}}

@@ -8,24 +8,15 @@
 \label{sec:method}
 
 Our approach integrates \ac{fca} with external knowledge to construct concept lattices.
-These lattices can in turn be translated into hierarchical document clusters guided by the respective external knowledge source.
+These lattices can in turn be translated into hierarchical document clusters (\autoref{sec:formal_context_to_hierarchical_cluster}) guided by the respective external knowledge source.
 
 We consider two types of external knowledge bases for our case study:
 (i) constraints derived from a gold-label topic hierarchy (\autoref{sec:gt_mlb}), and
 (ii) topic hierarchy obtained from a topic model (\autoref{sec:topic_model}).
 
-% TODO: concept lattice to hierarchical clustering
-% \input{chapters/03_knowledge_extraction/formal_context_hierarchal_cluster.tex}
-
-% \input{chapters/03_knowledge_extraction/ground_truth.tex}
-
 \input{chapters/05_01_mlb.tex}
 
-% \subsection{\ac{mlb} Constraints}
 
-% Starting from the three elements $\{x,y,z\}$ arranged as displayed in \autoref{fig:concept_lattice2mlb}, the mapping $\mathrm{MLB}$ produces the constraint $(x,y,z)$.
-
-% \latticeToMLB{}
 
 
 % \subsection{\acl{ae}\textcolor{red}{: Dominik}}
@@ -254,3 +245,8 @@ Instead of generating all closed sets and filtering them post-hoc, we employ an 
 If $I_{sup}(A) = A$, then $A$ is the intersection of its upper neighbors and thus \textbf{reducible}. If $I_{sup}(A) \supset A$, then $A$ is \textbf{irreducible}. This approach allows us to discard redundant concepts immediately upon generation, significantly reducing memory overhead.
 
 The resulting set of irreducible extents $\{E_1, \dots, E_k\}$ forms the attribute set of the final, knowledge-integrated formal context $\mathbb{K}_{merged} = (G, \{m_1, \dots, m_k\}, I_{merged})$, where $g \, I_{merged} \, m_i \iff g \in E_i$.
+
+
+
+% concept lattice to hierarchical clustering (dendogram)
+\input{chapters/03_knowledge_extraction/formal_context_hierarchal_cluster.tex}

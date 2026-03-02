@@ -1,21 +1,13 @@
 \subsection{Gold-label Topic Hierarchy}
 \label{sec:gt_mlb}
 
-The gold-label-based method, consists of topic constraint generation, topic–document constraint mapping, and formal context construction.
+The gold-label-based method, consists of constraint generation and formal context construction.
 \subsubsection{Topic Constraint Generation}
 
-Starting from the three elements $\{x,y,z\}$ arranged as displayed in \autoref{fig:concept_lattice2mlb}, the mapping $\mathrm{MLB}$ produces the constraint $(x,y,z)$.
+Given an existing item hierarchy, \ac{mlb} constrainta are extracted such that they fullfill both \autoref{def:mlb_implication} and \autoref{def:mlb_counterexample}.
+We illustrated the resulting \ac{mlb} constraints on a small toy example in \autoref{fig:hierarchy_to_mlb}.
 
-\textcolor{red}{TODO: Update with new logic}
-\latticeToMLB{}
-
-\subsubsection{Topic-Document Constraint Mapping}
-In the BankSearch dataset, each document is associated with exactly one topic, allowing for a straightforward mapping of the generated \ac{mlb} constraints to document-level constraints. 
-Instead of mapping each document to its assigned topic, resulting in exponentially many constraints, we translate the topic-level \ac{mlb} constraints to document-level constraints of representative documents.
-In other words: Each document belongs to an equivalence class defined by its assigned topic. 
-We select one representative document from each topic to serve as a proxy for the entire class in the constraint mapping.
-We denote this \textit{clarified} context, but expand the resulting lattices with the remaining documents for later analysis.
-For instance, if documents $d_x$, $d_y$, and $d_z$ are labeled with topics $x$, $y$, and $z$ respectively, then the MLB constraint $(x,y,z)$ directly translates to a document-level constraint $(d_x, d_y, d_z)$.
+\hierarchyToMLB{}
 
 \subsubsection{Formal Context Construction}
 Triple exploration etc.

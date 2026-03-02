@@ -1,23 +1,23 @@
-\subsection{Dataset}
-\label{sec:data}
+% \subsection{Dataset}
+% \label{sec:data}
 
-Hierarchical datasets are rare~\cite{bade_creating_2008}.
-The dataset is split into train and test data splits.
-Categories are given either by (i) internal file structure of the dataset, or (ii) external sources (i.e., prior work~\cite{bade_creating_2008}, knowledge bases such as topic models.
+% Hierarchical datasets are rare~\cite{bade_creating_2008}.
+% The dataset is split into train and test data splits.
+% Categories are given either by (i) internal file structure of the dataset, or (ii) external sources (i.e., prior work~\cite{bade_creating_2008}, knowledge bases such as topic models.
 % WordNet\footnote{\url{https://wordnet.princeton.edu/}(30.12.2025)}~\cite{fellbaum2010wordnet}).
-\ac{mlb} constraints are derived systematically from the categories.
 
 % \subsubsection{Reuters Dataset}
 
 % \cite{bade_hierarchical_2014} obtained the Reuters dataset from NIST\footnote{\url{https://trec.nist.gov/data/reuters/reuters.html} (30.12.2025)}.
 % They manually selected (i) well distinguishable categories and (ii) less distinguishable categories as datasets.
 
-\subsubsection{Banksearch Dataset}
+\subsection{Banksearch Dataset}
 
-We obtained the dataset from Carnegie Mellon University~\footnote{\url{http://lib.stat.cmu.edu/datasets/} (29.12.2025)}.
+We obtained the Banksearch dataset from Carnegie Mellon University~\footnote{\url{http://lib.stat.cmu.edu/datasets/} (29.12.2025)}.
 Categories are illustrated in \autoref{fig:banksearch_categories}.
-Like \cite{bade_creating_2008}, we use the complete structure of the banksearch dataset but subsample 100 samples per category.
-We employ this dataset to directly compare our work to existing approaches.
+Although there are 14 categories, only 11 of them appear in actual documents.
+% Like \cite{bade_creating_2008}, we use the complete structure of the banksearch dataset but subsample 100 samples per category.
+% We employ this dataset to directly compare our work to existing approaches.
 
 
 \treebankstructure{}

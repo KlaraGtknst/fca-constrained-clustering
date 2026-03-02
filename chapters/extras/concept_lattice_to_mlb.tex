@@ -1,64 +1,87 @@
-\newcommand{\latticeToMLB}{%
+\newcommand{\hierarchyToMLB}{%
 \begin{figure}[t]
 \centering
-\resizebox{0.85\textwidth}{!}{%
+\resizebox{0.6\textwidth}{!}{%
 \begin{tikzpicture}[
   >=Latex,
   line cap=round, line join=round,
-  thick,
+  thick
 ]
+  % --- color palette (match sketch)
+  \colorlet{cDOne}{blue!70!black}        % d1
+  \colorlet{cDTwo}{violet!85!black}      % d2
+  \colorlet{cDThree}{magenta!85!black}   % d3
+  \colorlet{cDFour}{orange!90!black}     % d4
+  \colorlet{cCi}{brown!75!black}         % ci
+  \colorlet{cCj}{green!60!black}         % cj
+
   % --- styles
-  \colorlet{nodegreen}{green!60!black}
   \tikzset{
-    gedge/.style={draw=nodegreen, line width=1.8pt},
-    gnode/.style={draw=nodegreen, fill=white, line width=1.8pt},
-    arrow/.style={->, line width=1.8pt, draw=black},
+    edge/.style={draw=black, line width=2.0pt},
+    onode/.style={draw=black, fill=white, line width=2.0pt},
     lbl/.style={font=\Large},
+    biglbl/.style={font=\huge},
+    arrow/.style={->, draw=black, line width=2.0pt},
+    note/.style={font=\Large, anchor=west}
   }
 
-  % --- coordinates (tree on the left)
-  \coordinate (n1) at (0,2.8);
-  \coordinate (n2) at (-1.6,1.4);
-  \coordinate (n3) at ( 1.6,1.4);
-  \coordinate (n4) at ( 0.8,0.0);
-  \coordinate (n5) at ( 2.4,0.0);
+  % --- coordinates (left: hierarchy)
+  \coordinate (r)  at (0,3.2);   % root (unlabeled)
+  \coordinate (d4) at (-2.1,1.9);
+  \coordinate (cj) at ( 1.4,1.9);
+  \coordinate (d3) at (-0.1,0.5);
+  \coordinate (ci) at ( 2.6,0.5);
+  \coordinate (d1) at ( 1.9,-1.0);
+  \coordinate (d2) at ( 3.3,-1.0);
 
-  % --- green edges
-  \draw[gedge] (n1) -- (n2);
-  \draw[gedge] (n1) -- (n3);
-  \draw[gedge] (n3) -- (n4);
-  \draw[gedge] (n3) -- (n5);
+  % --- edges
+  \draw[edge] (r) -- (d4);
+  \draw[edge] (r) -- (cj);
+  \draw[edge] (cj) -- (d3);
+  \draw[edge] (cj) -- (ci);
+  \draw[edge] (ci) -- (d1);
+  \draw[edge] (ci) -- (d2);
 
-  % --- green open nodes
-  \draw[gnode] (n1) circle [radius=0.30];
-  \draw[gnode] (n2) circle [radius=0.28];
-  \draw[gnode] (n3) circle [radius=0.28];
-  \draw[gnode] (n4) circle [radius=0.26];
-  \draw[gnode] (n5) circle [radius=0.26];
+  % --- nodes (open circles)
+  \foreach \p/\rad in {r/0.30,d4/0.28,cj/0.28,d3/0.28,ci/0.28,d1/0.26,d2/0.26}{
+    \draw[onode] (\p) circle [radius=\rad];
+  }
 
-  % --- labels (node numbers)
-  \node[lbl, anchor=south] at ($(n1)+(0,-0.85)$) {$p$};
-  \node[lbl, anchor=north] at ($(n2)+(0,-0.25)$) {$x$};
-  \node[lbl, anchor=north] at ($(n3)+(0,-0.25)$) {$q$};
-  \node[lbl, anchor=north] at ($(n4)+(0,-0.25)$) {$y$};
-  \node[lbl, anchor=north] at ($(n5)+(0,-0.25)$) {$z$};
+  % --- labels (colored like the sketch)
+  \node[biglbl, text=cDFour,  anchor=east] at ($(d4)+(-0.35,-0.05)$) {$d_4$};
+  \node[biglbl, text=cDThree, anchor=west] at ($(d3)+(-0.10,-0.65)$) {$d_3$};
+  \node[biglbl, text=cDOne,   anchor=north] at ($(d1)+(0,-0.35)$) {$d_1$};
+  \node[biglbl, text=cDTwo,   anchor=north] at ($(d2)+(0,-0.35)$) {$d_2$};
 
-  % --- middle arrow + label
-  \coordinate (Astart) at (3.6,1.4);
-  \coordinate (Aend)   at (6.6,1.4);
-  \draw[arrow] (Astart) -- (Aend);
-  \node[font=\bfseries\Large] at ($(Astart)!0.5!(Aend)+(0,0.6)$) {\ac{mlb}};
+  \node[biglbl, text=cCj, anchor=west] at ($(cj)+(0.35,0.05)$) {$c_j$};
+  \node[biglbl, text=cCi, anchor=west] at ($(ci)+(0.35,0.05)$) {$c_i$};
 
-  % --- right-side explanation (siblings + uncle)
-  \node[anchor=west, font=\Large] at (7.1,1.8) {$(y,z,x)$};
-  \node[anchor=west, font=\Large] at (7.1,1.1)
-    {\small not $(y,z,q)$ because $q$ is the parent/meet of $y$ and $z$;};
-  \node[anchor=west, font=\Large] at (7.1,0.5)
-    {\small not $(x,q,p)$ because $p$ is the parent/meet of $x$ and $q$.};
+  % --- middle arrow "MLB =>"
+  \coordinate (Astart) at (4.1,1.35);
+  \coordinate (Aend)   at (7.2,1.35);
+  \node[font=\bfseries\Large] at ($(Astart)+(1.5,0.5)$) {MLB};
+  \draw[arrow] ($(Astart)$) -- ($(Aend)+(-0.05,-0.05)$);
+
+  % --- right: list of MLB triples with colors
+  \coordinate (T) at (8.0,2.45);
+  \node[note] at (T)
+    {$(\textcolor{cDOne}{d_1},\textcolor{cDTwo}{d_2},\textcolor{cDThree}{d_3})$};
+
+  \node[note] at ($(T)+(0,-0.85)$)
+    {$(\textcolor{cDOne}{d_1},\textcolor{cDThree}{d_3},\textcolor{cDFour}{d_4})$};
+
+  \node[note] at ($(T)+(0,-1.70)$)
+    {$(\textcolor{cDThree}{d_3},\textcolor{cCi}{c_i},\textcolor{cDFour}{d_4})$};
+
+  \node[note] at ($(T)+(0,-2.55)$)
+    {$(\textcolor{cDOne}{d_1},\textcolor{cDTwo}{d_2},\textcolor{cCj}{c_j})$};
+
+  \node[note] at ($(T)+(0,-3.40)$)
+    {$(\textcolor{cDTwo}{d_2},\textcolor{cCi}{c_i},\textcolor{cCj}{c_j})$};
 
 \end{tikzpicture}%
 }
-\caption{Building \ac{mlb} constraints using the ``siblings + uncle'' rule, where siblings $y,z$ are connected to the same parent node $q$ and $x$ is the uncle node.}
-\label{fig:concept_lattice2mlb}
+\caption{Illustration of deriving \ac{mlb} constraints from a document hierarchy.}
+\label{fig:hierarchy_to_mlb}
 \end{figure}%
 }
