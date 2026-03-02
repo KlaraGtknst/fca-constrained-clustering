@@ -2,13 +2,23 @@
 \label{sec:gt_mlb}
 
 The gold-label-based method, consists of topic constraint generation, topic–document constraint mapping, and formal context construction.
-\subsubsection{\ac{mlb} Constraints}
+\subsubsection{Topic Constraint Generation}
 
 Starting from the three elements $\{x,y,z\}$ arranged as displayed in \autoref{fig:concept_lattice2mlb}, the mapping $\mathrm{MLB}$ produces the constraint $(x,y,z)$.
 
+\textcolor{red}{TODO: Update with new logic}
 \latticeToMLB{}
 
+\subsubsection{Topic-Document Constraint Mapping}
+In the BankSearch dataset, each document is associated with exactly one topic, allowing for a straightforward mapping of the generated \ac{mlb} constraints to document-level constraints. 
+Instead of mapping each document to its assigned topic, resulting in exponentially many constraints, we translate the topic-level \ac{mlb} constraints to document-level constraints of representative documents.
+In other words: Each document belongs to an equivalence class defined by its assigned topic. 
+We select one representative document from each topic to serve as a proxy for the entire class in the constraint mapping.
+We denote this \textit{clarified} context, but expand the resulting lattices with the remaining documents for later analysis.
+For instance, if documents $d_x$, $d_y$, and $d_z$ are labeled with topics $x$, $y$, and $z$ respectively, then the MLB constraint $(x,y,z)$ directly translates to a document-level constraint $(d_x, d_y, d_z)$.
 
+\subsubsection{Formal Context Construction}
+Triple exploration etc.
 \subsection{\acl{ae}\textcolor{red}{: Dominik}}
 
 Since we deal with incomplete knowledge, we employ the an extension to traditional \ac{ae} as described in \autoref{subsec:basic_ae}, namely, Object Exploration in partial contexts, as described in \autoref{subsec:partial_cxt_ae}.
