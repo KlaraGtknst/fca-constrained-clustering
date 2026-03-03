@@ -148,16 +148,14 @@
   output-path)
 
 (defn get-iceberg-context
-  "Baut einen neuen Kontext aus einem bestehenden Kontext `cxt` und einer Liste
-  von (Iceberg-)Konzepten.
+  "Builds a new context from an existing context `cxt` and a list of (Iceberg) concepts.
 
-  Logik:
-  - Objekte: alle Objekte aus `cxt` (Dokumente)
-  - Attribute: Dummy-Namen (c0, c1, ..., cn) – je ein Attribut pro übergebenem Konzept
-  - Inzidenz: (g, ci) genau dann, wenn g im Extent des i-ten Konzepts liegt
+   Logic:
+    - Objects: all objects from `cxt` (documents)
+    - Attributes: dummy names (c0, c1, ..., cn), i.e., one attribute per provided concept
+    - Incidence: (g, ci) holds if and only if object g is contained in the extent of the i-th concept
 
-  Erwartetes Format für `concepts`: Sequenz von [extent intent], wobei `extent`
-  eine Menge von Objekten (Docs) ist."
+   Expected format for `concepts`: a sequence of [extent intent], where `extent` is a set of objects (documents)."
   [cxt concepts]
   (let [objs        (contexts/objects cxt)
         concepts-v  (vec concepts)
