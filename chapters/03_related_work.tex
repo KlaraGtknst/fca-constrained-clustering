@@ -1,19 +1,21 @@
 \section{Related Work}
 \label{sec:related_work}
 
-% Fisher, D. H. (1987). Knowledge acquisition via incremental conceptual clustering. Machine learning, 2(2), 139-172.
-
-% * McKusick KB, Langley P (1991) Constraints on tree structure in concept formation. In: Pro-
-%ceedings of the 12th International Joint Conference on Artificial Intelligence, pp 810–816
+Usually document clustering methods presented which incorporate with constraints try to learn a flat clustering with constraints based on a flat class structure.
+Based on K-Means, a document is not assigned to the closest cluster prototype but instead to the closest cluster prototype that does not violate any constraints (Wagstaff, 2001).
+To constraint the clustering pairwise constraints Wagstaff et. al. introduce the idea of pairwise constraints (Wagstaff, 2001). Pairwise constraints define must‑link and cannot‑link pairs
+requiring objects to be in the same or different clusters, respectively, are inherently ambiguous in hierarchical settings because objects may be together at one level of the hierarchy but separated at another.
 
 % Wagstaff, K., Cardie, C., Rogers, S., and Schrodl, S. ¨
 %(2001). Constrained k-means clustering with background knowledge. In Proceedings of the Eighteenth International Conference on Machine Learning, pages 577–584, San Francisco, CA, USA. Morgan Kaufmann Publishers Inc.
 
 % Zhao, Y., & Karypis, G. (2002, November). Evaluation of hierarchical clustering algorithms for document datasets. In Proceedings of the eleventh international conference on Information and knowledge management (pp. 515-524).
 
-Bade and Nürnberger (2008)~\cite{bade_creating_2008} address the challenge of integrating supervision into hierarchical clustering by proposing a novel constraint formulation tailored to hierarchical structures, termed \ac{mlb} constraints. 
-Traditional constraint frameworks, which define must‑link and cannot‑link pairs requiring objects to be in the same or different clusters, respectively, are inherently ambiguous in hierarchical settings because objects may be together at one level of the hierarchy but separated at another.
-To overcome this, the authors introduce \ac{mlb} constraints that encode the ordering in which objects should be linked during agglomeration, effectively capturing relative hierarchical relationships rather than flat equivalence conditions~\cite{bade_creating_2008}. 
+% K. Bade and A. Nürnberger. Personalized hierarchical clustering. In Proceedings of the 2006 IEEE/WIC/ACM Int. Conference on Web Intelligence, 2006.
+
+In contrast we keep focus on learning a hierarchical cluster structure with constraints based on a hierarchical knowledge structure. Bade and Nürnberger (2008)~\cite{bade_creating_2008} address the challenge of integrating supervision
+into hierarchical clustering by proposing a novel constraint formulation tailored to hierarchical structures, termed \ac{mlb} constraints.
+To overcome this, the authors introduce \ac{mlb} constraints that encode the ordering in which objects should be linked during agglomeration, effectively capturing relative hierarchical relationships rather than flat equivalence conditions~\cite{bade_creating_2008}.
 A ternary constraint explicitly encodes the relative hierarchical relationships by stating that two objects must be grouped together at a more specific level of the hierarchy than either is with a third object~\cite{bade_hierarchical_2014}. 
 The authors formally analyze the properties of \ac{mlb} constraints, including symmetry and transitivity, and propose an instance-based extension of \ac{hac} that enforces these constraints during the merge process. 
 Empirical results on text clustering tasks show that incorporating \ac{mlb} constraints provides effective structural bias, improving the recovery of meaningful hierarchies while avoiding the level-selection problems associated with adapting pairwise constraints to hierarchical clustering.
