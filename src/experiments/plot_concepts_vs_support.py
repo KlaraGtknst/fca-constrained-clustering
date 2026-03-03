@@ -104,7 +104,7 @@ def main() -> None:
     )
     parser.add_argument(
         "--context",
-        default="resources/banksearch/topic_model/fca_topic_model_context.json",
+        default="/resources/banksearch/topic_model/fca_topic_model_context.json",
         help="Path to the JSON context file.",
     )
     parser.add_argument(
@@ -124,19 +124,20 @@ def main() -> None:
         raise ValueError("step must be in (0, 1].")
 
     repo_root = Path(__file__).resolve().parents[2]
-    context_path = ensure_zero_one_json(args.context)
+    context_path = ensure_zero_one_json(str(repo_root) + args.context)
 
     supports = build_supports(args.step)
     counts = []
-    edn_dir = Path("resources/banksearch/topic_model/iceberg_sweep")
+    edn_dir = repo_root / "resources/banksearch/topic_model/iceberg_sweep"
     edn_dir.mkdir(parents=True, exist_ok=True)
 
     for support in supports:
         support_str = f"{support:.2f}"
-        edn_path = edn_dir / f"banksearch_{support_str}_iceberg.edn"
-        if not edn_path.exists():
-            run_iceberg(context_path, support, str(edn_path), repo_root)
-        counts.append(read_edn_concepts_count(str(edn_path)))
+        logger.info("min_support=%s", support_str)
+        cxt_path = edn_dir / f"banksearch_{support_str}_iceberg"
+        if not cxt_path.exists():
+            run_iceberg(context_path, support, str(cxt_path), repo_root)
+        counts.append(read_edn_concepts_count(str(cxt_path)+".edn"))
         logger.info("min_support=%s concepts=%s", support_str, counts[-1])
 
     num_docs, num_topics = read_context_stats(context_path)
