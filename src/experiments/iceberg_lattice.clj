@@ -5,6 +5,7 @@
             [clojure.string :as str]
             [conexp.fca.contexts :as contexts]
             [conexp.fca.lattices :as lattices]
+            [conexp.gui.draw :as draw]
             [conexp.io.contexts :as io-contexts]))
 
 ;; This file is designed to be loaded from a REPL or from Python via `(load-file ...)`.
@@ -125,9 +126,13 @@
   [ctx min-support]
   (println "Computing iceberg concepts with min-support =" min-support "...")
   (let [intents (lattices/titanic-iceberg-intent-seq ctx (double min-support))]
-    (mapv (fn [intent]
-            [(contexts/attribute-derivation ctx intent) intent])
-          intents)))
+    (->> intents
+         (map (fn [i]
+                (let [e (contexts/attribute-derivation ctx i)
+                      i-closed (contexts/object-derivation ctx e)]
+                  [e i-closed])))
+         distinct
+         vec)))
 
 (defn save-iceberg-concepts
   "Saves iceberg concepts to disk as EDN.
@@ -143,39 +148,33 @@
   output-path)
 
 (defn get-iceberg-context
-  "Rows = individual documents (objects), cols = topics (attributes).
-  A document gets 1 for a topic if it appears in any concept extent whose intent contains that topic."
-  [iceberg-concepts]
-  (let [columns (->> iceberg-concepts (map second) (mapcat identity) distinct sort vec)
-        index   (->> iceberg-concepts (map first) (mapcat identity) distinct sort vec)
-        object->topics
-        (reduce (fn [acc [extent intent]]
-                  (let [intent-set (set intent)]
-                    (reduce (fn [m obj]
-                              (update m obj (fnil set/union #{}) intent-set))
-                            acc
-                            extent)))
-                {}
-                iceberg-concepts)
-        data    (mapv (fn [obj]
-                        (let [topic-set (get object->topics obj #{})]
-                          (mapv (fn [a] (if (contains? topic-set a) 1 0)) columns)))
-                      index)]
-    {:index index :columns columns :data data}))
+  "Baut einen neuen Kontext aus einem bestehenden Kontext `cxt` und einer Liste
+  von (Iceberg-)Konzepten.
+
+  Logik:
+  - Objekte: alle Objekte aus `cxt` (Dokumente)
+  - Attribute: Dummy-Namen (c0, c1, ..., cn) – je ein Attribut pro übergebenem Konzept
+  - Inzidenz: (g, ci) genau dann, wenn g im Extent des i-ten Konzepts liegt
+
+  Erwartetes Format für `concepts`: Sequenz von [extent intent], wobei `extent`
+  eine Menge von Objekten (Docs) ist."
+  [cxt concepts]
+  (let [objs        (contexts/objects cxt)
+        concepts-v  (vec concepts)
+        attributes  (mapv #(str "c" %) (range (count concepts-v)))]
+    (contexts/make-context
+      objs
+      attributes
+      (fn [g attr]
+        (let [idx     (Integer/parseInt (subs attr 1))
+              extent  (set (first (concepts-v idx)))]
+          (contains? extent g))))))
 
 (defn save-context-burmeister
-  "Writes a context map as Burmeister FCA format (.cxt) using conexp-clj.
-  The map must follow {:index [...], :columns [...], :data [[0/1 ...] ...]}.
-
-  Returns the output path."
-  [ctx-json ^String output-path]
-  (let [flat-incidence (vec (mapcat identity (:data ctx-json)))
-        ctx (contexts/make-context-from-matrix (:index ctx-json)
-                                               (:columns ctx-json)
-                                               flat-incidence)]
-    (io-contexts/write-context :burmeister ctx output-path))
+  "Writes a ConExp context as Burmeister (.cxt)."
+  [ctx ^String output-path]
+  (io-contexts/write-context :burmeister ctx output-path)
   output-path)
-
 
 (defn run-iceberg
   "Public entry point for Python usage.
@@ -191,14 +190,13 @@
    (run-iceberg default-context-path min-support default-output-path))
   ([^String context-path min-support]
    (run-iceberg context-path min-support default-output-path))
-  ([^String context-path min-support ^String output-path]
+   ([^String context-path min-support ^String output-path]
    (let [ctx-json (read-context-json context-path)
          ctx (context-from-json ctx-json)
          concepts (iceberg-concepts ctx min-support)
-         iceberg-context (get-iceberg-context concepts)
+         iceberg-context (get-iceberg-context ctx concepts)
          concepts-save-path (save-iceberg-concepts concepts (str output-path ".edn"))
-         burmeister-save-path (save-context-burmeister iceberg-context (str output-path ".cxt"))
-        ]
+         burmeister-save-path (save-context-burmeister iceberg-context (str output-path ".cxt"))]
      (println "Loaded context from" context-path
               "| min support:" min-support
               "| objects:" (count (:index ctx-json))
@@ -206,5 +204,6 @@
               "| iceberg concepts:" (count concepts)
               "| concepts (for later visualization) saved to: " concepts-save-path
               "| context Burmeister saved to:" burmeister-save-path)
-    ;;  concepts
+     ;; concepts
      )))
+
