@@ -1,18 +1,16 @@
 \begin{abstract}
 \acl{fca} enables the generation of hierarchical conceptual order without requiring an expert ontology.
 Given this advantage, the question arises as to whether the resulting structure aligns with existing knowledge.
-To ensure a coherent generation of the concept hierarchy, prior work proposes the use of hierarchical constraints, also referred to as \ac{mlb} constraints.
+To ensure a coherent generation of the concept hierarchy, prior work proposes the use of hierarchical \ac{mlb} constraints.
 
 In this work, we introduce a method for comparing and integrating knowledge derived from \acs{mlb} constraints with an additional source of structured knowledge in the form of a hierarchy, such as a topic model.
-To investigate the benefits of our approach, we apply it to the BankSearch dataset by exploring the universe of a closure operator provided by the \acs{mlb} constraints.
+To investigate the benefits of our approach, we apply it to the BankSearch dataset and explore the universe of a closure operator provided by the \acs{mlb} constraints.
 These constraints are derived from a gold-label topic hierarchy and subsequently mapped onto the corresponding document corpus.
 As our supplementary hierarchical knowledge source, we utilize an \acl{lda} topic model, which constructs a document-topic context through statistical inference over the same corpus.
 
-We further examine the structural differences between the resulting knowledge-base-informed concept lattices.
-The influence of both knowledge bases is assessed qualitatively through manual review and quantitatively by analyzing
-the intersection of their conceptual structure.
-We find distinct structural variations between the two concept lattices, their intersection offers a practical approach for consolidating these differing knowledge representations.
-\textcolor{red}{coherence vs constistency lattice}
+We further examine the structural differences between the resulting concept lattices. %knowledge-base-informed 
+The influence of both knowledge bases is assessed qualitatively through manual review and quantitatively by analyzing their intersection for different levels of required coherence.
+We find distinct structural variations between the two concept lattices, reflected in their \textit{consistency} and \textit{coherence} lattice intersection.
 
 \keywords{\acl{fca} \and Constraints \and Topic Modeling.}
 \end{abstract}
