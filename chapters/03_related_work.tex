@@ -2,12 +2,12 @@
 \label{sec:related_work}
 
 Usually document clustering methods presented which incorporate with constraints try to learn a flat clustering with constraints based on a flat class structure.
-Based on K-Means, a document is not assigned to the closest cluster prototype but instead to the closest cluster prototype that does not violate any constraints (Wagstaff, 2001).
-To constraint the clustering pairwise constraints Wagstaff et. al. introduce the idea of pairwise constraints (Wagstaff, 2001). Pairwise constraints define must‑link and cannot‑link pairs
+Based on K-Means, a document is not assigned to the closest cluster prototype but instead to the closest cluster prototype that does not violate any constraints \cite{wagstaff2001constrained}.
+To constraint the clustering pairwise constraints Wagstaff et. al. introduce the idea of pairwise constraints \cite{wagstaff2001constrained}. Pairwise constraints define must‑link and cannot‑link pairs
 requiring objects to be in the same or different clusters, respectively, are inherently ambiguous in hierarchical settings because objects may be together at one level of the hierarchy but separated at another.
 
 Document clustering methods that take restrictions into account typically rely solely on flat class structures to learn a suitable clustering. Based on K-means, for example, a document was only assigned to the nearest
-cluster prototype if this did not violate any constraints (Wagstaff, 2001). To implement this clustering, the idea of pairwise constraints was introduced. Pairwise constraints define pairs that must be linked or must-link
+cluster prototype if this did not violate any constraints \cite{wagstaff2001constrained}. To implement this clustering, the idea of pairwise constraints was introduced. Pairwise constraints define pairs that must be linked or must-link
 constraints - and pairs that must not be linked or cannot-link constraints, whereby objects must be in the same or different clusters.
 
 \todo{TODO (SST): Please ensure that the used formalization of pairwise constraints is also consistent to descriptions by Wagstaff, 2001.}
