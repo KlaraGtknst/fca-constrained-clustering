@@ -25,16 +25,20 @@ Zheng et al.~\cite{zheng2011semi} porpose two matrices-based approaches for inco
 MacLellan et al.~\cite{maclellan2016trestle} incrementally builds concept hierarchies.
 
 
-The generation of concept hierarchies by incorporating restrictive information is currently described as a hierarchical text classification task, which represents a finer structuring task than clustering.
+The generation of concept hierarchies by incorporating restrictive information is currently described as a hierarchical text classification task, which represents a finer structuring task than clustering. % maybe claim from \cite{li2019hiercon} related work???
 Such restrictive hierarchical classification approaches are usually based on more probabilistic or neural architectures. Gopal and Yang (2013)~\cite{gopal2013recursive}, for example, proposed using recursive
 regularization constraints for classifiers at different hierarchical levels. They showed that large concept hierarchies with 600\,000 classes can be learned efficiently provided that sufficient training data is available.
 
-Following the concept distribution assumption for text documents—most famously implemented by \ac{lda}~\cite{blei2003lda}—it has been observed that technical documents are typically
-organized as a distribution over concepts that contain discriminative information about their topics. It has been proposed to integrate constraints for topic-based concept hierarchies~\cite{li2019hiercon}.
-Such topic-based concept hierarchies project both categories and documents into a common space, whereby the similarity between terms can be taken into account. Li et al. (2019)~\cite{li2019hiercon} proposed
-a concept-based framework for generating topic-based concept hierarchies for technical documents, which uses only a small set of documents labeled and organized as a concept hierarchy as input.
+Li et al.~\cite{li2019hiercon} embedded both documents and hierarchical categories into a common space by representing them as distribution of words appearing in the document corpus.
+The similarity between document and category representations is then used to label documents with their most similar categories. 
+Since they work with hierarchical categories, labeling documents with one or more categories also implicitly can be considered as a hierarchical clustering of documents.
+% wie kommt LDA da jetzt rein?
+% Following the concept distribution assumption for text documents—most famously implemented by \ac{lda}~\cite{blei2003lda}—it has been observed that technical documents are typically
+% organized as a distribution over concepts that contain discriminative information about their topics. It has been proposed to integrate constraints for topic-based concept hierarchies~\cite{li2019hiercon}. % concepts are basically words from the document corpus, using the term is really confusing here!
+% Such topic-based concept hierarchies project both categories and documents into a common space, whereby the similarity between terms can be taken into account. Li et al. (2019)~\cite{li2019hiercon} proposed
+% a concept-based framework for generating topic-based concept hierarchies for technical documents, which uses only a small set of documents labeled and organized as a concept hierarchy as input.
 
-\todo{TODO (SST): Please ensure that \ac{lda} is referenced in later sections approriately. You are not credible if you use a new hierarchical \ac{lda} approach but do not reference \ac{lda} appropriately.}
+\textcolor{orange}{TODO (SST): Please ensure that \ac{lda} is referenced in later sections approriately. You are not credible if you use a new hierarchical \ac{lda} approach but do not reference \ac{lda} appropriately. Klara: Not sure if we need reference \ac{lda} here, we have a chapter for that.}
 
 For patents, Risch et al. (2020)~\cite{risch2020hierarchical} formulate a sequence generation task that additionally uses semantic information about parent-child relationships as constraints during the
 training process, whereby labels are only created if they are consistent within a hierarchy. Currently, the problem of “label consistency” is further addressed by other approaches based on constrained
