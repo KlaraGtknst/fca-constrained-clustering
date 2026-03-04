@@ -1,21 +1,22 @@
 \section{Related Work}
 \label{sec:related_work}
 
-Usually document clustering methods presented which incorporate with constraints try to learn a flat clustering with constraints based on a flat class structure.
-Based on K-Means, a document is not assigned to the closest cluster prototype but instead to the closest cluster prototype that does not violate any constraints \cite{wagstaff2001constrained}.
-To constraint the clustering pairwise constraints Wagstaff et. al. introduce the idea of pairwise constraints \cite{wagstaff2001constrained}. Pairwise constraints define must‑link and cannot‑link pairs
-requiring objects to be in the same or different clusters, respectively, are inherently ambiguous in hierarchical settings because objects may be together at one level of the hierarchy but separated at another.
+Clustering algorithms group data points based on different criteria into clusters.
+Prior knowledge about the dataset can be modelled as constraints.
+The simplest constraints are pairwise \textit{must-link} and \textit{cannot-link} constraints, which require objects to be in the same or different clusters, respectively.
+While partitional clustering groups data points into clusters on a single level of granularity, hierarchical clustering groups the data on different levels of granularity~\cite{bade_hierarchical_2014}.
+So-called \ac{mlb} constraints introduce prior knowledge into hierarchical clustering.
 
-Document clustering methods that take restrictions into account typically rely solely on flat class structures to learn a suitable clustering. Based on K-means, for example, a document was only assigned to the nearest
-cluster prototype if this did not violate any constraints \cite{wagstaff2001constrained}. To implement this clustering, the idea of pairwise constraints was introduced. Pairwise constraints define pairs that must be linked or must-link
-constraints - and pairs that must not be linked or cannot-link constraints, whereby objects must be in the same or different clusters.
+Constrained partitional clustering methods such as constrained $k$-means clustering~\cite{wagstaff2001constrained} assigns documents to the closest cluster prototype that does not violate any constraints \cite{wagstaff2001constrained}.
+Pairwise constraints are inherently ambiguous in hierarchical settings because objects may be together at one level of the hierarchy but separated at another.
 
 \todo{TODO (SST): Please ensure that the used formalization of pairwise constraints is also consistent to descriptions by Wagstaff, 2001.}
-\todo{TODO (SST): Please add Wagstaff reference to bib-file.}
 
+% DONE: wagstaff2001constrained
 % Wagstaff, K., Cardie, C., Rogers, S., and Schrodl, S. ¨
 %(2001). Constrained k-means clustering with background knowledge. In Proceedings of the Eighteenth International Conference on Machine Learning, pages 577–584, San Francisco, CA, USA. Morgan Kaufmann Publishers Inc.
 
+% DONE: zhao2002evaluation
 % Zhao, Y., & Karypis, G. (2002, November). Evaluation of hierarchical clustering algorithms for document datasets. In Proceedings of the eleventh international conference on Information and knowledge management (pp. 515-524).
 
 
