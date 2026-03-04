@@ -3,34 +3,25 @@
 
 % WORDNET: manual creation cf. le2019inferring, hearst1992hyponyms; hyponym = is-a relationship cf. hearst1992hyponyms
 Concept hierarchies form the backbone of expert ontologies such as WordNet~\cite{miller1990wordnet,fellbaum1998wordnet}.
-They consist of systems of hyponym relationships~\cite{le2019inferring} organized under a single top node.
-By structuring information into categories and enabling the formulation of rules and relations, concept hierarchies facilitate the retrieval and reuse of knowledge bases~\cite{cimiano_learning_2005,yang2012personalized}.
+They organize hyponym relationships under a common top node~\cite{le2019inferring} and structure information into categories, thereby supporting rule formulation as well as the retrieval from and reuse of knowledge bases~\cite{cimiano_learning_2005,yang2012personalized}.
 However, the manual construction of high-quality domain-specific ontologies is costly and typically reflects only a snapshot of evolving knowledge~\cite{li2018unsupervised}.
-
-Automatic concept hierarchy generation offers a scalable alternative and enables the construction of hierarchies in domains not covered by existing expert ontologies.
-Such approaches commonly rely on the identification of explicit textual patterns~\cite{le2019inferring}, for example Hearst patterns~\cite{hearst1992hyponyms}, or on \ac{nlp} techniques that extract latent information from text and represent it in the form of binary object-attribute matrices, which can then be analyzed using \ac{fca}~\cite{cimiano_learning_2005}.
-In contrast to traditional similarity-based approaches, \ac{fca}-based concept hierarchy generation can be viewed as a form of conceptual clustering that yields intensional descriptions of abstract concepts~\cite{cimiano_learning_2005}.
-
 Although manually curated ontologies are often regarded as the gold standard, automatic generation is desirable to reduce time and cost.
-However, automatically generated hierarchies may conflict with established expert ontologies, potentially undermining trust in one or both knowledge sources.
-Ensuring that generated hierarchies remain sufficiently consistent with existing hierarchical background knowledge therefore requires mechanisms to guide and constrain the generation process.
 
-Previous work on guidance mechanisms has explored human involvement~\cite{yang2012personalized} as well as the use of \aclp{llm}~\cite{kommineni2024from}. 
-Technically, guidance has been implemented by restricting the construction of concept lattices through formal constraints~\cite{belohlavek2006formal,belohlavek2009formal} or by incorporating attribute weights~\cite{belohlavek2011selecting}.
-Furthermore, Bade and Nürnberger~\cite{bade_personalized_2006,bade_hierarchical_2014} proposed the use of hierarchical constraints to generate concept hierarchies within similarity spaces derived from text.
+Automatic concept hierarchy generation provides a scalable alternative and enables coverage of domains not represented in existing ontologies.
+Approaches range from pattern-based methods~\cite{le2019inferring}, such as Hearst patterns~\cite{hearst1992hyponyms}, to \acl{nlp}-based techniques that extract latent information from text and represent it in the form of binary object-attribute matrices, which can then be analyzed using \ac{fca}~\cite{cimiano_learning_2005}.
+Unlike traditional similarity-based approaches, \ac{fca}-based concept hierarchy generation can be viewed as a form of conceptual clustering that yields intensional descriptions of abstract concepts~\cite{cimiano_learning_2005}.
+
+Despite their scalability, automatically generated hierarchies may conflict with established expert ontologies, potentially reducing trust in either source.
+Ensuring consistency with hierarchical background knowledge therefore requires mechanisms that guide and constrain the generation process.
+Existing approaches (Section~\ref{sec:related_work}) include human-in-the-loop strategies~\cite{yang2012personalized}, the use of \aclp{llm}~\cite{kommineni2024from}, formal lattice constraints~\cite{belohlavek2006formal,belohlavek2009formal}, attribute weighting~\cite{belohlavek2011selecting}, and hierarchical constraints in similarity-based settings~\cite{bade_personalized_2006,bade_hierarchical_2014}.
 
 % Besides presentation purposes, \ac{fca} has been employed to identify potentially missing thesaurus entries in a specific expert ontology~\cite{zheng2020lexical,hao2021leveraging}. 
 
 To date, the systematic integration of hierarchical background knowledge into \ac{fca}-based concept hierarchy generation through \ac{mlb} constraints has received limited attention.
-We address this gap by incorporating \ac{mlb} constraints into the \ac{fca} framework to guide the construction of concept hierarchies.
-In addition, we present a case study in which \ac{fca}-based hierarchies generated under \ac{mlb} constraints are compared to an independent knowledge source derived from corpus-specific statistical topic modeling.
+We address this gap by incorporating \ac{mlb} constraints into the \ac{fca} framework to guide the construction of concept hierarchies (Section~\ref{sec:method}).
+In addition, we present a case study in which \ac{fca}-based hierarchies generated under \ac{mlb} constraints are compared to an independent knowledge source derived from corpus-specific statistical topic modeling (Section~\ref{sec:case_study}).
 
-% structure of the paper
-The remainder of this paper is structured as follows: In Section~\ref{sec:related_work}, we review related work on concept hierarchy generation and the use of constraints in \ac{fca}. 
-In Section~\ref{sec:foundations}, we provide the necessary background on \ac{fca} and \ac{mlb} constraints. 
-In Section~\ref{sec:method}, we describe our proposed method for integrating hierarchical background knowledge in \ac{fca} via \ac{mlb} constraints. 
-In Section~\ref{sec:case_study}, we present a case study comparing \ac{fca}-based concept hierarchies generated with \ac{mlb} constraints to a second knowledge base based on corpus-specific statistical topic modeling. 
-Finally, in Section~\ref{sec:future_work}, we discuss potential future work and conclude the paper.
+\textcolor{red}{coherence vs constistency lattice}
 
 %\textcolor{red}{NOTE: Their conclusion includes future work on using humans for ontological relation validation (Attr. Explor.???). They also compare generated ontologies with human-modeled ontologies via Precision, Recall, F-measure...}
 
