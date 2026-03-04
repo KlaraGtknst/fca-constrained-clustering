@@ -26,8 +26,10 @@ MacLellan et al.~\cite{maclellan2016trestle} incrementally builds concept hierar
 
 
 The generation of concept hierarchies by incorporating restrictive information is currently described as a hierarchical text classification task, which represents a finer structuring task than clustering. % maybe claim from \cite{li2019hiercon} related work??? abstract risch2020hierarchical? abstract: yu2022constrained yes
-Such restrictive hierarchical classification approaches are usually based on more probabilistic or neural architectures. Gopal and Yang (2013)~\cite{gopal2013recursive}, for example, proposed using recursive
-regularization constraints for classifiers at different hierarchical levels. They showed that large concept hierarchies with 600\,000 classes can be learned efficiently provided that sufficient training data is available.
+Such restrictive hierarchical classification approaches are usually based on more probabilistic or neural architectures. 
+% not really interesting other than there are some supervised classification approaches, hierarchy on class labels, not instances
+Gopal and Yang~\cite{gopal2013recursive}, for example, proposed using recursive
+regularization constraints for classifiers (SVM, and probabilistic classifiers) at different hierarchical levels of class labels. They showed that large concept hierarchies with 600\,000 classes can be learned efficiently provided that sufficient training data is available.
 
 Li et al.~\cite{li2019hiercon} embedded both documents and hierarchical categories into a common space by representing them as distribution of words appearing in the document corpus.
 The similarity between document and category representations is then used to label documents with their most similar categories. 
