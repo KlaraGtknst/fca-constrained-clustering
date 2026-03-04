@@ -1,11 +1,10 @@
 \section{Introduction}
 \label{sec:introduction}
 
-Concept hierarchies, i.e., systems of is-a relationships with a node at the top level, form the backbone of expert ontologies such as WORDNET~\cite{miller1990wordnet}. Concept hierarchies allow to structure information into categories, thus fostering its search and reuse. Further, they allow to formulate rules as well
-as relations in an abstract and concise way, facilitating the development, refinement and reuse of a knowledge-base.~\cite{cimiano_learning_2005} Expert ontologies focus on the manual
-creation of high-quality ontologies. In contrast, concept hierarchy generation focuses on the automated creation of concept hierarchies, which is not only more scalable but
-also enables concept hierarchies in areas not normally covered by existing expert ontologies~\cite{cimiano_learning_2005,le2019inferring} or domains consisting of evolving concept
-hierarchies~\cite{li2018unsupervised}.
+Concept hierarchies, i.e., systems of \textit{is-a} relationships~\cite{le2019inferring} with a node at the top level, form the backbone of expert ontologies such as WORDNET~\cite{miller1990wordnet,fellbaum1998wordnet}. % WORDNET: manual creation cf. le2019inferring
+Concept hierarchies structure information into categories and enable the formulation of rules and relations, thereby facilitating the retrieval and reuse of knowledge bases~\cite{cimiano_learning_2005}. 
+Manual creation of niche high-quality ontologies is expensive and limited to certain snapshots of evolving knowledge~\cite{li2018unsupervised}. 
+In contrast, automatic concept hierarchy generation is not only more scalable but also enables concept hierarchies in areas not normally covered by existing expert ontologies.
 
 Concept hierarchies are usually generated using explicit patterns in the text - known as Hearst patterns~\cite{hearst1992hyponyms} - to extract concept hierarchies (e.g. ~\cite{le2019inferring}).
 Alternatively, it is also possible to generate a concept hierarchy by using latent information from text and based on this, a concept hierarchy is calculated that does not
