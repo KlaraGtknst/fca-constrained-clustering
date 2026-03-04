@@ -2,8 +2,8 @@
 \label{sec:introduction}
 
 % WORDNET: manual creation cf. le2019inferring, hearst1992hyponyms; hyponym = is-a relationship cf. hearst1992hyponyms
-Concept hierarchies form the backbone of expert ontologies such as WORDNET~\cite{miller1990wordnet,fellbaum1998wordnet}.
-They consist of systems of hyponym relationships~\cite{le2019inferring} organized under a single top-level node.
+Concept hierarchies form the backbone of expert ontologies such as WordNet~\cite{miller1990wordnet,fellbaum1998wordnet}.
+They consist of systems of hyponym relationships~\cite{le2019inferring} organized under a single top node.
 By structuring information into categories and enabling the formulation of rules and relations, concept hierarchies facilitate the retrieval and reuse of knowledge bases~\cite{cimiano_learning_2005,yang2012personalized}.
 However, the manual construction of high-quality domain-specific ontologies is costly and typically reflects only a snapshot of evolving knowledge~\cite{li2018unsupervised}.
 
@@ -15,7 +15,7 @@ Although manually curated ontologies are often regarded as the gold standard, au
 However, automatically generated hierarchies may conflict with established expert ontologies, potentially undermining trust in one or both knowledge sources.
 Ensuring that generated hierarchies remain sufficiently consistent with existing hierarchical background knowledge therefore requires mechanisms to guide and constrain the generation process.
 
-Previous work on guidance mechanisms has explored human involvement~\cite{yang2012personalized} as well as the use of \acp{llm}~\cite{kommineni2024from}. 
+Previous work on guidance mechanisms has explored human involvement~\cite{yang2012personalized} as well as the use of \aclp{llm}~\cite{kommineni2024from}. 
 Technically, guidance has been implemented by restricting the construction of concept lattices through formal constraints~\cite{belohlavek2006formal,belohlavek2009formal} or by incorporating attribute weights~\cite{belohlavek2011selecting}.
 Furthermore, Bade and Nürnberger~\cite{bade_personalized_2006,bade_hierarchical_2014} proposed the use of hierarchical constraints to generate concept hierarchies within similarity spaces derived from text.
 
