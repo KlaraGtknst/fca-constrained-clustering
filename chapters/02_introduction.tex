@@ -1,23 +1,37 @@
 \section{Introduction}
 \label{sec:introduction}
 
-Concept hierarchies, i.e., systems of hyponym relationships~\cite{le2019inferring} with a node at the top level, form the backbone of expert ontologies such as WORDNET~\cite{miller1990wordnet,fellbaum1998wordnet}. % WORDNET: manual creation cf. le2019inferring, hearst1992hyponyms; hyponym = is-a relationship cf. hearst1992hyponyms
-Concept hierarchies structure information into categories and enable the formulation of rules and relations, thereby facilitating the retrieval and reuse of knowledge bases~\cite{cimiano_learning_2005,yang2012personalized}. 
+Concept hierarchies are systems of hyponym relationships~\cite{le2019inferring} with a node at the top level.
+Generally, they structure information into categories and enable the formulation of rules and relations, thereby facilitating the retrieval and reuse of knowledge bases~\cite{cimiano_learning_2005,yang2012personalized}. 
+Specifically, they form the backbone of expert ontologies such as WORDNET~\cite{miller1990wordnet,fellbaum1998wordnet}. 
+% WORDNET: manual creation cf. le2019inferring, hearst1992hyponyms; hyponym = is-a relationship cf. hearst1992hyponyms
 Manual creation of niche high-quality ontologies is expensive and limited to certain snapshots of evolving knowledge~\cite{li2018unsupervised}. 
+
 In contrast, automatic concept hierarchy generation is not only more scalable but also enables concept hierarchies in areas not normally covered by existing expert ontologies.
-While manual curation of expert ontologies can be considered a gold standard for concept hierarchies, it is often desirable to generate concept hierarchies that are sufficiently consistent with the hierarchical background knowledge of expert ontologies.
-
 Automatic concept hierarchies generation usually relies on identifying explicit patterns in the text~\cite{le2019inferring}, for instance Hearst patterns~\cite{hearst1992hyponyms}, or \ac{nlp} tools extracting latent information from text followed by its representation in form of binary object-attribute matrices and \ac{fca}~\cite{cimiano_learning_2005}. 
-Besides presentation purposes, \ac{fca} has been employed to identify potentially missing thesaurus entries in a specific expert ontology~\cite{zheng2020lexical,hao2021leveraging}. 
-
-In order to guide automatic concept hierarchy generation, both human involvement~\cite{yang2012personalized} and \acp{llm}~\cite{kommineni2024from} have been utilized. 
-This guidance has been implemented by restricting the generation of concept lattices with constraints~\cite{belohlavek2006formal,belohlavek2009formal}, or by incoorperating attribute weights~\cite{belohlavek2011selecting}.
-Bade and Nürnberger~\cite{bade_personalized_2006,bade_hierarchical_2014} introduced the idea of using hierarchical constraints for generating concept hierarchies in a similarity space
-created from text. 
 Opposed to tarditional similarity-based concept hierarchy generation, \ac{fca}-based concept hierarchy generation can be considered a conceptual clustering technique which provides intensional descriptions for abstract concepts~\cite{cimiano_learning_2005}.
 
-In this work, we propose integrating hierarchical background knowledge in \ac{fca} via \ac{mlb} constraints, which are a specific type of hierarchical constraint.
+While manual curation of expert ontologies can be considered a gold standard for concept hierarchies, it is often desirable to generate concept hierarchies to reduce cost and time.
+However, such automatically generated hierarchies can conflict with existing expert ontologies.
+In order to enfore generated hierarchies that are sufficiently consistent with the hierarchical background knowledge of expert ontologies, there is a need to guide and constrain generation.
 
+Prior work on guidiance mechansims porposed human involvement~\cite{yang2012personalized} and \acp{llm}~\cite{kommineni2024from}. 
+It has been implemented by restricting the generation of concept lattices with constraints~\cite{belohlavek2006formal,belohlavek2009formal}, or by incoorperating attribute weights~\cite{belohlavek2011selecting}.
+Bade and Nürnberger~\cite{bade_personalized_2006,bade_hierarchical_2014} introduced the idea of using hierarchical constraints for generating concept hierarchies in a similarity space
+created from text. 
+
+% Besides presentation purposes, \ac{fca} has been employed to identify potentially missing thesaurus entries in a specific expert ontology~\cite{zheng2020lexical,hao2021leveraging}. 
+
+Up to now, there has been limited work on integrating hierarchical background knowledge in \ac{fca} via hierarchical constraints.
+We propose to fill this gap by introducing \ac{mlb} constraints, which are a specific type of hierarchical constraint, into the \ac{fca} framework for concept hierarchy generation.
+Moreover, we present a case study on comparing \ac{fca}-based concept hierarchies generated with \ac{mlb} constraints to a second knowledge base based on corpus-specific statistical topic modeling.
+
+% structure of the paper
+The remainder of this paper is structured as follows: In Section~\ref{sec:related_work}, we review related work on concept hierarchy generation and the use of constraints in \ac{fca}. 
+In Section~\ref{sec:foundations}, we provide the necessary background on \ac{fca} and \ac{mlb} constraints. 
+In Section~\ref{sec:method}, we describe our proposed method for integrating hierarchical background knowledge in \ac{fca} via \ac{mlb} constraints. 
+In Section~\ref{sec:case_study}, we present a case study comparing \ac{fca}-based concept hierarchies generated with \ac{mlb} constraints to a second knowledge base based on corpus-specific statistical topic modeling. 
+Finally, in Section~\ref{sec:future_work}, we discuss potential future work and conclude the paper.
 
 %\textcolor{red}{NOTE: Their conclusion includes future work on using humans for ontological relation validation (Attr. Explor.???). They also compare generated ontologies with human-modeled ontologies via Precision, Recall, F-measure...}
 
