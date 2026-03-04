@@ -25,7 +25,7 @@ Zheng et al.~\cite{zheng2011semi} porpose two matrices-based approaches for inco
 MacLellan et al.~\cite{maclellan2016trestle} incrementally builds concept hierarchies.
 
 
-The generation of concept hierarchies by incorporating restrictive information is currently described as a hierarchical text classification task, which represents a finer structuring task than clustering. % maybe claim from \cite{li2019hiercon} related work???
+The generation of concept hierarchies by incorporating restrictive information is currently described as a hierarchical text classification task, which represents a finer structuring task than clustering. % maybe claim from \cite{li2019hiercon} related work??? abstract risch2020hierarchical? abstract: yu2022constrained yes
 Such restrictive hierarchical classification approaches are usually based on more probabilistic or neural architectures. Gopal and Yang (2013)~\cite{gopal2013recursive}, for example, proposed using recursive
 regularization constraints for classifiers at different hierarchical levels. They showed that large concept hierarchies with 600\,000 classes can be learned efficiently provided that sufficient training data is available.
 
@@ -38,11 +38,14 @@ Since they work with hierarchical categories, labeling documents with one or mor
 % Such topic-based concept hierarchies project both categories and documents into a common space, whereby the similarity between terms can be taken into account. Li et al. (2019)~\cite{li2019hiercon} proposed
 % a concept-based framework for generating topic-based concept hierarchies for technical documents, which uses only a small set of documents labeled and organized as a concept hierarchy as input.
 
-\textcolor{orange}{TODO (SST): Please ensure that \ac{lda} is referenced in later sections approriately. You are not credible if you use a new hierarchical \ac{lda} approach but do not reference \ac{lda} appropriately. Klara: Not sure if we need reference \ac{lda} here, we have a chapter for that.}
+\textcolor{orange}{(SST): Please ensure that \ac{lda} is referenced in later sections approriately. You are not credible if you use a new hierarchical \ac{lda} approach but do not reference \ac{lda} appropriately. Klara: Not sure if we need reference \ac{lda} here, we have a chapter for that.}
 
-For patents, Risch et al. (2020)~\cite{risch2020hierarchical} formulate a sequence generation task that additionally uses semantic information about parent-child relationships as constraints during the
-training process, whereby labels are only created if they are consistent within a hierarchy. Currently, the problem of “label consistency” is further addressed by other approaches based on constrained
-sequence-to-tree generation tasks~cited in~\cite{yu2022constrained,zhang2025teleclass}.
+Risch et al.~\cite{risch2020hierarchical} use attention-based neural sequence-to-sequence models to generate hierarchical labels (i.e., a sequence of labels starting with broad ones and ending with fine-grained ones) for documents.
+Similarly, Yu et al.~\cite{yu2022constrained} propose a encoder-decoder architecture trained to assign multiple hierarchical labels to documents constraining assigned labels to be hyponyms of each other. 
+Zhang et al.~\cite{zhang2025teleclass} employ \acp{llm} to enrich an existing labels and label taxonomy (i.e., hierarchical structure of categories) with indicative terms and subsequently match embedded documents and categories.
+% For patents, Risch et al. (2020)~\cite{risch2020hierarchical} formulate a sequence generation task that additionally uses semantic information about parent-child relationships as constraints during the
+% training process, whereby labels are only created if they are consistent within a hierarchy. Currently, the problem of “label consistency” is further addressed by other approaches based on constrained
+% sequence-to-tree generation tasks~cited in~\cite{yu2022constrained,zhang2025teleclass}.
 
 \todo{TODO (SST): Why not think about in a first step about such modern approaches? What could be an advantage of a more simple approach?}
 
