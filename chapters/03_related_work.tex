@@ -4,42 +4,25 @@
 Clustering algorithms group data points based on different criteria into clusters.
 Prior knowledge about the dataset can be modelled as constraints.
 The simplest constraints are pairwise \textit{must-link} and \textit{cannot-link} constraints, which require objects to be in the same or different clusters, respectively.
-While partitional clustering groups data points into clusters on a single level of granularity, hierarchical clustering groups the data on different levels of granularity~\cite{bade_hierarchical_2014}.
+While conventional clustering groups data points into clusters on a single level of granularity, hierarchical clustering groups the data on different levels of granularity~\cite{bade_hierarchical_2014}.
 So-called \ac{mlb} constraints introduce prior knowledge into hierarchical clustering.
+
+In hierarchical clustering, two main approaches exist: partitional and agglomerative hierarchical clustering.
+While partitional hierarchical clustering build a hierarchy by recursively partitioning the data (i.e., top to bottom), agglomerative hierarchical clustering methods build a hierarchy by iteratively merging clusters (i.e., bottom to top)~\cite{zhao2002evaluation}.
 
 Constrained partitional clustering methods such as constrained $k$-means clustering~\cite{wagstaff2001constrained} assigns documents to the closest cluster prototype that does not violate any constraints \cite{wagstaff2001constrained}.
 Pairwise constraints are inherently ambiguous in hierarchical settings because objects may be together at one level of the hierarchy but separated at another.
-\textcolor{blue}{This should connected to ***}
 
-\todo{TODO (SST): Please ensure that the used formalization of pairwise constraints is also consistent to descriptions by Wagstaff, 2001.}
+Bade et al.~\cite{bade2006personalized,bade_creating_2008} find pairwise constraints to be insufficient for hierarchical clustering, and introduce \ac{mlb} constraints into \ac{hac}.
+These \ac{mlb} constraints encode the order in which objects should be merged during agglomeration, effectively capturing relative hierarchical relationships rather than flat equivalence conditions~\cite{bade2006personalized,bade_creating_2008,bade_hierarchical_2014}. % or: grouping data on different granularities
+% The authors formally analyze the properties of \ac{mlb} constraints, including symmetry and transitivity, and propose an instance-based extension of \ac{hac} that enforces these constraints during the merge process. 
+% Empirical results on text clustering tasks show that incorporating \ac{mlb} constraints provides effective structural bias, improving the recovery of meaningful hierarchies while avoiding the level-selection problems associated with adapting pairwise constraints to hierarchical clustering.
+% The \ac{hac} algorithm iteratively merges the two most similar clusters into one. The \ac{ihac} extends the \ac{hac} algorithm by not only considering similarity but also constraint violations~\cite{bade_hierarchical_2014}.
+% \textcolor{red}{TODO: How to get constraint base \& representation of it.}
+While Bade et al.~\cite{bade2006personalized} use \ac{mlb} constraint violation to alter the similarity measure during the merge process, Zhao et al.~\cite{zhao2010hierarchical} propose a method also based on trenary order constraints, denoted ordering-constraints, that delays merging two clusters until violated constraints are resolved.
+Zheng et al.~\cite{zheng2011semi} porpose two matrices-based approaches for incorporating \ac{mlb} constraints into hierarchical clustering. %, which are based on a distance minimization and transformation XY, respectively.
 
-% DONE: wagstaff2001constrained
-% Wagstaff, K., Cardie, C., Rogers, S., and Schrodl, S. ¨
-%(2001). Constrained k-means clustering with background knowledge. In Proceedings of the Eighteenth International Conference on Machine Learning, pages 577–584, San Francisco, CA, USA. Morgan Kaufmann Publishers Inc.
-
-% DONE: zhao2002evaluation
-% Zhao, Y., & Karypis, G. (2002, November). Evaluation of hierarchical clustering algorithms for document datasets. In Proceedings of the eleventh international conference on Information and knowledge management (pp. 515-524).
-
-
-\todo{TODO (SST): Take into account first Bade Nürnberger Paper from 2006}
-
-% K. Bade and A. Nürnberger. Personalized hierarchical clustering. In Proceedings of the 2006 IEEE/WIC/ACM Int. Conference on Web Intelligence, 2006.
-
-\textcolor{blue}{This should connected to ***}\\
-Bade and Nürnberger (2008)~\cite{bade_creating_2008} address the challenge of integrating supervision
-into hierarchical clustering by proposing a novel constraint formulation tailored to hierarchical structures, termed \ac{mlb} constraints. 
-These \ac{mlb} constraints encode the ordering in which objects should be linked during agglomeration, effectively capturing relative hierarchical relationships rather than flat equivalence conditions~\cite{bade_creating_2008}. % or: grouping data on different granularities
-A ternary constraint explicitly encodes the relative hierarchical relationships by stating that two objects must be grouped together at a more specific level of the hierarchy than either is with a third object~\cite{bade_hierarchical_2014}. 
-The authors formally analyze the properties of \ac{mlb} constraints, including symmetry and transitivity, and propose an instance-based extension of \ac{hac} that enforces these constraints during the merge process. 
-Empirical results on text clustering tasks show that incorporating \ac{mlb} constraints provides effective structural bias, improving the recovery of meaningful hierarchies while avoiding the level-selection problems associated with adapting pairwise constraints to hierarchical clustering.
-The \ac{hac} algorithm iteratively merges the two most similar clusters into one. The \ac{ihac} extends the \ac{hac} algorithm by not only considering similarity but also constraint violations~\cite{bade_hierarchical_2014}.
-\textcolor{red}{TODO: How to get constraint base \& representation of it.}
-
-% Zhao, H., & Qi, Z. (2010, January). Hierarchical agglomerative clustering with ordering constraints. In 2010 Third International Conference on Knowledge Discovery and Data Mining (pp. 195-199). IEEE.
-
-% Zheng, L., & Li, T. (2011, December). Semi-supervised hierarchical clustering. In 2011 IEEE 11th international conference on data mining (pp. 982-991). IEEE.
-
-% * C.J. MacLellan, E. Harpstead, V. Aleven, and K.R. Koedinger. Trestle: A model of concept formation in structured domains. Advances in Cognitive Systems, 4:131–150, 2016.
+MacLellan et al.~\cite{maclellan2016trestle} incrementally builds concept hierarchies.
 
 
 The generation of concept hierarchies by incorporating restrictive information is currently described as a hierarchical text classification task, which represents a finer structuring task than clustering.
