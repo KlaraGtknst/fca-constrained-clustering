@@ -9,6 +9,7 @@ So-called \ac{mlb} constraints introduce prior knowledge into hierarchical clust
 
 Constrained partitional clustering methods such as constrained $k$-means clustering~\cite{wagstaff2001constrained} assigns documents to the closest cluster prototype that does not violate any constraints \cite{wagstaff2001constrained}.
 Pairwise constraints are inherently ambiguous in hierarchical settings because objects may be together at one level of the hierarchy but separated at another.
+\textcolor{blue}{This should connected to ***}
 
 \todo{TODO (SST): Please ensure that the used formalization of pairwise constraints is also consistent to descriptions by Wagstaff, 2001.}
 
@@ -24,9 +25,10 @@ Pairwise constraints are inherently ambiguous in hierarchical settings because o
 
 % K. Bade and A. Nürnberger. Personalized hierarchical clustering. In Proceedings of the 2006 IEEE/WIC/ACM Int. Conference on Web Intelligence, 2006.
 
-In hierarchical environments, however, these constraints are inherently ambiguous, as objects may be together at one level of the hierarchy but separated at another. For that reason we keep focus on learning
-a hierarchical cluster structure with constraints based on a hierarchical knowledge structure. Bade and Nürnberger (2008)~\cite{bade_creating_2008} address the challenge of integrating supervision
-into hierarchical clustering by proposing a novel constraint formulation tailored to hierarchical structures, termed \ac{mlb} constraints. To overcome this, the authors introduce \ac{mlb} constraints that encode the ordering in which objects should be linked during agglomeration, effectively capturing relative hierarchical relationships rather than flat equivalence conditions~\cite{bade_creating_2008}.
+\textcolor{blue}{This should connected to ***}\\
+Bade and Nürnberger (2008)~\cite{bade_creating_2008} address the challenge of integrating supervision
+into hierarchical clustering by proposing a novel constraint formulation tailored to hierarchical structures, termed \ac{mlb} constraints. 
+These \ac{mlb} constraints encode the ordering in which objects should be linked during agglomeration, effectively capturing relative hierarchical relationships rather than flat equivalence conditions~\cite{bade_creating_2008}. % or: grouping data on different granularities
 A ternary constraint explicitly encodes the relative hierarchical relationships by stating that two objects must be grouped together at a more specific level of the hierarchy than either is with a third object~\cite{bade_hierarchical_2014}. 
 The authors formally analyze the properties of \ac{mlb} constraints, including symmetry and transitivity, and propose an instance-based extension of \ac{hac} that enforces these constraints during the merge process. 
 Empirical results on text clustering tasks show that incorporating \ac{mlb} constraints provides effective structural bias, improving the recovery of meaningful hierarchies while avoiding the level-selection problems associated with adapting pairwise constraints to hierarchical clustering.
@@ -42,15 +44,14 @@ The \ac{hac} algorithm iteratively merges the two most similar clusters into one
 
 The generation of concept hierarchies by incorporating restrictive information is currently described as a hierarchical text classification task, which represents a finer structuring task than clustering.
 Such restrictive hierarchical classification approaches are usually based on more probabilistic or neural architectures. Gopal and Yang (2013)~\cite{gopal2013recursive}, for example, proposed using recursive
-regularization constraints for classifiers at different hierarchical levels. They showed that large concept hierarchies with 600,000 classes can be learned efficiently provided that sufficient training
-data is available.
+regularization constraints for classifiers at different hierarchical levels. They showed that large concept hierarchies with 600\,000 classes can be learned efficiently provided that sufficient training data is available.
 
-Following the concept distribution assumption for text documents—most famously implemented by Latent Dirichlet Allocation (LDA)~\cite{blei2003lda}—it has been observed that technical documents are typically
+Following the concept distribution assumption for text documents—most famously implemented by \ac{lda}~\cite{blei2003lda}—it has been observed that technical documents are typically
 organized as a distribution over concepts that contain discriminative information about their topics. It has been proposed to integrate constraints for topic-based concept hierarchies~\cite{li2019hiercon}.
 Such topic-based concept hierarchies project both categories and documents into a common space, whereby the similarity between terms can be taken into account. Li et al. (2019)~\cite{li2019hiercon} proposed
 a concept-based framework for generating topic-based concept hierarchies for technical documents, which uses only a small set of documents labeled and organized as a concept hierarchy as input.
 
-\todo{TODO (SST): Please ensure that LDA is referenced in later sections approriately. You are not credible if you use a new hierarchical LDA approach but do not reference LDA appropriately.}
+\todo{TODO (SST): Please ensure that \ac{lda} is referenced in later sections approriately. You are not credible if you use a new hierarchical \ac{lda} approach but do not reference \ac{lda} appropriately.}
 
 For patents, Risch et al. (2020)~\cite{risch2020hierarchical} formulate a sequence generation task that additionally uses semantic information about parent-child relationships as constraints during the
 training process, whereby labels are only created if they are consistent within a hierarchy. Currently, the problem of “label consistency” is further addressed by other approaches based on constrained
