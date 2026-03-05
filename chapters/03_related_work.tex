@@ -1,82 +1,50 @@
 \section{Related Work}
 \label{sec:related_work}
 
-%% Constrained clustering
+% 1. Constrained Hierarchical Clustering -> explain MLB constraints
+%% clustering with constraints
 Clustering algorithms group data points based on different criteria into clusters.
 Prior knowledge about the dataset can be modelled as constraints.
 The simplest constraints are pairwise \textit{must-link} and \textit{cannot-link} constraints, which require objects to be in the same or different clusters, respectively.
-While conventional clustering groups data points into clusters on a single level of granularity, hierarchical clustering groups the data on different levels of granularity~\cite{bade_hierarchical_2014}.
-So-called \ac{mlb} constraints introduce prior knowledge into hierarchical clustering.
+While conventional constrained clustering avoids violating constrainst while grouping data points into clusters on a single level of granularity~\cite{wagstaff2001constrained}, constrained hierarchical clustering considers different levels of granularity~\cite{bade_hierarchical_2014}.
+%% limits of pairwise constraints: hierarchical clustering
+However, pairwise constraints are inherently ambiguous in hierarchical settings because objects may be together at one level of the hierarchy but separated at another.
+Bade et al.~\cite{bade2006personalized,bade_creating_2008} therefore find pairwise constraints to be insufficient for hierarchical clustering, and introduce \ac{mlb} constraints into \ac{hac}.
+These \ac{mlb} constraints encode the order in which objects should be merged during agglomeration, effectively capturing relative hierarchical relationships rather than flat equivalence conditions~\cite{bade2006personalized,bade_creating_2008,bade_hierarchical_2014}.
+In prior work, \ac{mlb} constraints altered the similarity measure during the merge process~\cite{bade2006personalized}, delayed merging two clusters until violated constraints are resolved~\cite{zhao2010hierarchical}, or was incorperated in matrices-based approaches~\cite{zheng2011semi}.
 
-In hierarchical clustering, two main approaches exist: partitional and agglomerative hierarchical clustering.
-While partitional hierarchical clustering build a hierarchy by recursively partitioning the data (i.e., top to bottom), agglomerative hierarchical clustering methods build a hierarchy by iteratively merging clusters (i.e., bottom to top)~\cite{zhao2002evaluation}.
+% In hierarchical clustering, two main approaches exist: partitional and agglomerative hierarchical clustering.
+% While partitional hierarchical clustering build a hierarchy by recursively partitioning the data (i.e., top to bottom), agglomerative hierarchical clustering methods build a hierarchy by iteratively merging clusters (i.e., bottom to top)~\cite{zhao2002evaluation}.
 
-Constrained partitional clustering methods such as constrained $k$-means clustering~\cite{wagstaff2001constrained} assigns documents to the closest cluster prototype that does not violate any constraints \cite{wagstaff2001constrained}.
-Pairwise constraints are inherently ambiguous in hierarchical settings because objects may be together at one level of the hierarchy but separated at another.
-
-Bade et al.~\cite{bade2006personalized,bade_creating_2008} find pairwise constraints to be insufficient for hierarchical clustering, and introduce \ac{mlb} constraints into \ac{hac}.
-These \ac{mlb} constraints encode the order in which objects should be merged during agglomeration, effectively capturing relative hierarchical relationships rather than flat equivalence conditions~\cite{bade2006personalized,bade_creating_2008,bade_hierarchical_2014}. % or: grouping data on different granularities
-% The authors formally analyze the properties of \ac{mlb} constraints, including symmetry and transitivity, and propose an instance-based extension of \ac{hac} that enforces these constraints during the merge process. 
-% Empirical results on text clustering tasks show that incorporating \ac{mlb} constraints provides effective structural bias, improving the recovery of meaningful hierarchies while avoiding the level-selection problems associated with adapting pairwise constraints to hierarchical clustering.
 % The \ac{hac} algorithm iteratively merges the two most similar clusters into one. The \ac{ihac} extends the \ac{hac} algorithm by not only considering similarity but also constraint violations~\cite{bade_hierarchical_2014}.
-% \textcolor{red}{TODO: How to get constraint base \& representation of it.}
-While Bade et al.~\cite{bade2006personalized} use \ac{mlb} constraint violation to alter the similarity measure during the merge process, Zhao et al.~\cite{zhao2010hierarchical} propose a method also based on trenary order constraints, denoted ordering-constraints, that delays merging two clusters until violated constraints are resolved.
-Zheng et al.~\cite{zheng2011semi} porpose two matrices-based approaches for incorporating \ac{mlb} constraints into hierarchical clustering. %, which are based on a distance minimization and transformation XY, respectively.
 
-MacLellan et al.~\cite{maclellan2016trestle} incrementally builds concept hierarchies.
+% MacLellan et al.~\cite{maclellan2016trestle} incrementally builds concept hierarchies.
 
 
-The generation of concept hierarchies by incorporating restrictive information is currently described as a hierarchical text classification task, which represents a finer structuring task than clustering. % maybe claim from \cite{li2019hiercon} related work??? abstract risch2020hierarchical? abstract: yu2022constrained yes
-Such restrictive hierarchical classification approaches are usually based on more probabilistic or neural architectures. 
-% not really interesting other than there are some supervised classification approaches, hierarchy on class labels, not instances
-Gopal and Yang~\cite{gopal2013recursive}, for example, proposed using recursive
-regularization constraints for classifiers (SVM, and probabilistic classifiers) at different hierarchical levels of class labels. They showed that large concept hierarchies with 600\,000 classes can be learned efficiently provided that sufficient training data is available.
+% 2. Extracting concept hierarchies from text corpora
+%% 2.1. Non-FCA approaches
+Automatic concept hierarchy generation from text corpora has been approached in various ways.
+In the realm of hierarchical text classification, text documents are assigned one or more hierarchical labels~\cite{yu2022constrained}, which implicitly creates a hierarchical structure of documents based on their assigned labels.
+Prior work proposed regularization constraints for Support Vector Machines and probabilistic classifiers~\cite{gopal2013recursive}, or matched documents and category labels based on similarity in a common embedding space based on distribution of words appearing in the document corpus~\cite{li2019hiercon}.
+More recently, attention-based neural sequence-to-sequence models~\cite{risch2020hierarchical} or encoder-decoder models~\cite{yu2022constrained} have been trained to assign hierarchical labels to documents, while constraining the assigned labels to be hyponyms of each other.
+Documents and label augmentation with \acp{llm} has been proposed to further improve hierarchical text classification~\cite{zhang2025teleclass}.
 
-Li et al.~\cite{li2019hiercon} embedded both documents and hierarchical categories into a common space by representing them as distribution of words appearing in the document corpus.
-The similarity between document and category representations is then used to label documents with their most similar categories. 
-Since they work with hierarchical categories, labeling documents with one or more categories also implicitly can be considered as a hierarchical clustering of documents.
-% wie kommt LDA da jetzt rein?
-% Following the concept distribution assumption for text documents—most famously implemented by \ac{lda}~\cite{blei2003lda}—it has been observed that technical documents are typically
-% organized as a distribution over concepts that contain discriminative information about their topics. It has been proposed to integrate constraints for topic-based concept hierarchies~\cite{li2019hiercon}. % concepts are basically words from the document corpus, using the term is really confusing here!
-% Such topic-based concept hierarchies project both categories and documents into a common space, whereby the similarity between terms can be taken into account. Li et al. (2019)~\cite{li2019hiercon} proposed
-% a concept-based framework for generating topic-based concept hierarchies for technical documents, which uses only a small set of documents labeled and organized as a concept hierarchy as input.
-
-\textcolor{orange}{(SST): Please ensure that \ac{lda} is referenced in later sections approriately. You are not credible if you use a new hierarchical \ac{lda} approach but do not reference \ac{lda} appropriately. Klara: Not sure if we need reference \ac{lda} here, we have a chapter for that.}
-
-Risch et al.~\cite{risch2020hierarchical} use attention-based neural sequence-to-sequence models to generate hierarchical labels (i.e., a sequence of labels starting with broad ones and ending with fine-grained ones) for documents.
-Similarly, Yu et al.~\cite{yu2022constrained} propose a encoder-decoder architecture trained to assign multiple hierarchical labels to documents constraining assigned labels to be hyponyms of each other. 
-Zhang et al.~\cite{zhang2025teleclass} employ \acp{llm} to enrich an existing labels and label taxonomy (i.e., hierarchical structure of categories) with indicative terms and subsequently match embedded documents and categories.
-% For patents, Risch et al. (2020)~\cite{risch2020hierarchical} formulate a sequence generation task that additionally uses semantic information about parent-child relationships as constraints during the
-% training process, whereby labels are only created if they are consistent within a hierarchy. Currently, the problem of “label consistency” is further addressed by other approaches based on constrained
-% sequence-to-tree generation tasks~cited in~\cite{yu2022constrained,zhang2025teleclass}.
-
-\todo{TODO (SST): Why not think about in a first step about such modern approaches? What could be an advantage of a more simple approach?}
-
+%% 2.2. FCA-based approaches
+Due to \ac{fca}-based concept hierarchy generation being a form of conceptual clustering on documents that yields intensional descriptions of abstract concepts via their intents (i.e., features)~\cite{cimiano_learning_2005}, research has also explored the use of \ac{fca} for concept hierarchy generation from text corpora.
 %% Text corpus as formal context: We use gutekunst2025conceptual, but with LDA instead of top2vec
 Prior work proposed different approaches to modeling a text corpus as a formal context by extracting features from textual data as attributes and documents as objects.
-Feature extraction included bag-of-words presence of terms~\cite{cigarran_twitter_fca_2016}, (\ac{lda}) topic model-based approaches~\cite{wang_topic_feature_2021,wang_topic_hierarchy_2023,hirth_ordinal_2024,gutekunst2025conceptual}. % hirth_ordinal_2024 uses own trained topic model refered to as SSH21, but is something trained using non-negative matrix factorization, gutekunst2025conceptual use top2vec
+Feature extraction included bag-of-words presence of terms~\cite{cigarran_twitter_fca_2016}, \ac{lda}~\cite{wang_topic_feature_2021,wang_topic_hierarchy_2023} or other topic model-based approaches~\cite{hirth_ordinal_2024,gutekunst2025conceptual}. % hirth_ordinal_2024 uses own trained topic model refered to as SSH21, but is something trained using non-negative matrix factorization, gutekunst2025conceptual use top2vec
 
-\textcolor{orange}{TODO (SST): The following references are more like an internal discussion not really related work. The references should been make at later sections if approriate. Klara: I think constrained FCA belongs into related work}
-
-%% Constrained FCA
-
-% Attribute Exploration with contradicting experts: != we do not only have shared implications but also some-what shared (i.e., coherence lattice)
-Felde et al.~\cite{felde2021triadic,felde2022attribute} extend Attribute Exploration with multiple contradicting or incomplete experts. 
-They explore shared implication of all subsets of a group of experts.
-
+% 3. Constrained and Knowledge-Guided FCA
+Several works investigate incorporating constraints or expert knowledge into \ac{fca}.
 % constrained FCA != we use MLB constraints
-\cite{hidayat_constrained_fca_2024} propose an approach for computing a non-redundant implicational base of a formal context with constraints using SAT solvers.
-Their constraints encode certain attributes that are mutually exclusive.
+Constraints have been introduced to encode mutually exclusive attributes~\cite{hidayat_constrained_fca_2024},
+% we use support, i.e., the number of objects sharing a set of attributes, while belohlavek2009formal define importance directly on attributes, or belohlavek2006formal constrain closure operators, or mao_constrained_fca_2017 define a operator S (!= closure operator) to determine interesting attribute sets
+prune the concept lattice to only contain concepts incolving intents which are considered important. %~\cite{belohlavek2006formal,belohlavek2009formal,mao_constrained_fca_2017}.
+They respectively defined the notion of importance on the attributes~\cite{belohlavek2009formal}, on the closure operator~\cite{belohlavek2006formal}, or by introducing an additional operator~\cite{mao_constrained_fca_2017}.
+% Attribute Exploration with contradicting experts: != we do not only have shared implications but also some-what shared (i.e., coherence lattice)
+There has also been work on extending Attribute Exploration with multiple contradicting or incomplete experts~\cite{felde2021triadic,felde2022attribute} to explore shared implication of all subsets of a group of experts.
 
-\cite{belohlavek2006formal} constrain closure operators which results in a reduced number of formal concepts, i.e., a constrained concept lattice.
-Their constraints model attribute implications interesting to a user.
-
-% we use support, i.e., the number of objects sharing a set of attributes, while they define importance directly on attributes
-\cite{belohlavek2009formal} impose a notion of importance to attributes by introducing certain attribute-dependency formulae which encode the importance of sets of attributes.
-They prune the concept lattice by only including concepts that involve more important attributes.
-
-% != we do not define a operator S 
-% they stress that S is no closure operator
-\cite{mao_constrained_fca_2017} introduce an attribute-operator $S$ which maps each attribute set $B$ to a set of attributes $S(B)$ which would make $B$ interesting.
-Consequntly, if $B=S(B)$, $B$ is an interesting attribute set (i.e., intent for a $S$-interesting formal concept) and included in the concept lattice consisting only of interesting concepts. 
-Their approach reduces the number of fromal concepts extracted from the input data by focusing on those that involve more important attributes.
+%% Us
+However, prior work either incorporates hierarchical \ac{mlb} constraints into clustering or focuses on constrained concept extraction without employing \ac{mlb} constraints.
+Moreover, to our knowledge, no work compares concept lattices derived from constraint-based hierarchical knowledge and probabilistic topic models.
