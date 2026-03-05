@@ -2,7 +2,7 @@
 \centering
 \resizebox{0.9\linewidth}{!}{%
 \begin{tikzpicture}[
-  font=\small,
+  font=\Large,
   >=Latex,
   thick,
   arrow/.style={->, line width=1.2pt},
@@ -12,7 +12,7 @@
 % Left: docs x topics table  (YOUR CODE, unchanged)
 % -------------------------
 \node (tab) [inner sep=0pt] {%
-\begin{tikzpicture}[font=\small, thick]
+\begin{tikzpicture}[font=\Large, thick]
   % Table parameters
   \def\w{15mm}   % col width
   \def\h{9mm}    % row height
@@ -35,8 +35,8 @@
 
   % Slanted top-left "topics/docs" header split
   \draw (0,{\nrows*\h}) -- (\w,{\nrows*\h-\h});
-  \node[anchor=west] at (5mm,{\nrows*\h-2mm}) {\textbf{topics}};
-  \node[anchor=west] at (1mm,{\nrows*\h-\h+2mm}) {\textbf{docs}};
+  \node[anchor=west, font=\normalsize] at (5mm,{\nrows*\h-2mm}) {topics};
+  \node[anchor=west, font=\normalsize] at (1mm,{\nrows*\h-\h+2mm}) {docs};
 
   % Column headers for topics
   \node at ({1.4*\w},{\nrows*\h-0.5*\h}) {$t_1$};
@@ -79,7 +79,7 @@
 % Anchor for TITANIC + mountain group
 \coordinate (titanicAnchor) at ($(tab.east)+(20mm,4mm)$);
 
-\node (titanicLabel) [anchor=west, font=\bfseries\Large]
+\node (titanicLabel) [anchor=west, font=\Large]
   at (titanicAnchor) {TITANIC};
 
 % mountain squiggle + connected horizontal line (tight)
