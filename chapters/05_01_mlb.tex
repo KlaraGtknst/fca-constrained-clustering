@@ -7,7 +7,8 @@ In this section, we first provide the theoretical foundation, proving that \ac{m
 \label{sec:theoretical_analysis}
 
 Let $G$ be the set of documents. A set of \ac{mlb} constraints is given as $\Sigma \subseteq G \times G \times G$. A constraint $(x, y, z) \in \Sigma$ dictates a hierarchical dependency: if documents $x$ and $z$ are grouped together in a cluster, $y$ must also be included.
-% \subsubsection{MLB Constraints as a Closure Operator}
+
+\subsubsection{MLB Constraints as a Closure Operator}
 To utilize \ac{fca}, we must first establish that these constraints define a closure system.
 
 \begin{definition}[$\Sigma$-Consistency]
@@ -29,7 +30,7 @@ Since $\mathcal{S}_{\Sigma}$ is closed under arbitrary intersection, it forms a 
 
 Before applying $\phi_{\Sigma}$, we perform a saturation step on $\Sigma$ to ensure transitivity and completeness of the constraints, akin to computing the deductive closure of the constraint logic itself.
 
-% \subsubsection{The Lattice as the Universe of Valid Dendrograms}
+\subsubsection{The Lattice as the Universe of Valid Dendrograms}
 A hierarchical clustering (i.e., dendrogram) is traditionally defined as a nested sequence of clusters. We define a valid hierarchy in the context of constraints as follows:
 
 \begin{definition}[Valid Hierarchy]\label{def:valid_hierarchy}
