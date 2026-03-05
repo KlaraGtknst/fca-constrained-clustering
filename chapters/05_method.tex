@@ -6,21 +6,15 @@
 \section{Method}
 \label{sec:method}
 
-Our approach integrates \ac{fca} with external knowledge to construct concept lattices.
-These lattices can in turn be translated into hierarchical document clusters (\autoref{sec:formal_context_to_hierarchical_cluster}) guided by the respective external knowledge source.
-
-We consider two types of external knowledge bases for our case study:
-(i) constraints derived from a gold-label topic hierarchy (\autoref{sec:computation}), and
-(ii) topic hierarchy obtained from a topic model (\autoref{sec:topic_model}).
+Our approach integrates \ac{fca} with topic modeling to generate hierarchical document clusters guided by \ac{mlb} constraints. 
+The core of our methodology relies on the insight that both the structural constraints provided by expert knowledge (\autoref{sec:constrained_latticed}) and the statistical patterns derived from topic models (\autoref{sec:topic_model}) can be formalized as closure operators. 
+By computing the intersection of their respective closure systems (\autoref{sec:integrated_lattice_computation}), we derive a concept lattice that respects both logical constraints and empirical data.
 
 \input{chapters/05_01_mlb.tex}
 
 \input{chapters/05_02_topic_model.tex}
 
-
-
-
-
+\input{chapters/05_03_integrated_lattice.tex}
 
 % concept lattice to hierarchical clustering (dendogram)
 \input{chapters/03_knowledge_extraction/formal_context_hierarchal_cluster.tex}

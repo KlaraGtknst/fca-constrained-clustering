@@ -15,14 +15,15 @@ The topic-model-based method comprises four main stages: topic model constructio
 \subsubsection{Formal Context Construction}
 
 The binary incidence relation $I$ defines a formal context $\mathbb{K} = (G, M, I)$, where $G$ is the set of documents (i.e., objects), $M$ is the set of topics (i.e., attributes), and $I$ specifies which topics apply to which documents. 
-To validate the quality of our topic model-derived context, we compare it against ground truth labels when available. Figure~\ref{fig:context_comparison} presents a comparative analysis of the incidence properties.
+To validate the quality of our topic model-derived context, we compare it against ground truth labels when available. 
+% Figure~\ref{fig:context_comparison} presents a comparative analysis of the incidence properties.
 
-\begin{figure}[htbp]
-    \centering
-    \includesvg[width=0.8\textwidth]{resources/banksearch/fca_contexts_comparison_stats.svg}
-    \caption{Comparison of ground truth document-topic incidence and topic model-derived incidence for the BankSearch dataset. The comparison includes metrics such as incidence density, coverage, and topic distribution statistics.\todo{Use table not image}}
-    \label{fig:context_comparison}
-\end{figure}
+% \begin{figure}[htbp]
+%     \centering
+%     \includesvg[width=0.8\textwidth]{resources/banksearch/fca_contexts_comparison_stats.svg}
+%     \caption{Comparison of ground truth document-topic incidence and topic model-derived incidence for the BankSearch dataset. The comparison includes metrics such as incidence density, coverage, and topic distribution statistics.\todo{Use table not image}}
+%     \label{fig:context_comparison}
+% \end{figure}
 
 \subsubsection{Concept Filtering via TITANIC}
 

@@ -1,15 +1,13 @@
-\section{Computation of Constraint-Informed Concept Lattices}
-\label{sec:computation}
-
-Our approach integrates formal concept analysis with topic modeling to generate hierarchical document clusters guided by \ac{mlb} constraints. The core of our methodology relies on the insight that both the structural constraints provided by expert knowledge and the statistical patterns derived from topic models can be formalized as closure operators. By computing the intersection of their respective closure systems, we derive a concept lattice that respects both logical constraints and empirical data.
+\subsection{Computation of Constraint-Informed Concept Lattices}
+\label{sec:constrained_latticed}
 
 In this section, we first provide the theoretical foundation, proving that \ac{mlb} constraints induce a valid closure operator and that the resulting lattice encapsulates the search space of all valid dendrograms. Subsequently, we present our algorithm for the efficient computation of this structure, utilizing an on-the-fly irreducibility check and an alternating closure composition.
 
-\subsection{Theoretical Analysis of MLB Constraints}
+\subsubsection{Theoretical Analysis of MLB Constraints}
+\label{sec:theoretical_analysis}
 
 Let $G$ be the set of documents. A set of \ac{mlb} constraints is given as $\Sigma \subseteq G \times G \times G$. A constraint $(x, y, z) \in \Sigma$ dictates a hierarchical dependency: if documents $x$ and $z$ are grouped together in a cluster, $y$ must also be included.
-
-\subsubsection{MLB Constraints as a Closure Operator}
+% \subsubsection{MLB Constraints as a Closure Operator}
 To utilize \ac{fca}, we must first establish that these constraints define a closure system.
 
 \begin{definition}[$\Sigma$-Consistency]
@@ -31,10 +29,10 @@ Since $\mathcal{S}_{\Sigma}$ is closed under arbitrary intersection, it forms a 
 
 Before applying $\phi_{\Sigma}$, we perform a saturation step on $\Sigma$ to ensure transitivity and completeness of the constraints, akin to computing the deductive closure of the constraint logic itself.
 
-\subsubsection{The Lattice as the Universe of Valid Dendrograms}
-A hierarchical clustering (dendrogram) is traditionally defined as a nested sequence of clusters. We define a valid hierarchy in the context of constraints as follows:
+% \subsubsection{The Lattice as the Universe of Valid Dendrograms}
+A hierarchical clustering (i.e., dendrogram) is traditionally defined as a nested sequence of clusters. We define a valid hierarchy in the context of constraints as follows:
 
-\begin{definition}[Valid Hierarchy]
+\begin{definition}[Valid Hierarchy]\label{def:valid_hierarchy}
 A collection of subsets $\mathcal{H} \subseteq \mathcal{P}(G)$ is a valid hierarchy regarding $\Sigma$ if:
 \begin{enumerate}
     \item $G \in \mathcal{H}$ and $\emptyset \in \mathcal{H}$.
@@ -50,7 +48,7 @@ Let $\mathfrak{B}_{\Sigma}$ be the lattice of all closed sets under $\phi_{\Sigm
 \end{theorem}
 
 \begin{proof}
-Let $C \in \mathcal{H}$ be an arbitrary cluster in a valid hierarchy. By the third condition of Definition 2, $C$ must be $\Sigma$-consistent.
+Let $C \in \mathcal{H}$ be an arbitrary cluster in a valid hierarchy. By the third condition of Definition~\ref{def:valid_hierarchy}, $C$ must be $\Sigma$-consistent.
 By the definition of our closure system $\mathcal{S}_{\Sigma}$, a set is closed if and only if it is $\Sigma$-consistent.
 Therefore, $C \in \mathcal{S}_{\Sigma}$. Since $\mathfrak{B}_{\Sigma}$ is the lattice formed by all elements of $\mathcal{S}_{\Sigma}$, it follows that $C \in \mathfrak{B}_{\Sigma}$.
 Consequently, the lattice contains every cluster of every possible hierarchy that respects the constraints.
@@ -58,32 +56,3 @@ Consequently, the lattice contains every cluster of every possible hierarchy tha
 \end{proof}
 
 This implies that the concept lattice $\underline{\mathfrak{B}}(\mathbb{K}_{\Sigma})$ constitutes the exact search space for constrained hierarchical clustering. Reducing the lattice to a specific dendrogram is possible by selecting a sub-order that satisfies the tree property (nestedness), for example, by prioritizing concepts with higher stability or topic coherence.
-
-\subsection{Computation of the Integrated Concept Lattice}
-\label{sec:computation}
-
-To integrate the background knowledge from the constraints with the latent knowledge from the topic model, we construct the intersection of their respective closure systems.
-Let $\mathbb{K}_{TM} = (G, M_{TM}, I_{TM})$ be the formal context derived from the \ac{lda} topic model (as described in Section 4.2). This context induces a standard \ac{fca} closure operator $\phi_{TM}(X) = X''$.
-
-We seek the closure system containing those sets of documents that are closed under \emph{both} the \ac{mlb} constraints and the topic model logic:
-\begin{equation}
-    \mathcal{C}_{\cap} = \mathcal{C}_{\Sigma} \cap \mathcal{C}_{TM} = \{ A \subseteq G \mid \phi_{\Sigma}(A) = A \land \phi_{TM}(A) = A \}
-\end{equation}
-
-\subsubsection{Alternating Closure Composition}
-The closure operator $\phi_{\cap}$ corresponding to this intersection is the limit of the alternating composition of $\phi_{\Sigma}$ and $\phi_{TM}$. For any set $X \subseteq G$, we define a sequence $X_0 = X, X_{k+1} = \phi_{TM}(\phi_{\Sigma}(X_k))$. Since $G$ is finite and closure operators are extensive and monotone, this sequence converges to a fixpoint:
-\begin{equation}
-    \phi_{\cap}(X) = \lim_{k \to \infty} (\phi_{TM} \circ \phi_{\Sigma})^k (X)
-\end{equation}
-This combined operator ensures that any generated concept is valid with respect to the expert constraints while also being statistically supported by the topic model.
-
-\subsubsection{On-the-fly Computation of Irreducible Concepts}
-Generating the full lattice for large datasets is computationally expensive. However, to define a new, reduced formal context representing the merged knowledge, we only require the \textbf{$\cap$-irreducible} (meet-irreducible) elements of the lattice. An extent $A \in \mathcal{C}_{\cap}$ is $\cap$-irreducible if it cannot be represented as the intersection of its strict supersets.
-
-Instead of generating all closed sets and filtering them post-hoc, we employ an optimized version of Ganter's Next-Closure algorithm. During the canonical generation of closed sets, for a current closed set $A$, we perform an \emph{on-the-fly irreducibility check}. We inspect the immediate upper neighbors by tentatively adding elements $g \in G \setminus A$:
-\begin{equation}
-    I_{sup}(A) = \bigcap_{g \in G \setminus A} \phi_{\cap}(A \cup \{g\})
-\end{equation}
-If $I_{sup}(A) = A$, then $A$ is the intersection of its upper neighbors and thus \textbf{reducible}. If $I_{sup}(A) \supset A$, then $A$ is \textbf{irreducible}. This approach allows us to discard redundant concepts immediately upon generation, significantly reducing memory overhead.
-
-The resulting set of irreducible extents $\{E_1, \dots, E_k\}$ forms the attribute set of the final, knowledge-integrated formal context $\mathbb{K}_{merged} = (G, \{m_1, \dots, m_k\}, I_{merged})$, where $g \, I_{merged} \, m_i \iff g \in E_i$.

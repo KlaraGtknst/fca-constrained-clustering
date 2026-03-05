@@ -1,0 +1,29 @@
+\subsection{Computation of the Integrated Concept Lattice}
+\label{sec:integrated_lattice_computation}
+
+To integrate the background knowledge from the \ac{mlb} constraints with the latent knowledge from the topic model, we construct the intersection of their respective closure systems.
+Let $\mathbb{K}_{TM} = (G, M_{TM}, I_{TM})$ be the formal context derived from the \ac{lda} topic model. 
+This context induces a standard \ac{fca} closure operator $\phi_{TM}(X) = X''$.
+
+We seek the closure system containing those sets of documents that are closed under \emph{both} the \ac{mlb} constraints and the topic model logic:
+\begin{equation}
+    \mathcal{C}_{\cap} = \mathcal{C}_{\Sigma} \cap \mathcal{C}_{TM} = \{ A \subseteq G \mid \phi_{\Sigma}(A) = A \land \phi_{TM}(A) = A \}
+\end{equation}
+
+\subsubsection{Alternating Closure Composition}
+The closure operator $\phi_{\cap}$ corresponding to this intersection is the limit of the alternating composition of $\phi_{\Sigma}$ and $\phi_{TM}$. For any set $X \subseteq G$, we define a sequence $X_0 = X, X_{k+1} = \phi_{TM}(\phi_{\Sigma}(X_k))$. Since $G$ is finite and closure operators are extensive and monotone, this sequence converges to a fixpoint:
+\begin{equation}
+    \phi_{\cap}(X) = \lim_{k \to \infty} (\phi_{TM} \circ \phi_{\Sigma})^k (X)
+\end{equation}
+This combined operator ensures that any generated concept is valid with respect to the expert constraints while also being statistically supported by the topic model.
+
+\subsubsection{On-the-fly Computation of Irreducible Concepts}
+Generating the full lattice for large datasets is computationally expensive. However, to define a new, reduced formal context representing the merged knowledge, we only require the \textbf{$\cap$-irreducible} (meet-irreducible) elements of the lattice. An extent $A \in \mathcal{C}_{\cap}$ is $\cap$-irreducible if it cannot be represented as the intersection of its strict supersets.
+
+Instead of generating all closed sets and filtering them post-hoc, we employ an optimized version of Ganter's Next-Closure algorithm. During the canonical generation of closed sets, for a current closed set $A$, we perform an \emph{on-the-fly irreducibility check}. We inspect the immediate upper neighbors by tentatively adding elements $g \in G \setminus A$:
+\begin{equation}
+    I_{sup}(A) = \bigcap_{g \in G \setminus A} \phi_{\cap}(A \cup \{g\})
+\end{equation}
+If $I_{sup}(A) = A$, then $A$ is the intersection of its upper neighbors and thus \textbf{reducible}. If $I_{sup}(A) \supset A$, then $A$ is \textbf{irreducible}. This approach allows us to discard redundant concepts immediately upon generation, significantly reducing memory overhead.
+
+The resulting set of irreducible extents $\{E_1, \dots, E_k\}$ forms the attribute set of the final, knowledge-integrated formal context $\mathbb{K}_{merged} = (G, \{m_1, \dots, m_k\}, I_{merged})$, where $g \, I_{merged} \, m_i \iff g \in E_i$.
