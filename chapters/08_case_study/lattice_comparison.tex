@@ -9,11 +9,33 @@ Furthermore, while the ground truth lattice in Figure~\ref{fig:mlb_concept_latti
 Consequently, it includes only those concepts whose intents satisfy a minimum support threshold of $0.05$, thereby excluding the most specific concepts. 
 This restriction is necessary due to the size of the full topic model-based lattice, which contains more than $590$ concepts (cf. Figure~\ref{fig:concepts_support}) and would therefore be impractical to visualize and interpret in its entirety.
 
+% \begin{figure}[htbp]
+%     \centering
+%     \includegraphics[width=0.6\textwidth]{resources/banksearch/ground_truth/mlb_expanded.pdf}
+%     \caption{\ac{mlb}-constrained document-topic concept lattice for the BankSearch dataset. Top labels denote attribute names while bottom labels indicate the number of documents in the concept extent.}
+%     \label{fig:mlb_concept_lattice}
+% \end{figure}
+
 \begin{figure}[htbp]
+\centering
+
+\begin{subfigure}{0.35\textwidth}
     \centering
-    \includegraphics[width=0.6\textwidth]{resources/banksearch/ground_truth/mlb_expanded.pdf}
-    \caption{Ground truth document-topic concept lattice for the BankSearch dataset. Top labels denote attribute names while bottom labels indicate the number of documents in the concept extent.}
+    \includegraphics[width=1\textwidth]{resources/banksearch/ground_truth/mlb_expanded.pdf}
+    \caption{\ac{mlb}-constrained concept lattice.}
     \label{fig:mlb_concept_lattice}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.55\textwidth}
+    \centering
+    \includesvg[width=1\textwidth]{results/context_comparison/iceberg_context_0.05_lattice.svg}
+    \caption{Iceberg topic model concept lattice.}
+    \label{fig:iceberg_concept_lattice}
+\end{subfigure}
+
+\caption{Top labels denote attribute names while bottom labels indicate the number of documents in the concept extent.}
+\label{fig:mlb_tm_lattices}
+
 \end{figure}
 
 In Figure~\ref{fig:mlb_concept_lattice}, the ground truth lattice attributes are denoted by $M_i$, which results from the script constructing the formal context based on the \ac{mlb} constraints. 
@@ -23,12 +45,12 @@ The remaining ground truth topics are represented as intersections of attributes
 For example, \texttt{Sport} corresponds to $M0 \cap M1$, while its original child topics \texttt{Soccer} and \texttt{Motor Racing} correspond to the attribute combinations $M1 \cap M2$ and $M0 \cap M2$, respectively. 
 Overall, the original ground truth topics (except for $M3$ and $M4$) are located on the lowest level directly above the bottom node of the lattice.
 
-\begin{figure}[htbp]
-    \centering
-    \includesvg[width=0.8\textwidth]{results/context_comparison/iceberg_context_0.05_lattice.svg}
-    \caption{Iceberg concept lattice for $\mathtt{min\_supp} = 0.05$ for the BankSearch dataset, resulting in 30 concepts. Top labels denote attribute names while bottom labels indicate the number of documents in the concept extent.}
-    \label{fig:iceberg_concept_lattice}
-\end{figure}
+% \begin{figure}[htbp]
+%     \centering
+%     \includesvg[width=0.8\textwidth]{results/context_comparison/iceberg_context_0.05_lattice.svg}
+%     \caption{Iceberg concept lattice for $\mathtt{min\_supp} = 0.05$ for the BankSearch dataset, resulting in 30 concepts. Top labels denote attribute names while bottom labels indicate the number of documents in the concept extent.}
+%     \label{fig:iceberg_concept_lattice}
+% \end{figure}
 
 The topic model-based lattice shown in Figure~\ref{fig:iceberg_concept_lattice} contains 30 concepts with support of at least $0.05$. 
 Concepts are labeled by the topic IDs contained in their intents. 
@@ -77,21 +99,28 @@ $\{M13, M14, M8\}$  & $\{8\}$ & 0.6010 \\
 \subsection{Consistency-lattice vs. Coherence-lattice}
 
 \begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.1\textwidth]{results/context_comparison/intersection.pdf}
-    \caption{Intersection of concept extents based on shared knownledge from \ac{mlb}-derived and topic-model-based lattices. The \textit{consistency}-lattice contains only concepts whose extents completely overlaps.}
-    \label{fig:concept_lattice_intersection}
-\end{figure}
+\centering
 
-\begin{figure}[htbp]
+\begin{subfigure}{0.45\textwidth}
     \centering
-    \includesvg[width=0.3\textwidth]{results/context_comparison/CONCEPT_SIM/coherence.svg}
-    \caption{\textit{Coherence}-lattice for the BankSearch dataset, derived from the intersection of concept extents with Jaccard similarity above $0.6$. The attributes are defined by document membership in these intersecting extents.}
+    \includegraphics[width=0.35\textwidth]{results/context_comparison/intersection.pdf}
+    \caption{\textit{Consistency}-lattice.}
+    \label{fig:consistency_lattices}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.45\textwidth}
+    \centering
+    \includesvg[width=0.7\textwidth]{results/context_comparison/CONCEPT_SIM/coherence.svg}
+    \caption{\textit{Coherence}-lattice.}
     \label{fig:coherence_lattice}
+\end{subfigure}
+
+\caption{Comparison of the \textit{consistency}- and \textit{coherence}-lattices derived from overlaps between the \ac{mlb}-constrained and topic model-based concept lattices for the BankSearch dataset.}
+\label{fig:consistency_coherence_lattices}
+
 \end{figure}
 
-The consistency-lattice is obtained by intersecting the ground truth lattice with the topic model-based lattice as described in Section~\ref{sec:integrated_lattice_computation}. 
+The consistency-lattice (Figure~\ref{fig:consistency_lattices}) is obtained by intersecting the ground truth lattice with the topic model-based lattice as described in Section~\ref{sec:integrated_lattice_computation}. 
 In this case, only the top concept is shared between the two lattices, resulting in a consistency-lattice consisting of a single concept.
-
-In contrast, the coherence-lattice is constructed by defining a new formal context based on intersections of concept extents whose Jaccard similarity exceeds $0.6$. 
+In contrast, the coherence-lattice (Figure~\ref{fig:coherence_lattice}) is constructed by defining a new formal context based on intersections of concept extents whose Jaccard similarity exceeds $0.6$. 
 Each attribute represents the membership of documents in the intersection of such concept extents.
