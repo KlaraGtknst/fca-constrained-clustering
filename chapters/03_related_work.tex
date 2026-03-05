@@ -24,10 +24,8 @@ In prior work, \ac{mlb} constraints altered the similarity measure during the me
 % 2. Extracting concept hierarchies from text corpora
 %% 2.1. Non-FCA approaches
 Automatic concept hierarchy generation from text corpora has been approached in various ways.
-In the realm of hierarchical text classification, text documents are assigned one or more hierarchical labels~\cite{yu2022constrained}, which implicitly creates a hierarchical structure of documents based on their assigned labels.
-Prior work proposed regularization constraints for Support Vector Machines and probabilistic classifiers~\cite{gopal2013recursive}, or matched documents and category labels based on similarity in a common embedding space based on distribution of words appearing in the document corpus~\cite{li2019hiercon}.
-More recently, attention-based neural sequence-to-sequence models~\cite{risch2020hierarchical} or encoder-decoder models~\cite{yu2022constrained} have been trained to assign hierarchical labels to documents, while constraining the assigned labels to be hyponyms of each other.
-Documents and label augmentation with \acp{llm} has been proposed to further improve hierarchical text classification~\cite{zhang2025teleclass}.
+Hierarchical text classification assigns documents one or more labels organized in a taxonomy~\cite{yu2022constrained}, which implicitly creates a hierarchical structure of documents based on their assigned labels. 
+Approaches range from regularization-based classifiers~\cite{gopal2013recursive}, similarity-based matching of documents and labels in a common embedding space~\cite{li2019hiercon} to neural sequence models~\cite{risch2020hierarchical,yu2022constrained} and recent \ac{llm}-assisted taxonomy enrichment~\cite{zhang2025teleclass}.
 
 %% 2.2. FCA-based approaches
 Due to \ac{fca}-based concept hierarchy generation being a form of conceptual clustering on documents that yields intensional descriptions of abstract concepts via their intents (i.e., features)~\cite{cimiano_learning_2005}, research has also explored the use of \ac{fca} for concept hierarchy generation from text corpora.
