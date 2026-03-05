@@ -43,14 +43,14 @@
 % -------------------------
 % Delta arrow
 % -------------------------
-\node (delta) [right=10mm of stack1, label] {$\delta$};
+\node (delta) [right=10mm of stack1, label, font=\huge] {$\delta$};
 \draw[arrow] (stack1.east) -- (delta.west);
 
 % -------------------------
 % Right: docs x topics table
 % -------------------------
 \node (tab) [right=10mm of delta, inner sep=0pt] {%
-\begin{tikzpicture}[font=\Large, thick] % <-- bigger table text
+\begin{tikzpicture}[font=\Large, thick] 
   % Table parameters (slightly larger cells to match bigger font)
   \def\w{16mm}   % col width
   \def\h{10mm}   % row height
