@@ -1,5 +1,22 @@
 \section{Conclusion and Future Work}
 \label{sec:future_work}
 
-\textcolor{red}{TODO}
-Coherence of knowledge bases is apparent in number of document included in the coherence-lattice.
+The analysis of the consistency- and coherence-lattices highlights important differences between strict and relaxed notions of agreement between knowledge bases. 
+The consistency-lattice contains only concepts whose extents fully overlap between the \ac{mlb}-constrained and the topic model-based lattices. 
+In the present case, this requirement results in a lattice consisting only of the top concept, indicating that no non-trivial document clusters are shared exactly between the two representations. 
+This demonstrates that strict consistency is often too restrictive when comparing knowledge bases derived from different sources or methodologies.
+
+In contrast, the coherence-lattice allows partial overlap between concept extents by introducing a similarity threshold. 
+The resulting lattice therefore captures document clusters that are largely shared between the two representations, even if they do not match perfectly. 
+The number of documents contained in the coherence-lattice concepts provides an indication of the degree of shared structure between the knowledge bases.
+
+These results suggest that practical knowledge integration requires allowing a certain degree of inconsistency while maintaining a minimum level of coherence. 
+The appropriate similarity threshold depends on the application domain. 
+For example, safety-critical domains such as medicine may require high coherence thresholds to ensure reliable knowledge alignment, whereas exploratory analysis tasks may benefit from lower thresholds that allow broader but less precise overlaps.
+
+Furthermore, the coherence analysis provides insight into how similar the underlying domain views of the knowledge bases are. 
+The \ac{mlb}-constrained lattice is derived from human-annotated gold labels and therefore reflects a high-precision conceptualization of the domain, albeit with limited hierarchical structure. 
+In contrast, the topic model-based lattice is data-driven and reflects patterns present in the document collection. 
+While this approach captures knowledge across the entire corpus, it may also introduce artefacts caused by noise or biases in the data.
+
+Future work could investigate adaptive threshold selection for coherence-lattices, and methods for filtering artefacts in data-driven topic representations.
