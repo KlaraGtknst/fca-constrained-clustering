@@ -33,8 +33,8 @@ An iceberg concept lattice includes only the top-level concepts,
 specifically those corresponding to frequent attribute sets.
 
 The authors define a minimum support threshold,
-$minsupp \in [0,1]$, below which attribute sets are not considered frequent.
-An attribute set $B \subseteq M$ is deemed frequent in $\mathbb{K}$ if its support $$supp(B) = \frac{\left| B' \right|}{\left| G \right|}$$ meets or exceeds the $minsupp$ threshold.
+$\mathtt{min\_supp} \in [0,1]$, below which attribute sets are not considered frequent.
+An attribute set $B \subseteq M$ is deemed frequent in $\mathbb{K}$ if its support $$\operatorname{supp}(B) = \frac{\left| B' \right|}{\left| G \right|}$$ meets or exceeds the \texttt{min\_supp} threshold.
 A concept $(A, B)$ is considered frequent if its intent $B$ constitutes a frequent attribute set.
 The iceberg concept lattice of a context $\mathbb{K}$ comprises all such frequent concepts.
 %  (cf. Figure~\ref{fig:titanic}).
