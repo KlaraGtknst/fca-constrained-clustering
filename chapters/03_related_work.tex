@@ -56,12 +56,23 @@ Zhang et al.~\cite{zhang2025teleclass} employ \acp{llm} to enrich an existing la
 
 \todo{TODO (SST): The following references are more like an internal discussion not really related work. The references should been make at later sections if approriate.}
 
-% Attribute Exploration with contradicting experts
-\cite{felde2022attribute}: Attribute Exploration with contradicting experts
+% Attribute Exploration with contradicting experts: != we do not only have shared implications but also some-what shared (i.e., coherence lattice)
+Felde et al.~\cite{felde2021triadic,felde2022attribute} extend Attribute Exploration with multiple contradicting or incomplete experts. 
+They explore shared implication of all subsets of a group of experts.
 
-% constrained FCA
+% constrained FCA != we use MLB constraints
 \cite{hidayat_constrained_fca_2024} propose an approach for computing a non-redundant implicational base of a formal context with constraints using SAT solvers.
 Their constraints encode certain attributes that are mutually exclusive.
 
-\cite{mao_constrained_fca_2017} allow the user to specfiy realtive attribute importance as background knowledge in \ac{fca}.
+\cite{belohlavek2006formal} constrain closure operators which results in a reduced number of formal concepts, i.e., a constrained concept lattice.
+Their constraints model attribute implications interesting to a user.
+
+% we use support, i.e., the number of objects sharing a set of attributes, while they define importance directly on attributes
+\cite{belohlavek2009formal} impose a notion of importance to attributes by introducing certain attribute-dependency formulae which encode the importance of sets of attributes.
+They prune the concept lattice by only including concepts that involve more important attributes.
+
+% != we do not define a operator S 
+% they stress that S is no closure operator
+\cite{mao_constrained_fca_2017} introduce an attribute-operator $S$ which maps each attribute set $B$ to a set of attributes $S(B)$ which would make $B$ interesting.
+Consequntly, if $B=S(B)$, $B$ is an interesting attribute set (i.e., intent for a $S$-interesting formal concept) and included in the concept lattice consisting only of interesting concepts. 
 Their approach reduces the number of fromal concepts extracted from the input data by focusing on those that involve more important attributes.
