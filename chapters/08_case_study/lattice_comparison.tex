@@ -96,7 +96,13 @@ $\{M13, M14, M8\}$  & $\{8\}$ & 0.6010 \\
 
 
 
-\subsection{Consistency-lattice vs. Coherence-lattice}
+\subsection{Consistency-Lattice vs. Coherence-Lattice}
+
+The consistency-lattice (Figure~\ref{fig:consistency_lattices}) is obtained by intersecting the ground truth lattice with the topic model-based lattice as described in Section~\ref{sec:integrated_lattice_computation}. 
+In this case, only the top concept is shared between the two lattices, resulting in a consistency-lattice consisting of a single concept.
+In contrast, the coherence-lattice (Figure~\ref{fig:coherence_lattice}) is constructed by defining a new formal context based on intersections of concept extents whose Jaccard similarity exceeds $0.6$. 
+Each attribute represents the membership of documents in the intersection of such concept extents.
+
 
 \begin{figure}[htbp]
 \centering
@@ -119,8 +125,3 @@ $\{M13, M14, M8\}$  & $\{8\}$ & 0.6010 \\
 \label{fig:consistency_coherence_lattices}
 
 \end{figure}
-
-The consistency-lattice (Figure~\ref{fig:consistency_lattices}) is obtained by intersecting the ground truth lattice with the topic model-based lattice as described in Section~\ref{sec:integrated_lattice_computation}. 
-In this case, only the top concept is shared between the two lattices, resulting in a consistency-lattice consisting of a single concept.
-In contrast, the coherence-lattice (Figure~\ref{fig:coherence_lattice}) is constructed by defining a new formal context based on intersections of concept extents whose Jaccard similarity exceeds $0.6$. 
-Each attribute represents the membership of documents in the intersection of such concept extents.
