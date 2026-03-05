@@ -10,8 +10,6 @@ The topic-model-based method comprises four main stages: topic model constructio
 % \input{chapters/03_knowledge_extraction/wordnet.tex}
 \input{chapters/03_knowledge_extraction/topic_models.tex}
 
-
-
 \subsubsection{Formal Context Construction}
 
 The binary incidence relation $I$ defines a formal context $\mathbb{K} = (G, M, I)$, where $G$ is the set of documents (i.e., objects), $M$ is the set of topics (i.e., attributes), and $I$ specifies which topics apply to which documents. 
@@ -38,13 +36,16 @@ The authors define a minimum support threshold,
 $minsupp \in [0,1]$, below which attribute sets are not considered frequent.
 An attribute set $B \subseteq M$ is deemed frequent in $\mathbb{K}$ if its support $$supp(B) = \frac{\left| B' \right|}{\left| G \right|}$$ meets or exceeds the $minsupp$ threshold.
 A concept $(A, B)$ is considered frequent if its intent $B$ constitutes a frequent attribute set.
-The iceberg concept lattice of a context $\mathbb{K}$ comprises all such frequent concepts (cf. Figure~\ref{fig:titanic}).
-
-\displayTITANIC{}
+The iceberg concept lattice of a context $\mathbb{K}$ comprises all such frequent concepts.
+%  (cf. Figure~\ref{fig:titanic}).
+% \displayTITANIC{}
 
 Intuitively, this restriction retains only those document-topic combinations where the topic set is representative of at least $\mathtt{min\_supp} \times 100\%$ of the corpus.
+The choice of minimum support significantly influences the granularity of the extracted hierarchy. 
+Figure~\ref{fig:concepts_support} demonstrates this relationship for the BankSearch dataset.
+Based on this analysis, we select $\text{min\_supp} = 0.05$ to balance hierarchy richness with conceptual interpretability, yielding approximately 30 concepts for the BankSearch dataset.
+% The resulting iceberg concept lattice is visualized in Figure~\ref{fig:iceberg_concept_lattice}.
 
-The choice of minimum support significantly influences the granularity of the extracted hierarchy. Figure~\ref{fig:concepts_support} demonstrates this relationship for the BankSearch dataset.
 
 \begin{figure}[htbp]
     \centering
@@ -53,5 +54,3 @@ The choice of minimum support significantly influences the granularity of the ex
     \label{fig:concepts_support}
 \end{figure}
 
-Based on this analysis, we select $\text{min\_supp} = 0.05$ to balance hierarchy richness with conceptual interpretability, yielding approximately 30 concepts for our experimental corpus.
-The resulting iceberg concept lattice is visualized in Figure~\ref{fig:iceberg_concept_lattice}.
