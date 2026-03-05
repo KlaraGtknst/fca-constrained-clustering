@@ -10,16 +10,13 @@ The findings of comparing the \ac{mlb} constrained concept lattice to a topic mo
 
 \subsection{Topic-Document Constraint Mapping}
 \label{sec:topic_document_mapping}
-In the BankSearch dataset, we do not have a hierarchical structure of documents, but rather on topics.
-Hence, we extract \ac{mlb} constraints on the topic level, and map them to the document-level based on the topic assignments of the documents.
-In this case, each document is associated with exactly one topic, allowing for a straightforward mapping of the generated \ac{mlb} constraints to document-level constraints. 
-We chose to omit any \ac{mlb} constraints involving categories that do not have any assigned documents.
-Instead of mapping each document to its assigned topic, we translate the topic-level \ac{mlb} constraints to document-level constraints of \textit{representative} documents and thus, reduce the number of constraints.
-In other words: Each document belongs to an equivalence class defined by its assigned topic. 
-We select one representative document from each topic to serve as a proxy for the entire class in the constraint mapping.
-% We denote this \textit{clarified} context, but expand the resulting lattices with the remaining documents for later analysis.
-For instance, if documents $d_x$, $d_y$, and $d_z$ are labeled with topics $x$, $y$, and $z$ respectively, then the MLB constraint $(x,y,z)$ directly translates to a document-level constraint $(d_x, d_y, d_z)$.
-One the BankSearch dataset, this results in $81$ \ac{mlb} constraints, which are then used to construct the formal context for the \ac{mlb}-informed concept lattice.
+
+We extract \ac{mlb} constraints at the topic level and map them to document-level constraints using the topic assignments.
+Since each document belongs to exactly one topic, documents sharing the same topic form an equivalence class. Instead of translating constraints for every document individually, we select one representative document per topic and map the topic-level \ac{mlb} constraints to these representatives. 
+This reduces the number of constraints while preserving the structure induced by the topic hierarchy.
+We omit \ac{mlb} constraints involving categories that have no associated documents.
+For example, if documents $d_x$, $d_y$, and $d_z$ belong to topics $x$, $y$, and $z$, respectively, the topic-level constraint $(x,y,z)$ translates to the document-level constraint $(d_x, d_y, d_z)$.
+For the BankSearch dataset, this procedure yields $81$ \ac{mlb} constraints.
 
 % \input{chapters/08_case_study/dendogram_effectiveness_measure.tex}
 

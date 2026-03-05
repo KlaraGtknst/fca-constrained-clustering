@@ -15,11 +15,10 @@
 \label{sec:banksearch_data}
 
 We obtained the Banksearch dataset from Carnegie Mellon University~\footnote{\url{http://lib.stat.cmu.edu/datasets/} (29.12.2025)}.
-% Categories are illustrated in \autoref{fig:banksearch_categories}.
-Although Bade et al.~\cite{bade_creating_2008} report a topic hierarchy with 14 categories, only 11 topics appear in actual documents.
-% Like \cite{bade_creating_2008}, we use the complete structure of the banksearch dataset but subsample 100 samples per category.
-% We employ this dataset to directly compare our work to existing approaches.
-The topic hierarchy and the number documents per topic in the brackets is reported below.
+Each document is associated with exactly one topic, and the documents themselves are not hierarchically structured.
+Bade et al.~\cite{bade_creating_2008} introduced a gold-label topic hierarchy to organize these topics.
+Although the reported hierarchy contains 14 categories, only 11 topics are represented in the documents of the dataset.
+The topic hierarchy, along with the number of documents per topic (given in brackets), is shown below.
 \begin{center}
     {\small
     \begin{multicols}{2}
