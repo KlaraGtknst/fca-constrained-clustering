@@ -6,12 +6,12 @@
 Clustering algorithms group data points based on different criteria into clusters.
 Prior knowledge about the dataset can be modelled as constraints.
 The simplest constraints are pairwise \textit{must-link} and \textit{cannot-link} constraints, which require objects to be in the same or different clusters, respectively.
-While conventional constrained clustering avoids violating constrainst while grouping data points into clusters on a single level of granularity~\cite{wagstaff2001constrained}, constrained hierarchical clustering considers different levels of granularity~\cite{bade_hierarchical_2014}.
+Conventional constrained clustering groups data points into clusters while respecting constraints, typically on a single level of granularity~\cite{wagstaff2001constrained}.
 %% limits of pairwise constraints: hierarchical clustering
-However, pairwise constraints are inherently ambiguous in hierarchical settings because objects may be together at one level of the hierarchy but separated at another.
+However, pairwise constraints are inherently ambiguous in a hierarchical settings, which considers different levels of granularity~\cite{bade_hierarchical_2014}, because objects may be together at one level of the hierarchy but separated at another.
 Bade et al.~\cite{bade2006personalized,bade_creating_2008} therefore find pairwise constraints to be insufficient for hierarchical clustering, and introduce \ac{mlb} constraints into \ac{hac}.
 These \ac{mlb} constraints encode the order in which objects should be merged during agglomeration, effectively capturing relative hierarchical relationships rather than flat equivalence conditions~\cite{bade2006personalized,bade_creating_2008,bade_hierarchical_2014}.
-In prior work, \ac{mlb} constraints altered the similarity measure during the merge process~\cite{bade2006personalized}, delayed merging two clusters until violated constraints are resolved~\cite{zhao2010hierarchical}, or was incorperated in matrices-based approaches~\cite{zheng2011semi}.
+In prior work, \ac{mlb} constraints altered the similarity measure during the merge process~\cite{bade2006personalized}, delay merging clusters until constraint violations are resolved~\cite{zhao2010hierarchical}, or are incorperated in matrix-based approaches~\cite{zheng2011semi}.
 
 % In hierarchical clustering, two main approaches exist: partitional and agglomerative hierarchical clustering.
 % While partitional hierarchical clustering build a hierarchy by recursively partitioning the data (i.e., top to bottom), agglomerative hierarchical clustering methods build a hierarchy by iteratively merging clusters (i.e., bottom to top)~\cite{zhao2002evaluation}.
@@ -38,11 +38,11 @@ Several works investigate incorporating constraints or expert knowledge into \ac
 % constrained FCA != we use MLB constraints
 Constraints have been introduced to encode mutually exclusive attributes~\cite{hidayat_constrained_fca_2024},
 % we use support, i.e., the number of objects sharing a set of attributes, while belohlavek2009formal define importance directly on attributes, or belohlavek2006formal constrain closure operators, or mao_constrained_fca_2017 define a operator S (!= closure operator) to determine interesting attribute sets
-prune the concept lattice to only contain concepts incolving intents which are considered important. %~\cite{belohlavek2006formal,belohlavek2009formal,mao_constrained_fca_2017}.
-They respectively defined the notion of importance on the attributes~\cite{belohlavek2009formal}, on the closure operator~\cite{belohlavek2006formal}, or by introducing an additional operator~\cite{mao_constrained_fca_2017}.
+prune the concept lattice to retain only concepts whose intents are considered important. %~\cite{belohlavek2006formal,belohlavek2009formal,mao_constrained_fca_2017}.
+These approaches differ in how importance is defined, e.g., through attribute properties~\cite{belohlavek2009formal}, constraints on the closure operator~\cite{belohlavek2006formal}, or additional operators~\cite{mao_constrained_fca_2017}.
 % Attribute Exploration with contradicting experts: != we do not only have shared implications but also some-what shared (i.e., coherence lattice)
 There has also been work on extending Attribute Exploration with multiple contradicting or incomplete experts~\cite{felde2021triadic,felde2022attribute} to explore shared implication of all subsets of a group of experts.
 
 %% Us
 However, prior work either incorporates hierarchical \ac{mlb} constraints into clustering or focuses on constrained concept extraction without employing \ac{mlb} constraints.
-Moreover, to our knowledge, no work compares concept lattices derived from constraint-based hierarchical knowledge and probabilistic topic models.
+To our knowledge, no prior work compares concept lattices derived from constraint-based hierarchical knowledge bases and data-driven probabilistic topic models.
