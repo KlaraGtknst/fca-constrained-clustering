@@ -1,1 +1,77 @@
-<svg xmlns="http://www.w3.org/2000/svg" style="width: 303px; height: 303px;"><rect width="100%" height="100%" x="0" y="0" fill="transparent" stroke-width="3" stroke="red"><!----></rect><g><path d="M70 151.5 L151.5 233" stroke="black" stroke-width="2"><!----></path></g><g><path d="M233 151.5 L151.5 233" stroke="black" stroke-width="2"><!----></path></g><g><path d="M151.5 151.5 L151.5 233" stroke="black" stroke-width="2"><!----></path></g><g><path d="M151.5 70 L151.5 151.5" stroke="black" stroke-width="2"><!----></path></g><g><path d="M151.5 70 L233 151.5" stroke="black" stroke-width="2"><!----></path></g><g><path d="M151.5 70 L70 151.5" stroke="black" stroke-width="2"><!----></path></g><!----><g class="prevent-select"><g><circle fill="white" stroke="black" stroke-width="2" r="8" cx="151.5" cy="70"><!----></circle></g><text font-size="16" dy=".35em" text-anchor="middle" stroke="white" stroke-width="0.3em" font-family="monospace" x="151.5" y="92.4">0000</text><text font-size="16" dy=".35em" text-anchor="middle" stroke-width="2" fill="black" font-family="monospace" x="151.5" y="92.4">3625</text><text font-size="16" dy=".35em" text-anchor="middle" stroke="white" stroke-width="0.3em" font-style="italic" font-family="monospace" x="151.5" y="47.6"></text><text font-size="16" dy=".35em" text-anchor="middle" stroke-width="2" fill="black" font-style="italic" font-family="monospace" x="151.5" y="47.6"></text></g><g class="prevent-select"><g><circle fill="white" stroke="black" stroke-width="2" r="8" cx="233" cy="151.5"><!----></circle></g><text font-size="16" dy=".35em" text-anchor="middle" stroke="white" stroke-width="0.3em" font-family="monospace" x="233" y="173.9">0000</text><text font-size="16" dy=".35em" text-anchor="middle" stroke-width="2" fill="black" font-family="monospace" x="233" y="173.9">2153</text><text font-size="16" dy=".35em" text-anchor="middle" stroke="white" stroke-width="0.3em" font-style="italic" font-family="monospace" x="233" y="129.1">00</text><text font-size="16" dy=".35em" text-anchor="middle" stroke-width="2" fill="black" font-style="italic" font-family="monospace" x="233" y="129.1">c2</text></g><g class="prevent-select"><g><circle fill="white" stroke="black" stroke-width="2" r="8" cx="151.5" cy="151.5"><!----></circle></g><text font-size="16" dy=".35em" text-anchor="middle" stroke="white" stroke-width="0.3em" font-family="monospace" x="151.5" y="173.9">0000</text><text font-size="16" dy=".35em" text-anchor="middle" stroke-width="2" fill="black" font-family="monospace" x="151.5" y="173.9">2276</text><text font-size="16" dy=".35em" text-anchor="middle" stroke="white" stroke-width="0.3em" font-style="italic" font-family="monospace" x="151.5" y="129.1">00</text><text font-size="16" dy=".35em" text-anchor="middle" stroke-width="2" fill="black" font-style="italic" font-family="monospace" x="151.5" y="129.1">c1</text></g><g class="prevent-select"><g><circle fill="white" stroke="black" stroke-width="2" r="8" cx="70" cy="151.5"><!----></circle></g><text font-size="16" dy=".35em" text-anchor="middle" stroke="white" stroke-width="0.3em" font-family="monospace" x="70" y="173.9">0000</text><text font-size="16" dy=".35em" text-anchor="middle" stroke-width="2" fill="black" font-family="monospace" x="70" y="173.9">2916</text><text font-size="16" dy=".35em" text-anchor="middle" stroke="white" stroke-width="0.3em" font-style="italic" font-family="monospace" x="70" y="129.1">00</text><text font-size="16" dy=".35em" text-anchor="middle" stroke-width="2" fill="black" font-style="italic" font-family="monospace" x="70" y="129.1">c0</text></g><g class="prevent-select"><g><circle fill="white" stroke="black" stroke-width="2" r="8" cx="151.5" cy="233"><!----></circle></g><text font-size="16" dy=".35em" text-anchor="middle" stroke="white" stroke-width="0.3em" font-family="monospace" x="151.5" y="255.4"></text><text font-size="16" dy=".35em" text-anchor="middle" stroke-width="2" fill="black" font-family="monospace" x="151.5" y="255.4"></text><text font-size="16" dy=".35em" text-anchor="middle" stroke="white" stroke-width="0.3em" font-style="italic" font-family="monospace" x="151.5" y="210.6"></text><text font-size="16" dy=".35em" text-anchor="middle" stroke-width="2" fill="black" font-style="italic" font-family="monospace" x="151.5" y="210.6"></text></g><!----><!----></svg>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Ebene_2" data-name="Ebene 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 206.21 181">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: none;
+        stroke: #fff;
+        stroke-width: 4.8px;
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4 {
+        font-size: 16px;
+        isolation: isolate;
+      }
+
+      .cls-1, .cls-4 {
+        font-family: CourierNewPS-ItalicMT, 'Courier New';
+        font-style: italic;
+      }
+
+      .cls-5, .cls-6 {
+        stroke: #000;
+        stroke-width: 2px;
+      }
+
+      .cls-2, .cls-3 {
+        font-family: CourierNewPSMT, 'Courier New';
+      }
+
+      .cls-6 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <g id="Ebene_1-2" data-name="Ebene 1">
+    <path class="cls-5" d="M21.6,90.5l81.5,81.5"/>
+    <path class="cls-5" d="M184.6,90.5l-81.5,81.5"/>
+    <path class="cls-5" d="M103.1,90.5v81.5"/>
+    <path class="cls-5" d="M103.1,9v81.5"/>
+    <path class="cls-5" d="M103.1,9l81.5,81.5"/>
+    <path class="cls-5" d="M103.1,9L21.6,90.5"/>
+    <g>
+      <circle class="cls-6" cx="103.1" cy="9" r="8"/>
+      <text class="cls-3" transform="translate(83.9 37)"><tspan x="0" y="0">0000</tspan></text>
+      <text class="cls-2" transform="translate(83.9 37)"><tspan x="0" y="0">0000</tspan></text>
+      <text class="cls-3" transform="translate(83.9 37)"><tspan x="0" y="0">3625</tspan></text>
+    </g>
+    <g>
+      <circle class="cls-6" cx="184.6" cy="90.5" r="8"/>
+      <text class="cls-3" transform="translate(165.4 118.5)"><tspan x="0" y="0">0000</tspan></text>
+      <text class="cls-2" transform="translate(165.4 118.5)"><tspan x="0" y="0">0000</tspan></text>
+      <text class="cls-3" transform="translate(165.4 118.5)"><tspan x="0" y="0">2153</tspan></text>
+      <text class="cls-4" transform="translate(175 73.7)"><tspan x="0" y="0">00</tspan></text>
+      <text class="cls-1" transform="translate(175 73.7)"><tspan x="0" y="0">00</tspan></text>
+      <text class="cls-4" transform="translate(175 73.7)"><tspan x="0" y="0">c2</tspan></text>
+    </g>
+    <g>
+      <circle class="cls-6" cx="103.1" cy="90.5" r="8"/>
+      <text class="cls-3" transform="translate(83.9 118.5)"><tspan x="0" y="0">0000</tspan></text>
+      <text class="cls-2" transform="translate(83.9 118.5)"><tspan x="0" y="0">0000</tspan></text>
+      <text class="cls-3" transform="translate(83.9 118.5)"><tspan x="0" y="0">2276</tspan></text>
+      <text class="cls-4" transform="translate(93.5 73.7)"><tspan x="0" y="0">00</tspan></text>
+      <text class="cls-1" transform="translate(93.5 73.7)"><tspan x="0" y="0">00</tspan></text>
+      <text class="cls-4" transform="translate(93.5 73.7)"><tspan x="0" y="0">c1</tspan></text>
+    </g>
+    <g>
+      <circle class="cls-6" cx="21.6" cy="90.5" r="8"/>
+      <text class="cls-3" transform="translate(2.4 118.5)"><tspan x="0" y="0">0000</tspan></text>
+      <text class="cls-2" transform="translate(2.4 118.5)"><tspan x="0" y="0">0000</tspan></text>
+      <text class="cls-3" transform="translate(2.4 118.5)"><tspan x="0" y="0">2916</tspan></text>
+      <text class="cls-4" transform="translate(12 73.7)"><tspan x="0" y="0">00</tspan></text>
+      <text class="cls-1" transform="translate(12 73.7)"><tspan x="0" y="0">00</tspan></text>
+      <text class="cls-4" transform="translate(12 73.7)"><tspan x="0" y="0">c0</tspan></text>
+    </g>
+    <circle class="cls-6" cx="103.1" cy="172" r="8"/>
+  </g>
+</svg>

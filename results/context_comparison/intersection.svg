@@ -1,1 +1,50 @@
-<svg xmlns="http://www.w3.org/2000/svg" style="width: 266px; height: 272px;"><rect width="100%" height="100%" x="0" y="0" fill="transparent" stroke-width="3" stroke="red"><!----></rect><g><path d="M133 70 L133 202" stroke="black" stroke-width="2"><!----></path></g><!----><g class="prevent-select"><g><circle fill="white" stroke="black" stroke-width="2" r="8" cx="133" cy="70"><!----></circle></g><text font-size="16" dy=".35em" text-anchor="middle" stroke="white" stroke-width="0.3em" font-family="monospace" x="133" y="92.4">00000</text><text font-size="16" dy=".35em" text-anchor="middle" stroke-width="2" fill="black" font-family="monospace" x="133" y="92.4">10970</text><text font-size="16" dy=".35em" text-anchor="middle" stroke="white" stroke-width="0.3em" font-style="italic" font-family="monospace" x="133" y="47.6"></text><text font-size="16" dy=".35em" text-anchor="middle" stroke-width="2" fill="black" font-style="italic" font-family="monospace" x="133" y="47.6"></text></g><g class="prevent-select"><g><circle fill="white" stroke="black" stroke-width="2" r="8" cx="133" cy="202"><!----></circle></g><text font-size="16" dy=".35em" text-anchor="middle" stroke="white" stroke-width="0.3em" font-family="monospace" x="133" y="224.4"></text><text font-size="16" dy=".35em" text-anchor="middle" stroke-width="2" fill="black" font-family="monospace" x="133" y="224.4"></text><text font-size="16" dy=".35em" text-anchor="middle" stroke="white" stroke-width="0.3em" font-style="italic" font-family="monospace" x="133" y="179.6">000000000</text><text font-size="16" dy=".35em" text-anchor="middle" stroke-width="2" fill="black" font-style="italic" font-family="monospace" x="133" y="179.6">Common_M0</text></g><!----><!----></svg>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Ebene_2" data-name="Ebene 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 91.21 150">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: none;
+        stroke: #fff;
+        stroke-width: 4.8px;
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4 {
+        font-size: 16px;
+        isolation: isolate;
+      }
+
+      .cls-1, .cls-4 {
+        font-family: CourierNewPS-ItalicMT, 'Courier New';
+        font-style: italic;
+      }
+
+      .cls-5, .cls-6 {
+        stroke: #000;
+        stroke-width: 2px;
+      }
+
+      .cls-2, .cls-3 {
+        font-family: CourierNewPSMT, 'Courier New';
+      }
+
+      .cls-6 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <g id="Ebene_1-2" data-name="Ebene 1">
+    <path class="cls-5" d="M45.61,9v132"/>
+    <g>
+      <circle class="cls-6" cx="45.61" cy="9" r="8"/>
+      <text class="cls-3" transform="translate(21.6 37)"><tspan x="0" y="0">00000</tspan></text>
+      <text class="cls-2" transform="translate(21.6 37)"><tspan x="0" y="0">00000</tspan></text>
+      <text class="cls-3" transform="translate(21.6 37)"><tspan x="0" y="0">10970</tspan></text>
+    </g>
+    <g>
+      <circle class="cls-6" cx="45.61" cy="141" r="8"/>
+      <text class="cls-4" transform="translate(2.4 124.2)"><tspan x="0" y="0">000000000</tspan></text>
+      <text class="cls-1" transform="translate(2.4 124.2)"><tspan x="0" y="0">000000000</tspan></text>
+      <text class="cls-4" transform="translate(2.4 124.2)"><tspan x="0" y="0">Common_M0</tspan></text>
+    </g>
+  </g>
+</svg>

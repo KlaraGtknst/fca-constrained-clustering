@@ -352,3 +352,6 @@ TSWLatexianTemp*
 !results/context_comparison/iceberg_context_0.05_lattice.svg
 !results/context_comparison/CONCEPT_SIM/heatmap.svg
 !results/context_comparison/intersection_context.cxt
+!results/context_comparison/intersection.*
+!results/context_comparison/CONCEPT_SIM/coherence.*
+!resources/banksearch/ground_truth/mlb_expanded.*
