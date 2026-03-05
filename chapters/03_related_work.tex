@@ -1,6 +1,7 @@
 \section{Related Work}
 \label{sec:related_work}
 
+%% Constrained clustering
 Clustering algorithms group data points based on different criteria into clusters.
 Prior knowledge about the dataset can be modelled as constraints.
 The simplest constraints are pairwise \textit{must-link} and \textit{cannot-link} constraints, which require objects to be in the same or different clusters, respectively.
@@ -51,10 +52,13 @@ Zhang et al.~\cite{zhang2025teleclass} employ \acp{llm} to enrich an existing la
 
 \todo{TODO (SST): Why not think about in a first step about such modern approaches? What could be an advantage of a more simple approach?}
 
-\todo{TODO: topic models (to doc-topic incidence) -> SST: There is already reference to Blei (2003) probably that is enough in a first step. The neural approaches are more interesting}
-% \input{chapters/03_related_work/doc_topic.tex}
+%% Text corpus as formal context
+Prior work proposed different approaches to modeling a text corpus as a formal context by extracting features from textual data as attributes and documents as objects.
+Feature extraction included bag-of-words presence of terms~\cite{cigarran_twitter_fca_2016}, (\ac{lda}) topic model-based approaches~\cite{wang_topic_feature_2021,wang_topic_hierarchy_2023,hirth_ordinal_2024}. % hirth_ordinal_2024 uses own trained topic model refered to as SSH21, but is something trained using non-negative matrix factorization
 
-\todo{TODO (SST): The following references are more like an internal discussion not really related work. The references should been make at later sections if approriate.}
+\textcolor{orange}{TODO (SST): The following references are more like an internal discussion not really related work. The references should been make at later sections if approriate. Klara: I think constrained FCA belongs into related work}
+
+%% Constrained FCA
 
 % Attribute Exploration with contradicting experts: != we do not only have shared implications but also some-what shared (i.e., coherence lattice)
 Felde et al.~\cite{felde2021triadic,felde2022attribute} extend Attribute Exploration with multiple contradicting or incomplete experts. 
