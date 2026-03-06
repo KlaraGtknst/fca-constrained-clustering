@@ -2,17 +2,16 @@
 
 \subsection{Topic Model}
 \label{sec:topic_model}
-The data-driven topic-model-based approach involves three steps: constructing a topic model, building a document–topic incidence, and filtering concepts via TITANIC~\cite{gutekunst2025conceptual}.
+The data-driven topic-model-based approach comprises three steps: (i) constructing a topic model, (ii) deriving a document-topic incidence relation, and (iii) filtering concepts using the TITANIC algorithm~\cite{gutekunst2025conceptual}.
 
 \subsubsection{Topic Model Construction}
-A topic model is a generative model for documents, where documents are mixtures of $K$ topics and topics are mixtures of words (i.e., multinomial distribution over a word vocabulary).
-Topic models rely on the bag-of-words assumption, i.e., ignoring the order of words.
-We employed \texttt{gensim}'s \ac{lda}\footnote{\url{https://radimrehurek.com/gensim/models/ldamodel.html} (30.12.2025)}.
-\ac{lda} is a widely used unsupervised statistical bayesian topic model~\cite{alghamdi_survey_2015}.
-For a corpus of $N$ documents, \ac{lda} produces a document-topic distribution matrix $\Theta \in \mathbb{R}^{N \times K}$, where $K$ is the number of topics and $\theta_{ij}$ represents the probability that document $i$ is associated with topic $j$.
+Topic models are generative probabilistic models in which documents are represented as mixtures of $K$ latent topics and topics as multinomial distributions over words. 
+They typically rely on the bag-of-words assumption, ignoring word order. 
+We employ \texttt{gensim}'s implementation of \ac{lda}\footnote{\url{https://radimrehurek.com/gensim/models/ldamodel.html} (30.12.2025)}, a widely used unsupervised Bayesian topic model~\cite{alghamdi_survey_2015}. 
+For a corpus of $N$ documents, \ac{lda} produces a document-topic probability matrix $\Theta \in \mathbb{R}^{N \times K}$, where $\theta_{dt}$ denotes the probability that document $d$ is associated with topic $t$.
 
-To construct the formal context, document-topic probabilities are binarized using a threshold $\delta$. 
-To select an appropriate threshold, we analyze how different threshold values affect the resulting incidence density. 
+To construct a formal context from $\Theta$, document-topic probabilities are binarized using a threshold $\delta$. 
+To determine an appropriate value, we analyze how different thresholds affect the resulting incidence density. 
 Figure~\ref{fig:incidence_density} illustrates this relationship for the BankSearch dataset.
 
 \begin{figure}[t]
@@ -23,42 +22,39 @@ Figure~\ref{fig:incidence_density} illustrates this relationship for the BankSea
 \end{figure}
 
 
-\subsubsection{Document–Topic Incidence}
-Given threshold $\delta$, document $d$ is assigned topic $t$ if and only if $\theta_{dt} \geq \delta$. 
-As displayed in Figure~\ref{fig:doc_topic_inc}, this yields a binary incidence relation $I \subseteq D \times T$, where $(d,t) \in I$ if and only if topic $t$ is sufficiently representative of document $d$. 
-The threshold $\delta$ controls the sparsity of the resulting formal context; lower values produce denser contexts with more document-topic associations, while higher values yield sparser contexts with only the most dominant topics retained.
-The binary incidence relation $I$ defines a formal context $\mathbb{K} = (G, M, I)$, where $G$ is the set of documents (i.e., objects), $M$ is the set of topics (i.e., attributes), and $I$ specifies which topics apply to which documents.       
+\subsubsection{Document-Topic Incidence}
+Given threshold $\delta$, a document $d$ is assigned topic $t$ if and only if $\theta_{dt} \geq \delta$. 
+This produces a binary incidence relation $I \subseteq D \times T$, where $(d,t) \in I$ indicates that topic $t$ sufficiently characterizes document $d$ (cf.~Figure~\ref{fig:doc_topic_inc}). 
+Lower threshold values yield denser contexts with more document-topic associations, whereas higher values retain only the most dominant topics.
+
+The resulting relation defines the formal context $\mathbb{K} = (G, M, I)$, where $G$ denotes the set of documents (objects), $M$ the set of topics (attributes), and $I$ the document-topic incidence relation.
+   
 
 \docTopicInc{}
 
 \subsubsection{Concept Filtering via TITANIC}
 
-% copied from other paper
-Computing complete concept lattices of $\mathbb{K}$ for large datasets presents a significant challenge, as the size of a concept lattice can grow exponentially with respect to the size of the context.
-Consequently, complete visualizations of large concept lattices may obscure important hierarchical relationships within the data, hindering human interpretation.
-To address this issue, \cite{stumme_titanic_2002} introduced the TITANIC algorithm, which computes iceberg concept lattices.
-An iceberg concept lattice includes only the top-level concepts,
-specifically those corresponding to frequent attribute sets.
+Computing the complete concept lattice of $\mathbb{K}$ can be computationally challenging, as the number of concepts may grow exponentially with the size of the context. 
+Moreover, large lattices often hinder interpretability.
+To address this issue, Stumme et al.~\cite{stumme_titanic_2002} introduced the TITANIC algorithm, which computes \emph{iceberg concept lattices}. 
+These lattices contain only concepts whose intents correspond to frequent attribute sets.
 
-The authors define a minimum support threshold,
-$\mathtt{min\_supp} \in [0,1]$, below which attribute sets are not considered frequent.
-An attribute set $B \subseteq M$ is deemed frequent in $\mathbb{K}$ if its support $$\operatorname{supp}(B) = \frac{\left| B' \right|}{\left| G \right|}$$ meets or exceeds the \texttt{min\_supp} threshold.
-A concept $(A, B)$ is considered frequent if its intent $B$ constitutes a frequent attribute set.
-The iceberg concept lattice of a context $\mathbb{K}$ comprises all such frequent concepts.
+Let $\mathtt{min\_supp} \in [0,1]$ denote a minimum support threshold. 
+An attribute set $B \subseteq M$ is considered frequent if $$\operatorname{supp}(B) = \frac{\left| B' \right|}{\left| G \right|}$$ meets or exceeds $\mathtt{min\_supp}$. 
+A concept $(A,B)$ is retained in the iceberg concept lattice if its intent $B$ is frequent.
+
+Intuitively, this restriction preserves only those topic combinations that characterize at least $\mathtt{min\_supp} \times 100\%$ documents of the corpus. 
+The choice of $\mathtt{min\_supp}$ directly influences the granularity of the resulting hierarchy.
+Figure~\ref{fig:concepts_support} shows the relationship between the minimum support threshold and the number of extracted concepts for the BankSearch dataset. 
+% Based on this analysis, we select $\mathtt{min\_supp} = 0.05$, yielding 30 concepts while maintaining interpretability.
+
 %  (cf. Figure~\ref{fig:titanic}).
 % \displayTITANIC{}
-
-Intuitively, this restriction retains only those document-topic combinations where the topic set is representative of at least $\mathtt{min\_supp} \times 100\%$ of the corpus.
-The choice of minimum support significantly influences the granularity of the extracted hierarchy. 
-Figure~\ref{fig:concepts_support} demonstrates this relationship for the BankSearch dataset.
-Based on this analysis, we select $\texttt{min\_supp} = 0.05$ to balance hierarchy richness with conceptual interpretability, yielding approximately 30 concepts for the BankSearch dataset.
-% The resulting iceberg concept lattice is visualized in Figure~\ref{fig:iceberg_concept_lattice}.
-
 
 \begin{figure}[htbp]
     \centering
     \includesvg[width=0.7\textwidth]{resources/banksearch/topic_model/plots/concepts_vs_support.svg}
-    \caption{Number of concepts in the iceberg lattice as a function of minimum support threshold for the BankSearch dataset. The curve exhibits the expected monotonic decrease, with support values below 0.15 yielding fewer than 10 concepts. We select $\mathtt{min\_supp} = 0.05$, resulting in approximately 30 concepts.}
+    \caption{Number of concepts in the iceberg concept lattice for differnt minimum support threshold values for the BankSearch dataset. We select $\mathtt{min\_supp} = 0.05$, resulting in approximately 30 concepts.}
     \label{fig:concepts_support}
 \end{figure}
 
