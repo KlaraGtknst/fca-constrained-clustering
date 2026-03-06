@@ -63,10 +63,10 @@ Both Hasse diagrams are plotted and saved running `src/context_comparison/run_cl
 Additional statistics are also generated when running that file.
 
 Topic Model Iceberg Lattice of the BankSearch Dataset with min-support of 0.05:
-![Iceberg Concept Lattice of the BankSearch Dataset with min-support of 0.05.](results/context_comparison/iceberg_context_0.05_lattice.svg)
+![Iceberg Concept Lattice of the BankSearch Dataset with min-support of 0.05.](resources/banksearch/topic_model/banksearch_0.05_iceberg.svg)
 
 Concepts Lattice of the MLB context on the BankSearch Dataset:
-![mlb_expanded_lattice.svg](results/context_comparison/mlb_expanded_lattice.svg)
+![mlb_expanded_lattice.svg](resources/banksearch/ground_truth/mlb_expanded.svg)
 
 # Comparison of the two lattices
 Run `src/context_comparison/compare_concepts.py`, `src/context_comparison/run_clj_file.py` and `src/context_comparison/explore_cxt.py`.
@@ -78,3 +78,8 @@ contexts, which is shown below. Similarity is calculated via the Jaccard similar
 ![heatmap.svg](results/context_comparison/CONCEPT_SIM/heatmap.svg)
 
 Heatmap of Jaccard similarity between both contexts (based on shared concept extents).
+
+![Coherence-Lattice](results/context_comparison/CONCEPT_SIM/coherence.svg)
+
+
+![Consistency-Lattice](results/context_comparison/intersection.svg)
