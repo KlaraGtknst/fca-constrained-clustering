@@ -1,7 +1,7 @@
 \newcommand{\hierarchyToMLB}{%
 \begin{figure}[t]
 \centering
-\resizebox{0.5\textwidth}{!}{%
+\resizebox{0.43\textwidth}{!}{%
 \begin{tikzpicture}[
   >=Latex,
   line cap=round, line join=round,
@@ -19,10 +19,10 @@
   \tikzset{
     edge/.style={draw=black, line width=2.0pt},
     onode/.style={draw=black, fill=white, line width=2.0pt},
-    lbl/.style={font=\Large},
-    biglbl/.style={font=\huge},
+    lbl/.style={font=\Huge},
+    biglbl/.style={font=\Huge},
     arrow/.style={->, draw=black, line width=2.0pt},
-    note/.style={font=\Large, anchor=west}
+    note/.style={font=\Huge, anchor=west}
   }
 
   % --- coordinates (left: hierarchy)
@@ -59,29 +59,29 @@
   % --- middle arrow "MLB =>"
   \coordinate (Astart) at (4.1,1.35);
   \coordinate (Aend)   at (7.2,1.35);
-  \node[font=\bfseries\Large] at ($(Astart)+(1.5,0.5)$) {MLB};
+  \node[font=\bfseries\Huge] at ($(Astart)+(1.5,0.5)$) {MLB};
   \draw[arrow] ($(Astart)$) -- ($(Aend)+(-0.05,-0.05)$);
 
   % --- right: list of MLB triples with colors
-  \coordinate (T) at (8.0,2.45);
+  \coordinate (T) at (8.0,3.);
   \node[note] at (T)
     {$(\textcolor{cDOne}{d_1},\textcolor{cDTwo}{d_2},\textcolor{cDThree}{d_3})$};
 
-  \node[note] at ($(T)+(0,-0.85)$)
+  \node[note] at ($(T)+(0,-1.05)$)
     {$(\textcolor{cDOne}{d_1},\textcolor{cDThree}{d_3},\textcolor{cDFour}{d_4})$};
 
-  \node[note] at ($(T)+(0,-1.70)$)
+  \node[note] at ($(T)+(0,-2.10)$)
     {$(\textcolor{cDThree}{d_3},\textcolor{cCi}{c_i},\textcolor{cDFour}{d_4})$};
 
-  \node[note] at ($(T)+(0,-2.55)$)
+  \node[note] at ($(T)+(0,-3.15)$)
     {$(\textcolor{cDOne}{d_1},\textcolor{cDTwo}{d_2},\textcolor{cCj}{c_j})$};
 
-  \node[note] at ($(T)+(0,-3.40)$)
+  \node[note] at ($(T)+(0,-4.20)$)
     {$(\textcolor{cDTwo}{d_2},\textcolor{cCi}{c_i},\textcolor{cCj}{c_j})$};
 
 \end{tikzpicture}%
 }
-\caption{Illustration of deriving \ac{mlb} constraints from a document hierarchy.}
+\caption{Valid \ac{mlb} constraints given a document hierarchy.}
 \label{fig:hierarchy_to_mlb}
 \end{figure}%
 }
