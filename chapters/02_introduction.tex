@@ -5,11 +5,11 @@
 Concept hierarchies form the backbone of expert ontologies such as WordNet~\cite{miller1990wordnet,fellbaum1998wordnet}.
 They organize hyponym relationships under a common top node~\cite{le2019inferring} and structure information into categories, thereby supporting rule formulation as well as the retrieval from and reuse of knowledge bases~\cite{cimiano_learning_2005,yang2012personalized}.
 However, the manual construction of high-quality domain-specific ontologies is costly and typically reflects only a snapshot of evolving knowledge~\cite{li2018unsupervised}.
-Although manually curated ontologies are often regarded as the gold standard, automatic generation is desirable to reduce time and cost~\cite{risch2020hierarchical}.
+Although manually curated ontologies are often regarded as the gold standard, automatic generation is desirable to reduce time and cost~\cite{risch2020hierarchical,Hassan2025ReducingFC}.
 
 Automatic concept hierarchy generation provides a scalable alternative and enables coverage of domains not represented in existing ontologies.
 Approaches range from pattern-based methods~\cite{le2019inferring}, such as Hearst patterns~\cite{hearst1992hyponyms}, to \acl{nlp}-based techniques that extract latent information from text and represent it in the form of binary object-attribute matrices, which can then be analyzed using \ac{fca}~\cite{cimiano_learning_2005}.
-Unlike traditional similarity-based approaches, \ac{fca}-based concept hierarchy generation can be viewed as a form of conceptual clustering that yields intensional descriptions of abstract concepts~\cite{cimiano_learning_2005}.
+Unlike traditional similarity-based clustering approaches, \ac{fca}-based concept hierarchy generation can be viewed as a form of conceptual clustering~\cite{Cimiano2004ComparingCD} that yields intensional descriptions of abstract concepts~\cite{cimiano_learning_2005}.
 
 Despite their scalability, automatically generated hierarchies may conflict with established expert ontologies, potentially reducing trust in either source.
 Ensuring consistency with hierarchical background knowledge therefore requires mechanisms that guide and constrain the generation process.
