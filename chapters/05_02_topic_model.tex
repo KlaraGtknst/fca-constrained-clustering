@@ -1,27 +1,35 @@
+\input{chapters/extras/topic_model_vis.tex}
 
 \subsection{Topic Model}
 \label{sec:topic_model}
-The topic-model-based method comprises four main stages: topic model construction, document–topic incidence matrix formation, and concept filtering via TITANIC \cite{gutekunst2025conceptual}.
+The data-driven topic-model-based approach involves three steps: constructing a topic model, building a document–topic incidence, and filtering concepts via TITANIC~\cite{gutekunst2025conceptual}.
 
-% We employed external knowledge bases such as 
-% % WordNet~\cite{fellbaum2010wordnet} and 
-% topic models~\cite{gutekunst2025conceptual} for enriching the dataset with categories.
+\subsubsection{Topic Model Construction}
+A topic model is a generative model for documents, where documents are mixtures of $K$ topics and topics are mixtures of words (i.e., multinomial distribution over a word vocabulary).
+Topic models rely on the bag-of-words assumption, i.e., ignoring the order of words.
+We employed \texttt{gensim}'s \ac{lda}\footnote{\url{https://radimrehurek.com/gensim/models/ldamodel.html} (30.12.2025)}.
+\ac{lda} is a widely used unsupervised statistical bayesian topic model~\cite{alghamdi_survey_2015}.
+For a corpus of $N$ documents, \ac{lda} produces a document-topic distribution matrix $\Theta \in \mathbb{R}^{N \times K}$, where $K$ is the number of topics and $\theta_{ij}$ represents the probability that document $i$ is associated with topic $j$.
 
-% \input{chapters/03_knowledge_extraction/wordnet.tex}
-\input{chapters/03_knowledge_extraction/topic_models.tex}
+To construct the formal context, document-topic probabilities are binarized using a threshold $\delta$. 
+To select an appropriate threshold, we analyze how different threshold values affect the resulting incidence density. 
+Figure~\ref{fig:incidence_density} illustrates this relationship for the BankSearch dataset.
 
-\subsubsection{Formal Context Construction}
+\begin{figure}[t]
+    \centering
+    \includesvg[width=0.7\textwidth]{results/lda/incidence_density_vs_threshold.svg}
+    \caption{\ac{lda} document-topic incidence density for different threshold $\delta$ values for the BankSearch dataset. The elbow criterion suggests an optimal threshold around 0.05, yielding an incidence density slightly above 0.2.}
+    \label{fig:incidence_density}
+\end{figure}
 
-The binary incidence relation $I$ defines a formal context $\mathbb{K} = (G, M, I)$, where $G$ is the set of documents (i.e., objects), $M$ is the set of topics (i.e., attributes), and $I$ specifies which topics apply to which documents. 
-To validate the quality of our topic model-derived context, we compare it against ground truth labels when available. 
-% Figure~\ref{fig:context_comparison} presents a comparative analysis of the incidence properties.
 
-% \begin{figure}[htbp]
-%     \centering
-%     \includesvg[width=0.8\textwidth]{resources/banksearch/fca_contexts_comparison_stats.svg}
-%     \caption{Comparison of ground truth document-topic incidence and topic model-derived incidence for the BankSearch dataset. The comparison includes metrics such as incidence density, coverage, and topic distribution statistics.\todo{Use table not image}}
-%     \label{fig:context_comparison}
-% \end{figure}
+\subsubsection{Document–Topic Incidence}
+Given threshold $\delta$, document $d$ is assigned topic $t$ if and only if $\theta_{dt} \geq \delta$. 
+As displayed in Figure~\ref{fig:doc_topic_inc}, this yields a binary incidence relation $I \subseteq D \times T$, where $(d,t) \in I$ if and only if topic $t$ is sufficiently representative of document $d$. 
+The threshold $\delta$ controls the sparsity of the resulting formal context; lower values produce denser contexts with more document-topic associations, while higher values yield sparser contexts with only the most dominant topics retained.
+The binary incidence relation $I$ defines a formal context $\mathbb{K} = (G, M, I)$, where $G$ is the set of documents (i.e., objects), $M$ is the set of topics (i.e., attributes), and $I$ specifies which topics apply to which documents.       
+
+\docTopicInc{}
 
 \subsubsection{Concept Filtering via TITANIC}
 

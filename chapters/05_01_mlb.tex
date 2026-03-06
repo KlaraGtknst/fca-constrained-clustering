@@ -5,13 +5,13 @@ In the following, we prove that \ac{mlb} constraints induce a valid closure oper
 
 \subsubsection{Theoretical Analysis of MLB Constraints}
 % \label{sec:theoretical_analysis}
-Let $G$ be the set of documents. A set of \ac{mlb} constraints is given as $\Sigma \subseteq G \times G \times G$. A constraint~\eqref{eq:mlb_xyz} $(x, y, z) \in \Sigma$ dictates a hierarchical dependency: if documents $x$ and $z$ are grouped together in a cluster, $y$ must also be included.
+Let $G$ be the set of documents. A set of \ac{mlb} constraints is given as $\Sigma \subseteq G \times G \times G$. A constraint $(d_x, d_y, d_z) \in \Sigma$ (cf.~\eqref{eq:mlb_xyz}) expresses a hierarchical dependency: whenever documents $d_x$ and $d_z$ occur together in a cluster, $d_y$ must also belong to that cluster.
 
 \subsubsection{MLB Constraints as a Closure Operator}
 To utilize \ac{fca}, we must first establish that these constraints define a closure system.
 
 \begin{definition}[$\Sigma$-Consistency]
-A subset $A \subseteq G$ is called $\Sigma$-consistent (or valid) if for all $(x, y, z) \in \Sigma$, the condition $\{x, z\} \subseteq A \implies y \in A$ holds.
+A subset $A \subseteq G$ is called $\Sigma$-consistent (or valid) if for all $(d_x, d_y, d_z) \in \Sigma$, the condition $\{d_x, d_z\} \subseteq A \implies d_y \in A$ holds.
 \end{definition}
 
 \begin{theorem}
@@ -21,7 +21,7 @@ The mapping $\phi_{\Sigma}: \mathcal{P}(G) \to \mathcal{P}(G)$, which maps any s
 \begin{proof}
 Let $\mathcal{S}_{\Sigma}$ be the family of all $\Sigma$-consistent subsets of $G$. The set $G$ itself is trivially $\Sigma$-consistent (as it contains all elements). Furthermore, the intersection of any family of $\Sigma$-consistent sets is also $\Sigma$-consistent:
 Let $\{C_i\}_{i \in I}$ be a family of sets where each $C_i \in \mathcal{S}_{\Sigma}$. Let $D = \bigcap_{i \in I} C_i$.
-Suppose $\{x, z\} \subseteq D$ for some constraint $(x, y, z) \in \Sigma$. By definition of intersection, $\{x, z\} \subseteq C_i$ for all $i \in I$. Since each $C_i$ is consistent, $y \in C_i$ for all $i \in I$. Consequently, $y \in D$. Thus, $D$ is $\Sigma$-consistent.
+Suppose $\{d_x, d_z\} \subseteq D$ for some constraint $(d_x, d_y, d_z) \in \Sigma$. By definition of intersection, $\{d_x, d_z\} \subseteq C_i$ for all $i \in I$. Since each $C_i$ is $\Sigma$-consistent, $d_y \in C_i$ for all $i \in I$. Consequently, $d_y \in D$. Thus, $D$ is $\Sigma$-consistent.
 
 Since $\mathcal{S}_{\Sigma}$ is closed under arbitrary intersection, it forms a \emph{closure system}. The associated operator defined by $\phi_{\Sigma}(A) = \bigcap \{ S \in \mathcal{S}_{\Sigma} \mid A \subseteq S \}$ satisfies the axioms of a closure operator (extensivity, monotonicity, and idempotence).
 \qed
@@ -55,4 +55,5 @@ Consequently, the lattice contains every cluster of every possible hierarchy tha
 \qed
 \end{proof}
 
-This implies that the concept lattice $\underline{\mathfrak{B}}(\mathbb{K}_{\Sigma})$ constitutes the exact search space for constrained hierarchical clustering. Reducing the lattice to a specific dendrogram is possible by selecting a sub-order that satisfies the tree property (nestedness), for example, by prioritizing concepts with higher stability or topic coherence.
+This implies that the concept lattice $\underline{\mathfrak{B}}(\mathbb{K}_{\Sigma})$ constitutes the exact search space for constrained hierarchical clustering. Reducing the lattice to a specific dendrogram is possible by selecting a sub-order that satisfies the second condition of \autoref{def:valid_hierarchy}, % tree property (nestedness), 
+for example, by prioritizing concepts with higher stability or topic coherence.
