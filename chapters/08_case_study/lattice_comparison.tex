@@ -39,13 +39,12 @@ This reduction in structure is expected due to the pruning effect of the iceberg
 
 \begin{figure}[hbt]
     \centering
-    \includesvg[width=0.55\textwidth]{results/context_comparison/CONCEPT_SIM/heatmap.svg}
+    \includesvg[width=0.64\textwidth]{results/context_comparison/CONCEPT_SIM/heatmap.svg}
     \caption{Pairwise Jaccard similarities between concept extents of the \ac{mlb}-constrained lattice and the topic model-based iceberg lattice. Apart from the trivial similarity of the top concepts, most pairs exhibit near-zero similarity.}
     \label{fig:concept_lattice_similarity}
 \end{figure}
 
 % Glckstad2013UnsupervisedKS use Jaccard for overlapping intents
-
 To assess whether both lattices capture similar document clusters, we compute the Jaccard similarity~\cite{Glckstad2013UnsupervisedKS} between all pairs of concept extents. 
 For extents $A$ and $B$, the similarity is defined as $J(A,B) = \frac{|A \cap B|}{|A \cup B|}$.
 Figure~\ref{fig:concept_lattice_similarity} visualizes the resulting similarities. 
