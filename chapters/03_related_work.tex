@@ -10,10 +10,10 @@ Approaches range from regularization-based classifiers~\cite{gopal2013recursive}
 
 %% 1.2. FCA-based data-driven approaches
 Beyond classification-based approaches, research has explored deriving concept hierarchies directly from textual data using \ac{fca}. 
-Since \ac{fca}-based concept hierarchy generation can be viewed as a form of conceptual clustering that yields intensional descriptions of abstract concepts through their intents~\cite{cimiano_learning_2005}, it provides a natural framework for constructing hierarchies from document collections.
+Since \ac{fca}-based concept hierarchy generation can be viewed as a form of conceptual clustering that yields intensional descriptions of abstract concepts through their intents~\cite{cimiano_learning_2005}, it provides a natural framework for constructing \textcolor{orange}{interpretable} hierarchies from document collections.
 %% Text corpus as formal context: We use gutekunst2025conceptual, but with LDA instead of top2vec
 In these approaches, a text corpus is represented as a formal context in which documents form the objects and features extracted from textual data serve as attributes.
-Different methods have been proposed to derive such features, including bag-of-words representations capturing the presence of terms~\cite{cigarran_twitter_fca_2016}, \ac{lda}-based topic features~\cite{wang_topic_feature_2021,wang_topic_hierarchy_2023} or other topic model-based representations~\cite{hirth_ordinal_2024,gutekunst2025conceptual,Aznag2014LeveragingFC}. % hirth_ordinal_2024 uses own trained topic model refered to as SSH21, but is something trained using non-negative matrix factorization, gutekunst2025conceptual use top2vec, Aznag2014LeveragingFC: compared LDA, CTM, PLSA (found LDA to be best)
+Different methods have been proposed to derive such features, including bag-of-words representations capturing the presence of terms~\cite{cigarran_twitter_fca_2016}, \ac{lda}-based topic features~\cite{wang_topic_feature_2021,wang_topic_hierarchy_2023} or other topic model-based representations~\cite{Aznag2014LeveragingFC,gutekunst2025conceptual,hirth_ordinal_2024}. % hirth_ordinal_2024 uses own trained topic model refered to as SSH21, but is something trained using non-negative matrix factorization, gutekunst2025conceptual use top2vec, Aznag2014LeveragingFC: compared LDA, CTM, PLSA (found LDA to be best)
 
 \subsubsection{Knowledge-Driven Approaches}
 % 2. Knowledge-based concept hierarchy generation
@@ -40,10 +40,10 @@ These \ac{mlb} constraints encode the order in which objects should be merged du
 % 2.2. Constrained and Knowledge-Guided FCA
 Several works also investigate incorporating constraints or expert knowledge directly into \ac{fca}.
 % constrained FCA != we use MLB constraints
-Constraints have been used, for example, to encode mutually exclusive attributes~\cite{hidayat_constrained_fca_2024},
+Constraints have been used, for example, to encode mutually exclusive attributes~\cite{hidayat_constrained_fca_2024}
 % we use support, i.e., the number of objects sharing a set of attributes, while belohlavek2009formal define importance directly on attributes, or belohlavek2006formal constrain closure operators, or mao_constrained_fca_2017 define a operator S (!= closure operator) to determine interesting attribute sets
-prune the concept lattice to retain only concepts whose intents are considered important. %~\cite{belohlavek2006formal,belohlavek2009formal,mao_constrained_fca_2017}.
-These approaches differ in how importance is defined, for example through attribute properties~\cite{belohlavek2009formal}, constraints on the closure operator~\cite{belohlavek2006formal}, or additional operators~\cite{mao_constrained_fca_2017}.
+or to prune the concept lattice to retain only concepts whose intents are considered important. %~\cite{belohlavek2006formal,belohlavek2009formal,mao_constrained_fca_2017}.
+The latter approaches differ in how importance is defined, for example through attribute properties~\cite{belohlavek2009formal,hidayat_constrained_fca_2024}, constraints on the closure operator~\cite{belohlavek2006formal}, or additional operators~\cite{mao_constrained_fca_2017}.
 % Attribute Exploration with contradicting experts: != we do not only have shared implications but also some-what shared (i.e., coherence lattice)
 Beyond constraint-based pruning, research has also explored extending Attribute Exploration to settings with multiple, potentially contradicting or incomplete experts.
 These extensions aim to derive implications that are shared across different subsets of experts~\cite{felde2021triadic,felde2022attribute}.
