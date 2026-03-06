@@ -1,12 +1,11 @@
-\subsection{Computation of Constraint-Informed Concept Lattices}
+\subsection{Hierarchical Constraint-Informed Concept Lattices}
 \label{sec:constrained_latticed}
 
-In this section, we first provide the theoretical foundation, proving that \ac{mlb} constraints induce a valid closure operator and that the resulting lattice encapsulates the search space of all valid dendrograms. Subsequently, we present our algorithm for the efficient computation of this structure, utilizing an on-the-fly irreducibility check and an alternating closure composition.
+In the following, we prove that \ac{mlb} constraints induce a valid closure operator and that the resulting lattice encapsulates the search space of all valid dendrograms. 
 
 \subsubsection{Theoretical Analysis of MLB Constraints}
-\label{sec:theoretical_analysis}
-
-Let $G$ be the set of documents. A set of \ac{mlb} constraints is given as $\Sigma \subseteq G \times G \times G$. A constraint $(x, y, z) \in \Sigma$ dictates a hierarchical dependency: if documents $x$ and $z$ are grouped together in a cluster, $y$ must also be included.
+% \label{sec:theoretical_analysis}
+Let $G$ be the set of documents. A set of \ac{mlb} constraints is given as $\Sigma \subseteq G \times G \times G$. A constraint~\eqref{eq:mlb_xyz} $(x, y, z) \in \Sigma$ dictates a hierarchical dependency: if documents $x$ and $z$ are grouped together in a cluster, $y$ must also be included.
 
 \subsubsection{MLB Constraints as a Closure Operator}
 To utilize \ac{fca}, we must first establish that these constraints define a closure system.
