@@ -2,34 +2,23 @@
 \subsection{\acl{mlb} Constraints}
 \label{sec:foundations_mlb}
 
-The purpose of clustering is to structure data without any class labels.
-This is especially useful in real world applications since data often lacks labels and the annotation process is expensive.
-% Partitional clustering groups data points into clusters based on a similarity measure~\cite{bade_hierarchical_2014}.
-% With hard clustering, each data point belongs to only one cluster, while soft clustering allows membership to multiple clusters~\cite{schutz_comprehensive_2023}.
-% 
-Clustering algorithms group data points based on different criteria into clusters.
-The overall goal is to minimize the intra-cluster distances and maximize the inter-cluster distances.
-Prior knowledge about the dataset can be modelled as constraints. %~\cite{bade_hierarchical_2014}.
-The simplest constraints are pairwise \textit{must-link} and \textit{cannot-link} constraints.
-% Pairwise constraints can be either instance-based or metric-based.
-% Instance-based constraints directly the clustering algorithm by enforcing constraints on their instance pairs.
-% They can be hard or soft, allowing different degrees of constraint violation.
-% Metric-based constraints map the constraints to the distance metric or similarity measure of the clustering algorithm.
-Pairwise constraints are limited to partitional clustering.
-% \subsubsection{Hierarchical clustering}
-Opposed to partitional clustering, hierarchical clustering groups the data on different levels of granularity~\cite{bade_hierarchical_2014}.
-% Hence, partitional clustering is a special case of hierarchical clustering with one level of granularity.
-So-called \ac{mlb} constraints introduce prior knowledge into hierarchical clustering.
-A \ac{mlb} constraint
+Clustering structures data without predefined class labels, which is particularly useful in real-world applications where labeled data is scarce and annotation is costly. 
+Clustering algorithms group data points according to a similarity criterion, typically minimizing intra-cluster distances while maximizing inter-cluster distances.
+Prior knowledge about the dataset can be incorporated through constraints. 
+The simplest forms are pairwise \textit{must-link} and \textit{cannot-link} constraints, enforcing that two instances must or must not belong to the same cluster. 
+However, such pairwise constraints mainly apply to partitional clustering.
+
+Hierarchical clustering instead organizes data at multiple levels of granularity~\cite{bade_hierarchical_2014}. 
+To encode prior knowledge in this setting, \ac{mlb} constraints specify the relative agglomeration order of three data points. 
+An \ac{mlb} constraint
 \begin{eqnarray}
     MLB_{x y z} = (d_x, d_y, d_z)
     \label{eq:mlb_xyz}
 \end{eqnarray}
-specifies an agglomerating order on three data points $d_x, d_y, d_z$.
-Symmetry applies for the first two elements.
-For the \ac{mlb} constraint in \eqref{eq:mlb_xyz} both \autoref{def:mlb_implication} and \autoref{def:mlb_counterexample} must hold true.
-This means that the must-link constraint between the first and second item is stronger than that between the first and third item.
-We illustrated the resulting \ac{mlb} constraints on a small toy example in \autoref{fig:hierarchy_to_mlb}.
+states that $d_x$ and $d_y$ should be merged before either is merged with $d_z$ ($d_x$ and $d_y$ are symmetric). 
+Formally, both \autoref{def:mlb_implication} and \autoref{def:mlb_counterexample} must hold, expressing that the must-link relation between $d_x$ and $d_y$ is stronger than that between $d_x$ and $d_z$. 
+\autoref{fig:hierarchy_to_mlb} illustrates valid \ac{mlb} constraints given a toy example.
+
 \begin{definition}[\ac{mlb} Implication]
     \label{def:mlb_implication}\\
     Given \ac{mlb} constraint $MLB_{x y z}$:
