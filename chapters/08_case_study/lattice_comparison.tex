@@ -9,34 +9,13 @@ Furthermore, while the ground truth lattice in Figure~\ref{fig:mlb_concept_latti
 Consequently, it includes only those concepts whose intents satisfy a minimum support threshold of $0.05$, thereby excluding the most specific concepts. 
 This restriction is necessary due to the size of the full topic model-based lattice, which contains more than $590$ concepts (cf. Figure~\ref{fig:concepts_support}) and would therefore be impractical to visualize and interpret in its entirety.
 
-% \begin{figure}[htbp]
-%     \centering
-%     \includegraphics[width=0.6\textwidth]{resources/banksearch/ground_truth/mlb_expanded.pdf}
-%     \caption{\ac{mlb}-constrained document-topic concept lattice for the BankSearch dataset. Top labels denote attribute names while bottom labels indicate the number of documents in the concept extent.}
-%     \label{fig:mlb_concept_lattice}
-% \end{figure}
-
-\begin{figure}[htbp]
-\centering
-
-\begin{subfigure}{0.35\textwidth}
+\begin{figure}[t]
     \centering
-    \includegraphics[width=1\textwidth]{resources/banksearch/ground_truth/mlb_expanded.pdf}
-    \caption{\ac{mlb}-constrained concept lattice.}
+    \includegraphics[width=0.6\textwidth]{resources/banksearch/ground_truth/mlb_expanded.pdf}
+    \caption{\ac{mlb}-constrained concept lattice. Top labels denote attribute names while bottom labels indicate the number of documents in the concept extent.}
     \label{fig:mlb_concept_lattice}
-\end{subfigure}
-\hfill
-\begin{subfigure}{0.55\textwidth}
-    \centering
-    \includesvg[width=1\textwidth]{results/context_comparison/iceberg_context_0.05_lattice.svg}
-    \caption{Iceberg topic model concept lattice.}
-    \label{fig:iceberg_concept_lattice}
-\end{subfigure}
-
-\caption{Top labels denote attribute names while bottom labels indicate the number of documents in the concept extent.}
-\label{fig:mlb_tm_lattices}
-
 \end{figure}
+
 
 In Figure~\ref{fig:mlb_concept_lattice}, the ground truth lattice attributes are denoted by $M_i$, which results from the script constructing the formal context based on the \ac{mlb} constraints. 
 In total, 14 attributes are present. 
@@ -45,12 +24,12 @@ The remaining ground truth topics are represented as intersections of attributes
 For example, \texttt{Sport} corresponds to $M0 \cap M1$, while its original child topics \texttt{Soccer} and \texttt{Motor Racing} correspond to the attribute combinations $M1 \cap M2$ and $M0 \cap M2$, respectively. 
 Overall, the original ground truth topics (except for $M3$ and $M4$) are located on the lowest level directly above the bottom node of the lattice.
 
-% \begin{figure}[htbp]
-%     \centering
-%     \includesvg[width=0.8\textwidth]{results/context_comparison/iceberg_context_0.05_lattice.svg}
-%     \caption{Iceberg concept lattice for $\mathtt{min\_supp} = 0.05$ for the BankSearch dataset, resulting in 30 concepts. Top labels denote attribute names while bottom labels indicate the number of documents in the concept extent.}
-%     \label{fig:iceberg_concept_lattice}
-% \end{figure}
+\begin{figure}[b]
+    \centering
+    \includesvg[width=0.8\textwidth]{results/context_comparison/iceberg_context_0.05_lattice.svg}
+    \caption{Iceberg topic model concept lattice. Top labels denote attribute names while bottom labels indicate the number of documents in the concept extent.}
+    \label{fig:iceberg_concept_lattice}
+\end{figure}
 
 The topic model-based lattice shown in Figure~\ref{fig:iceberg_concept_lattice} contains 30 concepts with support of at least $0.05$. 
 Concepts are labeled by the topic IDs contained in their intents. 
@@ -59,7 +38,7 @@ In contrast to the \ac{mlb}-informed concept lattice, the original topics are no
 Structurally, the iceberg lattice consists of only two levels besides the top node. 
 Consequently, it exhibits substantially less hierarchical structure than the ground truth lattice, which is expected due to the pruning effect introduced by the iceberg constraint.
 
-\begin{figure}[htbp]
+\begin{figure}[t]
     \centering
     \includesvg[width=0.6\textwidth]{results/context_comparison/CONCEPT_SIM/heatmap.svg}
     \caption{Heatmap of pairwise Jaccard similarities between concept extents of the ground truth lattice and the topic model-based iceberg lattice for the BankSearch dataset. Apart from the trivial similarity of the top concepts, most concept pairs exhibit near-zero similarity, indicating minimal structural overlap between the two lattices.}
@@ -80,7 +59,7 @@ The gold-label concepts from the most coherent concepts in Table~\ref{tab:concep
 Overall, this analysis indicates that the two lattices exhibit very limited structural similarity, which is expected given the differences in the underlying data as well as the iceberg restriction applied to the topic model-based lattice.
 
 
-\begin{table}[htbp]
+\begin{table}[b]
 \centering
 \caption{Concept pairs with Jaccard similarity above $0.6$, where $A'$ denotes the gold-label concept intent and $B'$ the topic model-based concept intent.}
 \label{tab:concept_jaccard_similarity}
