@@ -5,12 +5,12 @@
 % 1. Data-driven concept hierarchy generation from text corpora
 %% 1.1. Non-FCA data-driven approaches
 Automatic concept hierarchy generation from text corpora has been approached in various ways.
-Hierarchical text classification assigns documents one or more labels organized in a taxonomy~\cite{yu2022constrained}, which implicitly creates a hierarchical structure of documents based on their assigned labels. 
+Hierarchical text classification assigns documents one or more labels organized in a taxonomy~\cite{yu2022constrained}, implicitly creating a hierarchical structure of documents.
 Approaches range from regularization-based classifiers~\cite{gopal2013recursive}, similarity-based matching of documents and labels in a common embedding space~\cite{li2019hiercon} to neural sequence models~\cite{risch2020hierarchical,yu2022constrained} and recent \acl{llm}-assisted taxonomy enrichment~\cite{zhang2025teleclass}.
 
 %% 1.2. FCA-based data-driven approaches
-Beyond classification-based approaches, research has explored deriving concept hierarchies directly from textual data using \ac{fca}. 
-Since \ac{fca}-based concept hierarchy generation can be viewed as a form of conceptual clustering that yields intensional descriptions of abstract concepts through their intents~\cite{cimiano_learning_2005}, it provides a natural framework for constructing \textcolor{orange}{interpretable} hierarchies from document collections.
+Beyond classification-based approaches, research has explored deriving concept hierarchies directly from textual data using \ac{fca}.
+Since \ac{fca}-based hierarchy generation can be viewed as conceptual clustering that yields intensional descriptions of abstract concepts via their intents~\cite{cimiano_learning_2005}, it provides a natural framework for constructing \textcolor{orange}{interpretable} hierarchies from document collections.
 %% Text corpus as formal context: We use gutekunst2025conceptual, but with LDA instead of top2vec
 In these approaches, a text corpus is represented as a formal context in which documents form the objects and features extracted from textual data serve as attributes.
 Different methods have been proposed to derive such features, including bag-of-words representations capturing the presence of terms~\cite{cigarran_twitter_fca_2016}, \ac{lda}-based topic features~\cite{wang_topic_feature_2021,wang_topic_hierarchy_2023} or other topic model-based representations~\cite{Aznag2014LeveragingFC,gutekunst2025conceptual,hirth_ordinal_2024}. % hirth_ordinal_2024 uses own trained topic model refered to as SSH21, but is something trained using non-negative matrix factorization, gutekunst2025conceptual use top2vec, Aznag2014LeveragingFC: compared LDA, CTM, PLSA (found LDA to be best)
@@ -20,8 +20,7 @@ Different methods have been proposed to derive such features, including bag-of-w
 While the above approaches derive hierarchical structures directly from data, other work incorporates prior knowledge or expert constraints to guide the hierarchy construction process.
 % 2.1. Constrained Hierarchical Clustering -> explain MLB constraints
 %% clustering with constraints
-In constrained clustering, prior knowledge about the dataset is typically expressed through constraints. 
-The simplest constraints are pairwise \textit{must-link} and \textit{cannot-link} constraints.
+In constrained clustering, prior knowledge is typically expressed through constraints, most commonly pairwise \textit{must-link} and \textit{cannot-link} constraints.
 % , which require objects to be in the same or different clusters, respectively.
 Conventional constrained clustering methods usually operate on a single level of granularity~\cite{wagstaff2001constrained}.
 %% limits of pairwise constraints: hierarchical clustering
@@ -48,5 +47,5 @@ The latter approaches differ in how importance is defined, for example through a
 Beyond constraint-based pruning, research has also extended Attribute Exploration to settings with multiple, potentially contradictory or incomplete experts, aiming to derive implications shared across different subsets of experts~\cite{felde2021triadic,felde2022attribute}.
 
 %% Our work
-However, prior work has incorporated hierarchical \ac{mlb} constraints primarily into traditional clustering approaches and not into \ac{fca}-based hierarchy construction.
+However, prior work incorporates hierarchical \ac{mlb} constraints mainly into traditional clustering approaches rather than \ac{fca}-based hierarchy construction.
 To the best of our knowledge, no prior work systematically compares concept lattices derived from data-driven probabilistic topic models with those obtained from constraint-based hierarchical knowledge bases.
