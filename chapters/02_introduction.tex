@@ -10,7 +10,7 @@ Although manually curated ontologies are often regarded as the gold standard, au
 Automatic concept hierarchy generation provides a scalable alternative and enables coverage of domains not represented in existing ontologies.
 Approaches range from pattern-based methods~\cite{le2019inferring}, such as Hearst patterns~\cite{hearst1992hyponyms}, to \acl{nlp}-based techniques that extract latent information from text and represent it in the form of binary object-attribute matrices, which can then be analyzed using \ac{fca}~\cite{cimiano_learning_2005}.
 \ac{fca}-based concept hierarchy generation can be viewed as a form of conceptual clustering~\cite{Cimiano2004ComparingCD} that yields intensional descriptions of abstract concepts through their intents~\cite{cimiano_learning_2005}. 
-\textcolor{orange}{Since each concept is characterized by an explicit set of shared attributes, the resulting hierarchy provides transparent, attribute-based explanations of the relationships between concepts, making \ac{fca}-based hierarchies inherently interpretable compared to similarity-based clustering methods}.
+Since each concept is characterized by an explicit set of shared attributes, the resulting hierarchy provides transparent, attribute-based explanations of the relationships between concepts, making \ac{fca}-based hierarchies inherently interpretable compared to similarity-based clustering methods.
 
 Despite their scalability, automatically generated hierarchies may conflict with established expert ontologies, potentially reducing trust in either source.
 Ensuring consistency with hierarchical background knowledge therefore requires mechanisms that guide and constrain the generation process.
@@ -19,7 +19,7 @@ Existing approaches (Section~\ref{sec:related_work}) include human-in-the-loop s
 % Besides presentation purposes, \ac{fca} has been employed to identify potentially missing thesaurus entries in a specific expert ontology~\cite{zheng2020lexical,hao2021leveraging}. 
 
 To date, the systematic integration of hierarchical background knowledge into \ac{fca}-based concept hierarchy generation through \ac{mlb} constraints has received limited attention.
-We address this gap by incorporating \ac{mlb} constraints into the \ac{fca} framework to guide the construction of concept hierarchies (Section~\ref{sec:method}),\footnote{The code is available at \url{github.com/KlaraGtknst/fca-constrained-clustering}} \textcolor{orange}{thereby extending prior work that incorporates pairwise constraints}~\cite{belohlavek2011selecting}.
+We address this gap by incorporating \ac{mlb} constraints into the \ac{fca} framework to guide the construction of concept hierarchies (Section~\ref{sec:method}),\footnote{The code is available at \url{github.com/KlaraGtknst/fca-constrained-clustering}} thereby extending prior work that incorporates pairwise constraints~\cite{belohlavek2011selecting}.
 In addition, we present a case study (Section~\ref{sec:case_study}) in which a concept lattice generated under \ac{mlb} constraints is compared to a concept lattice derived from an independent knowledge source using corpus-specific statistical topic modeling. 
 The comparison is conducted across different levels of coherence, giving rise to the \textit{consistency} and \textit{coherence} lattices.
 
