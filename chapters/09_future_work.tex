@@ -8,7 +8,7 @@ In our case, no non-trivial document clusters are shared exactly between the two
 In contrast, the coherence-lattice allows partial overlap between concept extents by introducing a similarity threshold. 
 The resulting lattice therefore captures document clusters that are largely shared between the two lattices, even when they do not coincide perfectly. 
 The number of documents contained in coherence-lattice concepts provides an indication of the degree of agreement between the knowledge bases.
-The \ac{mlb}-constrained lattice is derived from manually annotated labels and thus represents a high-precision conceptualization of the domain, albeit with limited hierarchical structure. 
+The \ac{mlb}-constrained lattice is derived from manually annotated labels and thus represents a high-precision conceptualization of the domain. 
 By contrast, the knowledge base underlying the topic model-based lattice is data-driven and reflects statistical patterns in the document corpus, which may also include artefacts caused by noise or biases in the data.
 
 Overall, the results suggest that practical knowledge integration requires tolerating a certain degree of inconsistency while maintaining sufficient coherence. The appropriate similarity threshold depends on the application domain: safety-critical areas such as medicine may require higher thresholds to ensure reliable knowledge alignment, whereas exploratory analysis may benefit from lower thresholds that allow broader, though less precise, overlaps.

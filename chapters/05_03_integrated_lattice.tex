@@ -27,4 +27,4 @@ Instead of generating all closed sets and filtering them post-hoc, we employ an 
 If $I_{sup}(A) = A$, then $A$ is the intersection of its upper neighbors and thus \textbf{reducible}. If $I_{sup}(A) \supset A$, then $A$ is \textbf{irreducible}. This approach allows us to discard redundant concepts immediately upon generation, significantly reducing memory overhead.
 
 The resulting set of irreducible extents $\{E_1, \dots, E_k\}$ forms the attribute set of the final, knowledge-integrated formal context $$\mathbb{K}_{merged} = (G, \{m_1, \dots, m_k\}, I_{merged}),$$ where $g \, I_{merged} \, m_i \iff g \in E_i$.
-We denote the concept lattice derived from $\mathbb{K}_{merged}$ as the \textit{consistency}-lattice, as it represents the hierarchy of concepts that are consistent with both the expert knowledge and the empirical data.
+We denote the concept lattice derived from $\mathbb{K}_{merged}$ as the \textit{consistency}-lattice, as it represents the hierarchy of concepts that are consistent with both the expert and data-driven knowledge.

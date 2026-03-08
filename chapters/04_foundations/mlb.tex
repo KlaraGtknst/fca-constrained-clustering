@@ -6,7 +6,7 @@ Clustering structures data without predefined class labels, which is particularl
 Clustering algorithms group data points according to a similarity criterion, typically minimizing intra-cluster distances while maximizing inter-cluster distances.
 Prior knowledge about the dataset can be incorporated through constraints. 
 The simplest forms are pairwise \textit{must-link} and \textit{cannot-link} constraints, enforcing that two instances must or must not belong to the same cluster. 
-However, such pairwise constraints mainly apply to partitional clustering.
+However, pairwise constraints generally apply only at a level of granularity.
 
 Hierarchical clustering instead organizes data at multiple levels of granularity~\cite{bade_hierarchical_2014}. 
 To encode prior knowledge in this setting, \ac{mlb} constraints specify the relative agglomeration order of three data points. 
