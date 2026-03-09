@@ -96,20 +96,28 @@ def plot_incidence_density_line(prob_matrix, thresholds, output_path, n_docs, n_
     densities = [incidence_density(prob_matrix, t) for t in thresholds]
     print(f"Incidence densities for thresholds {thresholds}: {densities}")
 
-    plt.figure(figsize=(7, 4))
-    plt.plot(thresholds, densities, marker="o", markersize=2)
-    plt.xlabel("MIN_TOPIC_PROB threshold")
-    plt.ylabel("Incidence density (#ones / #cells)")
-    plt.title(
-        "Incidence Density vs Threshold\n"
-        f"# Documents = {n_docs} | # Topics = {n_topics}"
+    fig, ax = plt.subplots(figsize=(5, 5))
+    ax.plot(thresholds, densities, marker="o", markersize=2)
+    ax.set_xlabel(r"Threshold $\delta$", fontsize=12)
+    ax.set_ylabel("Incidence density (#ones / #cells)", fontsize=12)
+
+    ax.xaxis.set_major_locator(MultipleLocator(0.1))
+    ax.yaxis.set_major_locator(MultipleLocator(0.1))
+    ax.grid(True, linestyle="-", alpha=0.4)
+
+    fig.suptitle("Impact of the Threshold on Incidence Density", y=0.99, fontsize=13)
+    ax.text(
+        0.5,
+        1.02,
+        f"# Documents = {n_docs} | # Topics = {n_topics}",
+        ha="center",
+        va="bottom",
+        transform=ax.transAxes,
+        clip_on=False,
     )
-    plt.gca().xaxis.set_major_locator(MultipleLocator(0.1))
-    plt.gca().yaxis.set_major_locator(MultipleLocator(0.1))
-    plt.grid(True, linestyle="--", alpha=0.4)
-    plt.tight_layout()
-    plt.savefig(output_path, format="svg")
-    plt.close()
+    fig.tight_layout(rect=(0, 0, 1, 0.93))
+    fig.savefig(output_path, format="svg")
+    plt.close(fig)
     print(f"Saved incidence density line plot to {output_path}")
 
 
@@ -151,8 +159,8 @@ def plot_incidence_density(prob_matrix, doc_ids, thresholds, output_dir, n_docs,
 # Main
 # -----------------------------
 def main(
-    dataset_path=Path("resources/Dataset"),
-    output_dir=Path("results/lda"),
+    dataset_path="resources/Dataset",
+    output_dir="results/lda",
     thresholds=DEFAULT_THRESHOLDS,
 ):
     """
@@ -161,11 +169,13 @@ def main(
     2) Incidence density line plot vs threshold.
     3) Incidence density heatmaps for each threshold.
     """
+    repo_root = Path(__file__).resolve().parents[2]
+    dataset_path = repo_root / dataset_path
     if not dataset_path.exists():
         raise FileNotFoundError(
             "No input dataset exists; download it from http://lib.stat.cmu.edu/datasets/."
         )
-
+    output_dir = repo_root / output_dir
     os.makedirs(output_dir, exist_ok=True)
 
     doc_ids, documents = load_banksearch_dataset(str(dataset_path))
@@ -177,12 +187,12 @@ def main(
     avg_plot_path = Path(output_dir) / "avg_topics_per_threshold.svg"
     n_docs = len(doc_ids)
     n_topics = NUM_TOPICS_CORPUS
-    plot_average_topics(thresholds, averages, avg_plot_path, n_docs, n_topics)
+    # plot_average_topics(thresholds, averages, avg_plot_path, n_docs, n_topics)
 
     density_line_path = Path(output_dir) / "incidence_density_vs_threshold.svg"
     plot_incidence_density_line(prob_matrix, thresholds, density_line_path, n_docs, n_topics)
 
-    plot_incidence_density(prob_matrix, doc_ids, np.arange(0.1, 0.9, 0.3), output_dir, n_docs, n_topics)
+    # plot_incidence_density(prob_matrix, doc_ids, np.arange(0.1, 0.9, 0.3), output_dir, n_docs, n_topics)
 
 
 if __name__ == "__main__":
