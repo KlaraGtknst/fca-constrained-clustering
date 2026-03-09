@@ -188,7 +188,7 @@ def main() -> None:
         ax.set_ylim(0, 100)
         ax.xaxis.set_major_locator(MultipleLocator(0.1))
         ax.yaxis.set_major_locator(MultipleLocator(10))
-        ax.grid(True, alpha=0.3)
+        ax.grid(True, linestyle="-", alpha=0.4)
 
     fig.suptitle("Effect of Minimum Support on Iceberg Concepts", y=0.97, fontsize=13)
     fig.text(
