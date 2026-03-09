@@ -11,10 +11,19 @@ To construct a formal context from $\Theta$, these document-topic probabilities 
 We analyze how different thresholds affect the resulting incidence density to determine an appropriate value, as illustrated in Figure~\ref{fig:incidence_density} for the BankSearch dataset.
 
 \begin{figure}[t]
+\centering
+\begin{minipage}{0.48\textwidth}
     \centering
-    \includesvg[width=0.8\textwidth]{results/lda/incidence_density_vs_threshold.svg}
-    \caption{\ac{lda} document-topic incidence density for different threshold $\delta$ values for the BankSearch dataset. The elbow criterion suggests an optimal threshold around 0.05, yielding an incidence density slightly above 0.2.}
+    \includesvg[width=\linewidth]{results/lda/incidence_density_vs_threshold.svg}
+    \caption{\ac{lda} document-topic incidence density for different threshold $\delta$ values for the BankSearch dataset. The optimal threshold (according to the elbow criterion) 0.05 yields an incidence density slightly above 0.2.}
     \label{fig:incidence_density}
+\end{minipage}\hfill
+\begin{minipage}{0.48\textwidth}
+    \centering
+    \includesvg[width=\linewidth]{resources/banksearch/topic_model/plots/concepts_vs_support.svg}
+    \caption{Number of iceberg concepts for different minimum support threshold values for the BankSearch dataset. We select $\mathtt{min\_supp} = 0.05$, resulting in approximately 30 concepts.}
+    \label{fig:concepts_support}
+\end{minipage}
 \end{figure}
 
 
@@ -43,13 +52,5 @@ The choice of $\mathtt{min\_supp}$ directly influences the granularity of the re
 Figure~\ref{fig:concepts_support} shows the relationship between the minimum support threshold and the number of extracted concepts for the BankSearch dataset. 
 % Based on this analysis, we select $\mathtt{min\_supp} = 0.05$, yielding 30 concepts while maintaining interpretability.
 
-%  (cf. Figure~\ref{fig:titanic}).
-% \displayTITANIC{}
 
-\begin{figure}[t]
-    \centering
-    \includesvg[width=0.85\textwidth]{resources/banksearch/topic_model/plots/concepts_vs_support.svg}
-    \caption{Number of concepts in the iceberg concept lattice for different minimum support threshold values for the BankSearch dataset. We select $\mathtt{min\_supp} = 0.05$, resulting in approximately 30 concepts.}
-    \label{fig:concepts_support}
-\end{figure}
 
