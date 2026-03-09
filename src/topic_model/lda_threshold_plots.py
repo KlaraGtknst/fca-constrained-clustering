@@ -103,7 +103,7 @@ def plot_incidence_density_line(prob_matrix, thresholds, output_path, n_docs, n_
 
     ax.xaxis.set_major_locator(MultipleLocator(0.1))
     ax.yaxis.set_major_locator(MultipleLocator(0.1))
-    ax.grid(True, linestyle="-", alpha=0.4)
+    ax.grid(True, linestyle="--", alpha=0.4)
 
     fig.suptitle("Impact of the Threshold on Incidence Density", y=0.99, fontsize=13)
     ax.text(
