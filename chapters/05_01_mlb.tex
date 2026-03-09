@@ -36,6 +36,7 @@ We perform a structural saturation step on $\Sigma$ by exhaustively applying tra
 A hierarchical clustering (i.e., dendrogram) is traditionally defined as a nested sequence of clusters. We define a valid hierarchy in the context of constraints as follows:
 
 \begin{definition}[Valid Hierarchy]
+    \label{def:valid_hierarchy}
 A collection of subsets $\mathcal{H} \subseteq \mathcal{P}(G)$ is a valid hierarchy regarding $\Sigma$ if:
 \begin{enumerate}
     \item $G \in \mathcal{H}$ and $\emptyset \in \mathcal{H}$.
@@ -52,10 +53,10 @@ Let $\mathfrak{B}_\Sigma$ be the lattice of all closed sets under $\phi_\Sigma$.
 \end{theorem}
 
 \begin{proof}
-Let $C \in \mathcal{H}$ be an arbitrary cluster in a valid hierarchy. By the third condition of Definition 4, $C$ must be $\Sigma$-consistent. By the definition of our closure system $\mathcal{S}_\Sigma$, a set is closed if and only if it is $\Sigma$-consistent. Therefore, $C \in \mathcal{S}_\Sigma$. Since $\mathfrak{B}_\Sigma$ is the lattice formed by all elements of $\mathcal{S}_\Sigma$, it follows that $C \in \mathfrak{B}_\Sigma$.
+Let $C \in \mathcal{H}$ be an arbitrary cluster in a valid hierarchy. By the third Condition of Definition 4, $C$ must be $\Sigma$-consistent. By the definition of our closure system $\mathcal{S}_\Sigma$, a set is closed if and only if it is $\Sigma$-consistent. Therefore, $C \in \mathcal{S}_\Sigma$. Since $\mathfrak{B}_\Sigma$ is the lattice formed by all elements of $\mathcal{S}_\Sigma$, it follows that $C \in \mathfrak{B}_\Sigma$.
 \end{proof}
 
 This theorem demonstrates that while $\mathfrak{B}_\Sigma$ itself contains overlapping concepts, it encompasses every valid cluster of every possible hierarchy that respects the constraints. A specific dendrogram that satisfies the strong separation requirement of Condition 4 can be derived by selecting a sub-order that satisfies the nested property, for instance by prioritizing concepts with higher stability or topic coherence.
 
-This implies that the concept lattice $\underline{\mathfrak{B}}(\mathbb{K}_{\Sigma})$ constitutes the exact search space for constrained hierarchical clustering. A particular dendrogram can be derived by selecting a sub-order that satisfies the second condition of \autoref{def:valid_hierarchy}, % tree property (nestedness), 
+This implies that the concept lattice $\underline{\mathfrak{B}}(\mathbb{K}_{\Sigma})$ constitutes the exact search space for constrained hierarchical clustering. A particular dendrogram can be derived by selecting a sub-order that satisfies the second Condition of \autoref{def:valid_hierarchy}, % tree property (nestedness), 
 for instance by prioritizing concepts with higher stability or topic coherence.
