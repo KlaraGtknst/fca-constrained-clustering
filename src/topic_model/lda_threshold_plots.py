@@ -97,6 +97,7 @@ def plot_incidence_density_line(prob_matrix, thresholds, output_path, n_docs, n_
     print(f"Incidence densities for thresholds {thresholds}: {densities}")
 
     fig, ax = plt.subplots(figsize=(5, 5))
+    ax.set_box_aspect(1)
     ax.plot(thresholds, densities, marker="o", markersize=2)
     ax.set_xlabel(r"Threshold $\delta$", fontsize=12)
     ax.set_ylabel("Incidence density (#ones / #cells)", fontsize=12)
@@ -105,7 +106,7 @@ def plot_incidence_density_line(prob_matrix, thresholds, output_path, n_docs, n_
     ax.yaxis.set_major_locator(MultipleLocator(0.1))
     ax.grid(True, linestyle="--", alpha=0.4)
 
-    fig.suptitle("Impact of the Threshold on Incidence Density", y=0.99, fontsize=13)
+    fig.suptitle("Impact of the Threshold on Incidence Density", y=0.96, fontsize=13)
     ax.text(
         0.5,
         1.02,
@@ -115,7 +116,7 @@ def plot_incidence_density_line(prob_matrix, thresholds, output_path, n_docs, n_
         transform=ax.transAxes,
         clip_on=False,
     )
-    fig.tight_layout(rect=(0, 0, 1, 0.93))
+    fig.tight_layout(rect=(0, 0, 1, 1))
     fig.savefig(output_path, format="svg")
     plt.close(fig)
     print(f"Saved incidence density line plot to {output_path}")
