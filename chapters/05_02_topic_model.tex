@@ -12,16 +12,16 @@ We analyze how different thresholds affect the resulting incidence density to de
 
 \begin{figure}[t]
 \centering
-\begin{minipage}{0.48\textwidth}
+\begin{minipage}{0.49\textwidth}
     \centering
     \includesvg[width=\linewidth]{results/lda/incidence_density_vs_threshold.svg}
-    \caption{\ac{lda} document-topic incidence density for different threshold $\delta$ values for the BankSearch dataset. The optimal threshold (according to the elbow criterion) 0.05 yields an incidence density slightly above 0.2.}
+    \caption{\ac{lda} document-topic incidence density for varying thresholds $\delta$ on the BankSearch dataset. The elbow criterion selects $\delta=0.05$, yielding a density slightly above $0.2$.}
     \label{fig:incidence_density}
 \end{minipage}\hfill
-\begin{minipage}{0.48\textwidth}
+\begin{minipage}{0.49\textwidth}
     \centering
     \includesvg[width=\linewidth]{resources/banksearch/topic_model/plots/concepts_vs_support.svg}
-    \caption{Number of iceberg concepts for different minimum support threshold values for the BankSearch dataset. We select $\mathtt{min\_supp} = 0.05$, resulting in approximately 30 concepts.}
+    \caption{Number of iceberg concepts for varying minimum support thresholds on the BankSearch dataset. We select {\small $\mathtt{min\_supp}$} $=0.05$, yielding 31 concepts.}
     \label{fig:concepts_support}
 \end{minipage}
 \end{figure}
