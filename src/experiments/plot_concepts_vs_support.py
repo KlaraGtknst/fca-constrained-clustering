@@ -172,8 +172,8 @@ def main() -> None:
         ax_low.plot((-d, +d), (1 - d, 1 + d), **kwargs)
         ax_low.plot((1 - d, 1 + d), (1 - d, 1 + d), **kwargs)
 
-        ax_low.set_xlabel("minimum support", fontsize=12)
-        ax_low.set_ylabel("number of concepts", fontsize=12)
+        ax_low.set_xlabel("Minimum support", fontsize=12)
+        ax_low.set_ylabel("Number of concepts", fontsize=12)
         for ax in (ax_high, ax_low):
             ax.xaxis.set_major_locator(MultipleLocator(0.1))
             ax.yaxis.set_major_locator(MultipleLocator(10))
@@ -182,15 +182,15 @@ def main() -> None:
     else:
         fig, ax = plt.subplots(figsize=(5, 5))
         ax.plot(supports, counts, marker="o", linewidth=1)
-        ax.set_xlabel("minimum support", fontsize=12)
-        ax.set_ylabel("number of concepts", fontsize=12)
+        ax.set_xlabel("Minimum support", fontsize=12)
+        ax.set_ylabel("Number of concepts", fontsize=12)
         ax.set_xlim(0, 1)
         ax.set_ylim(0, 100)
         ax.xaxis.set_major_locator(MultipleLocator(0.1))
         ax.yaxis.set_major_locator(MultipleLocator(10))
         ax.grid(True, alpha=0.3)
 
-    fig.suptitle("Iceberg concepts vs minimum support", y=0.97, fontsize=13)
+    fig.suptitle("Effect of Minimum Support on Iceberg Concepts", y=0.97, fontsize=13)
     fig.text(
         0.5,
         0.92,
