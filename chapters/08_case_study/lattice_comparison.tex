@@ -78,10 +78,13 @@ $\{M13, M14, M8\}$  & $\{8\}$ & 0.6010 \\
 \subsection{Consistency-Lattice vs. Coherence-Lattice}
 \label{sec:consistency_vs_coherence}
 
-The consistency lattice in Figure~\ref{fig:consistency_lattices} is computed by intersecting the \ac{mlb}-constrained lattice with the lattice derived from the topic model, following the procedure described in Section~\ref{sec:integrated_lattice_computation}.
-In this case, the two lattices share only the top concept, resulting in a consistency lattice containing only the two trivial concepts.
-In contrast, the coherence lattice (Figure~\ref{fig:coherence_lattice}) is constructed by defining a new formal context based on intersections of concept extents whose Jaccard similarity exceeds $0.6$. 
-Each attribute represents document membership in such an extent intersection.
+The consistency lattice in Figure~\ref{fig:consistency_coherence_lattices} (left) is computed by intersecting the \ac{mlb}-constrained lattice with the lattice derived from the topic model, following the procedure described in Section~\ref{sec:integrated_lattice_computation}.
+Formally, $\mathcal{C}_{\cap} = \mathcal{C}_{\Sigma} \cap \mathcal{C}_{TM}$. In our case, this intersection is near-trivial, containing only the top and bottom concepts.
+To investigate partial overlaps, we define the \textit{coherence-lattice} $\mathfrak{B}(\mathbb{K}_{coh})$. We construct a new formal context $\mathbb{K}_{coh} = (G, M_{coh}, I_{coh})$, where the attributes $M_{coh}$ are derived from pairs of concepts $(A, B)$ with $A \in \mathcal{C}_{\Sigma}$ and $B \in \mathcal{C}_{TM}$ that satisfy a Jaccard threshold $\theta$:
+\begin{equation}
+    M_{coh} = \{ A \cap B \mid A \in \mathcal{C}_{\Sigma}, B \in \mathcal{C}_{TM}, J(A, B) > \theta \}
+\end{equation}
+We set $\theta = 0.6$ based on the distribution shown in Figure 7. This construction allows us to visualize document clusters that are \textit{nearly} consistent across both knowledge sources.
 Since the top node of the coherence lattice contains only $3625$ documents (approximately $33\%$ of the documents considered for the topic model-based lattice), the resulting lattice covers only a subset of the corpus, indicating limited agreement between the two knowledge bases.
 
 \begin{figure}[t]
@@ -90,18 +93,16 @@ Since the top node of the coherence lattice contains only $3625$ documents (appr
 \begin{subfigure}{0.45\textwidth}
     \centering
     \includegraphics[width=0.35\textwidth]{results/context_comparison/intersection.pdf}
-    \caption{\textit{Consistency}-lattice.}
-    \label{fig:consistency_lattices}
+    % \caption{\textit{Consistency}-lattice.}
 \end{subfigure}
 \hfill
 \begin{subfigure}{0.45\textwidth}
     \centering
     \includesvg[width=0.7\textwidth]{results/context_comparison/CONCEPT_SIM/coherence.svg}
-    \caption{\textit{Coherence}-lattice.}
-    \label{fig:coherence_lattice}
+    % \caption{\textit{Coherence}-lattice.}
 \end{subfigure}
 
-\caption{Lattices derived from extent overlaps between the \ac{mlb}-constrained lattice and the topic model-based lattice for the BankSearch dataset.}
+\caption{The \emph{consistency} lattice (left) and \emph{coherence} lattice (right) from the \ac{mlb}-constrained lattice and the topic model-based lattice for the BankSearch dataset.}
 \label{fig:consistency_coherence_lattices}
 
 \end{figure}

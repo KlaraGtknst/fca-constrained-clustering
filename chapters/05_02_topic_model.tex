@@ -5,32 +5,27 @@
 The data-driven topic model-based approach comprises three steps: (i) constructing a topic model, (ii) deriving a document-topic incidence relation, and (iii) filtering concepts using the TITANIC algorithm~\cite{gutekunst2025conceptual}.
 
 \subsubsection{Topic Model Construction}
-Topic models are generative probabilistic models in which documents are represented as mixtures of $K$ latent topics and topics as multinomial distributions over words. 
-They typically rely on the bag-of-words assumption, ignoring word order. 
-We employ \texttt{gensim}'s implementation of \ac{lda}\footnote{\url{https://radimrehurek.com/gensim/models/ldamodel.html} (30.12.2025)}, a widely used unsupervised Bayesian topic model~\cite{alghamdi_survey_2015}. 
+We employ \texttt{gensim}'s implementation of \ac{lda}\footnote{\url{https://radimrehurek.com/gensim/models/ldamodel.html} (30.12.2025)}~\cite{alghamdi_survey_2015}, a widely used generative probabilistic model, to represent documents as mixtures of $K$ latent topics. 
 For a corpus of $N$ documents, \ac{lda} produces a document-topic probability matrix $\Theta \in \mathbb{R}^{N \times K}$, where $\theta_{dt}$ denotes the probability that document $d$ is associated with topic $t$.
-
-To construct a formal context from $\Theta$, document-topic probabilities are binarized using a threshold $\delta$. 
-To determine an appropriate value, we analyze how different thresholds affect the resulting incidence density. 
-Figure~\ref{fig:incidence_density} illustrates this relationship for the BankSearch dataset.
+To construct a formal context from $\Theta$, these document-topic probabilities are binarized using a threshold $\delta$. 
+We analyze how different thresholds affect the resulting incidence density to determine an appropriate value, as illustrated in Figure~\ref{fig:incidence_density} for the BankSearch dataset.
 
 \begin{figure}[t]
     \centering
-    \includesvg[width=0.84\textwidth]{results/lda/incidence_density_vs_threshold.svg}
+    \includesvg[width=0.8\textwidth]{results/lda/incidence_density_vs_threshold.svg}
     \caption{\ac{lda} document-topic incidence density for different threshold $\delta$ values for the BankSearch dataset. The elbow criterion suggests an optimal threshold around 0.05, yielding an incidence density slightly above 0.2.}
     \label{fig:incidence_density}
 \end{figure}
 
 
 \subsubsection{Document-Topic Incidence}
-Given threshold $\delta$, a document $d$ is assigned topic $t$ if and only if $\theta_{dt} \geq \delta$. 
-This produces a binary incidence relation $I \subseteq D \times T$, where $(d,t) \in I$ indicates that topic $t$ sufficiently characterizes document $d$ (cf.~Figure~\ref{fig:doc_topic_inc}). 
+Given a threshold $\delta$, a document $d$ is assigned topic $t$ if and only if $\theta_{dt} \geq \delta$. 
+This produces a binary incidence relation $I \subseteq D \times T$, where $(d, t) \in I$ indicates that topic $t$ sufficiently characterizes document $d$. 
 Lower threshold values yield denser contexts with more document-topic associations, whereas higher values retain only the most dominant topics.
 
-The resulting relation defines the formal context $\mathbb{K} = (G, M, I)$, where $G$ denotes the set of documents (objects), $M$ the set of topics (attributes), and $I$ the document-topic incidence relation.
-   
+The resulting relation defines the formal context $\mathbb{K} = (G, M, I)$, where $G$ denotes the set of documents (objects), $M$ the set of topics (attributes), and $I$ the document-topic incidence relation.   
 
-\docTopicInc{}
+% \docTopicInc{}
 
 \subsubsection{Concept Filtering via TITANIC}
 
@@ -40,7 +35,7 @@ To address this issue, Stumme et al.~\cite{stumme_titanic_2002} introduced the T
 These lattices contain only concepts whose intents correspond to frequent attribute sets.
 
 Let $\mathtt{min\_supp} \in [0,1]$ denote a minimum support threshold. 
-An attribute set $B \subseteq M$ is considered frequent if $$\operatorname{supp}(B) = \frac{\left| B' \right|}{\left| G \right|}$$ meets or exceeds $\mathtt{min\_supp}$. 
+An attribute set $B \subseteq M$ is considered frequent if $\operatorname{supp}(B) = \frac{\left| B' \right|}{\left| G \right|}$ meets or exceeds $\mathtt{min\_supp}$. 
 A concept $(A,B)$ is retained in the iceberg concept lattice if its intent $B$ is frequent.
 
 Intuitively, this restriction preserves only those topic combinations that characterize at least $\mathtt{min\_supp} \times 100\%$ documents of the corpus. 
@@ -54,7 +49,7 @@ Figure~\ref{fig:concepts_support} shows the relationship between the minimum sup
 \begin{figure}[t]
     \centering
     \includesvg[width=0.85\textwidth]{resources/banksearch/topic_model/plots/concepts_vs_support.svg}
-    \caption{Number of concepts in the iceberg concept lattice for differnt minimum support threshold values for the BankSearch dataset. We select $\mathtt{min\_supp} = 0.05$, resulting in approximately 30 concepts.}
+    \caption{Number of concepts in the iceberg concept lattice for different minimum support threshold values for the BankSearch dataset. We select $\mathtt{min\_supp} = 0.05$, resulting in approximately 30 concepts.}
     \label{fig:concepts_support}
 \end{figure}
 

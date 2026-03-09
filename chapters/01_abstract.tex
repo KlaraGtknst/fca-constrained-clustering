@@ -8,9 +8,11 @@ To evaluate the benefits of our approach, we conduct experiments on the BankSear
 These constraints are derived from a gold-label topic hierarchy and subsequently mapped onto the corresponding document corpus.
 As our supplementary hierarchical knowledge source, we employ an \acl{lda} topic model, which constructs a document-topic context through statistical inference over the same corpus.
 
+We mathematically prove that MLB constraints induce a valid closure operator, providing the theoretical foundation for integrating hierarchical expert knowledge into FCA. 
 We then analyze the structural differences between the concept lattices guided by the two knowledge sources. %knowledge-base-informed 
 The influence of both knowledge bases is assessed qualitatively through manual review and quantitatively by analyzing their intersection for different levels of required coherence.
 We find distinct structural variations between the two concept lattices, reflected in their \textit{consistency} and \textit{coherence} lattice intersection.
+Our findings suggest a significant divergence between expert-defined hierarchies and data-driven topics, highlighting the necessity of relaxed coherence measures for practical knowledge integration.
 
 \keywords{\acl{fca} \and Constraints \and Topic Modeling.}
 \end{abstract}

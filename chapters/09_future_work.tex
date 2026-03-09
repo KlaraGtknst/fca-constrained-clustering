@@ -1,9 +1,13 @@
 \section{Conclusion and Future Work}
 \label{sec:future_work}
 
-The analysis of the consistency- and coherence-attices highlights the distinction between strict and relaxed notions of agreement between knowledge bases. 
+The analysis of the consistency- and coherence-lattices highlights the distinction between strict and relaxed notions of agreement between knowledge bases. 
 The consistency-lattice retains only concepts whose extents coincide exactly in both the \ac{mlb}-constrained and the topic model-based lattices. 
 In our case, no non-trivial document clusters are shared exactly between the two lattices, indicating that strict consistency is often too restrictive when comparing knowledge bases derived from different sources.
+
+Our study yields two major insights: First, we established that MLB constraints can be natively integrated into the FCA framework via a fixpoint-based closure operator. Second, our experiments on the BankSearch dataset reveal that strict consistency between expert hierarchies and probabilistic topic models is rarely achieved in real-world corpora. 
+
+In practice, this implies that a multi-tier approach is necessary: (1) using the \textit{consistency-lattice} to identify undisputed common ground and (2) utilizing the \textit{coherence-lattice} with tunable thresholds to explore meaningful alignments. 
 
 In contrast, the coherence-lattice allows partial overlap between concept extents by introducing a similarity threshold. 
 The resulting lattice therefore captures document clusters that are largely shared between the two lattices, even when they do not coincide perfectly. 
