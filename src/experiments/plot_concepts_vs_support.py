@@ -100,7 +100,7 @@ def build_supports(step: float):
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Plot number of iceberg concepts vs min_support."
+        description="Plot number of iceberg concepts vs minimum support."
     )
     parser.add_argument(
         "--context",
@@ -141,7 +141,7 @@ def main() -> None:
         logger.info("min_support=%s concepts=%s", support_str, counts[-1])
 
     num_docs, num_topics = read_context_stats(context_path)
-    output_path = Path(args.output)
+    output_path = repo_root / args.output
     output_path.parent.mkdir(parents=True, exist_ok=True)
     max_count = max(counts) if counts else 0
 
@@ -150,18 +150,18 @@ def main() -> None:
             2,
             1,
             sharex=True,
-            figsize=(8, 5),
+            figsize=(5, 5),
             gridspec_kw={"height_ratios": [1, 2], "hspace": 0.1},
         )
         ax_high.plot(supports, counts, marker="o", linewidth=1)
         ax_low.plot(supports, counts, marker="o", linewidth=1)
 
         ax_low.set_ylim(0, 100)
-        ax_high.set_ylim(550, max_count * 1.05)
+        ax_high.set_ylim(550, max_count * 1.02)
 
         ax_high.spines["bottom"].set_visible(False)
         ax_low.spines["top"].set_visible(False)
-        ax_high.tick_params(labeltop=False)
+        ax_high.tick_params(labeltop=False,axis="both", labelsize=10)
         ax_low.xaxis.tick_bottom()
 
         d = 0.015
@@ -172,28 +172,28 @@ def main() -> None:
         ax_low.plot((-d, +d), (1 - d, 1 + d), **kwargs)
         ax_low.plot((1 - d, 1 + d), (1 - d, 1 + d), **kwargs)
 
-        ax_low.set_xlabel("min_support")
-        ax_low.set_ylabel("number of concepts")
+        ax_low.set_xlabel("minimum support", fontsize=12)
+        ax_low.set_ylabel("number of concepts", fontsize=12)
         for ax in (ax_high, ax_low):
             ax.xaxis.set_major_locator(MultipleLocator(0.1))
             ax.yaxis.set_major_locator(MultipleLocator(10))
             ax.grid(True, alpha=0.3)
         ax_low.set_xlim(0, 1)
     else:
-        fig, ax = plt.subplots(figsize=(8, 4))
+        fig, ax = plt.subplots(figsize=(5, 5))
         ax.plot(supports, counts, marker="o", linewidth=1)
-        ax.set_xlabel("min_support")
-        ax.set_ylabel("number of concepts")
+        ax.set_xlabel("minimum support", fontsize=12)
+        ax.set_ylabel("number of concepts", fontsize=12)
         ax.set_xlim(0, 1)
         ax.set_ylim(0, 100)
         ax.xaxis.set_major_locator(MultipleLocator(0.1))
         ax.yaxis.set_major_locator(MultipleLocator(10))
         ax.grid(True, alpha=0.3)
 
-    fig.suptitle("Iceberg concepts vs min_support", y=0.98)
+    fig.suptitle("Iceberg concepts vs minimum support", y=0.97, fontsize=13)
     fig.text(
         0.5,
-        0.94,
+        0.92,
         f"# Documents = # Objects = {num_docs} | # Topics = # Attributes = {num_topics}",
         ha="center",
         va="top",
