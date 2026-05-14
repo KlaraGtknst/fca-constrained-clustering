@@ -1,0 +1,175 @@
+SUBMISSION: 5
+TITLE: Hierarchical Background Knowledge in FCA via Must-Link-Before Constraints
+
+----------------------- REVIEW 1 ---------------------
+
+SUBMISSION: 5
+TITLE: Hierarchical Background Knowledge in FCA via Must-Link-Before Constraints
+
+----------- Overall evaluation -----------
+SCORE: 2 (accept)
+----- TEXT:
+R1:
+The authors focus on the problem of comparing and integrating knowledge by using MLB (must-link-before) constraints and extra hierarchical knowledge.
+
+The theoretical part is insufficiently formalized and the presentation is not good. For instance, in Section 3.2 (definitions 1 and 2), the set ‘H’ is used without introduction. What does it mean? What do its elements ‘c’ mean? Moreover, what is the difference between ‘x’ and ‘dx’?, etc It is strange to require that a Definition 'must hold' (pg 4, line -7). By the way, it is not clearly explained why MLB counter-models should be required in the definition of valid hierarchy. Etc, etc.
+
+Typos and minor comments
+
+Abstract : “an Latent” should be “a Latent”
+
+Ref 1. Insert page range.
+
+Ref 9 and 16. “fca” should be “FCA”
+
+Ref 18. Is this a LNAI paper? Complete the citation data.
+
+Ref 9 and 16. “em” should be “EM”
+
+Decision: Weak Reject / Borderline
+
+
+R2:
+
+------  Overall evaluation ------
+[ ] strong accept
+[ ] accept
+[X] weak accept
+[ ] borderline paper
+[ ] weak reject
+[ ] reject
+[ ] strong reject
+
+
+Detailed review, including a justification for your scores:
+
+I believe the theory behind this paper is solid (section 4) and agree with the first half of the conclusions: an effective way of including constraints into hierarchies-as-ontologies.
+
+However, the experimental section is really underwhelming (section 5), and I do not see an easy way forward from here, since it involves a big problem as yet unsolved by the community.
+
+Section 1
+=========
+Wordnet is not an "expert ontology" or a "concept hierarchy". It is a (hierarchical) lexical database, such as Propbank, or FrameNet. There is a deep, foundational distinctions with ontologies, that amounts to not adopting the Nominalist Fallacy. That said, they can capture some "conceptual" information because they stem from the exertion of human cognitive abilities, inasmuch as these can capture reality (oftentimes poorly).
+
+
+I would suggest you include previous references in the FCA community to modelling lexical datasets such as cite(old:04) and cite(val:05) below.
+
+Section 2
+=========
+
+Section 3
+=========
+
+Section 4
+=========
+This is perhaps the most interesting section form me, specifically sections 4.1 and 4.3. They have novelty in themselves that makes me want to propose this paper for publication, especially:
+- theorems 1 and 2 spelling out the procedure for obtaining Concept Lattices modulo structural constraints.
+- the concept of the consistency lattice, often proposed but rarely realised.
+- and improving NextClosure for complex lattices using the reducibility test.
+
+On the other hand, I can see that most of the experimental problems stem from decisions taken in section 4.2.
+
+Section 5
+=========
+This is perhaps the most debatable section, as the results of the experiments are rather discouraging.
+
+First minor peeves:
+- I cannot understand the counts in Fig. 4.
+- It is difficult to compare two datasets where one is a distillation of the other, e.g. using 10970 docs for LDA but the full 11000 for the Banksearch topics. It makes going with hard measures difficult. I suggest you only use the 10970 troughout in following experiments.
+- The iceberg algorithm has stopped at a place where the lattices in Fig. 4 and Fig. 5 seem completely incomparable, hence the (in)consistency result is not surprising. This introduces the hyperparameter of the support level, which needs a better exploration.
+
+From the point of view of comparing two systems of topics the targets seem to be too far off: one has hand-labelled texts with at most one topic and the other is left to the LDA to assign with no further constraints except those implicitly appearing from the iceberg lattice algorithm. This of course shows in the lattice of consitency. I did not see a good discussion of the issues brought about by choosing the human-labelled data as "gold" (ground?) truth, and the LDA labelling as the system to be evaluated. But since this is a probabilistic assignment, they are going to be huge. Using a single threshold to realise the relevance of a topic to a document is not going to cut it, since it introduces a new hyper-parameter, the threshold, that has to be explored.
+
+Consistently, the consistency lattice is meaningless (in the technical sense: just an empty context, hence a 2 lattice), and the attempt at improving it by using the coherence lattice is underwhelming: hardly comprehensive at all. I believe this all comes because we do not have in the community an understanding of what underlying noise (e.g. in the LDA results spureous probability masses) does to context exploration techniques (the thresholding), so not to be dropped on the author's roof.
+
+Also, Jaccard is not a good similarity for global comparison (as in setting a global threshold) because of the badly motivated normalisation (each pair of sets has a different normalisation). This makes it difficult to interpret Fig. 6 sensibly, the more so for an algorithm.
+
+Section 6
+=========
+
+Suggested references to be included:
+====================================
+
+@incollection{old:04,
+  title = {Unlocking the {{Semantics}} of {{Roget}}'s {{Thesaurus Using Formal Concept Analysis}}},
+  booktitle = {{{ICFCA}} 2004},
+  author = {Old, L John},
+  editor = {Goos, Gerhard and Hartmanis, Juris and Leeuwen, Jan and Eklund, Peter},
+  year = 2004,
+  month = jan,
+  volume = {LNAI 2961},
+  pages = {244--251},
+  publisher = {Concept Lattices},
+  address = {Berlin, Heidelberg},
+  doi = {10.1007/978-3-540-24651-0_22},
+  isbn = {978-3-540-21043-6},
+}
+
+@incollection{val:05,
+  title = {Explaining the {{Structure}} of {{FrameNet}} with {{Concept Lattices}}},
+  booktitle = {Formal {{Concept Analysis}}},
+  author = {{Valverde-Albacete}, Francisco J.},
+  editor = {Hutchison, David and Kanade, Takeo and Kittler, Josef and Kleinberg, Jon M. and Mattern, Friedemann and Mitchell, John C. and Naor, Moni and Nierstrasz, Oscar and Pandu Rangan, C. and Steffen, Bernhard and Sudan, Madhu and Terzopoulos, Demetri and Tygar, Dough and Vardi, Moshe Y. and Weikum, Gerhard and Ganter, Bernhard and Godin, Robert},
+  year = 2005,
+  volume = {3403},
+  pages = {79--94},
+  publisher = {Springer Berlin Heidelberg},
+  address = {Berlin, Heidelberg},
+  doi = {10.1007/978-3-540-32262-7_6},
+  urldate = {2025-04-06},
+  isbn = {978-3-540-24525-4 978-3-540-32262-7},
+  langid = {english},
+}
+
+
+------  Reviewer's confidence  -------
+[ ] (expert)
+[X] (high)
+[ ] (medium)
+[ ] (low)
+[ ] (none)
+
+
+R3:
+
+
+
+------  Overall evaluation ------
+ [ ] strong accept
+ [x] accept
+ [ ] weak accept
+ [ ] borderline paper
+ [ ] weak reject
+ [ ] reject
+ [ ] strong reject
+
+ Detailed review, including a justification for your scores:
+
+The authors present a strategy to integrate hierarchical expert knowledge into FCA-based concept hierarchy generation. This is, they present a way to add additional knowledge via MLB constraints that state that two elements must be combined before either of them is combined with a third element. They derive a closure operator that uses those constraints. These constraints are useful to characterize and use knowledge from an expert, for instance.
+
+Finally, they use their approach to apply it to two different sets of MLB constraints: one from a curated hierarchy that is transformed into a set of MLB constraints, and a second set which comes from a topic model, that is also transformed as a set of MLB constraints.
+
+Finally, they compare the lattices generated by the closure operator defined previously and compare structurally the two different concept lattices.
+
+The paper presents novel material, the theoretical part is sound and non-trivial. It is also relevant in the field of FCA with applications outside our community. Therefore, it is of interest to present in this conference. Also, as a positive element, the presentation is very good and clear.
+
+The only point that I would like to mention is that of the experiments. I understand that this is just a first attempt, but I would like to mention:
+
+1. "The two lattices are constructed from slightly different document sets". It is a bad start. It seems that one set contains a few less documents. The question is: why didn't you perform the experiments with the least common number of available documents for each set of MLB? It seems to me that it was only a matter of removing 30 documents from one set. It also seems to me a way to ruin a set of experiments form the start.
+
+2. "the lattices differ in their construction". I appreciate the honesty, but again, you are telling that you are comparing two different things.
+
+3. "the topic model-based lattice in Figure 5 is computed as an iceberg lattice, retaining only concepts whose intents satisfy a minimum support threshold". Just the same.
+
+I understand that some differences may arise, since the sets of restrictions are different. But you will have to justify why the results and the interpretation of you comparison is a product of the semantic differences in the two different of restrictions used to construct both concept lattices, or they are due to the processes that you have applied in their construction. This is a relevant point that either is discussed in the final version of this paper or in the presentation.
+
+Finally, Definition 4 may contain some error? Points 3 and 4 seems contradictory to me. Also, I am not sure that they may refer to Definitions 1 and 2. Please recheck (this is mandatory if the paper is accepted).
+
+The paper is interesting and deserves to be presented at the conference. It is a pity that the experiments are a little bit flawed because of some decisions taken, but I think that this is a preliminary setup.
+
+ ------  Reviewer's confidence  -------
+ [ ] (expert)
+ [x] (high)
+ [ ] (medium)
+ [ ] (low)
+ [ ] (none)
