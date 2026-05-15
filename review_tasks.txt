@@ -5,7 +5,7 @@
     [ ] Section 3.2: It is strange to require that a Definition 'must hold' (pg 4, line -7). 
     [ ] Section 3.2: it is not clearly explained why MLB counter-models should be required in the definition of valid hierarchy. 
 [x] Abstract : “an Latent” should be “a Latent”
-[ ] Ref 1. Insert page range.
+[x] Ref 1. Insert page range. -> pages={147--153},
 [ ] Ref 9 and 16. “fca” should be “FCA”
 [ ] Ref 18. Is this a LNAI paper? Complete the citation data.
 [ ] Ref 9 and 16. “em” should be “EM”
