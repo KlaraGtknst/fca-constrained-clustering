@@ -4,7 +4,7 @@
     [ ] Section 3.2: what is the difference between ‘x’ and ‘dx’?, etc 
     [ ] Section 3.2: It is strange to require that a Definition 'must hold' (pg 4, line -7). 
     [ ] Section 3.2: it is not clearly explained why MLB counter-models should be required in the definition of valid hierarchy. 
-[ ] Abstract : “an Latent” should be “a Latent”
+[x] Abstract : “an Latent” should be “a Latent”
 [ ] Ref 1. Insert page range.
 [ ] Ref 9 and 16. “fca” should be “FCA”
 [ ] Ref 18. Is this a LNAI paper? Complete the citation data.
