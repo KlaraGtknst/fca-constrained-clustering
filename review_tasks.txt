@@ -6,9 +6,9 @@
     [ ] Section 3.2: it is not clearly explained why MLB counter-models should be required in the definition of valid hierarchy. 
 [x] Abstract : “an Latent” should be “a Latent”
 [x] Ref 1. Insert page range. -> pages={147--153},
-[ ] Ref 9 and 16. “fca” should be “FCA”
-[ ] Ref 18. Is this a LNAI paper? Complete the citation data.
-[ ] Ref 9 and 16. “em” should be “EM”
+[x] Ref 9 and 16. “fca” should be “FCA”
+[x] Ref 18. Is this a LNAI (Lecture Notes in Artificial Intelligence) paper? Complete the citation data.
+[x] Ref 9 and 16. “em” should be “EM” -> appears only once in bib file ...?
 
 
 [ ] the experimental section is really underwhelming (section 5), and I do not see an easy way forward from here, since it involves a big problem as yet unsolved by the community.
