@@ -9,12 +9,14 @@ Although manually curated ontologies are often regarded as the gold standard, au
 
 Automatic concept hierarchy generation provides a scalable alternative and enables coverage of domains not represented in existing ontologies.
 Approaches range from pattern-based methods~\cite{le2019inferring}, such as Hearst patterns~\cite{hearst1992hyponyms}, to \acl{nlp}-based techniques that extract latent information from text and represent it in the form of binary object-attribute matrices, which can then be analyzed using \ac{fca}~\cite{cimiano_learning_2005}.
+\textcolor{orange}{
 % semantic dictionaries (Roget's Thesaurus)
 % lexical databases (WordNet, FrameNet)
 % Proof of concept on German prefices sporleder2002galois
 % Proof of concept on inflectional properties of German nouns petersen:04
 % reports on domestic violence (report id=obj, phrase=attr) Elzinga:09
 \ac{fca} has been used to uncover and visualize implicit semantic structures in semantic dictionaries such as Roget's Thesaurus~\cite{Priss:2004,old:04,Priss:96}, lexical databases WordNet~\cite{Priss:96,priss:98,GalnPez2014DiscoveringNS} or FrameNet~\cite{val:05}, as well as modelling morphological structures~\cite{sporleder:02,petersen:04}. %, as well as written reports~\cite{Elzinga:09}. 
+}
 
 \ac{fca}-based concept hierarchy generation can be viewed as a form of conceptual clustering~\cite{Cimiano2004ComparingCD} that yields intensional descriptions of abstract concepts through their intents~\cite{cimiano_learning_2005}. 
 Since each concept is characterized by an explicit set of shared attributes, the resulting hierarchy provides transparent, attribute-based explanations of the relationships between concepts, making \ac{fca}-based hierarchies inherently interpretable compared to similarity-based clustering methods.

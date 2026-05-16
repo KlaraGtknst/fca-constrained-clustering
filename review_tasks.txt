@@ -13,7 +13,7 @@
 
 [ ] the experimental section is really underwhelming (section 5), and I do not see an easy way forward from here, since it involves a big problem as yet unsolved by the community.
 [ ] Section 1: Wordnet is not an "expert ontology" or a "concept hierarchy". It is a (hierarchical) lexical database, such as Propbank, or FrameNet. There is a deep, foundational distinctions with ontologies, that amounts to not adopting the Nominalist Fallacy. That said, they can capture some "conceptual" information because they stem from the exertion of human cognitive abilities, inasmuch as these can capture reality (oftentimes poorly).
-[x] Section 1: I would suggest you include previous references in the FCA community to modelling lexical datasets such as cite(old:04) and cite(val:05) below:
+[x] Section 1: I would suggest you include previous references in the FCA community to modelling lexical datasets such as cite(old:04) and cite(val:05) below: (see orange in pdf for change)
   % semantic dictionaries (Roget's Thesaurus)
   % lexical databases (WordNet, FrameNet)
   % Proof of concept on German prefices sporleder2002galois
