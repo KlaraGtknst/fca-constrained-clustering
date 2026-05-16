@@ -13,7 +13,12 @@
 
 [ ] the experimental section is really underwhelming (section 5), and I do not see an easy way forward from here, since it involves a big problem as yet unsolved by the community.
 [ ] Section 1: Wordnet is not an "expert ontology" or a "concept hierarchy". It is a (hierarchical) lexical database, such as Propbank, or FrameNet. There is a deep, foundational distinctions with ontologies, that amounts to not adopting the Nominalist Fallacy. That said, they can capture some "conceptual" information because they stem from the exertion of human cognitive abilities, inasmuch as these can capture reality (oftentimes poorly).
-[WIP] Section 1: I would suggest you include previous references in the FCA community to modelling lexical datasets such as cite(old:04) and cite(val:05) below.
+[x] Section 1: I would suggest you include previous references in the FCA community to modelling lexical datasets such as cite(old:04) and cite(val:05) below:
+  % semantic dictionaries (Roget's Thesaurus)
+  % lexical databases (WordNet, FrameNet)
+  % Proof of concept on German prefices sporleder2002galois
+  % Proof of concept on inflectional properties of German nouns petersen:04
+  % reports on domestic violence (report id=obj, phrase=attr) Elzinga:09
 [ ] Section 5: I cannot understand the counts in Fig. 4.
 [ ] Section 5: It is difficult to compare two datasets where one is a distillation of the other, e.g. using 10970 docs for LDA but the full 11000 for the Banksearch topics. It makes going with hard measures difficult. I suggest you only use the 10970 troughout in following experiments.
 [ ] Section 5: The iceberg algorithm has stopped at a place where the lattices in Fig. 4 and Fig. 5 seem completely incomparable, hence the (in)consistency result is not surprising. This introduces the hyperparameter of the support level, which needs a better exploration.
