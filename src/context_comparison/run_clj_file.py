@@ -4,6 +4,11 @@ import os
 from pathlib import Path
 import subprocess
 from typing import Dict, Any
+import sys
+
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 from experiments.plot_concept_lattice import IcebergLatticePlotter
 
 logging.basicConfig(
@@ -13,7 +18,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
+
 RESULTS_DIR = PROJECT_ROOT / "results" / "context_comparison"
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -40,7 +45,8 @@ def call_clojure_analyze(cxt_path: str, min_support: float = 0.0) -> Dict[str, A
 
 if __name__ == "__main__":
     # Paths provided in the request
-    min_support_iceberg_cxt1 = str(PROJECT_ROOT / "resources" / "banksearch" / "topic_model" / "banksearch_0.05_iceberg.cxt")
+    min_supp = 0.05
+    min_support_iceberg_cxt1 = str(PROJECT_ROOT / "resources" / "banksearch" / "topic_model" / f"banksearch_{min_supp}_iceberg.cxt")
     mlb_expanded_cxt2 = str(PROJECT_ROOT / "resources" / "banksearch" / "ground_truth" / "mlb_expanded.cxt")
 
     # Analyze both (full lattice by default)
