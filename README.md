@@ -48,8 +48,14 @@ Using this knowledge run the `run_clj_file.py` file after adjusting the `min_sup
 This generates a `.cxt` and an `.edn` file containing the iceberg context and icebergs concepts, respectively.
 You may now plot the resulting iceberg concepts lattice by running `plot_concept_lattice.py`.
 
-**LDA issues.**
+**LDA Missing Documents (Update after reviewer feedback).**
 The BankSearch dataset has some documents which are empty (e.g., `E0621.txt` of category `C`) or contain only floating numbers (`G0531.txt`of category `Astronomy`).
+To ensure comparability for later analysis, we created a multi-step fallback system for texts which produce empty tokens from propocessing (`src/topic_model/dataset2lda_topics.py`):
+1. if tokens are empty but html text could be extracted, use html instead of tokens
+2. if both tokens and html text are empty, but plain text exists, use plain text instead of tokens
+3. if 1. and 2. are empty, use "" instead of tokens
+We included logging of error types and found that 27 documents has to fallback (1.) to using html text, while one document had to use an empty string (3.) as fallback.
+Employing this strategy all 11,000 documents can be assigned topics, with average number of topics per document of 2.407.
 
 
 ### Lattice from MLB Constraints (BankSearch "ground truth")
