@@ -57,10 +57,10 @@ if __name__ == "__main__":
 
     # Plot PNGs from the EDN concepts that Clojure produced
     # FIXME: use Burmeister format to save formal (iceberg) context
-    edn1_path = Path(PROJECT_ROOT) / "resources/banksearch/topic_model/banksearch_0.05_iceberg.edn"
+    edn1_path = Path(PROJECT_ROOT) / f"resources/banksearch/topic_model/banksearch_{min_supp}_iceberg.edn"
     edn2_path = RESULTS_DIR / "mlb_expanded_concepts.edn"
 
-    img1_path = RESULTS_DIR / "iceberg_context_0.05_lattice.svg"
+    img1_path = RESULTS_DIR / f"iceberg_context_{min_supp}_lattice.svg"
     img2_path = RESULTS_DIR / "mlb_expanded_lattice.svg"
 
     if edn1_path.exists():
