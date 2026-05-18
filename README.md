@@ -17,7 +17,12 @@ pip install -r requirements.txt
 You can represent texts via their most representive topic.
 This topic can be derived from a Topic Model (here: LDA).
 Run `dataset2lda_topics.py` in order to obtain **topics**.
+
+**Topic Threshold.**
 You need to define a `MIN_TOPIC_PROB` which is the threshold that decides whether a topic fits a document or not.
+- Among all topics assigned to a document with probability > `MIN_TOPIC_PROB`, the top `N_TOPICS_PER_DOC` are selected.
+- If for a document, no topic has an assigned probability > `MIN_TOPIC_PROB`, we fallback to only using the most applicable topic.
+
 In order to get a feeling which value is fitting run `lda_threshold_plots.py`.
 You'll obtain plots like the one below which help you make informed choices about the threshold.
 
@@ -25,15 +30,18 @@ You'll obtain plots like the one below which help you make informed choices abou
 
 Given this plot, a reasonable threshold would `0.05`, because it ensures the document-topic incidence is sparse (i.e.,  incidence density just above `0.2`) and in terms of the elbow criterium.
 
+**Document-Topic Incidence.**
 Now, we've created a json file with the information which document has which topics, which are represented by which words.
 However, as of now, we only need the document-topic incidence.
 Thus, run `document_representation.py` to create a document-topic **context** json file.
 
+**Comparison to Ground-truth.**
 Next, we want to compare the topics from the topic model to the ground truth.
 Hence, run `print_stats.py`, which will produce a csv file that below.
 
 ![Image: Comparison of the ground truth document-topic incidence and the topic model document-topic incidence of the BankSearch Dataset](resources/banksearch/fca_contexts_comparison_stats.svg)
 
+**Iceberg lattice.**
 We use the resulting document-topic context to extract topic hierarchies using iceberg lattices via the TITANIC algorithm.
 Iceberg lattices contain only concepts `(A,B)` whose intent has a support higher or equal to `min_supp`.
 Intuively, remaining concepts are document-topic pairs, whose topics are representative for at least `min_supp` $\times 100 \%$ of the documents in the corpus. 
@@ -54,6 +62,7 @@ To ensure comparability for later analysis, we created a multi-step fallback sys
 1. if tokens are empty but html text could be extracted, use html instead of tokens
 2. if both tokens and html text are empty, but plain text exists, use plain text instead of tokens
 3. if 1. and 2. are empty, use "" instead of tokens
+
 We included logging of error types and found that 27 documents has to fallback (1.) to using html text, while one document had to use an empty string (3.) as fallback.
 Employing this strategy all 11,000 documents can be assigned topics, with average number of topics per document of 2.407.
 
