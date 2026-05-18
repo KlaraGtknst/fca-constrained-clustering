@@ -16,45 +16,20 @@ pip install -r requirements.txt
 ### Lattice from Topic Model (LDA)
 You can represent texts via their most representive topic.
 This topic can be derived from a Topic Model (here: LDA).
-Run `dataset2lda_topics.py` in order to obtain **topics**.
+Run `src/topic_model/dataset2lda_topics.py` in order to obtain **topics**.
 
 **Topic Threshold.**
 You need to define a `MIN_TOPIC_PROB` which is the threshold that decides whether a topic fits a document or not.
 - Among all topics assigned to a document with probability > `MIN_TOPIC_PROB`, the top `N_TOPICS_PER_DOC` are selected.
 - If for a document, no topic has an assigned probability > `MIN_TOPIC_PROB`, we fallback to only using the most applicable topic.
 
-In order to get a feeling which value is fitting run `lda_threshold_plots.py`.
+In order to get a feeling which value is fitting run `src/topic_model/lda_threshold_plots.py`.
 You'll obtain plots like the one below which help you make informed choices about the threshold.
 
 ![Image: LDA Document-Topic Incidence Density per Threshold on the BankSearch Dataset](results/lda/incidence_density_vs_threshold.svg)
 
 Given this plot, a reasonable threshold would `0.05`, because it ensures the document-topic incidence is sparse (i.e.,  incidence density just above `0.2`) and in terms of the elbow criterium.
 
-**Document-Topic Incidence.**
-Now, we've created a json file with the information which document has which topics, which are represented by which words.
-However, as of now, we only need the document-topic incidence.
-Thus, run `document_representation.py` to create a document-topic **context** json file.
-
-**Comparison to Ground-truth.**
-Next, we want to compare the topics from the topic model to the ground truth.
-Hence, run `print_stats.py`, which will produce a csv file that below.
-
-![Image: Comparison of the ground truth document-topic incidence and the topic model document-topic incidence of the BankSearch Dataset](resources/banksearch/fca_contexts_comparison_stats.svg)
-
-**Iceberg lattice.**
-We use the resulting document-topic context to extract topic hierarchies using iceberg lattices via the TITANIC algorithm.
-Iceberg lattices contain only concepts `(A,B)` whose intent has a support higher or equal to `min_supp`.
-Intuively, remaining concepts are document-topic pairs, whose topics are representative for at least `min_supp` $\times 100 \%$ of the documents in the corpus. 
-To get a feeling for the choice of `min_supp` we run `plot_concepts_vs_support.py`, resulting in the following plot.
-
-![Image: Number of concepts in the iceberg lattice for different min_supp values on the BankSearch Dataset.](resources/banksearch/topic_model/plots/concepts_vs_support.svg)
-
-We find that the `min_supp` value should be no higher then `0.15`, otherwise less than `10` concepts remain.
-We choose `0.05` and obtain around `30`concepts.
-
-Using this knowledge run the `run_clj_file.py` file after adjusting the `min_supp` value accordingly.
-This generates a `.cxt` and an `.edn` file containing the iceberg context and icebergs concepts, respectively.
-You may now plot the resulting iceberg concepts lattice by running `plot_concept_lattice.py`.
 
 **LDA Missing Documents (Update after reviewer feedback).**
 The BankSearch dataset has some documents which are empty (e.g., `E0621.txt` of category `C`) or contain only floating numbers (`G0531.txt`of category `Astronomy`).
@@ -65,6 +40,34 @@ To ensure comparability for later analysis, we created a multi-step fallback sys
 
 We included logging of error types and found that 27 documents has to fallback (1.) to using html text, while one document had to use an empty string (3.) as fallback.
 Employing this strategy all 11,000 documents can be assigned topics, with average number of topics per document of 2.407.
+
+---
+
+**Document-Topic Incidence.**
+Now, we've created a json file with the information which document has which topics, which are represented by which words.
+However, as of now, we only need the document-topic incidence.
+Thus, run `src/topic_model/document_representation.py` to create a document-topic **context** json file.
+
+**Comparison to Ground-truth.**
+Next, we want to compare the topics from the topic model to the ground truth.
+Hence, run `src/experiments/print_stats.py`, which will produce a csv file that below.
+
+![Image: Comparison of the ground truth document-topic incidence and the topic model document-topic incidence of the BankSearch Dataset](resources/banksearch/fca_contexts_comparison_stats.svg)
+
+**Iceberg lattice.**
+We use the resulting document-topic context to extract topic hierarchies using iceberg lattices via the TITANIC algorithm.
+Iceberg lattices contain only concepts `(A,B)` whose intent has a support higher or equal to `min_supp`.
+Intuively, remaining concepts are document-topic pairs, whose topics are representative for at least `min_supp` $\times 100 \%$ of the documents in the corpus. 
+To get a feeling for the choice of `min_supp` we run `src/experiments/plot_concepts_vs_support.py`, resulting in the following plot.
+
+![Image: Number of concepts in the iceberg lattice for different min_supp values on the BankSearch Dataset.](resources/banksearch/topic_model/plots/concepts_vs_support.svg)
+
+We find that the `min_supp` value should be no higher then `0.15`, otherwise less than `10` concepts remain.
+We choose `0.05`/`0.1` and obtain `28`/`14` concepts.
+
+Using this knowledge run the `src/experiments/run_clj_file.py` file after adjusting the `min_supp` value accordingly.
+This generates a `.cxt` and an `.edn` file containing the iceberg context and icebergs concepts, respectively.
+The resulting lattice is plotted and saved.
 
 
 ### Lattice from MLB Constraints (BankSearch "ground truth")
