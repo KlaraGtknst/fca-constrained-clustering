@@ -93,7 +93,7 @@ try:
     )
     logger.info(out)
 
-    root = Path.cwd().parents[1]
+    root = Path.cwd()
 
     edn_path = root / f"resources/banksearch/topic_model/banksearch_{min_support}_iceberg.edn"
     svg_path = root / f"resources/banksearch/topic_model/plots/banksearch_{min_support}_iceberg.svg"
