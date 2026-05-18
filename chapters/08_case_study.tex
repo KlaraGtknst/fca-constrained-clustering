@@ -14,7 +14,7 @@ The resulting \ac{mlb}-constrained concept lattice is then compared with a topic
 We extract \ac{mlb} constraints at the topic level and map them to document-level constraints using the topic assignments.
 Since each document belongs to exactly one topic, documents sharing the same topic form an equivalence class. Instead of translating constraints for every document individually, we select one representative document per topic and map the topic-level \ac{mlb} constraints to these representatives. 
 This reduces the number of constraints while preserving the structure induced by the topic hierarchy.
-We omit \ac{mlb} constraints involving categories that have no associated documents.
+\textcolor{red}{TODO: WHY EVEN EXISTING? DELETE TOPICS W/O DOCS BEFORE. We omit \ac{mlb} constraints involving categories that have no associated documents.}
 For example, if documents $d_x$, $d_y$, and $d_z$ belong to topics $x$, $y$, and $z$, respectively, the topic-level constraint $(x,y,z)$ translates to the document-level constraint $(d_x, d_y, d_z)$.
 For the BankSearch dataset, this procedure yields $81$ \ac{mlb} constraints.
 
