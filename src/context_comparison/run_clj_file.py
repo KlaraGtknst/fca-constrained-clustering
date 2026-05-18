@@ -48,6 +48,8 @@ if __name__ == "__main__":
     min_supp = 0.05
     min_support_iceberg_cxt1 = str(PROJECT_ROOT / "resources" / "banksearch" / "topic_model" / f"banksearch_{min_supp}_iceberg.cxt")
     mlb_expanded_cxt2 = str(PROJECT_ROOT / "resources" / "banksearch" / "ground_truth" / "mlb_expanded.cxt")
+    assert Path(min_support_iceberg_cxt1).exists(), f"Context file not found: {min_support_iceberg_cxt1}"
+    assert Path(mlb_expanded_cxt2).exists(), f"Context file not found: {mlb_expanded_cxt2}"
 
     # Analyze both (full lattice by default)
     call_clojure_analyze(min_support_iceberg_cxt1, 0.0)
