@@ -558,6 +558,7 @@ if __name__ == "__main__":
     max_gt_combo=3, max_mi_combo=3, )
 
     print("Start topic model comparison:")
-    map_mi_to_gt_topics(cxt_path="resources/banksearch/topic_model/banksearch_0.05_iceberg.cxt",
+    min_supp = 0.05
+    map_mi_to_gt_topics(cxt_path=f"resources/banksearch/topic_model/banksearch_{min_supp}_iceberg.cxt",
                         gt_path="resources/banksearch/ground_truth/fca_gt_context.json",
                         out_dir="results/context_comparison/topic_model", max_gt_combo=3, max_mi_combo=3, )
