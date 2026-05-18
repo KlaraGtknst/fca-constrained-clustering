@@ -126,6 +126,7 @@ class DocumentTopicModelRepresenter(DocumentRepresentaterBase):
             vector = [int(topic_id in topics) for topic_id in self.all_topics]
             data[doc_id] = vector
 
+        print(f"Average number of topics per document: {sum(sum(row) for row in data.values()) / len(data)}")
         df = pd.DataFrame.from_dict(data, orient="index", columns=self.all_topics)
         return df
 

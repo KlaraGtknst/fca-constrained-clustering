@@ -106,13 +106,26 @@ def load_banksearch_dataset(dataset_path: str):
         plain_text = clean_html(html)
         tokens = preprocess_text(plain_text)
 
+        doc_ids.append(doc_id)
         if tokens:
-            doc_ids.append(doc_id)
             documents.append(tokens)
         else:
-            error_counter["no-tokens"] = error_counter.get("no-tokens", 0) + 1
+            if html:
+                # HTMl exists, but preprocessing leaves no tokens
+                fallback = html
+                error_counter["err01-no-processed-text"] = error_counter.get("err01-no-processed-text", 0) + 1
+            elif plain_text:
+                # neither tokens (after preprocessing), nor HTML exists
+                fallback = plain_text 
+                error_counter["err02-no-html"] = error_counter.get("err02-no-html", 0) + 1
+            else:
+                # neither tokens (after preprocessing), nor HTML exists, nor plain text exists
+                fallback = ""
+                error_counter["err03-no-tokens"] = error_counter.get("err03-no-tokens", 0) + 1
+            documents.append([fallback])
+            
 
-    print(f"Skipped files due to errors or invalid format (reason: counts): {error_counter}")
+    print(f"Files with invalid format (reason: counts): {error_counter}. Used fallback instead.")
     return doc_ids, documents
 
 
