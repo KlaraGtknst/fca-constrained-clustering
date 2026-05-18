@@ -13,7 +13,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### Topic Model 
+### Lattice from Topic Model (LDA)
 You can represent texts via their most representive topic.
 This topic can be derived from a Topic Model (here: LDA).
 Run `dataset2lda_topics.py` in order to obtain **topics**.
@@ -41,7 +41,7 @@ To get a feeling for the choice of `min_supp` we run `plot_concepts_vs_support.p
 
 ![Image: Number of concepts in the iceberg lattice for different min_supp values on the BankSearch Dataset.](resources/banksearch/topic_model/plots/concepts_vs_support.svg)
 
-We find that the `min_supp` value should be no lower then `0.15`, otherwise less than `10` concepts remain.
+We find that the `min_supp` value should be no higher then `0.15`, otherwise less than `10` concepts remain.
 We choose `0.05` and obtain around `30`concepts.
 
 Using this knowledge run the `run_clj_file.py` file after adjusting the `min_supp` value accordingly.
@@ -49,10 +49,29 @@ This generates a `.cxt` and an `.edn` file containing the iceberg context and ic
 You may now plot the resulting iceberg concepts lattice by running `plot_concept_lattice.py`.
 
 
-### MLB Constraints
+### Lattice from MLB Constraints (BankSearch "ground truth")
 The MLB constraints have the format `x,y,z` where `x` and `y` have to be meregd before `z`.
 If there is no explicit topic id for any of `x`, `y` or `z`, it is the union of its children. 
 For instance, if `x` and `y` have explicit names, but `z` has not, `z=x,y`; leading to: `x,y, x,y`
+
+**Document-Topic Context.** 
+The ground-truth *topic hierarchy* by Bade et al. is stored in `resources/banksearch/ground_truth/category_hierarchy.json`.
+Each document is assigned exactly one topic, which naturally creates topic-equivalence classes.
+We represent each *equivalence class*, consisting of all documents of that topic, by one representative document (cf. mapping in `resources/banksearch/ground_truth/mlb_banksearch_equivalence_classes.json`).
+The dataframe containing ground-truth document-topic *context* (document ids as objects, topics as attributes) is constructed via `convert_documents_to_vectors` in `src/topic_model/document_representation.py` called automatically upon initialization of `BankSearchGroundTruthExtractor`.
+
+**MLB constraints.**
+We extract MLB constraints on (i) topic-level and (ii) document ID-level (pruned; i.e., only on topic-equivalence classes) using the `BankSearchGroundTruthExtractor` by running `src/constraints/extractor.py`.
+MLB constraints (x, y, z) are constructed such that (1) all clusters containing x and z also contain y and (2) there exists a cluster containing x and y, but not z.
+
+**Pruned Document ID-level Context**
+In order to build the document ID-topic context based on the pruned document ID equivalence classes' MLB constraints, run `src/attribute_exploration/triple_exploration.py`.
+This will create `mlb.cxt`.
+
+**Expanded Context**
+Run `src/attribute_exploration/expand_mlb_cxt_equivalence.py`to expand the `mlb.cxt` to contain pruned document ID-level MLB constraints to contains their equivalence class members.
+The result is saved to `resources/banksearch/ground_truth/mlb_expanded.cxt`.
+
 
 ## Comparison of MLB and topic model context
 
