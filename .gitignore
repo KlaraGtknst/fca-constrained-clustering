@@ -1,5 +1,13 @@
 resources/Dataset/
 resources/banksearch/fca_topic_model_context_01.json
+resources/banksearch/
+resources/banksearch/topic_model/
+resources/banksearch/topic_model/plots/
+results/context_comparison/
+results/context_comparison/CONCEPT_SIM/
+experiments/LDA_fail_analysis/*.txt
+experiments/LDA_fail_analysis/*.json
+results/lda/
 results/hac/
 results/ihac/
 results/topic_model/
