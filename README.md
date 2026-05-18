@@ -48,6 +48,9 @@ Using this knowledge run the `run_clj_file.py` file after adjusting the `min_sup
 This generates a `.cxt` and an `.edn` file containing the iceberg context and icebergs concepts, respectively.
 You may now plot the resulting iceberg concepts lattice by running `plot_concept_lattice.py`.
 
+**LDA issues.**
+The BankSearch dataset has some documents which are empty (e.g., `E0621.txt` of category `C`) or contain only floating numbers (`G0531.txt`of category `Astronomy`).
+
 
 ### Lattice from MLB Constraints (BankSearch "ground truth")
 The MLB constraints have the format `x,y,z` where `x` and `y` have to be meregd before `z`.
