@@ -102,7 +102,7 @@ the MLB context.
 Both Hasse diagrams are plotted and saved running `src/context_comparison/run_clj_file.py` and are shown below.
 Additional statistics are also generated when running that file.
 
-Topic Model Iceberg Lattice of the BankSearch Dataset with min-support of 0.05:
+Topic Model Iceberg Lattice of the BankSearch Dataset with min-support of `0.05`/`0.1`(TODO):
 ![Iceberg Concept Lattice of the BankSearch Dataset with min-support of 0.05.](resources/banksearch/topic_model/banksearch_0.05_iceberg.svg)
 
 Concepts Lattice of the MLB context on the BankSearch Dataset:
