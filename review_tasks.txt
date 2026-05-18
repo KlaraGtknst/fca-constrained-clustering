@@ -11,7 +11,7 @@
 [x] Ref 9 and 16. “em” should be “EM” -> appears only once in bib file ...?
 
 
-[ ] the experimental section is really underwhelming (section 5), and I do not see an easy way forward from here, since it involves a big problem as yet unsolved by the community.
+[WIP] the experimental section is really underwhelming (section 5), and I do not see an easy way forward from here, since it involves a big problem as yet unsolved by the community.
 [x] Section 1: Wordnet is not an "expert ontology" or a "concept hierarchy". It is a (hierarchical) lexical database, such as Propbank, or FrameNet. There is a deep, foundational distinctions with ontologies, that amounts to not adopting the Nominalist Fallacy. That said, they can capture some "conceptual" information because they stem from the exertion of human cognitive abilities, inasmuch as these can capture reality (oftentimes poorly).
   -> fair, as far as I know, miller1990wordnet calls WordNet a "lexical database" not an expert ontology. Without this, the next sentence was without any context, hence i add context "In linguistic and lexical-semantic ontologies,"
 [x] Section 1: I would suggest you include previous references in the FCA community to modelling lexical datasets such as cite(old:04) and cite(val:05) below: (see orange in pdf for change)
@@ -21,7 +21,8 @@
   % Proof of concept on inflectional properties of German nouns petersen:04
   % reports on domestic violence (report id=obj, phrase=attr) Elzinga:09
 [ ] Section 5: I cannot understand the counts in Fig. 4.
-[ ] Section 5: It is difficult to compare two datasets where one is a distillation of the other, e.g. using 10970 docs for LDA but the full 11000 for the Banksearch topics. It makes going with hard measures difficult. I suggest you only use the 10970 troughout in following experiments.
+[x] Section 5: It is difficult to compare two datasets where one is a distillation of the other, e.g. using 10970 docs for LDA but the full 11000 for the Banksearch topics. It makes going with hard measures difficult. I suggest you only use the 10970 troughout in following experiments.
+-> use all 11.000 Documents for LDA pipeline with preprocessing fallback (i.e., do not omit documents but use early-step results as text representation)
 [ ] Section 5: The iceberg algorithm has stopped at a place where the lattices in Fig. 4 and Fig. 5 seem completely incomparable, hence the (in)consistency result is not surprising. This introduces the hyperparameter of the support level, which needs a better exploration.
 [ ] Section 5: From the point of view of comparing two systems of topics the targets seem to be too far off: one has hand-labelled texts with at most one topic and the other is left to the LDA to assign with no further constraints except those implicitly appearing from the iceberg lattice algorithm. This of course shows in the lattice of consitency. 
 [ ] Section 5: I did not see a good discussion of the issues brought about by choosing the human-labelled data as "gold" (ground?) truth, and the LDA labelling as the system to be evaluated. But since this is a probabilistic assignment, they are going to be huge. Using a single threshold to realise the relevance of a topic to a document is not going to cut it, since it introduces a new hyper-parameter, the threshold, that has to be explored.
