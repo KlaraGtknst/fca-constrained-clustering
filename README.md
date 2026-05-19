@@ -21,7 +21,7 @@ Run `src/topic_model/dataset2lda_topics.py` in order to obtain **topics**.
 **Topic Threshold.**
 You need to define a `MIN_TOPIC_PROB` which is the threshold that decides whether a topic fits a document or not.
 - All topics assigned to a document with probability > `MIN_TOPIC_PROB`are selected.
-- If for a document, no topic has an assigned probability > `MIN_TOPIC_PROB`, we fallback to only using the most applicable topic. 
+- If for a document, no topic has an assigned probability > `MIN_TOPIC_PROB`, no topic is returned. 
 
 In order to get a feeling which value is fitting run `src/topic_model/lda_threshold_plots.py`.
 You'll obtain plots like the one below which help you make informed choices about the threshold.
