@@ -46,7 +46,8 @@ def call_clojure_analyze(cxt_path: str, min_support: float = 0.0) -> Dict[str, A
 if __name__ == "__main__":
     # Paths provided in the request
     min_supp = 0.05
-    min_support_iceberg_cxt1 = str(PROJECT_ROOT / "resources" / "banksearch" / "topic_model" / f"banksearch_{min_supp}_iceberg.cxt")
+    iceberg_filename = f"banksearch_{min_supp}_iceberg"
+    min_support_iceberg_cxt1 = str(PROJECT_ROOT / "resources" / "banksearch" / "topic_model" / f"{iceberg_filename}.cxt")
     mlb_expanded_cxt2 = str(PROJECT_ROOT / "resources" / "banksearch" / "ground_truth" / "mlb_expanded.cxt")
     assert Path(min_support_iceberg_cxt1).exists(), f"Context file not found: {min_support_iceberg_cxt1}"
     assert Path(mlb_expanded_cxt2).exists(), f"Context file not found: {mlb_expanded_cxt2}"
@@ -57,10 +58,10 @@ if __name__ == "__main__":
 
     # Plot PNGs from the EDN concepts that Clojure produced
     # FIXME: use Burmeister format to save formal (iceberg) context
-    edn1_path = Path(PROJECT_ROOT) / f"resources/banksearch/topic_model/banksearch_{min_supp}_iceberg.edn"
+    edn1_path = Path(PROJECT_ROOT) / f"resources/banksearch/topic_model/{iceberg_filename}.edn"
     edn2_path = RESULTS_DIR / "mlb_expanded_concepts.edn"
 
-    img1_path = RESULTS_DIR / f"iceberg_context_{min_supp}_lattice.svg"
+    img1_path = RESULTS_DIR / f"{iceberg_filename}_lattice.svg"
     img2_path = RESULTS_DIR / "mlb_expanded_lattice.svg"
 
     if edn1_path.exists():
@@ -76,7 +77,7 @@ if __name__ == "__main__":
         logger.warning(f"EDN not found: {edn2_path}")
 
     # Optionally, aggregate stats that the Clojure side already saved
-    stats1_path = RESULTS_DIR / "iceberg_context_stats.json"
+    stats1_path = RESULTS_DIR / f"{iceberg_filename}_stats.json"
     stats2_path = RESULTS_DIR / "mlb_expanded_stats.json"
 
     comparison_path = RESULTS_DIR / "comparison_summary.json"
