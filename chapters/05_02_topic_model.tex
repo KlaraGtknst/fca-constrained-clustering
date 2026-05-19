@@ -2,13 +2,14 @@
 
 \subsection{Topic Model}
 \label{sec:topic_model}
-The data-driven topic model-based approach comprises three steps: (i) constructing a topic model, (ii) deriving a document-topic incidence relation, and (iii) filtering concepts using the TITANIC algorithm~\cite{gutekunst2025conceptual}.
+The data-driven topic model-based approach comprises three steps: (i) constructing a, \ac{lda} topic model, (ii) deriving a \textcolor{orange}{constrained} document-topic incidence relation, and (iii) filtering concepts using the TITANIC algorithm~\cite{gutekunst2025conceptual}.
 
 \subsubsection{Topic Model Construction}
-We employ \texttt{gensim}'s implementation of \ac{lda}\footnote{\url{https://radimrehurek.com/gensim/models/ldamodel.html} (30.12.2025)}~\cite{alghamdi_survey_2015}, a widely used generative probabilistic model, to represent documents as mixtures of $K$ latent topics. 
+We employ \texttt{gensim}'s implementation of \ac{lda}\footnote{\url{https://radimrehurek.com/gensim/models/ldamodel.html} (30.12.2025)}~\cite{alghamdi_survey_2015}, a widely used generative probabilistic model that represents documents as mixtures of $K$ latent topics.
+\textcolor{orange}{To ensure comparability with the manually annotated BankSearch taxonomy, the number of latent topics is fixed to the number of ground-truth categories ($K=11$).}
 For a corpus of $N$ documents, \ac{lda} produces a document-topic probability matrix $\Theta \in \mathbb{R}^{N \times K}$, where $\theta_{dt}$ denotes the probability that document $d$ is associated with topic $t$.
-To construct a formal context from $\Theta$, these document-topic probabilities are binarized using a threshold $\delta$. 
-We analyze how different thresholds affect the resulting incidence density to determine an appropriate value, as illustrated in Figure~\ref{fig:incidence_density} for the BankSearch dataset.
+To derive a binary formal context from $\Theta$, document-topic probabilities are thresholded using a minimum topic probability $\delta$.
+The threshold is selected empirically using the elbow criterion on the resulting incidence density, as illustrated in Figure~\ref{fig:incidence_density} for the BankSearch dataset.
 
 \begin{figure}[t]
 \centering
@@ -29,11 +30,11 @@ We analyze how different thresholds affect the resulting incidence density to de
 
 \subsubsection{Document-Topic Incidence}
 Given a threshold $\delta$, a document $d$ is assigned topic $t$ if $\theta_{dt} \geq \delta$. 
-As fallback, a document may be assigned to the topic with the highest probability if no topic meets the threshold.
 This produces a binary incidence relation $I \subseteq D \times T$, where $(d, t) \in I$ indicates that topic $t$ sufficiently characterizes document $d$. 
 Lower threshold values yield denser contexts with more document-topic associations, whereas higher values retain only the most dominant topics.
+If no topic exceeds the threshold, the highest-probability topic is assigned to ensure that each document remains associated with at least one topic.
 
-The resulting relation defines the formal context $\mathbb{K} = (G, M, I)$, where $G$ denotes the set of documents (objects), $M$ the set of topics (attributes), and $I$ the document-topic incidence relation.   
+The resulting binary incidence relation $I \subseteq D \times T$ defines the formal context $\mathbb{K}=(G,M,I)$, where $G$ denotes the set of documents (objects), $M$ the set of topics (attributes), and $I$ the document-topic incidence relation.
 
 % \docTopicInc{}
 
