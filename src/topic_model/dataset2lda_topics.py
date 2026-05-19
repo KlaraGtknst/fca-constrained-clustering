@@ -18,13 +18,12 @@ from gensim.models import LdaModel
 # -----------------------------
 # Ground truth: total number of topics in BankSearch dataset is 11
 NUM_TOPICS_CORPUS = 11  # number of latent topics
-# since in ground truth each document has exactly one topic, we extract the same number of dominant topics
-N_TOPICS_PER_DOC = 5  # number of dominant topics to extract per document
+N_TOPICS_PER_DOC = 11  # maximum number of topics to extract per document; equals n_topics, otherwise density per threshold computation is wrong (bc does not use upper boundary)
 assert N_TOPICS_PER_DOC <= NUM_TOPICS_CORPUS, "Cannot extract more topics per document than total topics in corpus."
 assert N_TOPICS_PER_DOC > 1, "Must extract at least one topic per document, otherwise later steps work on nominal scala which produces non-sense constraints."
 N_TOP_WORDS_PER_TOPIC = 10
 MIN_TOKEN_LENGTH = 3
-MIN_TOPIC_PROB = 0.05  # minimum topic probability per document via elbow method
+MIN_TOPIC_PROB = 0.07  # minimum topic probability per document via elbow method
 
 
 # -----------------------------
