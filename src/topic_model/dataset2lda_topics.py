@@ -171,8 +171,8 @@ def extract_document_topics(
         # Keep topics above threshold; if none, fall back to top 1 topic
         dominant_topics = [(topic, prob) for topic, prob in topic_probs if prob >= min_topic_prob]
         if not dominant_topics:
-            print("No topics above threshold; falling back to top 1 topics.")
-            dominant_topics = sorted(topic_probs, key=lambda x: x[1], reverse=True)[:1]
+            dominant_topics = []
+            print(f"No topics above threshold; return empty topic list for document {doc_id}.")
         else:
             dominant_topics = sorted(dominant_topics, key=lambda x: x[1], reverse=True)[:min(len(dominant_topics), n_topics_per_doc)]
         dominant_topic_ids = [topic for topic, _ in dominant_topics]
