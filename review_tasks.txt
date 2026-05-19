@@ -20,11 +20,12 @@
   % Proof of concept on German prefices sporleder2002galois
   % Proof of concept on inflectional properties of German nouns petersen:04
   % reports on domestic violence (report id=obj, phrase=attr) Elzinga:09
-[ ] Section 5: I cannot understand the counts in Fig. 4.
+[WIP] Section 5: I cannot understand the counts in Fig. 4.
   - "Top labels denote attribute names; bottom labels indicate the number of documents in the concept extent." -> cardinality of extent?
 [x] Section 5: It is difficult to compare two datasets where one is a distillation of the other, e.g. using 10970 docs for LDA but the full 11000 for the Banksearch topics. It makes going with hard measures difficult. I suggest you only use the 10970 troughout in following experiments.
--> use all 11.000 Documents for LDA pipeline with preprocessing fallback (i.e., do not omit documents but use early-step results as text representation)
+  -> use all 11.000 Documents for LDA pipeline with preprocessing fallback (i.e., do not omit documents but use early-step results as text representation)
 [ ] Section 5: The iceberg algorithm has stopped at a place where the lattices in Fig. 4 and Fig. 5 seem completely incomparable, hence the (in)consistency result is not surprising. This introduces the hyperparameter of the support level, which needs a better exploration.
+  -> ellbow criterium in Fig. 3
 [ ] Section 5: From the point of view of comparing two systems of topics the targets seem to be too far off: one has hand-labelled texts with at most one topic and the other is left to the LDA to assign with no further constraints except those implicitly appearing from the iceberg lattice algorithm. This of course shows in the lattice of consitency. 
 [ ] Section 5: I did not see a good discussion of the issues brought about by choosing the human-labelled data as "gold" (ground?) truth, and the LDA labelling as the system to be evaluated. But since this is a probabilistic assignment, they are going to be huge. Using a single threshold to realise the relevance of a topic to a document is not going to cut it, since it introduces a new hyper-parameter, the threshold, that has to be explored.
 [ ] Section 5: Consistently, the consistency lattice is meaningless (in the technical sense: just an empty context, hence a 2 lattice), and the attempt at improving it by using the coherence lattice is underwhelming: hardly comprehensive at all. I believe this all comes because we do not have in the community an understanding of what underlying noise (e.g. in the LDA results spureous probability masses) does to context exploration techniques (the thresholding), so not to be dropped on the author's roof.
