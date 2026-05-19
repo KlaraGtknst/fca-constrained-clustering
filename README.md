@@ -20,15 +20,15 @@ Run `src/topic_model/dataset2lda_topics.py` in order to obtain **topics**.
 
 **Topic Threshold.**
 You need to define a `MIN_TOPIC_PROB` which is the threshold that decides whether a topic fits a document or not.
-- Among all topics assigned to a document with probability > `MIN_TOPIC_PROB`, the top `N_TOPICS_PER_DOC` are selected.
-- If for a document, no topic has an assigned probability > `MIN_TOPIC_PROB`, we fallback to only using the most applicable topic.
+- All topics assigned to a document with probability > `MIN_TOPIC_PROB`are selected.
+- If for a document, no topic has an assigned probability > `MIN_TOPIC_PROB`, we fallback to only using the most applicable topic. 
 
 In order to get a feeling which value is fitting run `src/topic_model/lda_threshold_plots.py`.
 You'll obtain plots like the one below which help you make informed choices about the threshold.
 
 ![Image: LDA Document-Topic Incidence Density per Threshold on the BankSearch Dataset](results/lda/incidence_density_vs_threshold.svg)
 
-Given this plot, a reasonable threshold would `0.05`, because it ensures the document-topic incidence is sparse (i.e.,  incidence density just above `0.2`) and in terms of the elbow criterium.
+Given this plot, a reasonable threshold would `0.07`, because it ensures the document-topic incidence is sparse (i.e.,  incidence density just above `0.2`) and in terms of the elbow criterium.
 
 
 **LDA Missing Documents (Update after reviewer feedback).**
