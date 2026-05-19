@@ -3,7 +3,7 @@
 
 We apply our method to the BankSearch dataset (\autoref{sec:banksearch_data}).
 Due to its hierarchical structure, topic-level \ac{mlb} constraints must be mapped to document-level constraints (\autoref{sec:topic_document_mapping}).
-The resulting \ac{mlb}-constrained concept lattice is then compared with a topic model-based iceberg lattice (Section~\ref{sec:lattice_comparison} and \ref{sec:consistency_vs_coherence}).
+The resulting \ac{mlb}-constrained concept lattice is then compared with a topic model-based iceberg lattice (Section~\ref{sec:lattice_comparison} and \ref{sec:consistency_vs_coherence}), followed by a discussion of methodological limitations (\autoref{sec:case_study_limitations}).
 
 \input{chapters/06_dataset}
 
@@ -21,3 +21,20 @@ For the BankSearch dataset, this procedure yields $81$ \ac{mlb} constraints.
 % \input{chapters/08_case_study/dendogram_effectiveness_measure.tex}
 
 \input{chapters/08_case_study/lattice_comparison.tex}
+
+\subsection{Limitations \textcolor{orange}{NEW SECTION}}
+\label{sec:case_study_limitations}
+
+% review: I did not see a good discussion of the issues brought about by choosing the human-labelled data as "gold" (ground?) truth, and the LDA labelling as the system to be evaluated. But since this is a probabilistic assignment, they are going to be huge. Using a single threshold to realise the relevance of a topic to a document is not going to cut it, since it introduces a new hyper-parameter, the threshold, that has to be explored.
+
+Several limitations should be considered when interpreting the results.
+First, the BankSearch taxonomy comprises only two hierarchy levels and incomplete topic coverage.
+In addition, some documents are empty or contain only numerical content.
+To preserve a consistent document universe across experiments, such documents were retained using fallback preprocessing strategies, potentially introducing noise into the learned topic distributions.
+
+Second, the topic model-based representation depends on modeling assumptions and hyperparameters.
+The document-topic incidence relation is obtained by thresholding probabilistic \ac{lda} assignments, making the resulting formal context sensitive to the selected threshold $\delta$.
+Likewise, fixing the number of latent topics to the number of BankSearch categories improves comparability, but may constrain the model's latent structure discovery.
+
+Finally, \ac{lda} represents only one class of topic modeling approaches.
+Alternative models, including neural and nonparametric topic models, may yield substantially different document-topic relations and concept lattices.
