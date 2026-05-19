@@ -63,7 +63,7 @@ To get a feeling for the choice of `min_supp` we run `src/experiments/plot_conce
 ![Image: Number of concepts in the iceberg lattice for different min_supp values on the BankSearch Dataset.](resources/banksearch/topic_model/plots/concepts_vs_support.svg)
 
 We find that the `min_supp` value should be no higher then `0.15`, otherwise less than `10` concepts remain.
-We choose `0.05`/`0.1` and obtain `28`/`14` concepts.
+We choose `0.05`/`0.1` and obtain `24`/`13` concepts.
 
 Using this knowledge run the `src/experiments/run_clj_file.py` file after adjusting the `min_supp` value accordingly.
 This generates a `.cxt` and an `.edn` file containing the iceberg context and icebergs concepts, respectively.
