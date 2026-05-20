@@ -24,7 +24,7 @@ Consequently, most original topics appear on the lowest level directly above the
 \begin{figure}[t]
     \centering
     \includegraphics[width=\textwidth]{resources/banksearch/topic_model/banksearch_0.05_iceberg.pdf}
-    \caption{Iceberg concept lattice derived from the topic model. Top labels denote topic IDs in the concept intent; bottom labels indicate the number of documents in the concept extent.}
+    \caption{Iceberg concept lattice derived from the topic model. Top labels denote topic IDs \textcolor{red}{TODO: we only have 11??? concept IDS != topic IDS...} in the concept intent; bottom labels indicate the number of documents in the concept extent.}
     \label{fig:iceberg_concept_lattice}
 \end{figure}
 
@@ -79,7 +79,7 @@ To investigate partial overlaps, we define the \textit{coherence-lattice} $\math
 \begin{equation}
     M_{coh} = \{ A \cap B \mid A \in \mathcal{C}_{\Sigma}, B \in \mathcal{C}_{TM}, J(A, B) > \theta \}
 \end{equation}
-We set $\theta = 0.6$ based on the distribution shown in Figure 7. This construction allows us to visualize document clusters that are \textit{nearly} consistent across both knowledge sources.
+We set $\theta = 0.6$ based on the distribution shown in Figure 7 \textcolor{red}{???}. This construction allows us to visualize document clusters that are \textit{nearly} consistent across both knowledge sources.
 Since the top node of the coherence lattice contains only $3625$ documents (approximately $33\%$ of the documents considered for the topic model-based lattice), the resulting lattice covers only a subset of the corpus, indicating limited agreement between the two knowledge bases.
 
 \begin{figure}[t]
