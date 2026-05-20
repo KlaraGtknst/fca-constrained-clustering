@@ -86,4 +86,6 @@ Suggested references to be included:
   [ ] add to limitations: kommen unterschiede von Datengrundlage unterschied oder von methodischen Unterschieden (pruned iceberg lattice vs vollständigen MLB lattice)
 - = warum consistency lattice leer? liegt an semantic differences und nicht an Vorgehen (restriction = also lattices gebaut auf zwei unterschiedliche Arten also voll und iceberg)
 [ ] Definition 4 may contain some error? Points 3 and 4 seems contradictory to me. Also, I am not sure that they may refer to Definitions 1 and 2. Please recheck (this is mandatory if the paper is accepted).
-[ ] experiments are a little bit flawed because of some decisions taken, but I think that this is a preliminary setup.
+  [ ] reword reference
+  - no. it is correct.
+[x] experiments are a little bit flawed because of some decisions taken, but I think that this is a preliminary setup.
