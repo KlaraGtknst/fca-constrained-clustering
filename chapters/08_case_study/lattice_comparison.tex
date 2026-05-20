@@ -2,13 +2,9 @@
 \label{sec:lattice_comparison}
 
 
-The two lattices are constructed from slightly different document sets. 
-The topic model-based lattice uses 10\,970 documents with valid textual content (following~\cite{gutekunst2025conceptual}), whereas the \ac{mlb}-constrained lattice includes all 11\,000 documents. 
-Documents containing corrupted text were excluded from the topic modeling pipeline, as reliable topic assignment requires valid textual input.
-
-In addition, the lattices differ in their construction. 
-While the \ac{mlb}-constrained lattice in Figure~\ref{fig:mlb_concept_lattice} contains all concepts, the topic model-based lattice in Figure~\ref{fig:iceberg_concept_lattice} is computed as an iceberg lattice, retaining only concepts whose intents satisfy a minimum support threshold. 
-This restriction is necessary because the complete topic model-based lattice contains more than 590 concepts (cf.~Figure~\ref{fig:concepts_support}), which would hinder visualization and interpretation.
+The two lattices are constructed from all 11\,000 documents. 
+The \ac{mlb}-constrained lattice in Figure~\ref{fig:mlb_concept_lattice} contains all concepts, the topic model-based lattice in Figure~\ref{fig:iceberg_concept_lattice} is computed as an iceberg lattice, retaining only concepts whose intents satisfy a minimum support threshold. 
+This restriction is necessary because the complete topic model-based lattice contains more than 550 concepts (cf.~Figure~\ref{fig:concepts_support}), which would hinder visualization and interpretation.
 
 \begin{figure}[t]
     \centering
