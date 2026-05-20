@@ -109,7 +109,7 @@ Concepts Lattice of the MLB context on the BankSearch Dataset:
 ![mlb_expanded_lattice.svg](resources/banksearch/ground_truth/mlb_expanded.svg)
 
 # Comparison of the two lattices
-Run `src/context_comparison/compare_concepts.py`, `src/context_comparison/run_clj_file.py` and `src/context_comparison/explore_cxt.py`.
+Run `src/context_comparison/compare_concepts.py` (creates and saves coherence context), `src/context_comparison/run_clj_file.py` (statisticy about both input contexts) and `src/context_comparison/explore_cxt.py` (finds ground-truth equivalence and concept extent alignments).
 
 `compare_concepts.py` produces (among other things) a heatmap of the similarity between the concepts of the two 
 contexts, which is shown below. Similarity is calculated via the Jaccard similarity of the extents of the concepts, which are sets of documents.
