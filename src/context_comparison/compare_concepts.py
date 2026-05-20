@@ -411,6 +411,8 @@ def write_burmeister_context(
             row = "".join("X" if o in has_attr[j] else "." for j in range(len(attributes)))
             f.write(row + "\n")
 
+    print(f"Wrote Burmeister context with {len(objects)} objects and {len(attributes)} attributes to {path}")
+
 
 def build_coherence_context_from_high_pairs(
     concepts_a: Sequence[Concept],
