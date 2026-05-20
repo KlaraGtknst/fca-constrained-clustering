@@ -2,11 +2,11 @@
 \subsection{\acl{mlb} Constraints}
 \label{sec:foundations_mlb}
 
-Clustering structures data without predefined class labels, which is particularly useful in real-world applications where labeled data is scarce and annotation is costly. 
+Clustering structures unlabelled data, which is particularly useful in real-world applications where labeled data is scarce and annotation is costly. 
 Clustering algorithms group data points according to a similarity criterion, typically minimizing intra-cluster distances while maximizing inter-cluster distances.
 Prior knowledge about the dataset can be incorporated through constraints. 
 The simplest forms are pairwise \textit{must-link} and \textit{cannot-link} constraints, enforcing that two instances must or must not belong to the same cluster. 
-However, pairwise constraints generally apply only at a level of granularity.
+However, pairwise constraints generally apply only at one level of granularity.
 
 Hierarchical clustering instead organizes data at multiple levels of granularity~\cite{bade_hierarchical_2014}. 
 To encode prior knowledge in this setting, \ac{mlb} constraints specify the relative agglomeration order of three data points. 
@@ -19,7 +19,7 @@ states that $d_x$ and $d_y$ should be merged before either is merged with $d_z$ 
 Formally, both \autoref{def:mlb_implication} and \autoref{def:mlb_counterexample} must hold, expressing that the must-link relation between $d_x$ and $d_y$ is stronger than that between $d_x$ and $d_z$. 
 \autoref{fig:hierarchy_to_mlb} illustrates valid \ac{mlb} constraints given a toy example.
 
-\begin{definition}[\ac{mlb} Implication]
+\begin{definition}[\ac{mlb} Implication \textcolor{red}{TODO: H?? same as  def 4?}]
     \label{def:mlb_implication}\\
     Given \ac{mlb} constraint $MLB_{x y z}$:
     $\forall c \in H: d_x \in c \wedge d_z \in c \rightarrow d_y \in c$
