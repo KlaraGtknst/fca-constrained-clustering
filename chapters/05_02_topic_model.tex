@@ -9,7 +9,7 @@ We employ \texttt{gensim}'s implementation of \ac{lda}\footnote{\url{https://rad
 \textcolor{orange}{To ensure comparability with the manually annotated BankSearch taxonomy, the number of latent topics is fixed to the number of ground-truth categories ($T=11$).}
 For a corpus of $D$ documents, \ac{lda} produces a document-topic probability matrix $\Theta \in \mathbb{R}^{D \times T}$, where $\theta_{dt}$ denotes the probability that document $d$ is associated with topic $t$.
 To derive a binary formal context from $\Theta$, document-topic probabilities are thresholded using a minimum topic probability $\delta$.
-The threshold is selected empirically using the elbow criterion on the resulting incidence density, as illustrated in Figure~\ref{fig:incidence_density} for the BankSearch dataset.
+The threshold is selected empirically using the elbow criterion on the resulting incidence density, as illustrated in Figure~\ref{fig:incidence_density}.% for the BankSearch dataset.
 
 \begin{figure}[t]
 \centering
