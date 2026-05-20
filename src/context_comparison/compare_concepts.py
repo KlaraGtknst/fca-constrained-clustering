@@ -169,6 +169,7 @@ def concept_similarity_matrix(concepts_a: Sequence[Concept], concepts_b: Sequenc
     np.ndarray
         Shape (len(concepts_a), len(concepts_b))
     """
+    print(f"Computing similarity matrix for {len(concepts_a)} concepts in A and {len(concepts_b)} concepts in B...")
     sim = np.zeros((len(concepts_a), len(concepts_b)), dtype=np.float32)
     for i, ca in enumerate(concepts_a):
         ea = ca.extent
@@ -192,6 +193,7 @@ def save_heatmap(sim: np.ndarray, path: Path, title: str, xlabel: str, ylabel: s
     plt.tight_layout()
     plt.savefig(path, dpi=200, bbox_inches="tight")
     plt.close()
+    print(f"Saved heatmap to {path}")
 
 
 def top_k_matches(sim: np.ndarray, k: int) -> List[Tuple[int, int, float]]:
@@ -469,9 +471,10 @@ def build_coherence_context_from_high_pairs(
 
 def parse_args() -> argparse.Namespace:
     """Parse command-line args."""
+    min_supp = 0.05
     ap = argparse.ArgumentParser(description="Compute concept-extent similarity between two contexts.")
     ap.add_argument("--a-edn", default="results/context_comparison/mlb_expanded_concepts.edn")
-    ap.add_argument("--b-edn", default="resources/banksearch/topic_model/banksearch_0.05_iceberg.edn")
+    ap.add_argument("--b-edn", default=f"resources/banksearch/topic_model/banksearch_{min_supp}_iceberg.edn")
     ap.add_argument("--out-dir", default="results/context_comparison/CONCEPT_SIM")
     ap.add_argument("--top-k", type=int, default=5)
     ap.add_argument("--max-a", type=int, default=0, help="If >0, limit to first max-a concepts of A.")
