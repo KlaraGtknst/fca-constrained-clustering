@@ -7,7 +7,7 @@ The data-driven topic model-based approach comprises three steps: (i) constructi
 \subsubsection{Topic Model Construction}
 We employ \texttt{gensim}'s implementation of \ac{lda}\footnote{\url{https://radimrehurek.com/gensim/models/ldamodel.html} (30.12.2025)}~\cite{alghamdi_survey_2015}, a widely used generative probabilistic model that represents documents as mixtures of $T$ latent topics.
 \textcolor{orange}{To ensure comparability with the manually annotated BankSearch taxonomy, the number of latent topics is fixed to the number of ground-truth categories ($T=11$).}
-For a corpus of $N$ documents, \ac{lda} produces a document-topic probability matrix $\Theta \in \mathbb{R}^{N \times T}$, where $\theta_{dt}$ denotes the probability that document $d$ is associated with topic $t$.
+For a corpus of $D$ documents, \ac{lda} produces a document-topic probability matrix $\Theta \in \mathbb{R}^{D \times T}$, where $\theta_{dt}$ denotes the probability that document $d$ is associated with topic $t$.
 To derive a binary formal context from $\Theta$, document-topic probabilities are thresholded using a minimum topic probability $\delta$.
 The threshold is selected empirically using the elbow criterion on the resulting incidence density, as illustrated in Figure~\ref{fig:incidence_density} for the BankSearch dataset.
 
