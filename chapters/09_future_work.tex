@@ -1,23 +1,18 @@
 \section{Conclusion, Limitations, and Future Work}
 \label{sec:future_work}
 
-The analysis of the consistency- and coherence-lattices highlights the distinction between strict and relaxed notions of agreement between knowledge bases. 
-The consistency-lattice retains only concepts whose extents coincide exactly in both the \ac{mlb}-constrained and the topic model-based lattices. 
-In our experiments, no non-trivial document clusters were shared exactly between the two lattices, indicating that strict consistency is often too restrictive for heterogeneous knowledge sources.
-
-In principle, pruning low-support concepts that could potentially form exact overlaps, can yield an incomplete consistency-lattice. 
-However, the empty consistency-lattice in our experiments primarily reflects structural differences between the two knowledge bases rather than an artefact of pruning: 
-The \ac{mlb}-constrained lattice is derived from manual annotations and thus reflects human expertise and annotation decisions, whereas the topic model-based lattice is data-driven and captures latent statistical regularities in the corpus. 
-
 Our study provides two main contributions. 
 First, we showed that \ac{mlb} constraints can be integrated natively into the \ac{fca} framework through a fixpoint-based closure operator. 
 Second, experiments on the BankSearch dataset demonstrated that exact consistency between expert-defined hierarchies and data-driven topic models is rarely observed in real-world corpora, motivating the need for relaxed coherence-based integration strategies.
 
+The consistency-lattice retains only concepts whose extents coincide exactly in both the \ac{mlb}-constrained and the topic model-based lattices. 
+In our experiments, only trivial document clusters were shared exactly, indicating that strict consistency is often too restrictive for heterogeneous knowledge sources.
+
+In principle, pruning low-support concepts that could potentially form exact overlaps, can yield an incomplete consistency-lattice. 
+However, the empty consistency-lattice in our experiments primarily reflects semantic differences between the two knowledge bases rather than an artefact of pruning: 
+The \ac{mlb}-constrained lattice is derived from manual annotations and thus reflects human expertise and annotation decisions, whereas the topic model-based lattice is data-driven and captures latent statistical regularities in the corpus. 
+
 Instead of requiring identical extents, coherence-lattice identifies partially overlapping document clusters and thereby enables the analysis of meaningful semantic alignments between heterogeneous data sources. 
 Moreover, the number of documents contained in coherence-lattice concepts provides an indication of the degree of agreement between the underlying knowledge bases.
-
-% Overall, the results suggest that practical knowledge integration requires tolerating a certain degree of inconsistency while maintaining sufficient coherence. 
-% The appropriate similarity threshold depends on the application domain: safety-critical settings may require high thresholds to ensure reliable alignment, whereas exploratory analysis may benefit from lower thresholds that permit broader, though less precise, overlaps.
-
 
 Future work will investigate the integration of more than two knowledge bases, methods for selecting similarity thresholds that yield coherence-lattices of comparable size, and alternative overlap measures beyond Jaccard similarity for comparing concept extents across multiple lattices.
