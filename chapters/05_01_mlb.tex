@@ -35,29 +35,36 @@ We perform a structural saturation step on $\Sigma$ by exhaustively applying tra
 \textbf{The Lattice as the Search Space of Valid Clusters.} 
 A hierarchical clustering (i.e., dendrogram) is traditionally defined as a nested sequence of clusters. We define a valid hierarchy in the context of constraints as follows:
 
-\begin{definition}[Valid Hierarchy]
+\begin{definition}[Valid Hierarchy] % V for valid hierarchy, H is already used for hierarchy of clusters
     \label{def:valid_hierarchy}
-A collection of subsets $\mathcal{H} \subseteq \mathcal{P}(G)$ is a valid hierarchy regarding $\Sigma$ if: \textcolor{red}{TODO: H?? same as def 1? No. -> V statt H}
+A collection of subsets $\mathcal{V} \subseteq \mathcal{P}(G)$ is a valid hierarchy regarding $\Sigma$ if: 
 \begin{enumerate}
-    \item $G \in \mathcal{H}$ and $\emptyset \in \mathcal{H}$.
-    \item For any $A, B \in \mathcal{H}$, either $A \cap B = \emptyset$ or $A \subseteq B$ or $B \subseteq A$ (Nested property).
-    \item Every $A \in \mathcal{H}$ is $\Sigma$-consistent (satisfying Definition 1).
-    \item For every $(d_x, d_y, d_z) \in \Sigma$, there exists $C \in \mathcal{H}$ such that $d_x, d_y \in C$ and $d_z \notin C$ (satisfying Definition 2).
+    \item \label{item:valid_hierarchy_root} 
+    $G \in \mathcal{V}$ and $\emptyset \in \mathcal{V}$.
+
+    \item \label{item:valid_hierarchy_nested} 
+    For any $A, B \in \mathcal{V}$, either $A \cap B = \emptyset$ or $A \subseteq B$ or $B \subseteq A$ (Nested property).
+    
+    \item \label{item:valid_hierarchy_consistency} 
+    Every $A \in \mathcal{V}$ is $\Sigma$-consistent.
+
+    \item \label{item:valid_hierarchy_counterexample}
+    For every $(d_x, d_y, d_z) \in \Sigma$, there exists $C \in \mathcal{V}$ such that $d_x, d_y \in C$ and $d_z \notin C$.
 \end{enumerate}
 \end{definition}
 
-\textcolor{red}{Cond. 3 corresponds to def. 1 von MLB, cond. 4 corresponds to def. 2 von MLB}
-While the closure operator $\phi_\Sigma$ strictly enforces the implication part (Condition \textcolor{red}{3}), it does not natively enforce the strict structural separation required by Condition 4. However, we claim that the resulting concept lattice provides the exact \emph{search space} containing all admissible building blocks (clusters) for any valid hierarchy.
+Note that Condition~\ref{item:valid_hierarchy_consistency} of \eqref{def:valid_hierarchy} corresponds to \eqref{def:mlb_implication} and Condition~\ref{item:valid_hierarchy_counterexample} of \eqref{def:valid_hierarchy} corresponds to \eqref{def:mlb_counterexample}.
+While the closure operator $\phi_\Sigma$ strictly enforces the implication part (Condition~\ref{item:valid_hierarchy_consistency}), it does not natively enforce the strict structural separation required by Condition~\ref{item:valid_hierarchy_counterexample}. However, we claim that the resulting concept lattice provides the exact \emph{search space} containing all admissible building blocks (clusters) for any valid hierarchy.
 
 \begin{theorem}
-Let $\mathfrak{B}_\Sigma$ be the lattice of all closed sets under $\phi_\Sigma$. For any valid hierarchy $\mathcal{H}$, it holds that $\mathcal{H} \subseteq \mathfrak{B}_\Sigma$.
+Let $\mathfrak{B}_\Sigma$ be the lattice of all closed sets under $\phi_\Sigma$. For any valid hierarchy $\mathcal{V}$, it holds that $\mathcal{V} \subseteq \mathfrak{B}_\Sigma$.
 \end{theorem}
 
 \begin{proof}
-Let $C \in \mathcal{H}$ be an arbitrary cluster in a valid hierarchy. By the third Condition of Definition 4, $C$ must be $\Sigma$-consistent. By the definition of our closure system $\mathcal{S}_\Sigma$, a set is closed if and only if it is $\Sigma$-consistent. Therefore, $C \in \mathcal{S}_\Sigma$. Since $\mathfrak{B}_\Sigma$ is the lattice formed by all elements of $\mathcal{S}_\Sigma$, it follows that $C \in \mathfrak{B}_\Sigma$.
+Let $C \in \mathcal{V}$ be an arbitrary cluster in a valid hierarchy. By the Condition~\ref{item:valid_hierarchy_consistency} of \eqref{def:valid_hierarchy}, $C$ must be $\Sigma$-consistent. By the definition of our closure system $\mathcal{S}_\Sigma$, a set is closed if and only if it is $\Sigma$-consistent. Therefore, $C \in \mathcal{S}_\Sigma$. Since $\mathfrak{B}_\Sigma$ is the lattice formed by all elements of $\mathcal{S}_\Sigma$, it follows that $C \in \mathfrak{B}_\Sigma$.
 \end{proof}
 
-This theorem demonstrates that while $\mathfrak{B}_\Sigma$ itself contains overlapping concepts, it encompasses every valid cluster of every possible hierarchy that respects the constraints. A specific dendrogram that satisfies the strong separation requirement of Condition 4 can be derived by selecting a sub-order that satisfies the nested property, for instance \textcolor{blue}{by prioritizing concepts with higher stability or topic coherence}.
+This theorem demonstrates that while $\mathfrak{B}_\Sigma$ itself contains overlapping concepts, it encompasses every valid cluster of every possible hierarchy that respects the constraints. A specific dendrogram that satisfies the strong separation requirement of Condition~\ref{item:valid_hierarchy_counterexample} of \eqref{def:valid_hierarchy} can be derived by selecting a sub-order that satisfies the nested property, for instance \textcolor{blue}{by prioritizing concepts with higher stability or topic coherence}.
 
-This implies that the concept lattice $\underline{\mathfrak{B}}(\mathbb{K}_{\Sigma})$ constitutes the exact search space for constrained hierarchical clustering. A particular dendrogram can be derived by selecting a sub-order that satisfies the second Condition of \autoref{def:valid_hierarchy}, % tree property (nestedness), 
+This implies that the concept lattice $\underline{\mathfrak{B}}(\mathbb{K}_{\Sigma})$ constitutes the exact search space for constrained hierarchical clustering. A particular dendrogram can be derived by selecting a sub-order that satisfies Condition~\ref{item:valid_hierarchy_nested} of \eqref{def:valid_hierarchy}, % tree property (nestedness), 
 for instance \textcolor{blue}{by prioritizing concepts with higher stability or topic coherence}. \textcolor{red}{TODO: remove duplicate}
