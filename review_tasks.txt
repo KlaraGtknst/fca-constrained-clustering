@@ -1,10 +1,10 @@
-[ ] The theoretical part is insufficiently formalized and the presentation is not good. 
+[x] The theoretical part is insufficiently formalized and the presentation is not good. 
     [x] Section 3.2 (definitions 1 and 2): the set ‘H’ is used without introduction. What does it mean? 
     [x] Section 3.2: What do its elements ‘c’ mean? 
     [x] Section 3.2: what is the difference between ‘x’ and ‘dx’?, etc 
       -> omit x and use only d_x
     [x] Section 3.2: It is strange to require that a Definition 'must hold' (pg 4, line -7).
-    [ ] Section 3.2: it is not clearly explained why MLB counter-models should be required in the definition of valid hierarchy. ?????? Def. 4???? counter-models????
+    [-] Section 3.2: it is not clearly explained why MLB counter-models should be required in the definition of valid hierarchy. ?????? Def. 4???? counter-models????
 [x] Abstract : “an Latent” should be “a Latent”
 [x] Ref 1. Insert page range. -> pages={147--153},
 [x] Ref 9 and 16. “fca” should be “FCA”
@@ -21,9 +21,9 @@
   % Proof of concept on German prefices sporleder2002galois
   % Proof of concept on inflectional properties of German nouns petersen:04
   % reports on domestic violence (report id=obj, phrase=attr) Elzinga:09
-[WIP] Section 5: I cannot understand the counts in Fig. 4.
+[x] Section 5: I cannot understand the counts in Fig. 4.
   - "Top labels denote attribute names; bottom labels indicate the number of documents in the concept extent." -> cardinality of extent?
-  [ ] TODO: caption
+  [x] add caption with findings of manual qualitative comparisoin to original documet clusters
 [x] Section 5: It is difficult to compare two datasets where one is a distillation of the other, e.g. using 10970 docs for LDA but the full 11000 for the Banksearch topics. It makes going with hard measures difficult. I suggest you only use the 10970 troughout in following experiments.
   -> use all 11.000 Documents for LDA pipeline with preprocessing fallback (i.e., do not omit documents but use early-step results as text representation)
 [ ] Section 5: The iceberg algorithm has stopped at a place where the lattices in Fig. 4 and Fig. 5 seem completely incomparable, hence the (in)consistency result is not surprising. This introduces the hyperparameter of the support level, which needs a better exploration.
