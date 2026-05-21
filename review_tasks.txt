@@ -1,7 +1,8 @@
 [ ] The theoretical part is insufficiently formalized and the presentation is not good. 
     [x] Section 3.2 (definitions 1 and 2): the set ‘H’ is used without introduction. What does it mean? 
     [x] Section 3.2: What do its elements ‘c’ mean? 
-    [ ] Section 3.2: what is the difference between ‘x’ and ‘dx’?, etc 
+    [x] Section 3.2: what is the difference between ‘x’ and ‘dx’?, etc 
+      -> omit x and use only d_x
     [x] Section 3.2: It is strange to require that a Definition 'must hold' (pg 4, line -7).
     [ ] Section 3.2: it is not clearly explained why MLB counter-models should be required in the definition of valid hierarchy. ?????? Def. 4???? counter-models????
 [x] Abstract : “an Latent” should be “a Latent”
