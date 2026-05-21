@@ -76,15 +76,15 @@ Suggested references to be included:
 [x] "The two lattices are constructed from slightly different document sets". It is a bad start. It seems that one set contains a few less documents. The question is: why didn't you perform the experiments with the least common number of available documents for each set of MLB? It seems to me that it was only a matter of removing 30 documents from one set. It also seems to me a way to ruin a set of experiments form the start.
 [x] "the lattices differ in their construction". I appreciate the honesty, but again, you are telling that you are comparing two different things.
 [x] "the topic model-based lattice in Figure 5 is computed as an iceberg lattice, retaining only concepts whose intents satisfy a minimum support threshold". Just the same.
-[ ] I understand that some differences may arise, since the sets of restrictions are different. But you will have to justify why the results and the interpretation of you comparison is a product of the semantic differences in the two different of restrictions used to construct both concept lattices, or they are due to the processes that you have applied in their construction. This is a relevant point that either is discussed in the final version of this paper or in the presentation.
+[x] I understand that some differences may arise, since the sets of restrictions are different. But you will have to justify why the results and the interpretation of you comparison is a product of the semantic differences in the two different of restrictions used to construct both concept lattices, or they are due to the processes that you have applied in their construction. This is a relevant point that either is discussed in the final version of this paper or in the presentation.
 - MLB (expert) und data-driven
-  [ ] 5.3: unterschiedliche Methods, aber...
+  [x] 5.3: unterschiedliche Methods, aber...
   * MLB nicht gepruned
   * dieser Datensatz: kein Problem da bin min cardinality of mlb = 1000 (unteren Begriffe) und unsere topic-driven lattice Begriffe sind < 1000, also auch alles darunter was durch den TITANIC verloren ging kann kein Jaccrad = 1 haben, also nicht im consistency lattice auftauchen, ABER SONST Problem
   * TITANIC: behält nur interessanten Begriffe (untere Begriffe uninteressant -> wurden gepruned), es ergibt nur Sinn diese Begriffe zu vergleichen
     - (ernsthafte Einschränkung: unterschiedliche Methoden machen unvergleichbar?)
   * MLB ist not restricted
-  [ ] add to limitations: kommen unterschiede von Datengrundlage unterschied oder von methodischen Unterschieden (pruned iceberg lattice vs vollständigen MLB lattice)
+  [x] add to limitations: kommen unterschiede von Datengrundlage unterschied oder von methodischen Unterschieden (pruned iceberg lattice vs vollständigen MLB lattice)
 - = warum consistency lattice leer? liegt an semantic differences und nicht an Vorgehen (restriction = also lattices gebaut auf zwei unterschiedliche Arten also voll und iceberg)
 [x] Definition 4 may contain some error? Points 3 and 4 seems contradictory to me. Also, I am not sure that they may refer to Definitions 1 and 2. Please recheck (this is mandatory if the paper is accepted).
   [x] reword reference

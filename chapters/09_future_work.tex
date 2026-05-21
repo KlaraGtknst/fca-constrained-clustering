@@ -4,6 +4,8 @@
 The analysis of the consistency- and coherence-lattices highlights the distinction between strict and relaxed notions of agreement between knowledge bases. 
 The consistency-lattice retains only concepts whose extents coincide exactly in both the \ac{mlb}-constrained and the topic model-based lattices. 
 In our case, no non-trivial document clusters are shared exactly between the two lattices, indicating that strict consistency is often too restrictive when comparing knowledge bases derived from different sources.
+% limitation
+Arguably, comparing the complete \ac{mlb}-constrained lattice with the high-support pruned topic model-based iceberg lattice has to be a data-specific choice: low-support concepts typically contain more noise, but for other datasets, omitting them may lead to missing perfect overlaps causing an incomplete consistency-lattice.
 
 Our study yields two major insights: First, we established that MLB constraints can be natively integrated into the FCA framework via a fixpoint-based closure operator. Second, our experiments on the BankSearch dataset reveal that strict consistency between expert hierarchies and probabilistic topic models is rarely achieved in real-world corpora. 
 
@@ -13,7 +15,12 @@ In contrast, the coherence-lattice allows partial overlap between concept extent
 The resulting lattice therefore captures document clusters that are largely shared between the two lattices, even when they do not coincide perfectly. 
 The number of documents contained in coherence-lattice concepts provides an indication of the degree of agreement between the knowledge bases.
 The \ac{mlb}-constrained lattice is derived from manually annotated labels and thus represents a high-precision conceptualization of the domain. 
+% limitation
+Manual annotation reflects human feedback and priorities and word view (thats why we chose it), although it might not be perfect, and naturally low inter-annotator agreement.
 By contrast, the knowledge base underlying the topic model-based lattice is data-driven and reflects statistical patterns in the document corpus, which may also include artefacts caused by noise or biases in the data.
+% limitation
+Although \ac{lda} is a well-established topic modeling approach, alternative models, including neural and nonparametric topic models, may yield substantially different document-topic relations and concept lattices.
+However, we built our method to allow plug-and-play of different topic modeling approaches.
 
 Overall, the results suggest that practical knowledge integration requires tolerating a certain degree of inconsistency while maintaining sufficient coherence. The appropriate similarity threshold depends on the application domain: safety-critical areas such as medicine may require higher thresholds to ensure reliable knowledge alignment, whereas exploratory analysis may benefit from lower thresholds that allow broader, though less precise, overlaps.
 
