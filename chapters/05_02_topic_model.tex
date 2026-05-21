@@ -2,13 +2,13 @@
 
 \subsection{Topic Model}
 \label{sec:topic_model}
-The data-driven topic model-based approach comprises three steps: (i) constructing a \ac{lda} topic model, (ii) deriving a \textcolor{orange}{constrained} document-topic incidence relation, and (iii) filtering concepts using the TITANIC algorithm~\cite{gutekunst2025conceptual}.
+The data-driven topic model-based approach comprises three steps: (i) constructing a \ac{lda} topic model, (ii) deriving a constrained document-topic incidence relation, and (iii) filtering concepts using the TITANIC algorithm~\cite{gutekunst2025conceptual}.
 
 \subsubsection{Topic Model Construction}
 We employ \texttt{gensim}'s implementation of \ac{lda}\footnote{\url{https://radimrehurek.com/gensim/models/ldamodel.html} (30.12.2025)}~\cite{alghamdi_survey_2015}, a widely used generative probabilistic model that represents documents as mixtures of $T$ latent topics.
-\textcolor{orange}{To ensure comparability with the manually annotated BankSearch taxonomy, the number of latent topics is fixed to the number of ground-truth categories ($T=11$).}
+To ensure comparability with the manually annotated BankSearch taxonomy, the number of latent topics is fixed to the number of ground-truth categories ($T=11$).
 For a corpus of $D$ documents, \ac{lda} produces a document-topic probability matrix $\Theta \in \mathbb{R}^{D \times T}$, where $\theta_{dt}$ denotes the probability that document $d$ is associated with topic $t$.
-To derive a binary formal context from $\Theta$, document-topic probabilities are thresholded using a minimum topic probability $\delta$.
+To derive a binary formal context from $\Theta$, document-topic probabilities are thresholded using a minimum topic probability $\delta_t$.
 The threshold is selected empirically using the elbow criterion on the resulting incidence density, as illustrated in Figure~\ref{fig:incidence_density}.% for the BankSearch dataset.
 
 \begin{figure}[t]
@@ -16,20 +16,20 @@ The threshold is selected empirically using the elbow criterion on the resulting
 \begin{minipage}{0.49\textwidth}
     \centering
     \includesvg[width=\linewidth]{results/lda/incidence_density_vs_threshold.svg}
-    \caption{\ac{lda} document-topic incidence density for varying thresholds $\delta$ on the BankSearch dataset. The elbow criterion selects $\delta=0.07$, yielding a density slightly above $0.2$.}
+    \caption{\ac{lda} document-topic incidence density for varying thresholds $\delta_t$ on the BankSearch dataset. The elbow criterion selects $\delta_t=0.07$, yielding a density slightly above $0.2$.}
     \label{fig:incidence_density}
 \end{minipage}\hfill
 \begin{minipage}{0.49\textwidth}
     \centering
     \includesvg[width=\linewidth]{resources/banksearch/topic_model/plots/concepts_vs_support.svg}
-    \caption{Number of iceberg concepts for varying minimum support thresholds on the BankSearch dataset. The selected threshold { $\mathtt{min\_supp}$} $=0.05$ results in 24 concepts.}
+    \caption{Number of iceberg concepts for varying minimum support thresholds on the BankSearch dataset. The selected threshold { $\delta_{ms}$} $=0.05$ results in 24 concepts.}
     \label{fig:concepts_support}
 \end{minipage}
 \end{figure}
 
 
 \subsubsection{Document-Topic Incidence}
-Given a threshold $\delta$, a document $d$ is assigned topic $t$ if $\theta_{dt} \geq \delta$. 
+Given a threshold $\delta_t$, a document $d$ is assigned topic $t$ if $\theta_{dt} \geq \delta_t$. 
 This produces a binary incidence relation $I \subseteq D \times T$, where $(d, t) \in I$ indicates that topic $t$ sufficiently characterizes document $d$. 
 Lower threshold values yield denser contexts with more document-topic associations, whereas higher values retain only the most dominant topics.
 If no topic exceeds the threshold, the highest-probability topic is assigned to ensure that each document remains associated with at least one topic.
@@ -45,14 +45,12 @@ Moreover, large lattices often hinder interpretability.
 To address this issue, Stumme et al.~\cite{stumme_titanic_2002} introduced the TITANIC algorithm, which computes \emph{iceberg concept lattices}. 
 These lattices contain only concepts whose intents correspond to frequent attribute sets.
 
-Let $\mathtt{min\_supp} \in [0,1]$ denote a minimum support threshold. 
-An attribute set $B \subseteq M$ is considered frequent if $\operatorname{supp}(B) = \frac{\left| B' \right|}{\left| G \right|}$ meets or exceeds $\mathtt{min\_supp}$. 
+Let $\delta_{ms} \in [0,1]$ denote a minimum support threshold. 
+An attribute set $B \subseteq M$ is considered frequent if $\operatorname{supp}(B) = \frac{\left| B' \right|}{\left| G \right|}$ meets or exceeds $\delta_{ms}$. 
 A concept $(A,B)$ is retained in the iceberg concept lattice if its intent $B$ is frequent.
 
-Intuitively, this restriction preserves only those topic combinations that characterize at least $\mathtt{min\_supp} \times 100\%$ documents of the corpus. 
-The choice of $\mathtt{min\_supp}$ directly influences the granularity of the resulting hierarchy.
-Figure~\ref{fig:concepts_support} shows the relationship between the minimum support threshold and the number of extracted concepts for the BankSearch dataset. \textcolor{red}{make min\_supp theta? not mixing python and math syntax? ja}
-% Based on this analysis, we select $\mathtt{min\_supp} = 0.05$, yielding 30 concepts while maintaining interpretability.
-
+Intuitively, this restriction preserves only those topic combinations that characterize at least $\delta_{ms} \times 100\%$ documents of the corpus. 
+The choice of $\delta_{ms}$ directly influences the granularity of the resulting hierarchy.
+Figure~\ref{fig:concepts_support} shows the relationship between the minimum support threshold and the number of extracted concepts for the BankSearch dataset. 
 
 
