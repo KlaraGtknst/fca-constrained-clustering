@@ -8,18 +8,19 @@ Prior knowledge about the dataset can be incorporated through constraints.
 The simplest forms are pairwise \textit{must-link} and \textit{cannot-link} constraints, enforcing that two instances must or must not belong to the same cluster. 
 However, pairwise constraints generally apply only at one level of granularity.
 
-Hierarchical clustering instead organizes data at multiple levels of granularity~\cite{bade_hierarchical_2014}. 
-To encode prior knowledge in this setting, \ac{mlb} constraints specify the relative agglomeration order of three data points. 
+Hierarchical clustering instead organizes data into nested groups at different levels of granularity~\cite{bade_hierarchical_2014}. 
+To incorporate prior knowledge in this setting, \ac{mlb} constraints specify the relative agglomeration order of three data points $d_x$, $d_y$, $d_z$. 
 An \ac{mlb} constraint
 \begin{eqnarray}
     MLB_{x y z} = (d_x, d_y, d_z)
     \label{eq:mlb_xyz}
 \end{eqnarray}
-states that $d_x$ and $d_y$ should be merged before either is merged with $d_z$ ($d_x$ and $d_y$ are symmetric). 
-Formally, both \autoref{def:mlb_implication} and \autoref{def:mlb_counterexample} express that the must-link relation between $d_x$ and $d_y$ is stronger than that between $d_x$ and $d_z$. 
-\autoref{fig:hierarchy_to_mlb} illustrates valid \ac{mlb} constraints given a toy example.
+states that $d_x$ and $d_y$ should be merged before either is merged with $d_z$, where $d_x$ and $d_y$ are symmetric. 
+Let $H = (C, \prec, \text{root})$ denote a cluster hierarchy, where $C$ is a set of clusters, $\prec$ is a strict partial order over $C$ representing the parent-child relation, and $\text{root} \in C$ is the root cluster~\cite{bade_hierarchical_2014}. 
+Definitions~\eqref{def:mlb_implication} and \eqref{def:mlb_counterexample} formalize the idea that $d_x$ and $d_y$ are more closely related in the hierarchy than $d_x$ and $d_z$. 
+\autoref{fig:hierarchy_to_mlb} illustrates valid \ac{mlb} constraints for a toy example.
 
-\begin{definition}[\ac{mlb} Implication \textcolor{red}{TODO: H?? same as  def 4?}]
+\begin{definition}[\ac{mlb} Implication]
     \label{def:mlb_implication}\\
     Given \ac{mlb} constraint $MLB_{x y z}$:
     $\forall c \in H: d_x \in c \wedge d_z \in c \rightarrow d_y \in c$
