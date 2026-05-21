@@ -3,9 +3,13 @@
 
 The analysis of the consistency- and coherence-lattices highlights the distinction between strict and relaxed notions of agreement between knowledge bases. 
 The consistency-lattice retains only concepts whose extents coincide exactly in both the \ac{mlb}-constrained and the topic model-based lattices. 
-In our case, no non-trivial document clusters are shared exactly between the two lattices, indicating that strict consistency is often too restrictive when comparing knowledge bases derived from different sources.
+In our experiments, no non-trivial document clusters were shared exactly between the two lattices. %, indicating that strict consistency is often too restrictive when comparing knowledge bases derived from heterogeneous sources.
 % limitation
-Arguably, comparing the complete \ac{mlb}-constrained lattice with the high-support pruned topic model-based iceberg lattice has to be a data-specific choice: low-support concepts typically contain more noise, but for other datasets, omitting them may lead to missing perfect overlaps causing an incomplete consistency-lattice.
+Generally, pruning low-support concepts through iceberg filtering can remove exact overlaps and thus yield an incomplete consistency-lattice. 
+Thus, it is important to design the pipeline data-dependent to avoid this issue.
+% However, in our experiments, the absence of non-trivial shared concepts appears to reflect genuine semantic differences between the expert-defined and topic model-based knowledge bases rather than an artefact of pruning.
+
+% Arguably, comparing the complete \ac{mlb}-constrained lattice with the high-support pruned topic model-based iceberg lattice has to be a data-specific choice: low-support concepts typically contain more noise, but for other datasets, omitting them may lead to missing perfect overlaps causing an incomplete consistency-lattice.
 
 Our study yields two major insights: First, we established that MLB constraints can be natively integrated into the FCA framework via a fixpoint-based closure operator. Second, our experiments on the BankSearch dataset reveal that strict consistency between expert hierarchies and probabilistic topic models is rarely achieved in real-world corpora. 
 
