@@ -9,23 +9,20 @@ Generally, pruning low-support concepts through iceberg filtering can remove exa
 Thus, it is important to design the pipeline data-dependent to avoid this issue.
 % However, in our experiments, the absence of non-trivial shared concepts appears to reflect genuine semantic differences between the expert-defined and topic model-based knowledge bases rather than an artefact of pruning.
 
-% Arguably, comparing the complete \ac{mlb}-constrained lattice with the high-support pruned topic model-based iceberg lattice has to be a data-specific choice: low-support concepts typically contain more noise, but for other datasets, omitting them may lead to missing perfect overlaps causing an incomplete consistency-lattice.
+The empty consistency-lattice refelcts fundamental differences between the two knowledge bases.
+The \ac{mlb}-constrained lattice is derived from manual annotations and thus reflects human expertise, preferences and biases, while the topic model-based lattice is data-driven and captures latent statistical regularities and noise in the corpus, potentially revealing structures not explicitly encoded in the manual taxonomy.
+Our approach allows for the integration of alternative topic modeling methods.
 
-Our study yields two major insights: First, we established that MLB constraints can be natively integrated into the FCA framework via a fixpoint-based closure operator. Second, our experiments on the BankSearch dataset reveal that strict consistency between expert hierarchies and probabilistic topic models is rarely achieved in real-world corpora. 
+Our study provides two main contributions. 
+First, we showed that \ac{mlb} constraints can be integrated natively into the \ac{fca} framework through a fixpoint-based closure operator. 
+Second, experiments on the BankSearch dataset demonstrated that exact consistency between manual hierarchies and data-driven topic models is rarely observed in real-world corpora.
 
 In practice, this implies that a multi-tier approach is necessary: (1) using the \textit{consistency-lattice} to identify undisputed common ground and (2) utilizing the \textit{coherence-lattice} with tunable thresholds to explore meaningful alignments. 
 
-In contrast, the coherence-lattice allows partial overlap between concept extents by introducing a similarity threshold. 
-The resulting lattice therefore captures document clusters that are largely shared between the two lattices, even when they do not coincide perfectly. 
-The number of documents contained in coherence-lattice concepts provides an indication of the degree of agreement between the knowledge bases.
-The \ac{mlb}-constrained lattice is derived from manually annotated labels and thus represents a high-precision conceptualization of the domain. 
-% limitation
-Manual annotation reflects human feedback and priorities and word view (thats why we chose it), although it might not be perfect, and naturally low inter-annotator agreement.
-By contrast, the knowledge base underlying the topic model-based lattice is data-driven and reflects statistical patterns in the document corpus, which may also include artefacts caused by noise or biases in the data.
-% limitation
-Although \ac{lda} is a well-established topic modeling approach, alternative models, including neural and nonparametric topic models, may yield substantially different document-topic relations and concept lattices.
-However, we built our method to allow plug-and-play of different topic modeling approaches.
+The coherence-lattice addresses this limitation by building document clusters based on partial overlaps between concept extents through a similarity threshold.  
+Moreover, the number of documents contained in coherence-lattice concepts provides an indication of the degree of agreement between the underlying representations.
 
-Overall, the results suggest that practical knowledge integration requires tolerating a certain degree of inconsistency while maintaining sufficient coherence. The appropriate similarity threshold depends on the application domain: safety-critical areas such as medicine may require higher thresholds to ensure reliable knowledge alignment, whereas exploratory analysis may benefit from lower thresholds that allow broader, though less precise, overlaps.
+Overall, the results suggest that practical knowledge integration requires tolerating a certain degree of inconsistency while maintaining sufficient coherence. 
+The appropriate similarity threshold depends on the application domain: safety-critical settings such as medicine may require high thresholds to ensure reliable alignment, whereas exploratory analysis may benefit from lower thresholds that permit broader, though less precise, overlaps.
 
-Future work will investigate extending the approach to integrate more than two knowledge bases, determine how similarity thresholds should be adjusted to obtain coherence-lattices of comparable size, and assess whether Jaccard similarity is an appropriate metric for measuring overlap between concept extents across multiple lattices.
+Future work will investigate the integration of more than two knowledge bases, methods for selecting similarity thresholds that yield coherence-lattices of comparable size, and alternative overlap measures beyond Jaccard similarity for comparing concept extents across multiple lattices.
