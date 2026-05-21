@@ -40,6 +40,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from edn_format import loads as edn_loads
 
+MIN_SUPP = 0.1
 
 # ============================================================
 # Data model
@@ -471,10 +472,10 @@ def build_coherence_context_from_high_pairs(
 
 def parse_args() -> argparse.Namespace:
     """Parse command-line args."""
-    min_supp = 0.05
+
     ap = argparse.ArgumentParser(description="Compute concept-extent similarity between two contexts.")
     ap.add_argument("--a-edn", default="results/context_comparison/mlb_expanded_concepts.edn")
-    ap.add_argument("--b-edn", default=f"resources/banksearch/topic_model/banksearch_{min_supp}_iceberg.edn")
+    ap.add_argument("--b-edn", default=f"resources/banksearch/topic_model/banksearch_{MIN_SUPP}_iceberg.edn")
     ap.add_argument("--out-dir", default="results/context_comparison/CONCEPT_SIM")
     ap.add_argument("--top-k", type=int, default=5)
     ap.add_argument("--max-a", type=int, default=0, help="If >0, limit to first max-a concepts of A.")
@@ -549,7 +550,7 @@ def main() -> None:
             # --------------------------------------------
             # Build "coherence" context from high pairs CSV
             # --------------------------------------------
-            coherence_path = out_dir / "coherence_context.cxt"
+            coherence_path = out_dir / f"coherence_context_{MIN_SUPP}.cxt"
             build_coherence_context_from_high_pairs(concepts_a=concepts_a_r, concepts_b=concepts_b_r,
                     all_objects=sorted(common_objs),  # "all documents as objects" (common universe)
                     high_pairs=high_pairs, out_path=coherence_path, )

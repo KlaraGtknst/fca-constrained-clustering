@@ -363,3 +363,5 @@ TSWLatexianTemp*
 !results/context_comparison/intersection.*
 !results/context_comparison/CONCEPT_SIM/coherence.*
 !resources/banksearch/ground_truth/mlb_expanded.*
+!results/context_comparison/CONCEPT_SIM/coherence_context_0.05.cxt
+!results/context_comparison/CONCEPT_SIM/coherence_context_0.1.cxt
