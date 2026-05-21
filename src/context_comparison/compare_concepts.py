@@ -40,7 +40,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from edn_format import loads as edn_loads
 
-MIN_SUPP = 0.1
+MIN_SUPP = 0.05  # Minimum support threshold for iceberg concepts (used in filenames and outputs)
 
 # ============================================================
 # Data model
