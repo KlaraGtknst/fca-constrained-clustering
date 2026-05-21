@@ -311,7 +311,7 @@ def save_high_pairs(out_dir: Path, high_pairs: List[Dict[str, Any]]) -> None:
     - JSON uses write_json() which converts frozenset -> sorted list.
     - CSV stores intents as sorted space-joined strings.
     """
-    write_json(high_pairs, out_dir / "high_similarity_pairs.json")
+    write_json(high_pairs, out_dir / f"high_similarity_pairs_{MIN_SUPP}.json")
 
     fieldnames = [
         "similarity",
@@ -323,7 +323,7 @@ def save_high_pairs(out_dir: Path, high_pairs: List[Dict[str, Any]]) -> None:
         "union_size",
     ]
 
-    with (out_dir / "high_similarity_pairs.csv").open("w", encoding="utf-8", newline="") as f:
+    with (out_dir / f"high_similarity_pairs_{MIN_SUPP}.csv").open("w", encoding="utf-8", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
         for row in high_pairs:
@@ -526,12 +526,12 @@ def main() -> None:
     # ----------------------------
     # Save similarity artifacts
     # ----------------------------
-    write_csv_matrix(sim, out_dir / "similarity_matrix.csv")
-    np.save(out_dir / "similarity_matrix.npy", sim)
+    write_csv_matrix(sim, out_dir / f"similarity_matrix_{MIN_SUPP}.csv")
+    np.save(out_dir / f"similarity_matrix_{MIN_SUPP}.npy", sim)
 
     save_heatmap(
         sim,
-        out_dir / "heatmap.svg",
+        out_dir / f"heatmap_{MIN_SUPP}.svg",
         title=f"Concept extent similarity (Jaccard)\n{label_a} vs {label_b}",
         xlabel=f"{label_b} concepts",
         ylabel=f"{label_a} concepts",
@@ -560,7 +560,7 @@ def main() -> None:
     # ----------------------------
     if sim.size and args.top_k > 0:
         matches = top_k_matches(sim, args.top_k)
-        save_top_matches_csv(matches, concepts_a_r, concepts_b_r, out_dir / "top_matches.csv")
+        save_top_matches_csv(matches, concepts_a_r, concepts_b_r, out_dir / f"top_matches_{MIN_SUPP}.csv")
 
     # ----------------------------
     # Metadata (keep it consistent with actual outputs)
@@ -584,16 +584,16 @@ def main() -> None:
             "similarity_threshold": args.similarity_threshold,
         },
         "outputs": {
-            "similarity_matrix_csv": "similarity_matrix.csv",
-            "similarity_matrix_npy": "similarity_matrix.npy",
-            "heatmap": "heatmap.svg",
-            "top_matches_csv": "top_matches.csv" if sim.size and args.top_k > 0 else None,
-            "high_similarity_pairs_csv": "high_similarity_pairs.csv" if sim.size else None,
-            "high_similarity_pairs_json": "high_similarity_pairs.json" if sim.size else None,
-            "coherence_context": "coherence_context.cxt" if sim.size else None,
+            "similarity_matrix_csv": f"similarity_matrix_{MIN_SUPP}.csv",
+            "similarity_matrix_npy": f"similarity_matrix_{MIN_SUPP}.npy",
+            "heatmap": f"heatmap_{MIN_SUPP}.svg",
+            "top_matches_csv": f"top_matches_{MIN_SUPP}.csv" if sim.size and args.top_k > 0 else None,
+            "high_similarity_pairs_csv": f"high_similarity_pairs_{MIN_SUPP}.csv" if sim.size else None,
+            "high_similarity_pairs_json": f"high_similarity_pairs_{MIN_SUPP}.json" if sim.size else None,
+            "coherence_context": f"coherence_context_{MIN_SUPP}.cxt" if sim.size else None,
         },
     }
-    write_json(meta, out_dir / "similarity_metadata.json")
+    write_json(meta, out_dir / f"similarity_metadata_{MIN_SUPP}.json")
 
     print(f"Saved results to: {out_dir}")
 
