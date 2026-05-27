@@ -1,18 +1,33 @@
 \begin{abstract}
-\ac{fca} enables the generation of concept hierarchies without requiring an expert ontology.
-This raises the question of whether the resulting hierarchy aligns with existing sources of knowledge. 
-To guide the construction of coherent concept hierarchies, prior work in constrained clustering introduces the use of hierarchical \ac{mlb} constraints.
+% \ac{fca} enables the generation of concept hierarchies without requiring an expert ontology.
+% This raises the question of whether the resulting hierarchy aligns with existing sources of knowledge. 
+% To guide the construction of coherent concept hierarchies, prior work in constrained clustering introduces the use of hierarchical \ac{mlb} constraints.
 
-In this work, we introduce a method for comparing and integrating knowledge derived from \acs{mlb} constraints with an additional hierarchical knowledge source. 
-To evaluate the benefits of our approach, we conduct experiments on the BankSearch dataset and explore the universe of a closure operator provided by the \acs{mlb} constraints.
-These constraints are derived from a manually annotated topic hierarchy and subsequently mapped onto the corresponding document corpus.
-As our supplementary hierarchical knowledge source, we employ a \acl{lda} topic model, which constructs a document-topic context through statistical inference over the same corpus.
+    % 1. build a world: FCA and constrained clustering
+    % 2. stress the problem: how do different knowledge sources align?
+\ac{fca} enables the construction of concept hierarchies from formal contexts without requiring expert ontologies. 
+Hierarchical expert knowledge can be encoded through \ac{mlb} constraints in constrained clustering.
+However, it remains unclear how agreement between hierarchies derived from heterogeneous knowledge sources can be quantified systematically.
 
-We mathematically prove that MLB constraints induce a valid closure operator, providing the theoretical foundation for integrating hierarchical expert knowledge into FCA. 
-We then analyze the structural differences between the concept lattices guided by the two knowledge sources. 
-The influence of both knowledge bases is assessed qualitatively through manual review and quantitatively by analyzing their intersection for different levels of required coherence.
-We find distinct structural variations between the two concept lattices, reflected in their \textit{consistency} and \textit{coherence} lattice intersection.
-Our findings suggest a significant divergence between expert-defined hierarchies and data-driven topics, highlighting the necessity of relaxed coherence measures for practical knowledge integration.
+% first contribution
+In this work, we prove that \acs{mlb} constraints induce a valid closure operator, providing a theoretical foundation for incorporating hierarchical expert knowledge into \ac{fca}. 
+% second contribution
+Building on this result, we introduce a method for comparing concept lattices derived from \acs{mlb} constraints and data-driven topic models. 
+% case study
+Using the BankSearch dataset, we compare concept lattices derived from expert-defined \acs{mlb} constraints and a \acl{lda}-based document-topic context. We analyze their agreement through \textit{consistency} and \textit{coherence} lattice intersections at different levels of coherence.
+Our analysis reveals distinct structural differences between both hierarchies, highlighting the need for relaxed coherence measures when integrating heterogeneous knowledge sources.
+
+% redundant
+% In this work, we introduce a method for comparing and integrating knowledge derived from \acs{mlb} constraints with an additional hierarchical knowledge source. 
+% To evaluate the benefits of our approach, we conduct experiments on the BankSearch dataset and explore the universe of a closure operator provided by the \acs{mlb} constraints.
+% These constraints are derived from a manually annotated topic hierarchy and subsequently mapped onto the corresponding document corpus.
+% As our supplementary hierarchical knowledge source, we employ a \acl{lda} topic model, which constructs a document-topic context through statistical inference over the same corpus.
+
+% We mathematically prove that MLB constraints induce a valid closure operator, providing the theoretical foundation for integrating hierarchical expert knowledge into FCA. 
+% We then analyze the structural differences between the concept lattices guided by the two knowledge sources. 
+% The influence of both knowledge bases is assessed qualitatively through manual review and quantitatively by analyzing their intersection for different levels of required coherence.
+% We find distinct structural variations between the two concept lattices, reflected in their \textit{consistency} and \textit{coherence} lattice intersection.
+% Our findings suggest a significant divergence between expert-defined hierarchies and data-driven topics, highlighting the necessity of relaxed coherence measures for practical knowledge integration.
 
 \keywords{\acl{fca} \and Constraints \and Topic Modeling.}
 \end{abstract}
