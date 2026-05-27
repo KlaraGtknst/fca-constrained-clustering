@@ -1,365 +1,2415 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg id="Ebene_2" data-name="Ebene 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1065.6 264.05">
-  <defs>
-    <style>
-      .cls-1, .cls-2 {
-        fill: none;
-        stroke: #fff;
-        stroke-width: 4.8px;
-      }
-
-      .cls-1, .cls-2, .cls-3, .cls-4 {
-        font-size: 16px;
-        isolation: isolate;
-      }
-
-      .cls-1, .cls-4 {
-        font-family: CourierNewPS-ItalicMT, 'Courier New';
-        font-style: italic;
-      }
-
-      .cls-5, .cls-6 {
-        stroke: #000;
-        stroke-width: 2px;
-      }
-
-      .cls-2, .cls-3 {
-        font-family: CourierNewPSMT, 'Courier New';
-      }
-
-      .cls-6 {
-        fill: #fff;
-      }
-    </style>
-  </defs>
-  <g id="Ebene_1-2" data-name="Ebene 1">
-    <path class="cls-5" d="M459.09,31.77L115.09,127.27"/>
-    <path class="cls-5" d="M459.09,31.77l344,95.5"/>
-    <path class="cls-5" d="M459.09,31.77l540.57,95.5"/>
-    <path class="cls-5" d="M459.09,31.77l245.71,95.5"/>
-    <path class="cls-5" d="M459.09,31.77l-49.14,95.5"/>
-    <path class="cls-5" d="M459.09,31.77L65.95,127.27"/>
-    <path class="cls-5" d="M803.09,127.27l-98.29,95.5"/>
-    <path class="cls-5" d="M409.95,127.27l294.86,95.5"/>
-    <path class="cls-5" d="M459.09,31.77l147.43,95.5"/>
-    <path class="cls-5" d="M999.66,127.27l-98.29,95.5"/>
-    <path class="cls-5" d="M606.52,127.27l294.86,95.5"/>
-    <path class="cls-5" d="M459.09,31.77l-196.57,95.5"/>
-    <path class="cls-5" d="M803.09,127.27l-294.86,95.5"/>
-    <path class="cls-5" d="M262.52,127.27l245.71,95.5"/>
-    <path class="cls-5" d="M606.52,127.27l-294.86,95.5"/>
-    <path class="cls-5" d="M262.52,127.27l49.14,95.5"/>
-    <path class="cls-5" d="M409.95,127.27l-196.57,95.5"/>
-    <path class="cls-5" d="M262.52,127.27l-49.14,95.5"/>
-    <path class="cls-5" d="M115.09,127.27v95.5"/>
-    <path class="cls-5" d="M262.52,127.27l-147.43,95.5"/>
-    <path class="cls-5" d="M803.09,127.27l245.71,95.5"/>
-    <path class="cls-5" d="M999.66,127.27l49.14,95.5"/>
-    <path class="cls-5" d="M803.09,127.27l49.14,95.5"/>
-    <path class="cls-5" d="M606.52,127.27l245.71,95.5"/>
-    <path class="cls-5" d="M704.8,127.27l98.29,95.5"/>
-    <path class="cls-5" d="M606.52,127.27l196.57,95.5"/>
-    <path class="cls-5" d="M459.09,31.77l49.14,95.5"/>
-    <path class="cls-5" d="M803.09,127.27l-49.14,95.5"/>
-    <path class="cls-5" d="M508.23,127.27l245.71,95.5"/>
-    <path class="cls-5" d="M409.95,127.27v95.5"/>
-    <path class="cls-5" d="M508.23,127.27l-98.29,95.5"/>
-    <path class="cls-5" d="M704.8,127.27l-49.14,95.5"/>
-    <path class="cls-5" d="M508.23,127.27l147.43,95.5"/>
-    <path class="cls-5" d="M459.09,31.77l-147.43,95.5"/>
-    <path class="cls-5" d="M803.09,127.27l-245.71,95.5"/>
-    <path class="cls-5" d="M311.66,127.27l245.71,95.5"/>
-    <path class="cls-5" d="M409.95,127.27l-147.43,95.5"/>
-    <path class="cls-5" d="M311.66,127.27l-49.14,95.5"/>
-    <path class="cls-5" d="M459.09,31.77L16.8,127.27"/>
-    <path class="cls-5" d="M262.52,127.27l-98.29,95.5"/>
-    <path class="cls-5" d="M311.66,127.27l-147.43,95.5"/>
-    <path class="cls-5" d="M409.95,127.27l49.14,95.5"/>
-    <path class="cls-5" d="M606.52,127.27l-147.43,95.5"/>
-    <path class="cls-5" d="M606.52,127.27l-245.71,95.5"/>
-    <path class="cls-5" d="M311.66,127.27l49.14,95.5"/>
-    <path class="cls-5" d="M803.09,127.27l196.57,95.5"/>
-    <path class="cls-5" d="M704.8,127.27l294.86,95.5"/>
-    <path class="cls-5" d="M704.8,127.27l-98.29,95.5"/>
-    <path class="cls-5" d="M409.95,127.27l196.57,95.5"/>
-    <g>
-      <circle class="cls-6" cx="459.09" cy="31.77" r="8"/>
-      <text class="cls-3" transform="translate(435.08 59.77)"><tspan x="0" y="0">00000</tspan></text>
-      <text class="cls-2" transform="translate(435.08 59.77)"><tspan x="0" y="0">00000</tspan></text>
-      <text class="cls-3" transform="translate(435.08 59.77)"><tspan x="0" y="0">10970</tspan></text>
-      <text class="cls-4" transform="translate(449.49 14.97)"><tspan x="0" y="0">00</tspan></text>
-      <text class="cls-1" transform="translate(449.49 14.97)"><tspan x="0" y="0">00</tspan></text>
-      <text class="cls-4" transform="translate(449.49 14.97)"><tspan x="0" y="0">c9</tspan></text>
-    </g>
-    <g>
-      <circle class="cls-6" cx="115.09" cy="127.27" r="8"/>
-      <text class="cls-3" transform="translate(95.88 155.27)"><tspan x="0" y="0">0000</tspan></text>
-      <text class="cls-2" transform="translate(95.88 155.27)"><tspan x="0" y="0">0000</tspan></text>
-      <text class="cls-3" transform="translate(95.88 155.27)"><tspan x="0" y="0">1069</tspan></text>
-      <text class="cls-4" transform="translate(105.49 110.47)"><tspan x="0" y="0">00</tspan></text>
-      <text class="cls-1" transform="translate(105.49 110.47)"><tspan x="0" y="0">00</tspan></text>
-      <text class="cls-4" transform="translate(105.49 110.47)"><tspan x="0" y="0">c1</tspan></text>
-    </g>
-    <g>
-      <circle class="cls-6" cx="803.09" cy="127.27" r="8"/>
-      <text class="cls-3" transform="translate(783.88 155.27)"><tspan x="0" y="0">0000</tspan></text>
-      <text class="cls-2" transform="translate(783.88 155.27)"><tspan x="0" y="0">0000</tspan></text>
-      <text class="cls-3" transform="translate(783.88 155.27)"><tspan x="0" y="0">3526</tspan></text>
-      <text class="cls-4" transform="translate(793.49 110.47)"><tspan x="0" y="0">00</tspan></text>
-      <text class="cls-1" transform="translate(793.49 110.47)"><tspan x="0" y="0">00</tspan></text>
-      <text class="cls-4" transform="translate(793.49 110.47)"><tspan x="0" y="0">c6</tspan></text>
-    </g>
-    <g>
-      <circle class="cls-6" cx="999.66" cy="127.27" r="8"/>
-      <text class="cls-3" transform="translate(980.46 155.27)"><tspan x="0" y="0">0000</tspan></text>
-      <text class="cls-2" transform="translate(980.46 155.27)"><tspan x="0" y="0">0000</tspan></text>
-      <text class="cls-3" transform="translate(980.46 155.27)"><tspan x="0" y="0">2736</tspan></text>
-      <text class="cls-4" transform="translate(985.26 110.47)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-1" transform="translate(985.26 110.47)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-4" transform="translate(985.26 110.47)"><tspan x="0" y="0">c18</tspan></text>
-    </g>
-    <g>
-      <circle class="cls-6" cx="704.8" cy="127.27" r="8"/>
-      <text class="cls-3" transform="translate(685.6 155.27)"><tspan x="0" y="0">0000</tspan></text>
-      <text class="cls-2" transform="translate(685.6 155.27)"><tspan x="0" y="0">0000</tspan></text>
-      <text class="cls-3" transform="translate(685.6 155.27)"><tspan x="0" y="0">1963</tspan></text>
-      <text class="cls-4" transform="translate(690.4 110.47)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-1" transform="translate(690.4 110.47)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-4" transform="translate(690.4 110.47)"><tspan x="0" y="0">c26</tspan></text>
-    </g>
-    <g>
-      <circle class="cls-6" cx="409.95" cy="127.27" r="8"/>
-      <text class="cls-3" transform="translate(390.74 155.27)"><tspan x="0" y="0">0000</tspan></text>
-      <text class="cls-2" transform="translate(390.74 155.27)"><tspan x="0" y="0">0000</tspan></text>
-      <text class="cls-3" transform="translate(390.74 155.27)"><tspan x="0" y="0">3053</tspan></text>
-      <text class="cls-4" transform="translate(400.34 110.47)"><tspan x="0" y="0">00</tspan></text>
-      <text class="cls-1" transform="translate(400.34 110.47)"><tspan x="0" y="0">00</tspan></text>
-      <text class="cls-4" transform="translate(400.34 110.47)"><tspan x="0" y="0">c4</tspan></text>
-    </g>
-    <g>
-      <circle class="cls-6" cx="65.95" cy="127.27" r="8"/>
-      <text class="cls-3" transform="translate(51.54 155.27)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-2" transform="translate(51.54 155.27)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-3" transform="translate(51.54 155.27)"><tspan x="0" y="0">762</tspan></text>
-      <text class="cls-4" transform="translate(51.54 110.47)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-1" transform="translate(51.54 110.47)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-4" transform="translate(51.54 110.47)"><tspan x="0" y="0">c22</tspan></text>
-    </g>
-    <g>
-      <circle class="cls-6" cx="704.8" cy="222.77" r="8"/>
-      <text class="cls-3" transform="translate(685.6 250.77)"><tspan x="0" y="0">0000</tspan></text>
-      <text class="cls-2" transform="translate(685.6 250.77)"><tspan x="0" y="0">0000</tspan></text>
-      <text class="cls-3" transform="translate(685.6 250.77)"><tspan x="0" y="0">1258</tspan></text>
-      <text class="cls-4" transform="translate(690.4 205.97)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-1" transform="translate(690.4 205.97)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-4" transform="translate(690.4 205.97)"><tspan x="0" y="0">c11</tspan></text>
-    </g>
-    <g>
-      <circle class="cls-6" cx="606.52" cy="127.27" r="8"/>
-      <text class="cls-3" transform="translate(587.31 155.27)"><tspan x="0" y="0">0000</tspan></text>
-      <text class="cls-2" transform="translate(587.31 155.27)"><tspan x="0" y="0">0000</tspan></text>
-      <text class="cls-3" transform="translate(587.31 155.27)"><tspan x="0" y="0">4463</tspan></text>
-      <text class="cls-4" transform="translate(596.91 110.47)"><tspan x="0" y="0">00</tspan></text>
-      <text class="cls-1" transform="translate(596.91 110.47)"><tspan x="0" y="0">00</tspan></text>
-      <text class="cls-4" transform="translate(596.91 110.47)"><tspan x="0" y="0">c3</tspan></text>
-    </g>
-    <g>
-      <circle class="cls-6" cx="901.37" cy="222.77" r="8"/>
-      <text class="cls-3" transform="translate(882.17 250.77)"><tspan x="0" y="0">0000</tspan></text>
-      <text class="cls-2" transform="translate(882.17 250.77)"><tspan x="0" y="0">0000</tspan></text>
-      <text class="cls-3" transform="translate(882.17 250.77)"><tspan x="0" y="0">1836</tspan></text>
-      <text class="cls-4" transform="translate(886.97 205.97)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-1" transform="translate(886.97 205.97)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-4" transform="translate(886.97 205.97)"><tspan x="0" y="0">c29</tspan></text>
-    </g>
-    <g>
-      <circle class="cls-6" cx="262.52" cy="127.27" r="8"/>
-      <text class="cls-3" transform="translate(243.31 155.27)"><tspan x="0" y="0">0000</tspan></text>
-      <text class="cls-2" transform="translate(243.31 155.27)"><tspan x="0" y="0">0000</tspan></text>
-      <text class="cls-3" transform="translate(243.31 155.27)"><tspan x="0" y="0">2642</tspan></text>
-      <text class="cls-4" transform="translate(248.11 110.47)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-1" transform="translate(248.11 110.47)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-4" transform="translate(248.11 110.47)"><tspan x="0" y="0">c27</tspan></text>
-    </g>
-    <g>
-      <circle class="cls-6" cx="508.23" cy="222.77" r="8"/>
-      <text class="cls-3" transform="translate(489.03 250.77)"><tspan x="0" y="0">0000</tspan></text>
-      <text class="cls-2" transform="translate(489.03 250.77)"><tspan x="0" y="0">0000</tspan></text>
-      <text class="cls-3" transform="translate(489.03 250.77)"><tspan x="0" y="0">1484</tspan></text>
-      <text class="cls-4" transform="translate(493.83 205.97)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-1" transform="translate(493.83 205.97)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-4" transform="translate(493.83 205.97)"><tspan x="0" y="0">c24</tspan></text>
-    </g>
-    <g>
-      <circle class="cls-6" cx="311.66" cy="222.77" r="8"/>
-      <text class="cls-3" transform="translate(297.26 250.77)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-2" transform="translate(297.26 250.77)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-3" transform="translate(297.26 250.77)"><tspan x="0" y="0">790</tspan></text>
-      <text class="cls-4" transform="translate(302.06 205.97)"><tspan x="0" y="0">00</tspan></text>
-      <text class="cls-1" transform="translate(302.06 205.97)"><tspan x="0" y="0">00</tspan></text>
-      <text class="cls-4" transform="translate(302.06 205.97)"><tspan x="0" y="0">c5</tspan></text>
-    </g>
-    <g>
-      <circle class="cls-6" cx="213.37" cy="222.77" r="8"/>
-      <text class="cls-3" transform="translate(198.97 250.77)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-2" transform="translate(198.97 250.77)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-3" transform="translate(198.97 250.77)"><tspan x="0" y="0">803</tspan></text>
-      <text class="cls-4" transform="translate(198.97 205.97)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-1" transform="translate(198.97 205.97)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-4" transform="translate(198.97 205.97)"><tspan x="0" y="0">c12</tspan></text>
-    </g>
-    <g>
-      <circle class="cls-6" cx="115.09" cy="222.77" r="8"/>
-      <text class="cls-3" transform="translate(100.69 250.77)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-2" transform="translate(100.69 250.77)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-3" transform="translate(100.69 250.77)"><tspan x="0" y="0">599</tspan></text>
-      <text class="cls-4" transform="translate(105.49 205.97)"><tspan x="0" y="0">00</tspan></text>
-      <text class="cls-1" transform="translate(105.49 205.97)"><tspan x="0" y="0">00</tspan></text>
-      <text class="cls-4" transform="translate(105.49 205.97)"><tspan x="0" y="0">c2</tspan></text>
-    </g>
-    <g>
-      <circle class="cls-6" cx="1048.8" cy="222.77" r="8"/>
-      <text class="cls-3" transform="translate(1034.4 250.77)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-2" transform="translate(1034.4 250.77)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-3" transform="translate(1034.4 250.77)"><tspan x="0" y="0">569</tspan></text>
-      <text class="cls-4" transform="translate(1034.4 205.97)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-1" transform="translate(1034.4 205.97)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-4" transform="translate(1034.4 205.97)"><tspan x="0" y="0">c14</tspan></text>
-    </g>
-    <g>
-      <circle class="cls-6" cx="852.23" cy="222.77" r="8"/>
-      <text class="cls-3" transform="translate(833.03 250.77)"><tspan x="0" y="0">0000</tspan></text>
-      <text class="cls-2" transform="translate(833.03 250.77)"><tspan x="0" y="0">0000</tspan></text>
-      <text class="cls-3" transform="translate(833.03 250.77)"><tspan x="0" y="0">1496</tspan></text>
-      <text class="cls-4" transform="translate(837.83 205.97)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-1" transform="translate(837.83 205.97)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-4" transform="translate(837.83 205.97)"><tspan x="0" y="0">c16</tspan></text>
-    </g>
-    <g>
-      <circle class="cls-6" cx="803.09" cy="222.77" r="8"/>
-      <text class="cls-3" transform="translate(788.69 250.77)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-2" transform="translate(788.69 250.77)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-3" transform="translate(788.69 250.77)"><tspan x="0" y="0">561</tspan></text>
-      <text class="cls-4" transform="translate(788.69 205.97)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-1" transform="translate(788.69 205.97)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-4" transform="translate(788.69 205.97)"><tspan x="0" y="0">c15</tspan></text>
-    </g>
-    <g>
-      <circle class="cls-6" cx="508.23" cy="127.27" r="8"/>
-      <text class="cls-3" transform="translate(489.03 155.27)"><tspan x="0" y="0">0000</tspan></text>
-      <text class="cls-2" transform="translate(489.03 155.27)"><tspan x="0" y="0">0000</tspan></text>
-      <text class="cls-3" transform="translate(489.03 155.27)"><tspan x="0" y="0">1803</tspan></text>
-      <text class="cls-4" transform="translate(493.83 110.47)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-1" transform="translate(493.83 110.47)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-4" transform="translate(493.83 110.47)"><tspan x="0" y="0">c25</tspan></text>
-    </g>
-    <g>
-      <circle class="cls-6" cx="753.95" cy="222.77" r="8"/>
-      <text class="cls-3" transform="translate(739.54 250.77)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-2" transform="translate(739.54 250.77)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-3" transform="translate(739.54 250.77)"><tspan x="0" y="0">790</tspan></text>
-      <text class="cls-4" transform="translate(739.54 205.97)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-1" transform="translate(739.54 205.97)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-4" transform="translate(739.54 205.97)"><tspan x="0" y="0">c20</tspan></text>
-    </g>
-    <g>
-      <circle class="cls-6" cx="409.95" cy="222.77" r="8"/>
-      <text class="cls-3" transform="translate(395.54 250.77)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-2" transform="translate(395.54 250.77)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-3" transform="translate(395.54 250.77)"><tspan x="0" y="0">656</tspan></text>
-      <text class="cls-4" transform="translate(400.34 205.97)"><tspan x="0" y="0">00</tspan></text>
-      <text class="cls-1" transform="translate(400.34 205.97)"><tspan x="0" y="0">00</tspan></text>
-      <text class="cls-4" transform="translate(400.34 205.97)"><tspan x="0" y="0">c7</tspan></text>
-    </g>
-    <g>
-      <circle class="cls-6" cx="655.66" cy="222.77" r="8"/>
-      <text class="cls-3" transform="translate(641.26 250.77)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-2" transform="translate(641.26 250.77)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-3" transform="translate(641.26 250.77)"><tspan x="0" y="0">599</tspan></text>
-      <text class="cls-4" transform="translate(641.26 205.97)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-1" transform="translate(641.26 205.97)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-4" transform="translate(641.26 205.97)"><tspan x="0" y="0">c23</tspan></text>
-    </g>
-    <g>
-      <circle class="cls-6" cx="311.66" cy="127.27" r="8"/>
-      <text class="cls-3" transform="translate(292.46 155.27)"><tspan x="0" y="0">0000</tspan></text>
-      <text class="cls-2" transform="translate(292.46 155.27)"><tspan x="0" y="0">0000</tspan></text>
-      <text class="cls-3" transform="translate(292.46 155.27)"><tspan x="0" y="0">3723</tspan></text>
-      <text class="cls-4" transform="translate(297.26 110.47)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-1" transform="translate(297.26 110.47)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-4" transform="translate(297.26 110.47)"><tspan x="0" y="0">c30</tspan></text>
-    </g>
-    <g>
-      <circle class="cls-6" cx="557.37" cy="222.77" r="8"/>
-      <text class="cls-3" transform="translate(542.97 250.77)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-2" transform="translate(542.97 250.77)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-3" transform="translate(542.97 250.77)"><tspan x="0" y="0">925</tspan></text>
-      <text class="cls-4" transform="translate(547.77 205.97)"><tspan x="0" y="0">00</tspan></text>
-      <text class="cls-1" transform="translate(547.77 205.97)"><tspan x="0" y="0">00</tspan></text>
-      <text class="cls-4" transform="translate(547.77 205.97)"><tspan x="0" y="0">c0</tspan></text>
-    </g>
-    <g>
-      <circle class="cls-6" cx="262.52" cy="222.77" r="8"/>
-      <text class="cls-3" transform="translate(243.31 250.77)"><tspan x="0" y="0">0000</tspan></text>
-      <text class="cls-2" transform="translate(243.31 250.77)"><tspan x="0" y="0">0000</tspan></text>
-      <text class="cls-3" transform="translate(243.31 250.77)"><tspan x="0" y="0">1045</tspan></text>
-      <text class="cls-4" transform="translate(248.11 205.97)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-1" transform="translate(248.11 205.97)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-4" transform="translate(248.11 205.97)"><tspan x="0" y="0">c13</tspan></text>
-    </g>
-    <g>
-      <circle class="cls-6" cx="16.8" cy="127.27" r="8"/>
-      <text class="cls-3" transform="translate(2.4 155.27)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-2" transform="translate(2.4 155.27)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-3" transform="translate(2.4 155.27)"><tspan x="0" y="0">803</tspan></text>
-      <text class="cls-4" transform="translate(7.2 110.47)"><tspan x="0" y="0">00</tspan></text>
-      <text class="cls-1" transform="translate(7.2 110.47)"><tspan x="0" y="0">00</tspan></text>
-      <text class="cls-4" transform="translate(7.2 110.47)"><tspan x="0" y="0">c8</tspan></text>
-    </g>
-    <g>
-      <circle class="cls-6" cx="164.23" cy="222.77" r="8"/>
-      <text class="cls-3" transform="translate(149.83 250.77)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-2" transform="translate(149.83 250.77)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-3" transform="translate(149.83 250.77)"><tspan x="0" y="0">554</tspan></text>
-      <text class="cls-4" transform="translate(149.83 205.97)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-1" transform="translate(149.83 205.97)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-4" transform="translate(149.83 205.97)"><tspan x="0" y="0">c21</tspan></text>
-    </g>
-    <g>
-      <circle class="cls-6" cx="459.09" cy="222.77" r="8"/>
-      <text class="cls-3" transform="translate(439.88 250.77)"><tspan x="0" y="0">0000</tspan></text>
-      <text class="cls-2" transform="translate(439.88 250.77)"><tspan x="0" y="0">0000</tspan></text>
-      <text class="cls-3" transform="translate(439.88 250.77)"><tspan x="0" y="0">1126</tspan></text>
-      <text class="cls-4" transform="translate(444.69 205.97)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-1" transform="translate(444.69 205.97)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-4" transform="translate(444.69 205.97)"><tspan x="0" y="0">c19</tspan></text>
-    </g>
-    <g>
-      <circle class="cls-6" cx="360.8" cy="222.77" r="8"/>
-      <text class="cls-3" transform="translate(346.4 250.77)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-2" transform="translate(346.4 250.77)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-3" transform="translate(346.4 250.77)"><tspan x="0" y="0">942</tspan></text>
-      <text class="cls-4" transform="translate(346.4 205.97)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-1" transform="translate(346.4 205.97)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-4" transform="translate(346.4 205.97)"><tspan x="0" y="0">c17</tspan></text>
-    </g>
-    <g>
-      <circle class="cls-6" cx="999.66" cy="222.77" r="8"/>
-      <text class="cls-3" transform="translate(985.26 250.77)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-2" transform="translate(985.26 250.77)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-3" transform="translate(985.26 250.77)"><tspan x="0" y="0">862</tspan></text>
-      <text class="cls-4" transform="translate(985.26 205.97)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-1" transform="translate(985.26 205.97)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-4" transform="translate(985.26 205.97)"><tspan x="0" y="0">c28</tspan></text>
-    </g>
-    <g>
-      <circle class="cls-6" cx="606.52" cy="222.77" r="8"/>
-      <text class="cls-3" transform="translate(592.11 250.77)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-2" transform="translate(592.11 250.77)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-3" transform="translate(592.11 250.77)"><tspan x="0" y="0">836</tspan></text>
-      <text class="cls-4" transform="translate(592.11 205.97)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-1" transform="translate(592.11 205.97)"><tspan x="0" y="0">000</tspan></text>
-      <text class="cls-4" transform="translate(592.11 205.97)"><tspan x="0" y="0">c10</tspan></text>
-    </g>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   class="bg-white"
+   version="1.1"
+   id="svg180"
+   sodipodi:docname="banksearch_0.05_iceberg.svg"
+   width="866.84003"
+   height="224.36"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs180" />
+  <sodipodi:namedview
+     id="namedview180"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1" />
+  <g
+     id="g1"
+     transform="translate(-50.07998,-39.199992)">
+    <path
+       d="M 174,172 133.61538,141.5"
+       stroke="#000000"
+       stroke-width="2"
+       id="path1">
+      <!---->
+    </path>
   </g>
+  <g
+     id="g2"
+     transform="translate(-50.07998,-39.199992)">
+    <path
+       d="m 174,172 86.84615,-30.5"
+       stroke="#000000"
+       stroke-width="2"
+       id="path2">
+      <!---->
+    </path>
+  </g>
+  <g
+     id="g3"
+     transform="translate(-50.07998,-39.199992)">
+    <path
+       d="M 90,233 260.84615,141.5"
+       stroke="#000000"
+       stroke-width="2"
+       id="path3">
+      <!---->
+    </path>
+  </g>
+  <g
+     id="g4"
+     transform="translate(-50.07998,-39.199992)">
+    <path
+       d="M 90,233 70,141.5"
+       stroke="#000000"
+       stroke-width="2"
+       id="path4">
+      <!---->
+    </path>
+  </g>
+  <g
+     id="g5"
+     transform="translate(-50.07998,-39.199992)">
+    <path
+       d="M 388.07692,141.5 515.30769,70"
+       stroke="#000000"
+       stroke-width="2"
+       id="path5">
+      <!---->
+    </path>
+  </g>
+  <g
+     id="g6"
+     transform="translate(-50.07998,-39.199992)">
+    <path
+       d="M 897,141.5 515.30769,70"
+       stroke="#000000"
+       stroke-width="2"
+       id="path6">
+      <!---->
+    </path>
+  </g>
+  <g
+     id="g7"
+     transform="translate(-50.07998,-39.199992)">
+    <path
+       d="M 133.61538,213 388.07692,141.5"
+       stroke="#000000"
+       stroke-width="2"
+       id="path7">
+      <!---->
+    </path>
+  </g>
+  <g
+     id="g8"
+     transform="translate(-50.07998,-39.199992)">
+    <path
+       d="M 133.61538,213 V 141.5"
+       stroke="#000000"
+       stroke-width="2"
+       id="path8">
+      <!---->
+    </path>
+  </g>
+  <g
+     id="g9"
+     transform="translate(-50.07998,-39.199992)">
+    <path
+       d="M 205.20001,223 388.07692,141.5"
+       stroke="#000000"
+       stroke-width="2"
+       id="path9">
+      <!---->
+    </path>
+  </g>
+  <g
+     id="g10"
+     transform="translate(-50.07998,-39.199992)">
+    <path
+       d="m 205.20001,223 55.64614,-81.5"
+       stroke="#000000"
+       stroke-width="2"
+       id="path10">
+      <!---->
+    </path>
+  </g>
+  <g
+     id="g11"
+     transform="translate(-50.07998,-39.199992)">
+    <path
+       d="M 388.07692,213 260.84615,141.5"
+       stroke="#000000"
+       stroke-width="2"
+       id="path11">
+      <!---->
+    </path>
+  </g>
+  <g
+     id="g12"
+     transform="translate(-50.07998,-39.199992)">
+    <path
+       d="M 388.07692,213 515.30769,141.5"
+       stroke="#000000"
+       stroke-width="2"
+       id="path12">
+      <!---->
+    </path>
+  </g>
+  <g
+     id="g13"
+     transform="translate(-50.07998,-39.199992)">
+    <path
+       d="M 133.61538,141.5 515.30769,70"
+       stroke="#000000"
+       stroke-width="2"
+       id="path13">
+      <!---->
+    </path>
+  </g>
+  <g
+     id="g14"
+     transform="translate(-50.07998,-39.199992)">
+    <path
+       d="M 451.69231,141.5 515.30769,70"
+       stroke="#000000"
+       stroke-width="2"
+       id="path14">
+      <!---->
+    </path>
+  </g>
+  <g
+     id="g15"
+     transform="translate(-50.07998,-39.199992)">
+    <path
+       d="M 578.92308,141.5 515.30769,70"
+       stroke="#000000"
+       stroke-width="2"
+       id="path15">
+      <!---->
+    </path>
+  </g>
+  <g
+     id="g16"
+     transform="translate(-50.07998,-39.199992)">
+    <path
+       d="M 262.79999,220 578.92308,141.5"
+       stroke="#000000"
+       stroke-width="2"
+       id="path16">
+      <!---->
+    </path>
+  </g>
+  <g
+     id="g17"
+     transform="translate(-50.07998,-39.199992)">
+    <path
+       d="M 262.79999,220 70,141.5"
+       stroke="#000000"
+       stroke-width="2"
+       id="path17">
+      <!---->
+    </path>
+  </g>
+  <g
+     id="g18"
+     transform="translate(-50.07998,-39.199992)">
+    <path
+       d="M 260.84615,141.5 515.30769,70"
+       stroke="#000000"
+       stroke-width="2"
+       id="path18">
+      <!---->
+    </path>
+  </g>
+  <g
+     id="g19"
+     transform="translate(-50.07998,-39.199992)">
+    <path
+       d="M 455.66669,219 388.07692,141.5"
+       stroke="#000000"
+       stroke-width="2"
+       id="path19">
+      <!---->
+    </path>
+  </g>
+  <g
+     id="g20"
+     transform="translate(-50.07998,-39.199992)">
+    <path
+       d="m 455.66669,219 59.641,-77.5"
+       stroke="#000000"
+       stroke-width="2"
+       id="path20">
+      <!---->
+    </path>
+  </g>
+  <g
+     id="g21"
+     transform="translate(-50.07998,-39.199992)">
+    <path
+       d="M 515.30769,141.5 V 70"
+       stroke="#000000"
+       stroke-width="2"
+       id="path21">
+      <!---->
+    </path>
+  </g>
+  <g
+     id="g22"
+     transform="translate(-50.07998,-39.199992)">
+    <path
+       d="M 833.38462,213 578.92308,141.5"
+       stroke="#000000"
+       stroke-width="2"
+       id="path22">
+      <!---->
+    </path>
+  </g>
+  <g
+     id="g23"
+     transform="translate(-50.07998,-39.199992)">
+    <path
+       d="M 833.38462,213 769.76923,141.5"
+       stroke="#000000"
+       stroke-width="2"
+       id="path23">
+      <!---->
+    </path>
+  </g>
+  <g
+     id="g24"
+     transform="translate(-50.07998,-39.199992)">
+    <path
+       d="M 642.53846,213 388.07692,141.5"
+       stroke="#000000"
+       stroke-width="2"
+       id="path24">
+      <!---->
+    </path>
+  </g>
+  <g
+     id="g25"
+     transform="translate(-50.07998,-39.199992)">
+    <path
+       d="M 642.53846,213 578.92308,141.5"
+       stroke="#000000"
+       stroke-width="2"
+       id="path25">
+      <!---->
+    </path>
+  </g>
+  <g
+     id="g26"
+     transform="translate(-50.07998,-39.199992)">
+    <path
+       d="M 769.76923,141.5 515.30769,70"
+       stroke="#000000"
+       stroke-width="2"
+       id="path26">
+      <!---->
+    </path>
+  </g>
+  <g
+     id="g27"
+     transform="translate(-50.07998,-39.199992)">
+    <path
+       d="M 324.46154,213 133.61538,141.5"
+       stroke="#000000"
+       stroke-width="2"
+       id="path27">
+      <!---->
+    </path>
+  </g>
+  <g
+     id="g28"
+     transform="translate(-50.07998,-39.199992)">
+    <path
+       d="M 324.46154,213 515.30769,141.5"
+       stroke="#000000"
+       stroke-width="2"
+       id="path28">
+      <!---->
+    </path>
+  </g>
+  <g
+     id="g29"
+     transform="translate(-50.07998,-39.199992)">
+    <path
+       d="M 833.38462,141.5 515.30769,70"
+       stroke="#000000"
+       stroke-width="2"
+       id="path29">
+      <!---->
+    </path>
+  </g>
+  <g
+     id="g30"
+     transform="translate(-50.07998,-39.199992)">
+    <path
+       d="M 897,213 V 141.5"
+       stroke="#000000"
+       stroke-width="2"
+       id="path30">
+      <!---->
+    </path>
+  </g>
+  <g
+     id="g31"
+     transform="translate(-50.07998,-39.199992)">
+    <path
+       d="M 897,213 515.30769,141.5"
+       stroke="#000000"
+       stroke-width="2"
+       id="path31">
+      <!---->
+    </path>
+  </g>
+  <g
+     id="g32"
+     transform="translate(-50.07998,-39.199992)">
+    <path
+       d="M 70,141.5 515.30769,70"
+       stroke="#000000"
+       stroke-width="2"
+       id="path32">
+      <!---->
+    </path>
+  </g>
+  <g
+     id="g33"
+     transform="translate(-50.07998,-39.199992)">
+    <path
+       d="M 706.15385,213 388.07692,141.5"
+       stroke="#000000"
+       stroke-width="2"
+       id="path33">
+      <!---->
+    </path>
+  </g>
+  <g
+     id="g34"
+     transform="translate(-50.07998,-39.199992)">
+    <path
+       d="m 706.15385,213 63.61538,-71.5"
+       stroke="#000000"
+       stroke-width="2"
+       id="path34">
+      <!---->
+    </path>
+  </g>
+  <g
+     id="g35"
+     transform="translate(-50.07998,-39.199992)">
+    <path
+       d="M 578.92308,213 V 141.5"
+       stroke="#000000"
+       stroke-width="2"
+       id="path35">
+      <!---->
+    </path>
+  </g>
+  <g
+     id="g36"
+     transform="translate(-50.07998,-39.199992)">
+    <path
+       d="M 578.92308,213 260.84615,141.5"
+       stroke="#000000"
+       stroke-width="2"
+       id="path36">
+      <!---->
+    </path>
+  </g>
+  <!---->
+  <g
+     class="prevent-select"
+     id="g40"
+     transform="translate(-50.07998,-39.199992)">
+    <g
+       id="g37">
+      <circle
+         fill="#ffffff"
+         stroke="#000000"
+         stroke-width="2"
+         r="8"
+         cx="515.30768"
+         cy="70"
+         id="circle36">
+        <!---->
+      </circle>
+    </g>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="515.30768"
+       y="92.400002"
+       id="text37" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-family="monospace"
+       x="515.30768"
+       y="92.400002"
+       id="text38" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-style="italic"
+       font-family="monospace"
+       x="515.30768"
+       y="47.599998"
+       id="text39">00</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-style="italic"
+       font-family="monospace"
+       x="515.30768"
+       y="47.599998"
+       id="text40">c9</text>
+  </g>
+  <g
+     class="prevent-select"
+     id="g44"
+     transform="translate(-50.07998,-39.199992)">
+    <g
+       id="g41">
+      <circle
+         fill="#ffffff"
+         stroke="#000000"
+         stroke-width="2"
+         r="8"
+         cx="174"
+         cy="172"
+         id="circle40">
+        <!---->
+      </circle>
+    </g>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="174"
+       y="194.39999"
+       id="text41" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-family="monospace"
+       x="174"
+       y="194.39999"
+       id="text42" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-style="italic"
+       font-family="monospace"
+       x="174"
+       y="149.60001"
+       id="text43">000</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-style="italic"
+       font-family="monospace"
+       x="174"
+       y="149.60001"
+       id="text44">c10</text>
+  </g>
+  <g
+     class="prevent-select"
+     id="g48"
+     transform="translate(-50.07998,-39.199992)">
+    <g
+       id="g45">
+      <circle
+         fill="#ffffff"
+         stroke="#000000"
+         stroke-width="2"
+         r="8"
+         cx="90"
+         cy="233"
+         id="circle44">
+        <!---->
+      </circle>
+    </g>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="90"
+       y="255.39999"
+       id="text45" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-family="monospace"
+       x="90"
+       y="255.39999"
+       id="text46" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-style="italic"
+       font-family="monospace"
+       x="90"
+       y="210.60001"
+       id="text47">000</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-style="italic"
+       font-family="monospace"
+       x="90"
+       y="210.60001"
+       id="text48">c17</text>
+  </g>
+  <g
+     class="prevent-select"
+     id="g52"
+     transform="translate(-50.07998,-39.199992)">
+    <g
+       id="g49">
+      <circle
+         fill="#ffffff"
+         stroke="#000000"
+         stroke-width="2"
+         r="8"
+         cx="388.07693"
+         cy="141.5"
+         id="circle48">
+        <!---->
+      </circle>
+    </g>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="388.07693"
+       y="163.89999"
+       id="text49" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-family="monospace"
+       x="388.07693"
+       y="163.89999"
+       id="text50" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-style="italic"
+       font-family="monospace"
+       x="388.07693"
+       y="119.1"
+       id="text51">000</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-style="italic"
+       font-family="monospace"
+       x="388.07693"
+       y="119.1"
+       id="text52">c19</text>
+  </g>
+  <g
+     class="prevent-select"
+     id="g56"
+     transform="translate(-50.07998,-39.199992)">
+    <g
+       id="g53">
+      <circle
+         fill="#ffffff"
+         stroke="#000000"
+         stroke-width="2"
+         r="8"
+         cx="897"
+         cy="141.5"
+         id="circle52">
+        <!---->
+      </circle>
+    </g>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="897"
+       y="163.89999"
+       id="text53" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-family="monospace"
+       x="897"
+       y="163.89999"
+       id="text54" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-style="italic"
+       font-family="monospace"
+       x="897"
+       y="119.1"
+       id="text55">000</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-style="italic"
+       font-family="monospace"
+       x="897"
+       y="119.1"
+       id="text56">c21</text>
+  </g>
+  <g
+     class="prevent-select"
+     id="g60"
+     transform="translate(-50.07998,-39.199992)">
+    <g
+       id="g57">
+      <circle
+         fill="#ffffff"
+         stroke="#000000"
+         stroke-width="2"
+         r="8"
+         cx="133.61539"
+         cy="213"
+         id="circle56">
+        <!---->
+      </circle>
+    </g>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="133.61539"
+       y="235.39999"
+       id="text57" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-family="monospace"
+       x="133.61539"
+       y="235.39999"
+       id="text58" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-style="italic"
+       font-family="monospace"
+       x="133.61539"
+       y="190.60001"
+       id="text59">00</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-style="italic"
+       font-family="monospace"
+       x="133.61539"
+       y="190.60001"
+       id="text60">c8</text>
+  </g>
+  <g
+     class="prevent-select"
+     id="g64"
+     transform="translate(-50.07998,-39.199992)">
+    <g
+       id="g61">
+      <circle
+         fill="#ffffff"
+         stroke="#000000"
+         stroke-width="2"
+         r="8"
+         cx="205.20001"
+         cy="223"
+         id="circle60">
+        <!---->
+      </circle>
+    </g>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="205.20001"
+       y="245.39999"
+       id="text61" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-family="monospace"
+       x="205.20001"
+       y="245.39999"
+       id="text62" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-style="italic"
+       font-family="monospace"
+       x="205.20001"
+       y="200.60001"
+       id="text63">000</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-style="italic"
+       font-family="monospace"
+       x="205.20001"
+       y="200.60001"
+       id="text64">c15</text>
+  </g>
+  <g
+     class="prevent-select"
+     id="g68"
+     transform="translate(-50.07998,-39.199992)">
+    <g
+       id="g65">
+      <circle
+         fill="#ffffff"
+         stroke="#000000"
+         stroke-width="2"
+         r="8"
+         cx="388.07693"
+         cy="213"
+         id="circle64">
+        <!---->
+      </circle>
+    </g>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="388.07693"
+       y="235.39999"
+       id="text65" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-family="monospace"
+       x="388.07693"
+       y="235.39999"
+       id="text66" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-style="italic"
+       font-family="monospace"
+       x="388.07693"
+       y="190.60001"
+       id="text67">000</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-style="italic"
+       font-family="monospace"
+       x="388.07693"
+       y="190.60001"
+       id="text68">c13</text>
+  </g>
+  <g
+     class="prevent-select"
+     id="g72"
+     transform="translate(-50.07998,-39.199992)">
+    <g
+       id="g69">
+      <circle
+         fill="#ffffff"
+         stroke="#000000"
+         stroke-width="2"
+         r="8"
+         cx="133.61539"
+         cy="141.5"
+         id="circle68">
+        <!---->
+      </circle>
+    </g>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="133.61539"
+       y="163.89999"
+       id="text69" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-family="monospace"
+       x="133.61539"
+       y="163.89999"
+       id="text70" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-style="italic"
+       font-family="monospace"
+       x="133.61539"
+       y="119.1"
+       id="text71">000</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-style="italic"
+       font-family="monospace"
+       x="133.61539"
+       y="119.1"
+       id="text72">c16</text>
+  </g>
+  <g
+     class="prevent-select"
+     id="g76"
+     transform="translate(-50.07998,-39.199992)">
+    <g
+       id="g73">
+      <circle
+         fill="#ffffff"
+         stroke="#000000"
+         stroke-width="2"
+         r="8"
+         cx="451.69232"
+         cy="141.5"
+         id="circle72">
+        <!---->
+      </circle>
+    </g>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="451.69232"
+       y="163.89999"
+       id="text73" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-family="monospace"
+       x="451.69232"
+       y="163.89999"
+       id="text74" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-style="italic"
+       font-family="monospace"
+       x="451.69232"
+       y="119.1"
+       id="text75">000</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-style="italic"
+       font-family="monospace"
+       x="451.69232"
+       y="119.1"
+       id="text76">c14</text>
+  </g>
+  <g
+     class="prevent-select"
+     id="g80"
+     transform="translate(-50.07998,-39.199992)">
+    <g
+       id="g77">
+      <circle
+         fill="#ffffff"
+         stroke="#000000"
+         stroke-width="2"
+         r="8"
+         cx="578.9231"
+         cy="141.5"
+         id="circle76">
+        <!---->
+      </circle>
+    </g>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="578.9231"
+       y="163.89999"
+       id="text77" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-family="monospace"
+       x="578.9231"
+       y="163.89999"
+       id="text78" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-style="italic"
+       font-family="monospace"
+       x="578.9231"
+       y="119.1"
+       id="text79">000</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-style="italic"
+       font-family="monospace"
+       x="578.9231"
+       y="119.1"
+       id="text80">c23</text>
+  </g>
+  <g
+     class="prevent-select"
+     id="g84"
+     transform="translate(-50.07998,-39.199992)">
+    <g
+       id="g81">
+      <circle
+         fill="#ffffff"
+         stroke="#000000"
+         stroke-width="2"
+         r="8"
+         cx="262.79999"
+         cy="220"
+         id="circle80">
+        <!---->
+      </circle>
+    </g>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="262.79999"
+       y="242.39999"
+       id="text81" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-family="monospace"
+       x="262.79999"
+       y="242.39999"
+       id="text82" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-style="italic"
+       font-family="monospace"
+       x="262.79999"
+       y="197.60001"
+       id="text83">00</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-style="italic"
+       font-family="monospace"
+       x="262.79999"
+       y="197.60001"
+       id="text84">c0</text>
+  </g>
+  <g
+     class="prevent-select"
+     id="g88"
+     transform="translate(-50.07998,-39.199992)">
+    <g
+       id="g85">
+      <circle
+         fill="#ffffff"
+         stroke="#000000"
+         stroke-width="2"
+         r="8"
+         cx="260.84616"
+         cy="141.5"
+         id="circle84">
+        <!---->
+      </circle>
+    </g>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="260.84616"
+       y="163.89999"
+       id="text85" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-family="monospace"
+       x="260.84616"
+       y="163.89999"
+       id="text86" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-style="italic"
+       font-family="monospace"
+       x="260.84616"
+       y="119.1"
+       id="text87">00</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-style="italic"
+       font-family="monospace"
+       x="260.84616"
+       y="119.1"
+       id="text88">c2</text>
+  </g>
+  <g
+     class="prevent-select"
+     id="g92"
+     transform="translate(-50.07998,-39.199992)">
+    <g
+       id="g89">
+      <circle
+         fill="#ffffff"
+         stroke="#000000"
+         stroke-width="2"
+         r="8"
+         cx="455.66669"
+         cy="219"
+         id="circle88">
+        <!---->
+      </circle>
+    </g>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="455.66669"
+       y="241.39999"
+       id="text89" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-family="monospace"
+       x="455.66669"
+       y="241.39999"
+       id="text90" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-style="italic"
+       font-family="monospace"
+       x="455.66669"
+       y="196.60001"
+       id="text91">000</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-style="italic"
+       font-family="monospace"
+       x="455.66669"
+       y="196.60001"
+       id="text92">c12</text>
+  </g>
+  <g
+     class="prevent-select"
+     id="g96"
+     transform="translate(-50.07998,-39.199992)">
+    <g
+       id="g93">
+      <circle
+         fill="#ffffff"
+         stroke="#000000"
+         stroke-width="2"
+         r="8"
+         cx="515.30768"
+         cy="141.5"
+         id="circle92">
+        <!---->
+      </circle>
+    </g>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="515.30768"
+       y="163.89999"
+       id="text93" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-family="monospace"
+       x="515.30768"
+       y="163.89999"
+       id="text94" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-style="italic"
+       font-family="monospace"
+       x="515.30768"
+       y="119.1"
+       id="text95">00</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-style="italic"
+       font-family="monospace"
+       x="515.30768"
+       y="119.1"
+       id="text96">c3</text>
+  </g>
+  <g
+     class="prevent-select"
+     id="g100"
+     transform="translate(-50.07998,-39.199992)">
+    <g
+       id="g97">
+      <circle
+         fill="#ffffff"
+         stroke="#000000"
+         stroke-width="2"
+         r="8"
+         cx="833.38464"
+         cy="213"
+         id="circle96">
+        <!---->
+      </circle>
+    </g>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="833.38464"
+       y="235.39999"
+       id="text97" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-family="monospace"
+       x="833.38464"
+       y="235.39999"
+       id="text98" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-style="italic"
+       font-family="monospace"
+       x="833.38464"
+       y="190.60001"
+       id="text99">000</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-style="italic"
+       font-family="monospace"
+       x="833.38464"
+       y="190.60001"
+       id="text100">c11</text>
+  </g>
+  <g
+     class="prevent-select"
+     id="g104"
+     transform="translate(-50.07998,-39.199992)">
+    <g
+       id="g101">
+      <circle
+         fill="#ffffff"
+         stroke="#000000"
+         stroke-width="2"
+         r="8"
+         cx="642.53845"
+         cy="213"
+         id="circle100">
+        <!---->
+      </circle>
+    </g>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="642.53845"
+       y="235.39999"
+       id="text101" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-family="monospace"
+       x="642.53845"
+       y="235.39999"
+       id="text102" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-style="italic"
+       font-family="monospace"
+       x="642.53845"
+       y="190.60001"
+       id="text103">000</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-style="italic"
+       font-family="monospace"
+       x="642.53845"
+       y="190.60001"
+       id="text104">c22</text>
+  </g>
+  <g
+     class="prevent-select"
+     id="g108"
+     transform="translate(-50.07998,-39.199992)">
+    <g
+       id="g105">
+      <circle
+         fill="#ffffff"
+         stroke="#000000"
+         stroke-width="2"
+         r="8"
+         cx="769.76923"
+         cy="141.5"
+         id="circle104">
+        <!---->
+      </circle>
+    </g>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="769.76923"
+       y="163.89999"
+       id="text105" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-family="monospace"
+       x="769.76923"
+       y="163.89999"
+       id="text106" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-style="italic"
+       font-family="monospace"
+       x="769.76923"
+       y="119.1"
+       id="text107">00</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-style="italic"
+       font-family="monospace"
+       x="769.76923"
+       y="119.1"
+       id="text108">c4</text>
+  </g>
+  <g
+     class="prevent-select"
+     id="g112"
+     transform="translate(-50.07998,-39.199992)">
+    <g
+       id="g109">
+      <circle
+         fill="#ffffff"
+         stroke="#000000"
+         stroke-width="2"
+         r="8"
+         cx="324.46155"
+         cy="213"
+         id="circle108">
+        <!---->
+      </circle>
+    </g>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="324.46155"
+       y="235.39999"
+       id="text109" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-family="monospace"
+       x="324.46155"
+       y="235.39999"
+       id="text110" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-style="italic"
+       font-family="monospace"
+       x="324.46155"
+       y="190.60001"
+       id="text111">000</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-style="italic"
+       font-family="monospace"
+       x="324.46155"
+       y="190.60001"
+       id="text112">c18</text>
+  </g>
+  <g
+     class="prevent-select"
+     id="g116"
+     transform="translate(-50.07998,-39.199992)">
+    <g
+       id="g113">
+      <circle
+         fill="#ffffff"
+         stroke="#000000"
+         stroke-width="2"
+         r="8"
+         cx="833.38464"
+         cy="141.5"
+         id="circle112">
+        <!---->
+      </circle>
+    </g>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="833.38464"
+       y="163.89999"
+       id="text113" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-family="monospace"
+       x="833.38464"
+       y="163.89999"
+       id="text114" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-style="italic"
+       font-family="monospace"
+       x="833.38464"
+       y="119.1"
+       id="text115">000</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-style="italic"
+       font-family="monospace"
+       x="833.38464"
+       y="119.1"
+       id="text116">c20</text>
+  </g>
+  <g
+     class="prevent-select"
+     id="g120"
+     transform="translate(-50.07998,-39.199992)">
+    <g
+       id="g117">
+      <circle
+         fill="#ffffff"
+         stroke="#000000"
+         stroke-width="2"
+         r="8"
+         cx="897"
+         cy="213"
+         id="circle116">
+        <!---->
+      </circle>
+    </g>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="897"
+       y="235.39999"
+       id="text117" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-family="monospace"
+       x="897"
+       y="235.39999"
+       id="text118" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-style="italic"
+       font-family="monospace"
+       x="897"
+       y="190.60001"
+       id="text119">00</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-style="italic"
+       font-family="monospace"
+       x="897"
+       y="190.60001"
+       id="text120">c5</text>
+  </g>
+  <g
+     class="prevent-select"
+     id="g124"
+     transform="translate(-50.07998,-39.199992)">
+    <g
+       id="g121">
+      <circle
+         fill="#ffffff"
+         stroke="#000000"
+         stroke-width="2"
+         r="8"
+         cx="70"
+         cy="141.5"
+         id="circle120">
+        <!---->
+      </circle>
+    </g>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="70"
+       y="163.89999"
+       id="text121" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-family="monospace"
+       x="70"
+       y="163.89999"
+       id="text122" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-style="italic"
+       font-family="monospace"
+       x="70"
+       y="119.1"
+       id="text123">00</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-style="italic"
+       font-family="monospace"
+       x="70"
+       y="119.1"
+       id="text124">c6</text>
+  </g>
+  <g
+     class="prevent-select"
+     id="g128"
+     transform="translate(-50.07998,-39.199992)">
+    <g
+       id="g125">
+      <circle
+         fill="#ffffff"
+         stroke="#000000"
+         stroke-width="2"
+         r="8"
+         cx="706.15387"
+         cy="213"
+         id="circle124">
+        <!---->
+      </circle>
+    </g>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="706.15387"
+       y="235.39999"
+       id="text125" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-family="monospace"
+       x="706.15387"
+       y="235.39999"
+       id="text126" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-style="italic"
+       font-family="monospace"
+       x="706.15387"
+       y="190.60001"
+       id="text127">00</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-style="italic"
+       font-family="monospace"
+       x="706.15387"
+       y="190.60001"
+       id="text128">c7</text>
+  </g>
+  <g
+     class="prevent-select"
+     id="g132"
+     transform="translate(-50.07998,-39.199992)">
+    <g
+       id="g129">
+      <circle
+         fill="#ffffff"
+         stroke="#000000"
+         stroke-width="2"
+         r="8"
+         cx="578.9231"
+         cy="213"
+         id="circle128">
+        <!---->
+      </circle>
+    </g>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="578.9231"
+       y="235.39999"
+       id="text129" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-family="monospace"
+       x="578.9231"
+       y="235.39999"
+       id="text130" />
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-style="italic"
+       font-family="monospace"
+       x="578.9231"
+       y="190.60001"
+       id="text131">00</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke-width="2"
+       fill="#000000"
+       font-style="italic"
+       font-family="monospace"
+       x="578.9231"
+       y="190.60001"
+       id="text132">c1</text>
+  </g>
+  <!---->
+  <g
+     id="g134"
+     transform="translate(-50.07998,-39.199992)">
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="515.30768"
+       y="92.400002"
+       id="text133">00000</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       fill="#000000"
+       font-family="monospace"
+       x="515.30768"
+       y="92.400002"
+       id="text134">11000</text>
+  </g>
+  <g
+     id="g136"
+     transform="translate(-50.07998,-39.199992)">
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="174"
+       y="194.39999"
+       id="text135">000</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       fill="#000000"
+       font-family="monospace"
+       x="174"
+       y="194.39999"
+       id="text136">556</text>
+  </g>
+  <g
+     id="g138"
+     transform="translate(-50.07998,-39.199992)">
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="90"
+       y="255.39999"
+       id="text137">0000</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       fill="#000000"
+       font-family="monospace"
+       x="90"
+       y="255.39999"
+       id="text138">1625</text>
+  </g>
+  <g
+     id="g140"
+     transform="translate(-50.07998,-39.199992)">
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="388.07693"
+       y="163.89999"
+       id="text139">0000</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       fill="#000000"
+       font-family="monospace"
+       x="388.07693"
+       y="163.89999"
+       id="text140">2921</text>
+  </g>
+  <g
+     id="g142"
+     transform="translate(-50.07998,-39.199992)">
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="897"
+       y="163.89999"
+       id="text141">0000</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       fill="#000000"
+       font-family="monospace"
+       x="897"
+       y="163.89999"
+       id="text142">2846</text>
+  </g>
+  <g
+     id="g144"
+     transform="translate(-50.07998,-39.199992)">
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="133.61539"
+       y="235.39999"
+       id="text143">000</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       fill="#000000"
+       font-family="monospace"
+       x="133.61539"
+       y="235.39999"
+       id="text144">783</text>
+  </g>
+  <g
+     id="g146"
+     transform="translate(-50.07998,-39.199992)">
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="205.20001"
+       y="245.39999"
+       id="text145">000</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       fill="#000000"
+       font-family="monospace"
+       x="205.20001"
+       y="245.39999"
+       id="text146">579</text>
+  </g>
+  <g
+     id="g148"
+     transform="translate(-50.07998,-39.199992)">
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="388.07693"
+       y="235.39999"
+       id="text147">000</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       fill="#000000"
+       font-family="monospace"
+       x="388.07693"
+       y="235.39999"
+       id="text148">600</text>
+  </g>
+  <g
+     id="g150"
+     transform="translate(-50.07998,-39.199992)">
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="133.61539"
+       y="163.89999"
+       id="text149">0000</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       fill="#000000"
+       font-family="monospace"
+       x="133.61539"
+       y="163.89999"
+       id="text150">2120</text>
+  </g>
+  <g
+     id="g152"
+     transform="translate(-50.07998,-39.199992)">
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="451.69232"
+       y="163.89999"
+       id="text151">0000</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       fill="#000000"
+       font-family="monospace"
+       x="451.69232"
+       y="163.89999"
+       id="text152">1378</text>
+  </g>
+  <g
+     id="g154"
+     transform="translate(-50.07998,-39.199992)">
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="578.9231"
+       y="163.89999"
+       id="text153">0000</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       fill="#000000"
+       font-family="monospace"
+       x="578.9231"
+       y="163.89999"
+       id="text154">3127</text>
+  </g>
+  <g
+     id="g156"
+     transform="translate(-50.07998,-39.199992)">
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="262.79999"
+       y="242.39999"
+       id="text155">000</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       fill="#000000"
+       font-family="monospace"
+       x="262.79999"
+       y="242.39999"
+       id="text156">752</text>
+  </g>
+  <g
+     id="g158"
+     transform="translate(-50.07998,-39.199992)">
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="260.84616"
+       y="163.89999"
+       id="text157">0000</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       fill="#000000"
+       font-family="monospace"
+       x="260.84616"
+       y="163.89999"
+       id="text158">3555</text>
+  </g>
+  <g
+     id="g160"
+     transform="translate(-50.07998,-39.199992)">
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="455.66669"
+       y="241.39999"
+       id="text159">000</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       fill="#000000"
+       font-family="monospace"
+       x="455.66669"
+       y="241.39999"
+       id="text160">833</text>
+  </g>
+  <g
+     id="g162"
+     transform="translate(-50.07998,-39.199992)">
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="515.30768"
+       y="163.89999"
+       id="text161">0000</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       fill="#000000"
+       font-family="monospace"
+       x="515.30768"
+       y="163.89999"
+       id="text162">2551</text>
+  </g>
+  <g
+     id="g164"
+     transform="translate(-50.07998,-39.199992)">
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="833.38464"
+       y="235.39999"
+       id="text163">000</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       fill="#000000"
+       font-family="monospace"
+       x="833.38464"
+       y="235.39999"
+       id="text164">644</text>
+  </g>
+  <g
+     id="g166"
+     transform="translate(-50.07998,-39.199992)">
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="642.53845"
+       y="235.39999"
+       id="text165">000</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       fill="#000000"
+       font-family="monospace"
+       x="642.53845"
+       y="235.39999"
+       id="text166">945</text>
+  </g>
+  <g
+     id="g168"
+     transform="translate(-50.07998,-39.199992)">
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="769.76923"
+       y="163.89999"
+       id="text167">0000</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       fill="#000000"
+       font-family="monospace"
+       x="769.76923"
+       y="163.89999"
+       id="text168">1856</text>
+  </g>
+  <g
+     id="g170"
+     transform="translate(-50.07998,-39.199992)">
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="324.46155"
+       y="235.39999"
+       id="text169">000</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       fill="#000000"
+       font-family="monospace"
+       x="324.46155"
+       y="235.39999"
+       id="text170">727</text>
+  </g>
+  <g
+     id="g172"
+     transform="translate(-50.07998,-39.199992)">
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="833.38464"
+       y="163.89999"
+       id="text171">000</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       fill="#000000"
+       font-family="monospace"
+       x="833.38464"
+       y="163.89999"
+       id="text172">791</text>
+  </g>
+  <g
+     id="g174"
+     transform="translate(-50.07998,-39.199992)">
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="897"
+       y="235.39999"
+       id="text173">0000</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       fill="#000000"
+       font-family="monospace"
+       x="897"
+       y="235.39999"
+       id="text174">1121</text>
+  </g>
+  <g
+     id="g176"
+     transform="translate(-50.07998,-39.199992)">
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="70"
+       y="163.89999"
+       id="text175">0000</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       fill="#000000"
+       font-family="monospace"
+       x="70"
+       y="163.89999"
+       id="text176">2675</text>
+  </g>
+  <g
+     id="g178"
+     transform="translate(-50.07998,-39.199992)">
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="706.15387"
+       y="235.39999"
+       id="text177">000</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       fill="#000000"
+       font-family="monospace"
+       x="706.15387"
+       y="235.39999"
+       id="text178">950</text>
+  </g>
+  <g
+     id="g180"
+     transform="translate(-50.07998,-39.199992)">
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       stroke="#ffffff"
+       stroke-width="0.3em"
+       font-family="monospace"
+       x="578.9231"
+       y="235.39999"
+       id="text179">0000</text>
+    <text
+       font-size="16px"
+       dy="0.34999999em"
+       text-anchor="middle"
+       fill="#000000"
+       font-family="monospace"
+       x="578.9231"
+       y="235.39999"
+       id="text180">1413</text>
+  </g>
+  <!---->
 </svg>
