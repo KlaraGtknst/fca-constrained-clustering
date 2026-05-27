@@ -4,23 +4,24 @@
 %% I did not find the definition of "expert ontology" in literature. To avoid confusion whether it is a ontology defined by an expert (attention: some defintions say ontologies have consensus of a group (!= 1 x expert) studer:98), or an ontology of a domain (in literature called "domain ontology" studer:98), I suggest to avoid using the term.
 
 % WORDNET: manual creation cf. le2019inferring, hearst1992hyponyms; hyponym = is-a relationship cf. hearst1992hyponyms
-Concept hierarchies form the backbone of many expert ontologies.
-In linguistic and lexical-semantic ontologies, they organize hyponym relationships under a common top node~\cite{le2019inferring} and structure information into categories, thereby supporting rule formulation as well as the retrieval from and reuse of knowledge bases~\cite{cimiano_learning_2005,yang2012personalized}.
-However, the manual construction of high-quality domain-specific ontologies is costly and typically reflects only a snapshot of evolving knowledge~\cite{li2018unsupervised}.
-Although manually curated ontologies are often regarded as the gold standard, automatic generation is desirable to reduce time and cost~\cite{Aznag2014LeveragingFC,risch2020hierarchical}.
+% studer:98: this true for "domain ontologies", there are also generic ontologies (for >1 domains) etc.
+Ontologies provide formal and explicit specifications of concepts and their relationships within a domain~\cite{studer:98}.
+They support knowledge retrieval, reuse, and rule formulation~\cite{cimiano_learning_2005,yang2012personalized}, and communication through shared conceptualizations~\cite{studer:98,storey:98}. % communication even if different internal knowledge representation, bc conceptualization (ontology) is shared
+% In linguistic and lexical-semantic ontologies, they organize hyponym relationships under a common top node~\cite{le2019inferring} and structure information into categories, thereby supporting rule formulation as well as the retrieval from and reuse of knowledge bases~\cite{cimiano_learning_2005,yang2012personalized}.
+While manual ontology construction is often regarded as the gold standard, it is costly and typically reflects only a snapshot of evolving knowledge~\cite{li2018unsupervised}.
+% solution: automatic concept hierarchy generation
+Automatic concept hierarchy generation therefore aims to reduce time and cost~\cite{Aznag2014LeveragingFC,risch2020hierarchical} and extends coverage of domains not represented in existing ontologies.
 
 % semantic dictionaries (Roget's Thesaurus)
 % lexical databases (WordNet, FrameNet)
 % Proof of concept on German prefices sporleder2002galois
 % Proof of concept on inflectional properties of German nouns petersen:04
 % reports on domestic violence (report id=obj, phrase=attr) Elzinga:09
-% 1. intro to automatic concept hierarchy generation
-Automatic concept hierarchy generation provides a scalable alternative and enables coverage of domains not represented in existing ontologies.
-% 2. already structured data sources
+Existing automatic approaches operate on both structured and unstructured data sources.
+% 1. already structured data sources
 Structured linguistic resources, such as the semantic dictionary Roget's Thesaurus~\cite{Priss:2004,old:04,Priss:96}, lexical databases such as WordNet~\cite{Priss:96,priss:98,GalnPez2014DiscoveringNS} and FrameNet~\cite{val:05}, and morphological feature systems~\cite{sporleder:02,petersen:04}, can be represented as formal contexts.
-% 3. unstructured data sources, e.g., hearst1992hyponyms with Hearst patterns: automatically extract hyponym–hypernym relations; cimiano_learning_2005 with a multi-step NLP pipeline: parser/POS, lemmatizer ...
-When applied to unstructured data sources such as text corpora, formal contexts must first be constructed from textual information. 
-Approaches range from pattern-based extraction methods~\cite{hearst1992hyponyms,le2019inferring} to multi-step \acl{nlp} pipelines that derive binary object--attribute contexts from texts~\cite{cimiano_learning_2005}, as well as approaches using phrases directly as attributes~\cite{Elzinga:09}.
+% 2. unstructured data sources, e.g., hearst1992hyponyms with Hearst patterns: automatically extract hyponym–hypernym relations; cimiano_learning_2005 with a multi-step NLP pipeline: parser/POS, lemmatizer ...
+For unstructured text corpora, formal contexts must first be derived from textual information using methods ranging from pattern-based extraction~\cite{hearst1992hyponyms,le2019inferring} to multi-step \acl{nlp} pipelines that construct binary object-attribute contexts~\cite{cimiano_learning_2005}, as well as approaches using phrases directly as attributes~\cite{Elzinga:09}.
 
 
 \ac{fca}-based concept hierarchy generation can be viewed as a form of conceptual clustering~\cite{Cimiano2004ComparingCD} that yields intensional descriptions of abstract concepts through their intents~\cite{cimiano_learning_2005}. 
