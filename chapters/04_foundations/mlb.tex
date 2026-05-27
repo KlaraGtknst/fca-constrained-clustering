@@ -10,12 +10,7 @@ However, pairwise constraints generally apply only at one level of granularity.
 
 Hierarchical clustering instead organizes data into nested groups at different levels of granularity~\cite{bade_hierarchical_2014}. 
 To incorporate prior knowledge in this setting, \ac{mlb} constraints specify the relative agglomeration order of three data points $d_x$, $d_y$, $d_z$. 
-An \ac{mlb} constraint
-\begin{eqnarray}
-    MLB_{x y z} = (d_x, d_y, d_z)
-    \label{eq:mlb_xyz}
-\end{eqnarray}
-states that $d_x$ and $d_y$ should be merged before either is merged with $d_z$, where $d_x$ and $d_y$ are symmetric. 
+An \ac{mlb} constraint $MLB_{x y z} = (d_x, d_y, d_z)$ states that $d_x$ and $d_y$ should be merged before either is merged with $d_z$, where $d_x$ and $d_y$ are symmetric. 
 Let $H = (C, \prec, \text{root})$ denote a cluster hierarchy, where $C$ is a set of clusters, $\prec$ is a strict partial order over $C$ representing the parent-child relation, and $\text{root} \in C$ is the root cluster~\cite{bade_hierarchical_2014}. 
 Definitions~\eqref{def:mlb_implication} and \eqref{def:mlb_counterexample} formalize the idea that $d_x$ and $d_y$ are more closely related in the hierarchy than $d_x$ and $d_z$. 
 \autoref{fig:hierarchy_to_mlb} illustrates valid \ac{mlb} constraints for a toy example.

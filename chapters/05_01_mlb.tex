@@ -5,7 +5,7 @@ In the following, we prove that \ac{mlb} constraints induce a valid closure oper
 
 \subsubsection{Theoretical Analysis of MLB Constraints}
 % \label{sec:theoretical_analysis}
-Let $G$ be the set of documents. A set of \ac{mlb} constraints is given as $\Sigma \subseteq G \times G \times G$. A constraint $(d_x, d_y, d_z) \in \Sigma$ (cf.~\eqref{eq:mlb_xyz}) expresses a hierarchical dependency: whenever documents $d_x$ and $d_z$ occur together in a cluster, $d_y$ must also belong to that cluster.
+Let $G$ be the set of documents. A set of \ac{mlb} constraints is given as $\Sigma \subseteq G \times G \times G$. A constraint $MLB_{x y z} = (d_x, d_y, d_z) \in \Sigma$ expresses a hierarchical dependency: whenever documents $d_x$ and $d_z$ occur together in a cluster, $d_y$ must also belong to that cluster.
 
 \subsubsection{MLB Constraints as a Closure Operator}
 To utilize \ac{fca}, we must first establish that these constraints define a closure system.
