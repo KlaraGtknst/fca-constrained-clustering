@@ -23,7 +23,7 @@ Consequently, most original topics appear on the lowest level directly above the
 
 \begin{figure}[t]
     \centering
-    \includegraphics[width=\textwidth]{resources/banksearch/topic_model/banksearch_0.05_iceberg.pdf}
+    \includesvg[width=\textwidth]{resources/banksearch/topic_model/banksearch_0.05_iceberg.svg}
     \caption{Iceberg concept lattice derived from the topic model. Top labels denote cluster IDs in the concept intent; bottom labels indicate the number of documents in the concept extent.}
     \label{fig:iceberg_concept_lattice}
 \end{figure}
@@ -33,13 +33,13 @@ Unlike the \ac{mlb}-constrained lattice, the original dataset topics are not exp
 Structurally, the iceberg lattice consists of only two levels besides the top concept, resulting in substantially less hierarchical depth than the \ac{mlb}-constrained lattice. 
 This reduction in structure is expected due to the pruning effect of the iceberg constraint.
 
-
-\begin{figure}[hbt]
-    \centering
-    \includesvg[width=0.64\textwidth]{results/context_comparison/CONCEPT_SIM/heatmap_0.05.svg}
-    \caption{Pairwise Jaccard similarities between concept extents of the \ac{mlb}-constrained lattice and the topic model-based iceberg lattice. Apart from the trivial similarity of the top concepts, most pairs exhibit near-zero similarity. \textcolor{red}{TODO: update path dep. on min-supp}}
-    \label{fig:concept_lattice_similarity}
-\end{figure}
+\textcolor{red}{todo einkommentieren!!!}
+% \begin{figure}[hbt]
+%     \centering
+%     \includesvg[width=0.64\textwidth]{results/context_comparison/CONCEPT_SIM/heatmap_0.05.svg}
+%     \caption{Pairwise Jaccard similarities between concept extents of the \ac{mlb}-constrained lattice and the topic model-based iceberg lattice. Apart from the trivial similarity of the top concepts, most pairs exhibit near-zero similarity. \textcolor{red}{TODO: update path dep. on min-supp}}
+%     \label{fig:concept_lattice_similarity}
+% \end{figure}
 
 % Glckstad2013UnsupervisedKS use Jaccard for overlapping intents
 To assess whether both lattices capture similar document clusters, we compute the Jaccard similarity~\cite{Glckstad2013UnsupervisedKS} between all pairs of concept extents. 
@@ -104,7 +104,7 @@ Since the top node of the coherence lattice contains only $3625$ documents (appr
 
 \begin{subfigure}{0.45\textwidth}
     \centering
-    \includegraphics[width=0.35\textwidth]{results/context_comparison/intersection.pdf}
+    \includesvg[width=0.35\textwidth]{results/context_comparison/intersection.svg}
     % \caption{\textit{Consistency}-lattice.}
 \end{subfigure}
 \hfill
