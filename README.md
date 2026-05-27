@@ -115,7 +115,7 @@ Run `src/context_comparison/compare_concepts.py` (creates and saves coherence co
 contexts, which is shown below. Similarity is calculated via the Jaccard similarity of the extents of the concepts, which are sets of documents.
 
 
-![heatmap.svg](results/context_comparison/CONCEPT_SIM/heatmap.svg)
+![heatmap.svg](results/context_comparison/CONCEPT_SIM/heatmap_0.05.svg)
 
 Heatmap of Jaccard similarity between both contexts (based on shared concept extents).
 

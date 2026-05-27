@@ -36,8 +36,8 @@ This reduction in structure is expected due to the pruning effect of the iceberg
 
 \begin{figure}[hbt]
     \centering
-    \includesvg[width=0.64\textwidth]{results/context_comparison/CONCEPT_SIM/heatmap.svg}
-    \caption{Pairwise Jaccard similarities between concept extents of the \ac{mlb}-constrained lattice and the topic model-based iceberg lattice. Apart from the trivial similarity of the top concepts, most pairs exhibit near-zero similarity.}
+    \includesvg[width=0.64\textwidth]{results/context_comparison/CONCEPT_SIM/heatmap_0.05.svg}
+    \caption{Pairwise Jaccard similarities between concept extents of the \ac{mlb}-constrained lattice and the topic model-based iceberg lattice. Apart from the trivial similarity of the top concepts, most pairs exhibit near-zero similarity. \textcolor{red}{TODO: update path dep. on min-supp}}
     \label{fig:concept_lattice_similarity}
 \end{figure}
 
@@ -51,19 +51,36 @@ These pairs correspond to concepts located in the middle region of the \ac{mlb}-
 Overall, the two lattices exhibit very limited structural similarity.
 
 
+%% old
+% \begin{table}[b]
+% \centering
+% % Jaccard is defined on extent, therefore we compare J(A,B) but refer to the intents as concept identifiers
+% \caption{Concept pairs with Jaccard similarity above $0.6$, where $A'$ denotes the \ac{mlb}-constrained concept intent and $B'$ the topic model-based concept intent. \textcolor{red}{TODO: update, + c before B'?}}
+% \label{tab:concept_jaccard_similarity}
+% \begin{tabular}{lll}
+% \toprule
+% $A'$ & $B'$ & $J(A,B)$ \\
+% \midrule
+% $\{M12, M13, M14\}$ & $\{1\}$ & 0.7716 \\
+% $\{M12, M13, M8\}$  & $\{7\}$ & 0.6761 \\
+% $\{M13, M14, M8\}$  & $\{8\}$ & 0.6010 \\
+% \bottomrule
+% \end{tabular}
+% \end{table}
 
+%% min-sup = 0.1
 \begin{table}[b]
 \centering
 % Jaccard is defined on extent, therefore we compare J(A,B) but refer to the intents as concept identifiers
-\caption{Concept pairs with Jaccard similarity above $0.6$, where $A'$ denotes the \ac{mlb}-constrained concept intent and $B'$ the topic model-based concept intent. \textcolor{red}{TODO: update, + c before B'?}}
+\caption{Concept pairs with Jaccard similarity above $0.6$, where $A'$ denotes the \ac{mlb}-constrained concept intent and $B'$ the topic model-based concept intent. \textcolor{red}{c before B'?}}
 \label{tab:concept_jaccard_similarity}
 \begin{tabular}{lll}
 \toprule
 $A'$ & $B'$ & $J(A,B)$ \\
 \midrule
-$\{M12, M13, M14\}$ & $\{1\}$ & 0.7716 \\
-$\{M12, M13, M8\}$  & $\{7\}$ & 0.6761 \\
-$\{M13, M14, M8\}$  & $\{8\}$ & 0.6010 \\
+$\{M12, M13, M14\}$ & $\{7\}$ & 0.77 \\
+$\{M1, M8, M12, M13\}$  & $\{9\}$ & 0.65 \\
+$\{M4, M8, M12, M14\}$  & $\{10\}$ & 0.64 \\
 \bottomrule
 \end{tabular}
 \end{table}
