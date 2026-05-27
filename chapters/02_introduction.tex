@@ -7,14 +7,19 @@ In linguistic and lexical-semantic ontologies, they organize hyponym relationshi
 However, the manual construction of high-quality domain-specific ontologies is costly and typically reflects only a snapshot of evolving knowledge~\cite{li2018unsupervised}.
 Although manually curated ontologies are often regarded as the gold standard, automatic generation is desirable to reduce time and cost~\cite{Aznag2014LeveragingFC,risch2020hierarchical}.
 
-Automatic concept hierarchy generation provides a scalable alternative and enables coverage of domains not represented in existing ontologies.
-Approaches range from pattern-based methods~\cite{le2019inferring}, such as Hearst patterns~\cite{hearst1992hyponyms}, to \acl{nlp}-based techniques that extract latent information from text and represent it in the form of binary object-attribute matrices, which can then be analyzed using \ac{fca}~\cite{cimiano_learning_2005}.
 % semantic dictionaries (Roget's Thesaurus)
 % lexical databases (WordNet, FrameNet)
 % Proof of concept on German prefices sporleder2002galois
 % Proof of concept on inflectional properties of German nouns petersen:04
 % reports on domestic violence (report id=obj, phrase=attr) Elzinga:09
-\ac{fca} has been used to uncover and visualize implicit semantic structures in semantic dictionaries such as Roget's Thesaurus~\cite{Priss:2004,old:04,Priss:96}, lexical databases WordNet~\cite{Priss:96,priss:98,GalnPez2014DiscoveringNS} or FrameNet~\cite{val:05}, as well as modelling morphological structures~\cite{sporleder:02,petersen:04}. %, as well as written reports~\cite{Elzinga:09}. 
+% 1. intro to automatic concept hierarchy generation
+Automatic concept hierarchy generation provides a scalable alternative and enables coverage of domains not represented in existing ontologies.
+% 2. already structured data sources
+Structured linguistic resources, such as the semantic dictionary Roget's Thesaurus~\cite{Priss:2004,old:04,Priss:96}, lexical databases such as WordNet~\cite{Priss:96,priss:98,GalnPez2014DiscoveringNS} and FrameNet~\cite{val:05}, and morphological feature systems~\cite{sporleder:02,petersen:04}, can be represented as formal contexts.
+% 3. unstructured data sources, e.g., hearst1992hyponyms with Hearst patterns: automatically extract hyponym–hypernym relations; cimiano_learning_2005 with a multi-step NLP pipeline: parser/POS, lemmatizer ...
+When applied to unstructured data sources such as text corpora, formal contexts must first be constructed from textual information. 
+Approaches range from pattern-based extraction methods~\cite{hearst1992hyponyms,le2019inferring} to multi-step \acl{nlp} pipelines that derive binary object--attribute contexts from texts~\cite{cimiano_learning_2005}, as well as approaches using phrases directly as attributes~\cite{Elzinga:09}.
+ 
 
 
 \ac{fca}-based concept hierarchy generation can be viewed as a form of conceptual clustering~\cite{Cimiano2004ComparingCD} that yields intensional descriptions of abstract concepts through their intents~\cite{cimiano_learning_2005}. 
