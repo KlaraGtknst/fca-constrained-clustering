@@ -51,7 +51,7 @@ Overall, the two lattices exhibit very limited structural similarity.
 \begin{table}[b]
 \centering
 % Jaccard is defined on extent, therefore we compare J(A,B) but refer to the intents as concept identifiers
-\caption{Concept pairs with Jaccard similarity above $0.6$, where $A'$ denotes the \ac{mlb}-constrained concept intent and $B'$ the topic model-based concept intent. \textcolor{red}{update with min-supp=0.05, ggf. new computation cf. Fig. 7?}}
+\caption{Concept pairs with Jaccard similarity above $0.5$, where $A'$ denotes the \ac{mlb}-constrained concept intent and $B'$ the topic model-based concept intent.}
 \label{tab:concept_jaccard_similarity}
 \begin{tabular}{lll}
 \toprule
@@ -60,6 +60,8 @@ $A'$ & $B'$ & $J(A,B)$ \\
 $\{M12, M13, M14\}$ & $\{c7\}$ & 0.77 \\
 $\{M1, M8, M12, M13\}$  & $\{c9\}$ & 0.65 \\
 $\{M4, M8, M12, M14\}$  & $\{c10\}$ & 0.64 \\
+$\{M8, M13, M14\}$ & $\{c4\}$ & 0.56 \\
+$\{M8, M12, M13\}$ & $\{c0\}$ & 0.53 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -75,7 +77,7 @@ To investigate partial overlaps, we define the \textit{coherence-lattice} $\math
 \begin{equation}
     M_{coh} = \{ A \cap B \mid A \in \mathcal{C}_{\Sigma}, B \in \mathcal{C}_{TM}, J(A, B) > \theta \}
 \end{equation}
-We set $\theta = 0.6$ which allows us to visualize document clusters that are \textit{nearly} consistent across both knowledge sources.
+We set $\theta = 0.5$ as a moderate threshold, enabling the visualization of coherence relationships beyond exact matches while excluding weakly overlapping concepts.
 Since the top node of the coherence lattice contains $11\,000$ documents the resulting lattice covers the complete corpus.
 
 \begin{figure}[t]
