@@ -61,7 +61,7 @@ To compare both lattices, we compute the Jaccard similarity~\cite{Glckstad2013Un
 For extents $A$ and $B$, the similarity is defined as $J(A,B) = \frac{|A \cap B|}{|A \cup B|}$.
 Figure~\ref{fig:concept_lattice_similarity} shows that most similarities are close to zero, indicating minimal overlap between document clusters.
 Excluding the trivial similarity of the top concepts, only five concept pairs reach a similarity above $0.5$ (Table~\ref{tab:concept_jaccard_similarity}). 
-Only two of the five high-similarity pairs correspond directly to ground-truth topics (\texttt{Astronomy} and \texttt{Sport}, \texttt{Soccer}); for the remaining pairs, semantic correspondence can only be inferred indirectly from lower neighbors and representative \ac{lda} topic words. 
+Only two of the five high-similarity pairs correspond directly to ground-truth topics (\texttt{Astronomy} and \texttt{Sport}, \texttt{Soccer}); for the remaining pairs, semantic correspondence can be inferred indirectly from lower neighbors and representative \ac{lda} topic words. 
 Overall, the scarcity of highly similar concepts indicates limited structural agreement between the lattices.
 
 %% min-sup = 0.1
