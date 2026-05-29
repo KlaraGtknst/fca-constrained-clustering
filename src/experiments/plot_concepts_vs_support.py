@@ -172,7 +172,7 @@ def main() -> None:
         ax_low.plot((-d, +d), (1 - d, 1 + d), **kwargs)
         ax_low.plot((1 - d, 1 + d), (1 - d, 1 + d), **kwargs)
 
-        ax_low.set_xlabel("Minimum support", fontsize=12)
+        ax_low.set_xlabel(r"Minimum support $\delta_{ms}$", fontsize=12)
         ax_low.set_ylabel("Number of concepts", fontsize=12)
         for ax in (ax_high, ax_low):
             ax.xaxis.set_major_locator(MultipleLocator(0.1))
@@ -182,7 +182,7 @@ def main() -> None:
     else:
         fig, ax = plt.subplots(figsize=(5, 5))
         ax.plot(supports, counts, marker="o", linewidth=1)
-        ax.set_xlabel("Minimum support", fontsize=12)
+        ax.set_xlabel(r"Minimum support $\delta_{ms}$", fontsize=12)
         ax.set_ylabel("Number of concepts", fontsize=12)
         ax.set_xlim(0, 1)
         ax.set_ylim(0, 100)
