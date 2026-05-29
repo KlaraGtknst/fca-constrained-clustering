@@ -99,7 +99,7 @@ def plot_incidence_density_line(prob_matrix, thresholds, output_path, n_docs, n_
     fig, ax = plt.subplots(figsize=(5, 5))
     ax.set_box_aspect(1)
     ax.plot(thresholds, densities, marker="o", markersize=2)
-    ax.set_xlabel(r"Threshold $\delta$", fontsize=12)
+    ax.set_xlabel(r"Threshold $\delta_t$", fontsize=12)
     ax.set_ylabel("Incidence density (#ones / #cells)", fontsize=12)
 
     ax.xaxis.set_major_locator(MultipleLocator(0.1))
