@@ -1,6 +1,6 @@
 \section{Findings}
 
-\begin{frame}{Case Study: BankSearch}
+\begin{frame}{Case Study as the Story Resolution}
 \begin{itemize}
     \item Corpus: 11,000 documents.
     \item Represented topics: 11 categories organized into Finance, Science, Programming, and Sport.
@@ -9,12 +9,12 @@
 \end{itemize}
 
 \vspace{0.5em}
-\begin{block}{Experimental comparison}
-We compare the \ac{mlb}-constrained lattice with an \ac{lda}-based iceberg lattice over the same documents.
+\begin{block}{Question revisited}
+Can the manual hierarchy and the explainable topic-model \ac{fca} hierarchy support the same useful search clusters?
 \end{block}
 \end{frame}
 
-\begin{frame}{Two Lattices, Different Structures}
+\begin{frame}{The Two Views Are Structurally Different}
 \begin{columns}[T,onlytextwidth]
 \begin{column}{0.49\textwidth}
 \centering
@@ -23,7 +23,7 @@ We compare the \ac{mlb}-constrained lattice with an \ac{lda}-based iceberg latti
 \includegraphics[width=\linewidth,height=0.50\textheight,keepaspectratio]{mlb_expanded_svg-tex.pdf}
 
 \small
-Preserves expert hierarchy and recovers ground-truth topics through attributes or intersections.
+Expert-compatible cluster space derived from the manual topic hierarchy.
 \end{column}
 \begin{column}{0.49\textwidth}
 \centering
@@ -32,12 +32,12 @@ Preserves expert hierarchy and recovers ground-truth topics through attributes o
 \includegraphics[width=\linewidth,height=0.50\textheight,keepaspectratio]{banksearch_0.05_iceberg_svg-tex.pdf}
 
 \small
-Contains 24 concepts at $\delta_{ms}=0.05$ and has much less hierarchical depth.
+Intensional hierarchy with 24 frequent topic concepts at $\delta_{ms}=0.05$.
 \end{column}
 \end{columns}
 \end{frame}
 
-\begin{frame}{Most Concept Extents Do Not Align}
+\begin{frame}{Exact Agreement Is Rare}
 \begin{columns}[T,onlytextwidth]
 \begin{column}{0.50\textwidth}
 \includegraphics[width=\textwidth]{heatmap_0.05_svg-tex.pdf}
@@ -47,12 +47,13 @@ Contains 24 concepts at $\delta_{ms}=0.05$ and has much less hierarchical depth.
     \item Similarity is computed between all concept extents.
     \item Apart from the top concept, most pairs have near-zero Jaccard similarity.
     \item Only five non-trivial pairs exceed $J(A,B)>0.5$.
+    \item The manual hierarchy and data-driven explanation do not induce the same closed document sets.
 \end{itemize}
 \end{column}
 \end{columns}
 \end{frame}
 
-\begin{frame}{High-Similarity Pairs Are Sparse}
+\begin{frame}{Coherence Finds the Useful Alignments}
 \small
 \begin{tabular}{lll}
 \toprule
@@ -68,29 +69,35 @@ Contains 24 concepts at $\delta_{ms}=0.05$ and has much less hierarchical depth.
 
 \vspace{1em}
 \begin{block}{Finding}
-Partial semantic agreement exists, but it is sparse and uneven across domains.
+The strongest overlaps are not arbitrary: their topic words explain why the manual and data-driven views align.
 \end{block}
 \end{frame}
 
-\begin{frame}{Consistency Collapses; Coherence Still Reveals Signal}
+\begin{frame}{Why Both Lattices Are Required}
 \begin{columns}[T,onlytextwidth]
 \begin{column}{0.46\textwidth}
 \centering
 \textbf{Consistency}
 
-\includegraphics[height=0.48\textheight]{intersection_svg-tex.pdf}
+\includegraphics[height=0.42\textheight]{intersection_svg-tex.pdf}
 
 \small
-Exact intersection contains only trivial concepts.
+Strict agreement collapses to trivial concepts.
 \end{column}
 \begin{column}{0.50\textwidth}
 \centering
 \textbf{Coherence}
 
-\includegraphics[height=0.48\textheight]{coherence_svg-tex.pdf}
+\includegraphics[height=0.42\textheight]{coherence_svg-tex.pdf}
 
 \small
-Relaxed overlap shows meaningful alignments between heterogeneous sources.
+Relaxed overlap recovers meaningful BankSearch clusters.
 \end{column}
 \end{columns}
+
+\vspace{0.2em}
+\begin{block}{Resolution}
+\small
+Consistency tells us exact integration is too restrictive; coherence gives the practical bridge between manual categories and intensional \ac{fca} explanations.
+\end{block}
 \end{frame}

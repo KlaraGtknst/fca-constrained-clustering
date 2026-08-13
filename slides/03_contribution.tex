@@ -1,34 +1,60 @@
 \section{Contribution}
 
-\begin{frame}{Our Contributions}
+\begin{frame}{Our Answer for the BankSearch Story}
 \begin{enumerate}
-    \item We prove that \ac{mlb} constraints induce a valid closure operator.
-    \item We show that the resulting concept lattice is the search space of clusters consistent with the constraints.
-    \item We introduce a comparison and integration method for \ac{mlb}-constrained lattices and topic-model lattices.
-    \item We evaluate the approach on the BankSearch dataset and distinguish exact \emph{consistency} from relaxed \emph{coherence}.
+    \item Encode the manual BankSearch hierarchy as \ac{mlb} constraints.
+    \item Prove that these constraints induce a valid \ac{fca} closure operator.
+    \item Build an \ac{mlb}-constrained lattice as the expert-compatible cluster space.
+    \item Compare it with the topic-model \ac{fca} lattice using consistency and coherence.
 \end{enumerate}
 \end{frame}
 
 \begin{frame}{Central Idea}
 \begin{center}
 \begin{tikzpicture}[
-    node distance=1.3cm,
-    box/.style={draw,rounded corners=2pt,align=center,minimum width=3.1cm,minimum height=1.0cm},
+    node distance=1.15cm,
+    box/.style={draw,rounded corners=2pt,align=center,minimum width=3.0cm,minimum height=1.0cm},
     arr/.style={-{Latex[length=2mm]},thick}
 ]
-\node[box] (expert) {Expert hierarchy\\\ac{mlb} constraints};
-\node[box,right=of expert] (mlb) {Closure system\\$\mathcal{C}_{\Sigma}$};
-\node[box,below=of expert] (data) {Corpus\\\ac{lda} topics};
-\node[box,right=of data] (tm) {Closure system\\$\mathcal{C}_{TM}$};
-\node[box,right=1.5cm of mlb,yshift=-0.65cm] (both) {Compare and intersect\\closed document sets};
-\draw[arr] (expert) -- (mlb);
-\draw[arr] (data) -- (tm);
-\draw[arr] (mlb) -- (both);
-\draw[arr] (tm) -- (both);
+\node[box] (manual) {Manual BankSearch\\hierarchy};
+\node[box,right=of manual] (mlb) {\ac{mlb} constraints\\$\phi_{\Sigma}$};
+\node[box,below=of manual] (docs) {BankSearch\\documents};
+\node[box,right=of docs] (tm) {\ac{lda} topics\\$\phi_{TM}$};
+\node[box,right=1.4cm of mlb,yshift=-0.58cm] (compare) {Consistency\\and coherence};
+\draw[arr] (manual) -- (mlb);
+\draw[arr] (docs) -- (tm);
+\draw[arr] (mlb) -- (compare);
+\draw[arr] (tm) -- (compare);
 \end{tikzpicture}
 \end{center}
 
-\begin{block}{Result}
-Both knowledge sources become closure systems over the same documents, making exact and approximate agreement analyzable in one framework.
+\begin{block}{Interpretation}
+The manual hierarchy becomes a formal closure system. The document evidence becomes another closure system. Their agreement can then be measured directly.
+\end{block}
+\end{frame}
+
+\begin{frame}{Why We Need Two Comparison Notions}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.48\textwidth}
+\textbf{Consistency}
+\begin{itemize}
+    \item Strict exact agreement.
+    \item A cluster must be closed in both lattices.
+    \item Useful as a gold-standard diagnostic.
+\end{itemize}
+\end{column}
+\begin{column}{0.48\textwidth}
+\textbf{Coherence}
+\begin{itemize}
+    \item Relaxed semantic agreement.
+    \item Clusters may overlap without being identical.
+    \item Useful for heterogeneous knowledge sources.
+\end{itemize}
+\end{column}
+\end{columns}
+
+\vspace{0.5em}
+\begin{block}{Role in the story}
+If consistency is empty, that is not failure. It tells us the manual and data-driven hierarchies differ, and coherence shows where they still align.
 \end{block}
 \end{frame}

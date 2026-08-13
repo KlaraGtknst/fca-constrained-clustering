@@ -1,6 +1,13 @@
 \section{Method}
 
-\begin{frame}{MLB Constraints as a Closure Operator}
+\begin{frame}{Step 1: Formalize the Manual Hierarchy}
+\begin{itemize}
+    \item Pick representative BankSearch documents for manual topics.
+    \item Translate hierarchical relations into \ac{mlb} constraints.
+    \item Read each constraint as a rule for valid document clusters.
+\end{itemize}
+
+\vspace{0.4em}
 \begin{definition}[$\Sigma$-consistency]
 A set $A\subseteq G$ is $\Sigma$-consistent if, for every $(d_x,d_y,d_z)\in\Sigma$,
 \[
@@ -11,15 +18,9 @@ A set $A\subseteq G$ is $\Sigma$-consistent if, for every $(d_x,d_y,d_z)\in\Sigm
 \begin{theorem}
 The mapping $\phi_{\Sigma}(A)$ to the smallest $\Sigma$-consistent superset of $A$ is a closure operator.
 \end{theorem}
-
-\begin{itemize}
-    \item Extensivity: $A\subseteq\phi_{\Sigma}(A)$.
-    \item Monotonicity: larger inputs cannot close to smaller outputs.
-    \item Idempotence: once closed, applying the operator again changes nothing.
-\end{itemize}
 \end{frame}
 
-\begin{frame}{From Hierarchical Constraints to a Lattice}
+\begin{frame}{Step 2: Build the Expert-Compatible Cluster Space}
 \begin{itemize}
     \item \ac{mlb} constraints are saturated to encode indirect hierarchical dependencies.
     \item Closed sets under $\phi_{\Sigma}$ are exactly the document sets that satisfy the implication part of the constraints.
@@ -27,15 +28,16 @@ The mapping $\phi_{\Sigma}(A)$ to the smallest $\Sigma$-consistent superset of $
 \end{itemize}
 
 \begin{block}{Interpretation}
-The \ac{mlb}-constrained concept lattice is not a single dendrogram. It is the search space of all admissible clusters from which valid hierarchies can be selected.
+The \ac{mlb}-constrained concept lattice is the manual hierarchy translated into an \ac{fca}-compatible search space of admissible BankSearch clusters.
 \end{block}
 \end{frame}
 
-\begin{frame}{Topic Model Lattice}
+\begin{frame}{Step 3: Build the Explainable Data-Driven Hierarchy}
 \begin{itemize}
     \item Train \ac{lda} with $T=11$ topics to match the represented BankSearch categories.
     \item Convert document-topic probabilities into a binary context with threshold $\delta_t=0.07$.
     \item Apply an iceberg support threshold $\delta_{ms}=0.05$ to retain interpretable frequent concepts.
+    \item The resulting \ac{fca} concepts are explained by their topic intents.
 \end{itemize}
 
 \begin{center}
@@ -45,7 +47,7 @@ The \ac{mlb}-constrained concept lattice is not a single dendrogram. It is the s
 \end{center}
 \end{frame}
 
-\begin{frame}{Consistency Lattice}
+\begin{frame}{Step 4a: Ask for Exact Agreement}
 Let $\mathcal{C}_{\Sigma}$ be the \ac{mlb} closure system and $\mathcal{C}_{TM}$ the topic-model closure system.
 
 \[
@@ -55,15 +57,15 @@ Let $\mathcal{C}_{\Sigma}$ be the \ac{mlb} closure system and $\mathcal{C}_{TM}$
 \]
 
 \begin{itemize}
-    \item Exact agreement means a document set is closed under both knowledge sources.
+    \item Exact agreement means a BankSearch document cluster is closed under both knowledge sources.
     \item The corresponding closure operator is computed by alternating $\phi_{\Sigma}$ and $\phi_{TM}$ to a fixpoint.
-    \item Irreducible closed sets are generated on the fly to avoid constructing the full lattice.
+    \item This produces the consistency lattice.
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Coherence Lattice}
+\begin{frame}{Step 4b: Ask for Meaningful Partial Agreement}
 \begin{itemize}
-    \item Exact equality of extents is often too strict.
+    \item Exact equality of extents may be too strict for manual labels versus topic-model evidence.
     \item We compare concept extents using Jaccard similarity:
 \end{itemize}
 
@@ -74,5 +76,6 @@ J(A,B)=\frac{|A\cap B|}{|A\cup B|}
 \begin{itemize}
     \item The coherence lattice uses intersections of concept pairs whose similarity exceeds $\theta$.
     \item In the case study, $\theta=0.5$ keeps moderate or strong overlaps while excluding weak matches.
+    \item This reveals where manual hierarchy nodes and intensional topic concepts point to similar document groups.
 \end{itemize}
 \end{frame}

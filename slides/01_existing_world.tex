@@ -1,55 +1,89 @@
 \section{Existing World}
 
-\begin{frame}{Concept Hierarchies Are Built from Multiple Knowledge Sources}
+\begin{frame}{Running Example: Organizing BankSearch}
 \begin{columns}[T,onlytextwidth]
-\begin{column}{0.48\textwidth}
-\textbf{Expert and structured knowledge}
+\begin{column}{0.50\textwidth}
+\textbf{Task}
 \begin{itemize}
-    \item Ontologies define concepts and their relations explicitly.
-    \item Manual construction is trusted, but expensive and quickly outdated.
-    \item Linguistic resources such as dictionaries, WordNet, and FrameNet can be represented as formal contexts.
+    \item Build a browsable search hierarchy for 11,000 BankSearch web pages.
+    \item Help users move from broad domains to more specific document groups.
+    \item Keep the hierarchy explainable, not just manually labeled.
 \end{itemize}
 \end{column}
-\begin{column}{0.48\textwidth}
-\textbf{Data-driven knowledge}
+\begin{column}{0.46\textwidth}
+\textbf{Available sources}
 \begin{itemize}
-    \item Text corpora can be transformed into document-feature contexts.
-    \item Topic models provide latent document-topic structure.
-    \item \ac{fca} turns such contexts into interpretable concept lattices.
+    \item A manual topic hierarchy from prior work.
+    \item Document text from the corpus.
+    \item Topic-model evidence extracted from the documents.
 \end{itemize}
 \end{column}
 \end{columns}
-\end{frame}
-
-\begin{frame}{State of the Art}
-\begin{itemize}
-    \item Hierarchical text classification predicts labels inside a taxonomy.
-    \item \ac{fca}-based hierarchy generation derives concepts directly from formal contexts.
-    \item Constrained clustering injects prior knowledge through must-link, cannot-link, and hierarchical constraints.
-    \item \ac{mlb} constraints were introduced for hierarchical agglomerative clustering to express merge order.
-\end{itemize}
 
 \vspace{0.5em}
-\begin{block}{Research landscape}
-Prior work has strong tools for data-driven \ac{fca} hierarchies and for constrained clustering, but hierarchical \ac{mlb} constraints have not been systematically integrated into \ac{fca}.
+\begin{block}{Roter Faden}
+Can we turn BankSearch into a hierarchy that respects expert knowledge and explains why documents belong together?
 \end{block}
 \end{frame}
 
-\begin{frame}{Why FCA Is Attractive Here}
+\begin{frame}{The Manual Hierarchy Is Useful}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.48\textwidth}
+\begin{itemize}
+    \item The manual hierarchy gives a trusted domain organization.
+    \item It separates broad areas such as Finance, Science, Programming, and Sport.
+    \item It provides background knowledge that a search system should not ignore.
+\end{itemize}
+\end{column}
+\begin{column}{0.48\textwidth}
+\small
+\begin{tabular}{ll}
+\toprule
+\textbf{Domain} & \textbf{Topics} \\
+\midrule
+Finance & Banks, Societies, Insurance \\
+Science & Astronomy, Biology \\
+Programming & C/C++, Java, Visual Basic \\
+Sport & Soccer, Motor Racing \\
+\bottomrule
+\end{tabular}
+\end{column}
+\end{columns}
+
+\vspace{0.5em}
+\begin{alertblock}{But}
+The manual hierarchy says which categories belong together, but not which shared document properties justify a cluster.
+\end{alertblock}
+\end{frame}
+
+\begin{frame}{Why FCA Is the Right Candidate}
 \begin{columns}[T,onlytextwidth]
 \begin{column}{0.55\textwidth}
 \begin{itemize}
-    \item Objects are documents.
-    \item Attributes are explicit features, topics, or generated constraints.
-    \item Concepts group documents by shared attributes.
-    \item The lattice exposes an interpretable hierarchy of extents and intents.
+    \item \ac{fca} concepts contain extents and intents.
+    \item Extent: the documents in a cluster.
+    \item Intent: the shared attributes that describe the cluster.
+    \item This gives an intensional explanation for each hierarchy node.
 \end{itemize}
+
+\vspace{0.4em}
+\small
+\begin{tabular}{ll}
+\toprule
+\textbf{Cluster} & \textbf{Possible explanation} \\
+\midrule
+Finance-like & Account, Rate, Mortgage \\
+Soccer-like & Team, Player, Cup \\
+Astronomy-like & Galaxy, Universe, Star \\
+\bottomrule
+\end{tabular}
 \end{column}
 \begin{column}{0.40\textwidth}
 \centering
 \begin{tikzpicture}[
     node distance=0.95cm,
     concept/.style={circle,draw,minimum size=7mm,inner sep=0pt},
+    label/.style={align=center,font=\scriptsize},
     arr/.style={-{Latex[length=2mm]},thick}
 ]
 \node[concept] (top) {$G$};
@@ -58,6 +92,8 @@ Prior work has strong tools for data-driven \ac{fca} hierarchies and for constra
 \node[concept,below=1.0cm of a] (c) {};
 \node[concept,below=1.0cm of b] (d) {};
 \node[concept,below right=0.9cm and 0.45cm of c] (bot) {$\emptyset$};
+\node[label,right=0.05cm of b] {intent:\\topics};
+\node[label,left=0.05cm of c] {extent:\\docs};
 \draw[arr] (top) -- (a);
 \draw[arr] (top) -- (b);
 \draw[arr] (a) -- (c);
@@ -67,4 +103,18 @@ Prior work has strong tools for data-driven \ac{fca} hierarchies and for constra
 \end{tikzpicture}
 \end{column}
 \end{columns}
+\end{frame}
+
+\begin{frame}{State of the Art Around the Example}
+\begin{itemize}
+    \item Hierarchical text classification predicts labels inside a given taxonomy.
+    \item \ac{fca}-based hierarchy generation derives concepts directly from formal contexts.
+    \item Constrained clustering injects prior knowledge through constraints.
+    \item \ac{mlb} constraints express hierarchical merge order in agglomerative clustering.
+\end{itemize}
+
+\vspace{0.5em}
+\begin{block}{Gap}
+We have data-driven \ac{fca} hierarchies and constrained clustering, but no systematic way to use \ac{mlb} expert hierarchy constraints inside \ac{fca} and compare them with topic-model concepts.
+\end{block}
 \end{frame}
