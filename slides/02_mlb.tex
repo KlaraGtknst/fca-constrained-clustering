@@ -28,7 +28,7 @@
 \begin{center}
 \begin{tikzpicture}[
     node/.style={circle,draw,minimum size=8mm,font=\small},
-    ml/.style={-{Latex[length=2mm]},thick,blue!70!black},
+    ml/.style={-{Latex[length=2mm]},thick,green!70!black},
     cl/.style={-{Latex[length=2mm]},thick,red!70!black,dashed}
 ]
 \node[node] (soccer) {Soccer};
@@ -44,9 +44,9 @@
 \begin{column}{0.46\textwidth}
 \textbf{Pairwise view}
 \begin{itemize}
-    \item $(\text{Soccer}, \text{Racing})_{ML}$
-    \item $(\text{Soccer}, \text{Bank})_{CL}$
-    \item $(\text{Racing}, \text{Bank})_{CL}$
+    \item $(\text{Soccer}, \text{Racing})_{\textcolor{green!70!black}{ML}}$
+    \item $(\text{Soccer}, \text{Bank})_{\textcolor{red!70!black}{CL}}$
+    \item $(\text{Racing}, \text{Bank})_{\textcolor{red!70!black}{CL}}$
     \item[$\rightarrow$] Hierarchy level is lost
 \end{itemize}
 \end{column}
