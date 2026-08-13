@@ -19,9 +19,11 @@
 
 \IfFileExists{slides/01_existing_world.tex}{
   \newcommand{\slidesdir}{slides/}
+  \newcommand{\bibfile}{bibliography}
   \graphicspath{{./}{svg-inkscape/}{resources/banksearch/ground_truth/}}
 }{
   \newcommand{\slidesdir}{}
+  \newcommand{\bibfile}{../bibliography}
   \graphicspath{{../}{../svg-inkscape/}{../resources/banksearch/ground_truth/}}
 }
 
@@ -32,13 +34,6 @@
 \acrodef{lda}[LDA]{Latent Dirichlet Allocation}
 \acrodef{mlb}[MLB]{Must-Link-Before}
 \acrodef{hac}[HAC]{hierarchical agglomerative clustering}
-
-% ---- Bibliography ----
-
-% BibTeX users should specify bibliography style 'splncs04'.
-% References will then be sorted and formatted in the correct style.
-\bibliographystyle{splncs04}
-\bibliography{bibliography}
 
 \title[Hierarchical Background Knowledge in FCA]{Hierarchical Background Knowledge in FCA\\via Must-Link-Before Constraints}
 \author[Gutekunst et al.]{Klara M. Gutekunst$^1$ \and Dominik D\"urrschnabel$^2$ \and Stefan Schneider$^3$ \and Martin Potthast$^{1,4}$}
@@ -62,7 +57,10 @@
 \input{\slidesdir 05_findings}
 \input{\slidesdir 06_conclusion}
 
-
+\begin{frame}[allowframebreaks]{References}
+  \bibliographystyle{splncs04}
+  \bibliography{\bibfile}
+\end{frame}
 
 
 \end{document}

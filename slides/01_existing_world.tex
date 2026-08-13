@@ -1,12 +1,13 @@
 \section{Existing World}
 
+%%%% 1: Data
 \begin{frame}{Exploring Corpora}
 \begin{columns}[c,onlytextwidth]
 \begin{column}{0.50\textwidth}
 
 Given \dots
 \begin{enumerate}
-    \item \dots dataset with documents labeled with one category each
+    \item \dots a dataset with documents labeled with one category each
     \item<2-> \dots a manual hierarchy of categories
 \end{enumerate}
 
@@ -35,7 +36,7 @@ BankSearch\footnote{\url{https://lib.stat.cmu.edu/datasets/} {\tiny(13.08.2026)}
 \begin{column}{0.46\textwidth}
 \begin{figure}[htbp]
   \centering
-  \includesvg[width=0.8\textwidth]{slides/figures/flat_dataset.svg}
+  \includesvg[width=0.8\textwidth]{\slidesdir figures/flat_dataset.svg}
   \caption{BankSearch dataset.}
 \end{figure}
 \end{column}
@@ -44,72 +45,129 @@ BankSearch\footnote{\url{https://lib.stat.cmu.edu/datasets/} {\tiny(13.08.2026)}
 \end{frame}
 
 
-
-
-
-
-
-
-
-
-\begin{frame}{The Manual Hierarchy Is Useful}
-\begin{columns}[T,onlytextwidth]
-\begin{column}{0.48\textwidth}
-\begin{itemize}
-    \item The manual hierarchy gives a trusted domain organization.
-    \item It separates broad areas such as Finance, Science, Programming, and Sport.
-    \item It provides background knowledge that a search system should not ignore.
-\end{itemize}
-\end{column}
-
-\begin{column}{0.48\textwidth}
-
-\end{column}
-\end{columns}
-
-\vspace{0.5em}
-\begin{alertblock}{But}
-The manual hierarchy says which categories belong together, but not which shared document properties justify a cluster.
-\end{alertblock}
-\end{frame}
-
-
-
-
-
-
+%%%% 2: Task 1: MLB Constraints into FCA
 \begin{frame}{Exploring Corpora}
+\begin{block}{Task 1}
+Integrate hierarchical expert background knowledge (i.e., category hierarchy) and one-hot document labels into a single hierarchy.
+\end{block}
+
+
 \begin{columns}[T,onlytextwidth]
-\begin{column}{0.50\textwidth}
-
-\textbf{Task}
-\begin{itemize}
-    \item Build a browsable search hierarchy for 11,000 BankSearch web pages.
-    \item Help users move from broad domains to more specific document groups.
-    \item Keep the hierarchy explainable, not just manually labeled.
-\end{itemize}
-\end{column}
-
 \begin{column}{0.46\textwidth}
-% \textbf{Available sources}
+\only<1->{
+    \begin{figure}[htbp]
+  \centering
+  \includesvg[height=0.4\textheight]{\slidesdir figures/flat_dataset.svg}
+  \caption{Each document belongs to one category.}
+\end{figure}
+}
+\end{column}
+\begin{column}{0.04\textwidth}
+    \vspace{6.5em}
+    \only<2->{$\rightarrow$}
+\end{column}
+\begin{column}{0.46\textwidth}
+\only<2->{
 \begin{figure}[htbp]
   \centering
-  \includesvg[width=0.8\textwidth]{figures/flat_dataset.svg}
-  \caption{BankSearch dataset (11\,000 documents, 14 categories).}
+  \includesvg[height=0.4\textheight]{\slidesdir figures/clustered_flat_dataset.svg}
+  \caption{Hierarchically clustered BankSearch dataset.}
 \end{figure}
-% \begin{itemize}
-%     \item A manual topic hierarchy from prior work.
-%     \item Document text from the corpus.
-%     \item Topic-model evidence extracted from the documents.
-% \end{itemize}
+}
+
+
+\end{column}
+\end{columns}
+
+% \vspace{0.5em}
+% \begin{block}{Roter Faden}
+% Can we turn BankSearch into a hierarchy that respects expert knowledge and explains why documents belong together?
+% \end{block}
+\end{frame}
+
+
+%%%% 3: Why Data-Driven (i.e., shortcomings of manual annotation)
+\begin{frame}{Limitations of Manual Annotation}
+\begin{columns}[c,onlytextwidth]
+\begin{column}{0.55\textwidth}
+
+
+\begin{itemize}
+    \item Manual annotation detail $\Leftrightarrow$ Annotator effort
+    \begin{itemize}
+        \item<2-> BankSearch: only 2-level hierarchy 
+    \end{itemize}
+    \item<3-> Captures only snapshot of annotator's knowledge
+    \item<4-> Unclear \emph{why} documents belong together beyond category membership
+\end{itemize}
+
+
+\end{column}
+
+\begin{column}{0.4\textwidth}
+\begin{figure}[htbp]
+  \centering
+  \includesvg[width=0.9\textwidth]{\slidesdir figures/clustered_flat_dataset.svg}
+  \caption{Hierarchically clustered BankSearch dataset.}
+\end{figure}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+
+%%%% 4: Manual vs. Data-Driven Hierarchy
+\begin{frame}{Source of Background Knowledge}
+
+Existing data-driven approaches extract \dots 
+\begin{itemize}
+    \item \dots structured knowledge from 
+% 1. already structured data sources
+semantic dictionaries~\cite{Priss:2004,old:04,Priss:96}, lexical databases~\cite{Priss:96,priss:98,GalnPez2014DiscoveringNS,val:05}, and others~\cite{sporleder:02,petersen:04}.
+    \item \dots unstructured text corpora via pattern-based extraction~\cite{hearst1992hyponyms,le2019inferring}, multi-step \acl{nlp} pipelines~\cite{cimiano_learning_2005}, and other approaches~\cite{Elzinga:09,cigarran_twitter_fca_2016}.
+\end{itemize}
+
+% 2. unstructured data sources, e.g., hearst1992hyponyms with Hearst patterns: automatically extract hyponym–hypernym relations; cimiano_learning_2005 with a multi-step NLP pipeline: parser/POS, lemmatizer ...
+For , formal contexts must first be derived from textual information using methods ranging from 
+
+
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.48\textwidth}
+\textbf{Manual Annotation}
+\begin{itemize}
+    \item[+]<2-> Trust-worthy expert knowledge
+    \item[-]<3-> Snapshot of evolving domain knowledge
+    \item[-]<4-> costly, time-consuming
+\end{itemize}
+\end{column}
+
+\begin{column}{0.48\textwidth}
+\textbf{Data-Driven}
+\begin{itemize}
+    \item[-]<2-> Quality depends on data
+    \item[+]<3-> Extends coverage of domains
+    \item[+]<4-> Less costly, less time-consuming
+\end{itemize}
 \end{column}
 \end{columns}
 
 \vspace{0.5em}
-\begin{block}{Roter Faden}
-Can we turn BankSearch into a hierarchy that respects expert knowledge and explains why documents belong together?
-\end{block}
+\uncover<5->{
+\begin{alertblock}{Problem}
+    \begin{itemize}
+        \item Does the data-driven hierarchy respect the expert knowledge? 
+        \item How can we systematically compare the two hierarchies?
+    \end{itemize}
+\end{alertblock}
+}
 \end{frame}
+
+
+
+
+
+
+
 
 
 
