@@ -1,30 +1,56 @@
 \section{Existing World}
 
-\begin{frame}{Running Example: Organizing BankSearch}
-\begin{columns}[T,onlytextwidth]
+\begin{frame}{Exploring Corpora}
+\begin{columns}[c,onlytextwidth]
 \begin{column}{0.50\textwidth}
-\textbf{Task}
+
+Given \dots
+\begin{enumerate}
+    \item \dots dataset with documents labeled with one category each
+    \item<2-> \dots a manual hierarchy of categories
+\end{enumerate}
+
+BankSearch\footnote{\url{https://lib.stat.cmu.edu/datasets/} {\tiny(13.08.2026)}} Dataset
 \begin{itemize}
-    \item Build a browsable search hierarchy for 11,000 BankSearch web pages.
-    \item Help users move from broad domains to more specific document groups.
-    \item Keep the hierarchy explainable, not just manually labeled.
+    \item 11\,000 documents
+    \item 14 categories~\cite{bade_creating_2008} 
+    \uncover<2->{%
+    {
+    \small
+    \begin{tabular}{ll}
+        \toprule
+        \textbf{Top-Category} & \textbf{Sub-Category} \\
+        \midrule
+        Finance & Banks, Societies, Insurance \\
+        Science & Astronomy, Biology \\
+        Programming & C/C++, Java, Visual Basic \\
+        Sport & Soccer, Motor Racing \\
+        \bottomrule
+    \end{tabular}
+    }
+    }
 \end{itemize}
 \end{column}
+
 \begin{column}{0.46\textwidth}
-\textbf{Available sources}
-\begin{itemize}
-    \item A manual topic hierarchy from prior work.
-    \item Document text from the corpus.
-    \item Topic-model evidence extracted from the documents.
-\end{itemize}
+\begin{figure}[htbp]
+  \centering
+  \includesvg[width=0.8\textwidth]{slides/figures/flat_dataset.svg}
+  \caption{BankSearch dataset.}
+\end{figure}
 \end{column}
 \end{columns}
 
-\vspace{0.5em}
-\begin{block}{Roter Faden}
-Can we turn BankSearch into a hierarchy that respects expert knowledge and explains why documents belong together?
-\end{block}
 \end{frame}
+
+
+
+
+
+
+
+
+
 
 \begin{frame}{The Manual Hierarchy Is Useful}
 \begin{columns}[T,onlytextwidth]
@@ -35,18 +61,9 @@ Can we turn BankSearch into a hierarchy that respects expert knowledge and expla
     \item It provides background knowledge that a search system should not ignore.
 \end{itemize}
 \end{column}
+
 \begin{column}{0.48\textwidth}
-\small
-\begin{tabular}{ll}
-\toprule
-\textbf{Domain} & \textbf{Topics} \\
-\midrule
-Finance & Banks, Societies, Insurance \\
-Science & Astronomy, Biology \\
-Programming & C/C++, Java, Visual Basic \\
-Sport & Soccer, Motor Racing \\
-\bottomrule
-\end{tabular}
+
 \end{column}
 \end{columns}
 
@@ -55,6 +72,52 @@ Sport & Soccer, Motor Racing \\
 The manual hierarchy says which categories belong together, but not which shared document properties justify a cluster.
 \end{alertblock}
 \end{frame}
+
+
+
+
+
+
+\begin{frame}{Exploring Corpora}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.50\textwidth}
+
+\textbf{Task}
+\begin{itemize}
+    \item Build a browsable search hierarchy for 11,000 BankSearch web pages.
+    \item Help users move from broad domains to more specific document groups.
+    \item Keep the hierarchy explainable, not just manually labeled.
+\end{itemize}
+\end{column}
+
+\begin{column}{0.46\textwidth}
+% \textbf{Available sources}
+\begin{figure}[htbp]
+  \centering
+  \includesvg[width=0.8\textwidth]{figures/flat_dataset.svg}
+  \caption{BankSearch dataset (11\,000 documents, 14 categories).}
+\end{figure}
+% \begin{itemize}
+%     \item A manual topic hierarchy from prior work.
+%     \item Document text from the corpus.
+%     \item Topic-model evidence extracted from the documents.
+% \end{itemize}
+\end{column}
+\end{columns}
+
+\vspace{0.5em}
+\begin{block}{Roter Faden}
+Can we turn BankSearch into a hierarchy that respects expert knowledge and explains why documents belong together?
+\end{block}
+\end{frame}
+
+
+
+
+
+
+
+
 
 \begin{frame}{Why FCA Is the Right Candidate}
 \begin{columns}[T,onlytextwidth]

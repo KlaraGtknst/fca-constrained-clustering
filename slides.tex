@@ -13,6 +13,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{mathtools}
+\usepackage{svg}
 \usepackage{hyperref}
 \usepackage[nolist]{acronym}
 
@@ -32,9 +33,16 @@
 \acrodef{mlb}[MLB]{Must-Link-Before}
 \acrodef{hac}[HAC]{hierarchical agglomerative clustering}
 
-\title[Hierarchical Background Knowledge in FCA]{Hierarchical Background Knowledge in FCA via Must-Link-Before Constraints}
-\author[Gutekunst et al.]{Klara M. Gutekunst \and Dominik D\"urrschnabel \and Stefan Schneider \and Martin Potthast}
-\institute[]{University of Kassel, hessian.AI, DHBW Mosbach, OvGU Magdeburg, ScaDS.AI}
+% ---- Bibliography ----
+
+% BibTeX users should specify bibliography style 'splncs04'.
+% References will then be sorted and formatted in the correct style.
+\bibliographystyle{splncs04}
+\bibliography{bibliography}
+
+\title[Hierarchical Background Knowledge in FCA]{Hierarchical Background Knowledge in FCA\\via Must-Link-Before Constraints}
+\author[Gutekunst et al.]{Klara M. Gutekunst$^1$ \and Dominik D\"urrschnabel$^2$ \and Stefan Schneider$^3$ \and Martin Potthast$^{1,4}$}
+\institute[]{1: University of Kassel, hessian.AI, 2: DHBW Mosbach, 3: OvGU Magdeburg, 4: ScaDS.AI}
 \date{}
 
 \begin{document}
@@ -53,5 +61,8 @@
 \input{\slidesdir 04_method}
 \input{\slidesdir 05_findings}
 \input{\slidesdir 06_conclusion}
+
+
+
 
 \end{document}
