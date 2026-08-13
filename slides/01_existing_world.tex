@@ -119,17 +119,9 @@ Integrate hierarchical expert background knowledge (i.e., category hierarchy) an
 %%%% 4: Manual vs. Data-Driven Hierarchy
 \begin{frame}{Source of Background Knowledge}
 
-Existing data-driven approaches extract \dots 
-\begin{itemize}
-    \item \dots structured knowledge from 
-% 1. already structured data sources
-semantic dictionaries~\cite{Priss:2004,old:04,Priss:96}, lexical databases~\cite{Priss:96,priss:98,GalnPez2014DiscoveringNS,val:05}, and others~\cite{sporleder:02,petersen:04}.
-    \item \dots unstructured text corpora via pattern-based extraction~\cite{hearst1992hyponyms,le2019inferring}, multi-step \acl{nlp} pipelines~\cite{cimiano_learning_2005}, and other approaches~\cite{Elzinga:09,cigarran_twitter_fca_2016}.
-\end{itemize}
-
-% 2. unstructured data sources, e.g., hearst1992hyponyms with Hearst patterns: automatically extract hyponym–hypernym relations; cimiano_learning_2005 with a multi-step NLP pipeline: parser/POS, lemmatizer ...
-For , formal contexts must first be derived from textual information using methods ranging from 
-
+\only<-4>{
+Existing data-driven approaches use structured knowledge~\cite{Priss:2004,old:04,Priss:96,Priss:96,priss:98,GalnPez2014DiscoveringNS,val:05,sporleder:02,petersen:04} and unstructured text corpora~\cite{hearst1992hyponyms,le2019inferring,cimiano_learning_2005,Elzinga:09,cigarran_twitter_fca_2016,Aznag2014LeveragingFC,wang_topic_feature_2021,wang_topic_hierarchy_2023,hirth_ordinal_2024,gutekunst2025conceptual}. \textcolor{red}{TODO: group numbers}
+}
 
 \begin{columns}[T,onlytextwidth]
 \begin{column}{0.48\textwidth}
@@ -160,68 +152,83 @@ For , formal contexts must first be derived from textual information using metho
     \end{itemize}
 \end{alertblock}
 }
+\only<6->{
+    \begin{block}{Task 2}
+    Compare the data-driven hierarchy with the expert knowledge hierarchy.
+    \end{block}
+}
 \end{frame}
 
 
+%%%% 5: Why FCA?
+\begin{frame}{Concept Hierachies}
 
+\begin{alertblock}{Problem (continued)}
+    Unclear \emph{why} documents belong together beyond category membership.
+\end{alertblock}
+\only<1>{
+\begin{figure}[htbp]
+  \centering
+  \includesvg[height=0.55\textheight]{\slidesdir figures/clustered_flat_dataset.svg}
+  \caption{Hierarchically clustered BankSearch dataset.}
+\end{figure}
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-\begin{frame}{Why FCA Is the Right Candidate}
 \begin{columns}[T,onlytextwidth]
-\begin{column}{0.55\textwidth}
-\begin{itemize}
-    \item \ac{fca} concepts contain extents and intents.
-    \item Extent: the documents in a cluster.
-    \item Intent: the shared attributes that describe the cluster.
-    \item This gives an intensional explanation for each hierarchy node.
-\end{itemize}
+\begin{column}{0.35\textwidth}
 
-\vspace{0.4em}
-\small
-\begin{tabular}{ll}
-\toprule
-\textbf{Cluster} & \textbf{Possible explanation} \\
-\midrule
-Finance-like & Account, Rate, Mortgage \\
-Soccer-like & Team, Player, Cup \\
-Astronomy-like & Galaxy, Universe, Star \\
-\bottomrule
-\end{tabular}
+\uncover<2->{
+\acs{fca}-based hierarchies}
+\begin{itemize}
+    \item<3-> Extent: Documents
+    \item<3-> Intent: Extracted features
+    \item<4->[$\rightarrow$] Intensional description for each concept.
+\end{itemize}
 \end{column}
-\begin{column}{0.40\textwidth}
+
+\begin{column}{0.60\textwidth}
 \centering
-\begin{tikzpicture}[
-    node distance=0.95cm,
-    concept/.style={circle,draw,minimum size=7mm,inner sep=0pt},
-    label/.style={align=center,font=\scriptsize},
-    arr/.style={-{Latex[length=2mm]},thick}
-]
-\node[concept] (top) {$G$};
-\node[concept,below left=of top] (a) {};
-\node[concept,below right=of top] (b) {};
-\node[concept,below=1.0cm of a] (c) {};
-\node[concept,below=1.0cm of b] (d) {};
-\node[concept,below right=0.9cm and 0.45cm of c] (bot) {$\emptyset$};
-\node[label,right=0.05cm of b] {intent:\\topics};
-\node[label,left=0.05cm of c] {extent:\\docs};
-\draw[arr] (top) -- (a);
-\draw[arr] (top) -- (b);
-\draw[arr] (a) -- (c);
-\draw[arr] (b) -- (d);
-\draw[arr] (c) -- (bot);
-\draw[arr] (d) -- (bot);
-\end{tikzpicture}
+\vspace{-1.5em}
+\uncover<2->{
+    \begin{figure}[t]
+    \centering
+    \includegraphics[width=0.38\textwidth]{resources/banksearch/ground_truth/mlb_expanded.pdf}
+    % \caption{\ac{mlb}-constrained concept lattice. Top labels denote attributes; bottom labels indicate the number of documents in the corresponding concept extent. Evaluation against manually annotated ground-truth labels indicates that numbered nodes correspond to document clusters sharing the same topic.} % kind of obvious, because that is the smallest attribute set they share
+    \label{fig:mlb_concept_lattice}
+\end{figure}
+
+\uncover<3->{\small
+    \begin{tabular}{ll}
+    \toprule
+    \textbf{Extent} & \textbf{Intent} \\
+    \midrule
+    $d_1, d_3$, \dots & $\{M4\} \coloneq \{Galaxy, Universe, Star\}$ \\
+    $d_2, d_4$, \dots & $\{M0,M1\} \coloneq \{Team, Player, Cup\}$ \\
+    \bottomrule
+    \end{tabular}
+}
+% \begin{tikzpicture}[
+%     node distance=0.95cm,
+%     concept/.style={circle,draw,minimum size=7mm,inner sep=0pt},
+%     label/.style={align=center,font=\scriptsize},
+%     arr/.style={-{Latex[length=2mm]},thick}
+% ]
+% \node[concept] (top) {$G$};
+% \node[concept,below left=of top] (a) {};
+% \node[concept,below right=of top] (b) {};
+% \node[concept,below=1.0cm of a] (c) {};
+% \node[concept,below=1.0cm of b] (d) {};
+% \node[concept,below right=0.9cm and 0.45cm of c] (bot) {$\emptyset$};
+% \node[label,right=0.05cm of b] {intent:\\topics};
+% \node[label,left=0.05cm of c] {extent:\\docs};
+% \draw[arr] (top) -- (a);
+% \draw[arr] (top) -- (b);
+% \draw[arr] (a) -- (c);
+% \draw[arr] (b) -- (d);
+% \draw[arr] (c) -- (bot);
+% \draw[arr] (d) -- (bot);
+% \end{tikzpicture}
+}
 \end{column}
 \end{columns}
 \end{frame}
