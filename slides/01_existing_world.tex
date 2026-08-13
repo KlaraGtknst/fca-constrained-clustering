@@ -1,0 +1,70 @@
+\section{Existing World}
+
+\begin{frame}{Concept Hierarchies Are Built from Multiple Knowledge Sources}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.48\textwidth}
+\textbf{Expert and structured knowledge}
+\begin{itemize}
+    \item Ontologies define concepts and their relations explicitly.
+    \item Manual construction is trusted, but expensive and quickly outdated.
+    \item Linguistic resources such as dictionaries, WordNet, and FrameNet can be represented as formal contexts.
+\end{itemize}
+\end{column}
+\begin{column}{0.48\textwidth}
+\textbf{Data-driven knowledge}
+\begin{itemize}
+    \item Text corpora can be transformed into document-feature contexts.
+    \item Topic models provide latent document-topic structure.
+    \item \ac{fca} turns such contexts into interpretable concept lattices.
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{State of the Art}
+\begin{itemize}
+    \item Hierarchical text classification predicts labels inside a taxonomy.
+    \item \ac{fca}-based hierarchy generation derives concepts directly from formal contexts.
+    \item Constrained clustering injects prior knowledge through must-link, cannot-link, and hierarchical constraints.
+    \item \ac{mlb} constraints were introduced for hierarchical agglomerative clustering to express merge order.
+\end{itemize}
+
+\vspace{0.5em}
+\begin{block}{Research landscape}
+Prior work has strong tools for data-driven \ac{fca} hierarchies and for constrained clustering, but hierarchical \ac{mlb} constraints have not been systematically integrated into \ac{fca}.
+\end{block}
+\end{frame}
+
+\begin{frame}{Why FCA Is Attractive Here}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.55\textwidth}
+\begin{itemize}
+    \item Objects are documents.
+    \item Attributes are explicit features, topics, or generated constraints.
+    \item Concepts group documents by shared attributes.
+    \item The lattice exposes an interpretable hierarchy of extents and intents.
+\end{itemize}
+\end{column}
+\begin{column}{0.40\textwidth}
+\centering
+\begin{tikzpicture}[
+    node distance=0.95cm,
+    concept/.style={circle,draw,minimum size=7mm,inner sep=0pt},
+    arr/.style={-{Latex[length=2mm]},thick}
+]
+\node[concept] (top) {$G$};
+\node[concept,below left=of top] (a) {};
+\node[concept,below right=of top] (b) {};
+\node[concept,below=1.0cm of a] (c) {};
+\node[concept,below=1.0cm of b] (d) {};
+\node[concept,below right=0.9cm and 0.45cm of c] (bot) {$\emptyset$};
+\draw[arr] (top) -- (a);
+\draw[arr] (top) -- (b);
+\draw[arr] (a) -- (c);
+\draw[arr] (b) -- (d);
+\draw[arr] (c) -- (bot);
+\draw[arr] (d) -- (bot);
+\end{tikzpicture}
+\end{column}
+\end{columns}
+\end{frame}

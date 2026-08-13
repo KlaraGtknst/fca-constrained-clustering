@@ -1,0 +1,57 @@
+\documentclass[aspectratio=169,professionalfonts]{beamer}
+
+\usetheme{Madrid}
+\usecolortheme{default}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage[nolist]{acronym}
+
+\IfFileExists{slides/01_existing_world.tex}{
+  \newcommand{\slidesdir}{slides/}
+  \graphicspath{{./}{svg-inkscape/}{resources/banksearch/ground_truth/}}
+}{
+  \newcommand{\slidesdir}{}
+  \graphicspath{{../}{../svg-inkscape/}{../resources/banksearch/ground_truth/}}
+}
+
+\acrodef{ae}[AE]{Attribute Exploration}
+\acrodef{fca}[FCA]{Formal Concept Analysis}
+\acrodef{llm}[LLM]{Large Language Model}
+\acrodef{nlp}[NLP]{Natural Language Processing}
+\acrodef{lda}[LDA]{Latent Dirichlet Allocation}
+\acrodef{mlb}[MLB]{Must-Link-Before}
+\acrodef{hac}[HAC]{hierarchical agglomerative clustering}
+
+\title[Hierarchical Background Knowledge in FCA]{Hierarchical Background Knowledge in FCA via Must-Link-Before Constraints}
+\author[Gutekunst et al.]{Klara M. Gutekunst \and Dominik D\"urrschnabel \and Stefan Schneider \and Martin Potthast}
+\institute[]{University of Kassel, hessian.AI, DHBW Mosbach, OvGU Magdeburg, ScaDS.AI}
+\date{}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% \begin{frame}{Roadmap}
+%   \tableofcontents
+% \end{frame}
+
+\input{\slidesdir 01_existing_world}
+\input{\slidesdir 02_problem}
+\input{\slidesdir 03_contribution}
+\input{\slidesdir 04_method}
+\input{\slidesdir 05_findings}
+\input{\slidesdir 06_conclusion}
+
+\end{document}

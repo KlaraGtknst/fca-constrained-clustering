@@ -1,0 +1,37 @@
+\section{Problem}
+
+\begin{frame}{The Problem: Knowledge Sources Disagree}
+\begin{itemize}
+    \item Automatically generated hierarchies may conflict with expert-defined hierarchies.
+    \item Expert hierarchies reflect annotation decisions and domain knowledge.
+    \item Topic models capture statistical regularities in the corpus.
+    \item It is unclear how to quantify agreement between hierarchies induced by these different sources.
+\end{itemize}
+
+\vspace{0.5em}
+\begin{alertblock}{Core question}
+How can hierarchical expert knowledge be incorporated into \ac{fca}, and how can the resulting hierarchy be compared with a data-driven topic-model hierarchy?
+\end{alertblock}
+\end{frame}
+
+\begin{frame}{Why Pairwise Constraints Are Not Enough}
+\begin{itemize}
+    \item Classical must-link and cannot-link constraints operate at one granularity level.
+    \item Hierarchical clustering needs relative order: two documents may belong together at a high level but separate lower down.
+    \item \ac{mlb} constraints express this order directly.
+\end{itemize}
+
+\vspace{0.5em}
+\[
+MLB_{xyz} = (d_x,d_y,d_z):
+\quad
+d_x \text{ and } d_y \text{ must merge before } d_z
+\]
+
+\begin{block}{FCA interpretation}
+If $d_x$ and $d_z$ are together in a closed document set, then $d_y$ must also be present.
+\[
+\{d_x,d_z\}\subseteq A \Rightarrow d_y\in A
+\]
+\end{block}
+\end{frame}

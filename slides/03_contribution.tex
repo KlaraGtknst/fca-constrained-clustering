@@ -1,0 +1,34 @@
+\section{Contribution}
+
+\begin{frame}{Our Contributions}
+\begin{enumerate}
+    \item We prove that \ac{mlb} constraints induce a valid closure operator.
+    \item We show that the resulting concept lattice is the search space of clusters consistent with the constraints.
+    \item We introduce a comparison and integration method for \ac{mlb}-constrained lattices and topic-model lattices.
+    \item We evaluate the approach on the BankSearch dataset and distinguish exact \emph{consistency} from relaxed \emph{coherence}.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Central Idea}
+\begin{center}
+\begin{tikzpicture}[
+    node distance=1.3cm,
+    box/.style={draw,rounded corners=2pt,align=center,minimum width=3.1cm,minimum height=1.0cm},
+    arr/.style={-{Latex[length=2mm]},thick}
+]
+\node[box] (expert) {Expert hierarchy\\\ac{mlb} constraints};
+\node[box,right=of expert] (mlb) {Closure system\\$\mathcal{C}_{\Sigma}$};
+\node[box,below=of expert] (data) {Corpus\\\ac{lda} topics};
+\node[box,right=of data] (tm) {Closure system\\$\mathcal{C}_{TM}$};
+\node[box,right=1.5cm of mlb,yshift=-0.65cm] (both) {Compare and intersect\\closed document sets};
+\draw[arr] (expert) -- (mlb);
+\draw[arr] (data) -- (tm);
+\draw[arr] (mlb) -- (both);
+\draw[arr] (tm) -- (both);
+\end{tikzpicture}
+\end{center}
+
+\begin{block}{Result}
+Both knowledge sources become closure systems over the same documents, making exact and approximate agreement analyzable in one framework.
+\end{block}
+\end{frame}

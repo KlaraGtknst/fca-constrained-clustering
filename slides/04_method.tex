@@ -1,0 +1,78 @@
+\section{Method}
+
+\begin{frame}{MLB Constraints as a Closure Operator}
+\begin{definition}[$\Sigma$-consistency]
+A set $A\subseteq G$ is $\Sigma$-consistent if, for every $(d_x,d_y,d_z)\in\Sigma$,
+\[
+\{d_x,d_z\}\subseteq A \Rightarrow d_y\in A.
+\]
+\end{definition}
+
+\begin{theorem}
+The mapping $\phi_{\Sigma}(A)$ to the smallest $\Sigma$-consistent superset of $A$ is a closure operator.
+\end{theorem}
+
+\begin{itemize}
+    \item Extensivity: $A\subseteq\phi_{\Sigma}(A)$.
+    \item Monotonicity: larger inputs cannot close to smaller outputs.
+    \item Idempotence: once closed, applying the operator again changes nothing.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{From Hierarchical Constraints to a Lattice}
+\begin{itemize}
+    \item \ac{mlb} constraints are saturated to encode indirect hierarchical dependencies.
+    \item Closed sets under $\phi_{\Sigma}$ are exactly the document sets that satisfy the implication part of the constraints.
+    \item Any valid constrained dendrogram uses only clusters from the resulting lattice.
+\end{itemize}
+
+\begin{block}{Interpretation}
+The \ac{mlb}-constrained concept lattice is not a single dendrogram. It is the search space of all admissible clusters from which valid hierarchies can be selected.
+\end{block}
+\end{frame}
+
+\begin{frame}{Topic Model Lattice}
+\begin{itemize}
+    \item Train \ac{lda} with $T=11$ topics to match the represented BankSearch categories.
+    \item Convert document-topic probabilities into a binary context with threshold $\delta_t=0.07$.
+    \item Apply an iceberg support threshold $\delta_{ms}=0.05$ to retain interpretable frequent concepts.
+\end{itemize}
+
+\begin{center}
+\includegraphics[height=0.37\textheight]{incidence_density_vs_threshold_svg-tex.pdf}
+\hfill
+\includegraphics[height=0.37\textheight]{concepts_vs_support_svg-tex.pdf}
+\end{center}
+\end{frame}
+
+\begin{frame}{Consistency Lattice}
+Let $\mathcal{C}_{\Sigma}$ be the \ac{mlb} closure system and $\mathcal{C}_{TM}$ the topic-model closure system.
+
+\[
+\mathcal{C}_{\cap}
+= \mathcal{C}_{\Sigma}\cap\mathcal{C}_{TM}
+= \{A\subseteq G \mid \phi_{\Sigma}(A)=A \land \phi_{TM}(A)=A\}
+\]
+
+\begin{itemize}
+    \item Exact agreement means a document set is closed under both knowledge sources.
+    \item The corresponding closure operator is computed by alternating $\phi_{\Sigma}$ and $\phi_{TM}$ to a fixpoint.
+    \item Irreducible closed sets are generated on the fly to avoid constructing the full lattice.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Coherence Lattice}
+\begin{itemize}
+    \item Exact equality of extents is often too strict.
+    \item We compare concept extents using Jaccard similarity:
+\end{itemize}
+
+\[
+J(A,B)=\frac{|A\cap B|}{|A\cup B|}
+\]
+
+\begin{itemize}
+    \item The coherence lattice uses intersections of concept pairs whose similarity exceeds $\theta$.
+    \item In the case study, $\theta=0.5$ keeps moderate or strong overlaps while excluding weak matches.
+\end{itemize}
+\end{frame}

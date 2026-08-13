@@ -1,0 +1,96 @@
+\section{Findings}
+
+\begin{frame}{Case Study: BankSearch}
+\begin{itemize}
+    \item Corpus: 11,000 documents.
+    \item Represented topics: 11 categories organized into Finance, Science, Programming, and Sport.
+    \item Expert hierarchy from prior BankSearch annotations is mapped to document-level \ac{mlb} constraints.
+    \item Mapping yields 81 \ac{mlb} constraints.
+\end{itemize}
+
+\vspace{0.5em}
+\begin{block}{Experimental comparison}
+We compare the \ac{mlb}-constrained lattice with an \ac{lda}-based iceberg lattice over the same documents.
+\end{block}
+\end{frame}
+
+\begin{frame}{Two Lattices, Different Structures}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.49\textwidth}
+\centering
+\textbf{\ac{mlb}-constrained lattice}
+
+\includegraphics[width=\linewidth,height=0.50\textheight,keepaspectratio]{mlb_expanded_svg-tex.pdf}
+
+\small
+Preserves expert hierarchy and recovers ground-truth topics through attributes or intersections.
+\end{column}
+\begin{column}{0.49\textwidth}
+\centering
+\textbf{Topic-model iceberg lattice}
+
+\includegraphics[width=\linewidth,height=0.50\textheight,keepaspectratio]{banksearch_0.05_iceberg_svg-tex.pdf}
+
+\small
+Contains 24 concepts at $\delta_{ms}=0.05$ and has much less hierarchical depth.
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Most Concept Extents Do Not Align}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.50\textwidth}
+\includegraphics[width=\textwidth]{heatmap_0.05_svg-tex.pdf}
+\end{column}
+\begin{column}{0.47\textwidth}
+\begin{itemize}
+    \item Similarity is computed between all concept extents.
+    \item Apart from the top concept, most pairs have near-zero Jaccard similarity.
+    \item Only five non-trivial pairs exceed $J(A,B)>0.5$.
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{High-Similarity Pairs Are Sparse}
+\small
+\begin{tabular}{lll}
+\toprule
+\textbf{Similarity} & \textbf{Expert-side interpretation} & \textbf{Topic words} \\
+\midrule
+0.77 & Finance-related cluster & Account, Rate, Mortgage \\
+0.65 & Soccer / Sport & Team, Player, Cup \\
+0.64 & Astronomy & Galaxy, Universe, Star \\
+0.56 & Programming-related cluster & Java, com, Visual \\
+0.53 & Racing / Sport-related cluster & Race, Car \\
+\bottomrule
+\end{tabular}
+
+\vspace{1em}
+\begin{block}{Finding}
+Partial semantic agreement exists, but it is sparse and uneven across domains.
+\end{block}
+\end{frame}
+
+\begin{frame}{Consistency Collapses; Coherence Still Reveals Signal}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.46\textwidth}
+\centering
+\textbf{Consistency}
+
+\includegraphics[height=0.48\textheight]{intersection_svg-tex.pdf}
+
+\small
+Exact intersection contains only trivial concepts.
+\end{column}
+\begin{column}{0.50\textwidth}
+\centering
+\textbf{Coherence}
+
+\includegraphics[height=0.48\textheight]{coherence_svg-tex.pdf}
+
+\small
+Relaxed overlap shows meaningful alignments between heterogeneous sources.
+\end{column}
+\end{columns}
+\end{frame}
