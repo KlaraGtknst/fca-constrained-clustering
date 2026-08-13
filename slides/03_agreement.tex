@@ -1,122 +1,112 @@
-\section{Contribution}
+\section{Agreement Between Expert and Data}
 
-\begin{frame}{The Problem in the Running Example}
-\begin{itemize}
-    \item The manual BankSearch hierarchy is trusted, but its nodes are not intensional descriptions.
-    \item The topic-model \ac{fca} hierarchy is explainable, but it may disagree with the manual hierarchy.
-    \item A search system needs both: expert-compatible structure and document-based explanations.
-\end{itemize}
-
-\vspace{0.5em}
-\begin{alertblock}{Core question}
-Which BankSearch clusters are supported by both expert hierarchy constraints and document-derived topic structure?
-\end{alertblock}
-\end{frame}
-
-\begin{frame}{Why Disagreement Is Expected}
+\begin{frame}{Task 2: What We Compare}
 \begin{columns}[T,onlytextwidth]
-\begin{column}{0.48\textwidth}
-\textbf{Manual hierarchy}
-\begin{itemize}
-    \item Encodes human category decisions.
-    \item Uses topic labels and domain structure.
-    \item Gives clean branches such as Sport $\rightarrow$ Soccer.
-\end{itemize}
+\begin{column}{0.49\textwidth}
+\centering
+\textbf{Expert lattice}\\[0.2em]
+\includegraphics[width=\textwidth,height=0.58\textheight,keepaspectratio]{mlb_expanded_lattice_svg-tex.pdf}
 \end{column}
-\begin{column}{0.48\textwidth}
-\textbf{Topic-model FCA}
-\begin{itemize}
-    \item Encodes statistical regularities in text.
-    \item Uses shared topic attributes.
-    \item May mix categories when vocabulary overlaps.
-\end{itemize}
+\begin{column}{0.49\textwidth}
+\centering
+\textbf{Topic-model lattice}\\[0.2em]
+\includegraphics[width=\textwidth,height=0.58\textheight,keepaspectratio]{banksearch_0.05_iceberg_svg-tex.pdf}
 \end{column}
 \end{columns}
 
-\vspace{0.6em}
-\begin{block}{Consequence}
-Exact agreement is a meaningful ideal, but a practical comparison must also detect partial semantic overlap.
+\vspace{0.25em}
+\begin{block}{Question}
+Which document clusters are supported by both the manual BankSearch hierarchy and the topic structure in the corpus?
 \end{block}
 \end{frame}
 
-
-
-
-
-
-% \begin{frame}{State of the Art Around the Example}
-% \begin{itemize}
-%     \item Hierarchical text classification predicts labels inside a given taxonomy.
-%     \item \ac{fca}-based hierarchy generation derives concepts directly from formal contexts.
-%     \item Constrained clustering injects prior knowledge through constraints.
-%     \item \ac{mlb} constraints express hierarchical merge order in agglomerative clustering.
-% \end{itemize}
-
-% \vspace{0.5em}
-% \begin{block}{Gap}
-% We have data-driven \ac{fca} hierarchies and constrained clustering, but no systematic way to use \ac{mlb} expert hierarchy constraints inside \ac{fca} and compare them with topic-model concepts.
-% \end{block}
-% \end{frame}
-
-
-
-
-
-\begin{frame}{Our Answer for the BankSearch Story}
-\begin{enumerate}
-    \item Encode the manual BankSearch hierarchy as \ac{mlb} constraints.
-    \item Prove that these constraints induce a valid \ac{fca} closure operator.
-    \item Build an \ac{mlb}-constrained lattice as the expert-compatible cluster space.
-    \item Compare it with the topic-model \ac{fca} lattice using consistency and coherence.
-\end{enumerate}
+\begin{frame}{The Second Lattice Is Data-Driven}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.48\textwidth}
+\begin{itemize}
+    \item Documents are represented by \ac{lda} topic memberships.
+    \item Topic incidences are thresholded into a formal context.
+    \item An iceberg concept lattice keeps frequent document-topic concepts.
+    \item This follows prior topic-model-based \ac{fca} hierarchy generation~\cite{blei2003lda,gutekunst2025conceptual}.
+\end{itemize}
+\end{column}
+\begin{column}{0.5\textwidth}
+\centering
+\includegraphics[width=\textwidth,height=0.64\textheight,keepaspectratio]{banksearch_0.05_iceberg_svg-tex.pdf}
+\end{column}
+\end{columns}
 \end{frame}
 
-\begin{frame}{Central Idea}
-\begin{center}
-\begin{tikzpicture}[
-    node distance=1.15cm,
-    box/.style={draw,rounded corners=2pt,align=center,minimum width=3.0cm,minimum height=1.0cm},
-    arr/.style={-{Latex[length=2mm]},thick}
-]
-\node[box] (manual) {Manual BankSearch\\hierarchy};
-\node[box,right=of manual] (mlb) {\ac{mlb} constraints\\$\phi_{\Sigma}$};
-\node[box,below=of manual] (docs) {BankSearch\\documents};
-\node[box,right=of docs] (tm) {\ac{lda} topics\\$\phi_{TM}$};
-\node[box,right=1.4cm of mlb,yshift=-0.58cm] (compare) {Consistency\\and coherence};
-\draw[arr] (manual) -- (mlb);
-\draw[arr] (docs) -- (tm);
-\draw[arr] (mlb) -- (compare);
-\draw[arr] (tm) -- (compare);
-\end{tikzpicture}
-\end{center}
+\begin{frame}{Consistency Lattice: Exact Agreement}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.48\textwidth}
+\begin{itemize}
+    \item A concept is consistent if its extent is closed in both closure systems.
+    \item This is the strict intersection of the expert \ac{mlb} lattice and the topic-model lattice.
+    \item It asks for identical document clusters.
+\end{itemize}
+
+\vspace{0.5em}
+\begin{alertblock}{BankSearch result}
+Only trivial shared concepts remain. Exact agreement is too strict for this practical setting.
+\end{alertblock}
+\end{column}
+\begin{column}{0.5\textwidth}
+\centering
+\includegraphics[width=\textwidth,height=0.62\textheight,keepaspectratio]{intersection_svg-tex.pdf}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{From Exact Agreement to Degree of Agreement}
+\begin{itemize}
+    \item The practical question is not only whether two concepts are identical.
+    \item We need to know whether an expert concept and a data-driven concept cover mostly the same documents.
+    \item We compare concept extents with Jaccard similarity~\cite{Glckstad2013UnsupervisedKS}:
+\end{itemize}
+
+\[
+J(A,B)=\frac{|A\cap B|}{|A\cup B|}
+\]
 
 \begin{block}{Interpretation}
-The manual hierarchy becomes a formal closure system. The document evidence becomes another closure system. Their agreement can then be measured directly.
+$J(A,B)=1$ recovers consistency; lower thresholds reveal partial agreement between heterogeneous knowledge sources.
 \end{block}
 \end{frame}
 
-\begin{frame}{Why We Need Two Comparison Notions}
+\begin{frame}{BankSearch Agreement Matrix}
 \begin{columns}[T,onlytextwidth]
-\begin{column}{0.48\textwidth}
-\textbf{Consistency}
+\begin{column}{0.43\textwidth}
 \begin{itemize}
-    \item Strict exact agreement.
-    \item A cluster must be closed in both lattices.
-    \item Useful as a gold-standard diagnostic.
+    \item Most expert/data-driven concept pairs have near-zero overlap.
+    \item The non-trivial agreements are concentrated in a few recognizable domains.
+    \item This motivates a coherence lattice instead of stopping at consistency.
 \end{itemize}
 \end{column}
+\begin{column}{0.55\textwidth}
+\centering
+\includegraphics[width=\textwidth,height=0.68\textheight,keepaspectratio]{heatmap_0.05_svg-tex.pdf}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Coherence Lattice: Practical Agreement}
+\begin{columns}[T,onlytextwidth]
 \begin{column}{0.48\textwidth}
-\textbf{Coherence}
 \begin{itemize}
-    \item Relaxed semantic agreement.
-    \item Clusters may overlap without being identical.
-    \item Useful for heterogeneous knowledge sources.
+    \item Keep concept pairs whose extent overlap exceeds a threshold $\theta$.
+    \item For BankSearch we use $\theta = 0.5$ to show meaningful partial agreement.
+    \item The resulting lattice exposes where manual categories and topic evidence support each other.
 \end{itemize}
+\end{column}
+\begin{column}{0.5\textwidth}
+\centering
+\includegraphics[width=\textwidth,height=0.64\textheight,keepaspectratio]{coherence_svg-tex.pdf}
 \end{column}
 \end{columns}
 
-\vspace{0.5em}
-\begin{block}{Role in the story}
-If consistency is empty, that is not failure. It tells us the manual and data-driven hierarchies differ, and coherence shows where they still align.
+\vspace{0.25em}
+\begin{block}{Story resolution}
+The case study shows why the \ac{fca} hierarchy is useful: it provides intensional descriptions, while consistency and coherence explain how far those descriptions agree with expert structure.
 \end{block}
 \end{frame}
