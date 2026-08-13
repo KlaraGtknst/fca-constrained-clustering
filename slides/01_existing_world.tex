@@ -154,7 +154,7 @@ Existing data-driven approaches use structured knowledge~\cite{Priss:2004,old:04
 }
 \only<6->{
     \begin{block}{Task 2}
-    Compare the data-driven hierarchy with the expert knowledge hierarchy.
+    Analyze the agreement of a data-driven hierarchy and an expert knowledge hierarchy.
     \end{block}
 }
 \end{frame}
@@ -233,16 +233,30 @@ Existing data-driven approaches use structured knowledge~\cite{Priss:2004,old:04
 \end{columns}
 \end{frame}
 
-\begin{frame}{State of the Art Around the Example}
-\begin{itemize}
-    \item Hierarchical text classification predicts labels inside a given taxonomy.
-    \item \ac{fca}-based hierarchy generation derives concepts directly from formal contexts.
-    \item Constrained clustering injects prior knowledge through constraints.
-    \item \ac{mlb} constraints express hierarchical merge order in agglomerative clustering.
-\end{itemize}
+%%%% Tasks
+\begin{frame}{Tasks}
+    Now that we haven chosen \ac{fca} as our method for hierarchy generation, we can reformulate the following tasks:
 
-\vspace{0.5em}
-\begin{block}{Gap}
-We have data-driven \ac{fca} hierarchies and constrained clustering, but no systematic way to use \ac{mlb} expert hierarchy constraints inside \ac{fca} and compare them with topic-model concepts.
+\only<1>{
+\begin{block}{Task 1}
+Integrate hierarchical expert background knowledge (i.e., category hierarchy) and one-hot document labels into a single hierarchy.
 \end{block}
+}
+\only<2->{
+\begin{block}{Task 1 (Continued)}
+Integrate hierarchical expert background knowledge (i.e., category hierarchy) and one-hot document labels into a single \textbf{formal lattice}.
+\end{block}
+}
+
+\only<-2>{
+\begin{block}{Task 2}
+    Analyze the agreement of a data-driven hierarchy and an expert knowledge hierarchy.
+\end{block}
+}
+\only<3->{
+\begin{block}{Task 2 (Continued)}
+    Analyze the agreement of a data-driven \textbf{formal lattice} and an expert knowledge \textbf{formal lattice}.
+\end{block}
+}
 \end{frame}
+

@@ -1,0 +1,27 @@
+\section{Must-Link-Before Constraints}
+
+
+
+%%%% Task 1: MLB into FCA
+
+\begin{frame}{Why Pairwise Constraints Are Not Enough}
+\begin{itemize}
+    \item Classical must-link and cannot-link constraints operate at one granularity level.
+    \item BankSearch has hierarchical relations: Soccer and Motor Racing share Sport, but remain different subtopics.
+    \item \ac{mlb} constraints encode that relative hierarchy.
+\end{itemize}
+
+\vspace{0.5em}
+\[
+MLB_{xyz} = (d_x,d_y,d_z):
+\quad
+d_x \text{ and } d_y \text{ must merge before } d_z
+\]
+
+\begin{block}{FCA interpretation}
+If $d_x$ and $d_z$ are together in a closed document set, then $d_y$ must also be present.
+\[
+\{d_x,d_z\}\subseteq A \Rightarrow d_y\in A
+\]
+\end{block}
+\end{frame}

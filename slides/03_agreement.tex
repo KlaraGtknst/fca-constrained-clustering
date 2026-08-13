@@ -1,5 +1,67 @@
 \section{Contribution}
 
+\begin{frame}{The Problem in the Running Example}
+\begin{itemize}
+    \item The manual BankSearch hierarchy is trusted, but its nodes are not intensional descriptions.
+    \item The topic-model \ac{fca} hierarchy is explainable, but it may disagree with the manual hierarchy.
+    \item A search system needs both: expert-compatible structure and document-based explanations.
+\end{itemize}
+
+\vspace{0.5em}
+\begin{alertblock}{Core question}
+Which BankSearch clusters are supported by both expert hierarchy constraints and document-derived topic structure?
+\end{alertblock}
+\end{frame}
+
+\begin{frame}{Why Disagreement Is Expected}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.48\textwidth}
+\textbf{Manual hierarchy}
+\begin{itemize}
+    \item Encodes human category decisions.
+    \item Uses topic labels and domain structure.
+    \item Gives clean branches such as Sport $\rightarrow$ Soccer.
+\end{itemize}
+\end{column}
+\begin{column}{0.48\textwidth}
+\textbf{Topic-model FCA}
+\begin{itemize}
+    \item Encodes statistical regularities in text.
+    \item Uses shared topic attributes.
+    \item May mix categories when vocabulary overlaps.
+\end{itemize}
+\end{column}
+\end{columns}
+
+\vspace{0.6em}
+\begin{block}{Consequence}
+Exact agreement is a meaningful ideal, but a practical comparison must also detect partial semantic overlap.
+\end{block}
+\end{frame}
+
+
+
+
+
+
+% \begin{frame}{State of the Art Around the Example}
+% \begin{itemize}
+%     \item Hierarchical text classification predicts labels inside a given taxonomy.
+%     \item \ac{fca}-based hierarchy generation derives concepts directly from formal contexts.
+%     \item Constrained clustering injects prior knowledge through constraints.
+%     \item \ac{mlb} constraints express hierarchical merge order in agglomerative clustering.
+% \end{itemize}
+
+% \vspace{0.5em}
+% \begin{block}{Gap}
+% We have data-driven \ac{fca} hierarchies and constrained clustering, but no systematic way to use \ac{mlb} expert hierarchy constraints inside \ac{fca} and compare them with topic-model concepts.
+% \end{block}
+% \end{frame}
+
+
+
+
+
 \begin{frame}{Our Answer for the BankSearch Story}
 \begin{enumerate}
     \item Encode the manual BankSearch hierarchy as \ac{mlb} constraints.
