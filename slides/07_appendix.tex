@@ -1,0 +1,81 @@
+\section{Appendix}
+
+\begin{frame}{Appendix A: MLB Semantics}
+\hypertarget{appendix:mlb-defs}{}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.46\textwidth}
+\begin{itemize}
+    \item Let $\Sigma \subseteq G \times G \times G$ be a set of \ac{mlb} constraints.
+    \item $MLB_{x y z}=(d_x,d_y,d_z)$ means $d_x$ and $d_y$ are closer to each other than to $d_z$.
+\end{itemize}
+
+\vspace{0.25em}
+\textbf{Implication side}
+\[
+  d_x,d_z \in C \Rightarrow d_y \in C
+\]
+
+\textbf{Separation side}
+\[
+  \exists C:\ d_x,d_y \in C \land d_z \notin C
+\]
+\end{column}
+\begin{column}{0.5\textwidth}
+\banksearchHierarchyToMLB{}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Appendix B: Why $\phi_{\Sigma}$ Is a Closure Operator}
+\hypertarget{appendix:closure-proof}{}
+\begin{itemize}
+    \item A set $A \subseteq G$ is $\Sigma$-consistent iff every constraint in $\Sigma$ is respected:
+    \[
+      \forall(d_x,d_y,d_z)\in\Sigma:\ \{d_x,d_z\}\subseteq A \Rightarrow d_y\in A .
+    \]
+    \item Let $\mathcal{S}_{\Sigma}$ be the family of all $\Sigma$-consistent sets.
+    \item $G \in \mathcal{S}_{\Sigma}$, and arbitrary intersections of $\Sigma$-consistent sets are again $\Sigma$-consistent.
+    \item Therefore $\mathcal{S}_{\Sigma}$ is a closure system.
+\end{itemize}
+
+\[
+  \phi_{\Sigma}(A)
+  =
+  \bigcap \{ S \in \mathcal{S}_{\Sigma} \mid A \subseteq S \}
+\]
+
+\begin{block}{Consequence}
+$\phi_{\Sigma}$ is extensive, monotone, and idempotent; hence it is a closure operator.
+\end{block}
+\end{frame}
+
+\begin{frame}{Appendix C: Structural Saturation}
+\hypertarget{appendix:saturation}{}
+\begin{itemize}
+    \item Standard \ac{fca} closure works on flat implications.
+    \item A hierarchy can imply constraints that are not explicitly listed.
+    \item Structural saturation closes this gap before $\phi_{\Sigma}$ is applied.
+\end{itemize}
+
+\vspace{0.35em}
+\begin{center}
+\begin{tikzpicture}[
+    node distance=1.25cm,
+    box/.style={draw,rounded corners=2pt,align=center,minimum width=2.7cm,minimum height=0.75cm},
+    arr/.style={-{Latex[length=2mm]},thick}
+]
+\node[box] (i1) {$a,b \Rightarrow c$};
+\node[box,below=0.45cm of i1] (i2) {$b,c \Rightarrow d$};
+\node[box,right=1.8cm of $(i1)!0.5!(i2)$] (i3) {$a,b \Rightarrow d$};
+\coordinate (i3upper) at ($(i3.west)!0.25!(i3.north west)$);
+\coordinate (i3lower) at ($(i3.west)!0.25!(i3.south west)$);
+\draw[arr] (i1.east) -- (i3upper);
+\draw[arr] (i2.east) -- (i3lower);
+\end{tikzpicture}
+\end{center}
+
+\vspace{0.35em}
+\begin{block}{Interpretation}
+Saturation makes indirect hierarchy information explicit, so the FCA closure operator can process it as ordinary implications.
+\end{block}
+\end{frame}

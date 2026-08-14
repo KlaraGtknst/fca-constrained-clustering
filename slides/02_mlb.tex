@@ -53,15 +53,44 @@
 
 
 %%%% 2: MLB in FCA
-\begin{frame}{From MLB Constraints to Lattice}
-    \textcolor{red}{TODO: add math explanation}
+\begin{frame}{MLB Constraints for Concept Lattices}
+\begin{itemize}
+    \item \acs{mlb} constraints $\Sigma \subseteq G \times G \times G$
     \begin{itemize}
-        \item mlb_{a,b,c} = (a,b,c) (ref to sldie in appendix with def 1 and 2 i.e., implication and counter exmaple with plot of hierarchy beside it)
-        \item sigma consistent
-        \item closure operator phi_sigma (ref to slide in appendix with proof that phi_sigma is a closure operator)
-        \item standard FCA closure operators operate on flat implications e.g. a and b -> c 
-        \item solution: complete set of implications ("structural saturation") before applying closure operator phi_sigma
-        \item structural saturation: exhaustively applying transivite inference rules e.g., a and b -> c, b and c -> d, then a and b -> d, i.e. all indirect hierarchical dependencies are explicitely encoded as implications
+        \item $MLB_{a b c}=(a,b,c) \in \Sigma$ {\tiny[\hyperlink{appendix:mlb-defs}{Formal properties}]}
     \end{itemize}
+
+    \item<2-> $\forall (a,b,c) \in \Sigma: \{a, c\} \in A \rightarrow b \in A \Rightarrow A \subseteq G$ is $\Sigma$-consistent 
+
+    \item<3-> Closure operator $\phi_{\Sigma}(A): \mathcal{P}(G) \to \mathcal{P}(G)$ maps $A$ to the smallest $\Sigma$-consistent set containing $A$ {\tiny[\hyperlink{appendix:closure-proof}{Proof}]}
+    
+    \item<4-> Structural constraint saturation
+    \begin{itemize}
+        \item Translate hierarchical \ac{mlb} constraints into implications before applying $\phi_{\Sigma}$:\\
+        $(a,b,c)$ becomes $a \wedge c \Rightarrow b$ and $b \wedge c \Rightarrow a$
+        \item Exhaustively applying transitive inference rules {\tiny[\hyperlink{appendix:saturation}{Structural saturation}]}
+        \begin{center}
+            \begin{tikzpicture}[
+                node distance=1.25cm,
+                box/.style={draw,rounded corners=2pt,align=center,minimum width=2.7cm,minimum height=0.75cm},
+                arr/.style={-{Latex[length=2mm]},thick}
+            ]
+            \node[box] (i1) {$a\wedge b \rightarrow c$};
+            \node[box,below=0.05cm of i1] (i2) {$b\wedge c \rightarrow d$};
+            \node[box,right=1.8cm of $(i1)!0.5!(i2)$] (i3) {$a\wedge b \rightarrow d$};
+            \coordinate (i3upper) at ($(i3.west)!0.25!(i3.north west)$);
+            \coordinate (i3lower) at ($(i3.west)!0.25!(i3.south west)$);
+            \draw[arr] (i1.east) -- (i3upper);
+            \draw[arr] (i2.east) -- (i3lower);
+            \end{tikzpicture}
+        \end{center}
+    \end{itemize}    
+\end{itemize}
+
+
+
+% \vspace{0.2em}
+% \footnotesize
+% Formal definitions: \hyperlink{appendix:mlb-defs}{Appendix A}. Closure operator proof: \hyperlink{appendix:closure-proof}{Appendix B}. Saturation example: \hyperlink{appendix:saturation}{Appendix C}.
 
 \end{frame}
