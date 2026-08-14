@@ -1,0 +1,48 @@
+\newcommand{\banksearchHierarchyToMLB}{%
+\begin{figure}
+\centering
+\resizebox{0.25\textwidth}{!}{%
+\begin{tikzpicture}[
+  >=Latex,
+  line cap=round, line join=round,
+  thick
+]
+  \colorlet{cSoccer}{gray!60!black}
+  \colorlet{cRacing}{blue!70!black}
+  \colorlet{cBank}{brown!70!black}
+  \colorlet{cSport}{orange!85!black}
+
+  \tikzset{
+    edge/.style={draw=black, line width=2.0pt},
+    onode/.style={draw=black, fill=white, line width=2.0pt},
+    biglbl/.style={font=\Huge},
+    arrow/.style={->, draw=black, line width=2.0pt},
+    note/.style={font=\Huge, anchor=west}
+  }
+
+  \coordinate (root) at (0,3.2);
+  \coordinate (bank) at (-2.1,1.8);
+  \coordinate (sport) at (1.35,1.8);
+  \coordinate (soccer) at (0.55,0.35);
+  \coordinate (racing) at (2.15,0.35);
+
+  \draw[edge] (root) -- (bank);
+  \draw[edge] (root) -- (sport);
+  \draw[edge] (sport) -- (soccer);
+  \draw[edge] (sport) -- (racing);
+
+  \foreach \p/\rad in {root/0.30,bank/0.28,sport/0.28,soccer/0.26,racing/0.26}{
+    \draw[onode] (\p) circle [radius=\rad];
+  }
+
+  \node[biglbl, text=cBank, anchor=east] at ($(bank)+(0.95,-0.55)$) {Bank};
+  \node[biglbl, text=cSport, anchor=west] at ($(sport)+(0.35,0.05)$) {}; %Sport
+  \node[biglbl, text=cSoccer, anchor=north] at ($(soccer)+(-0.7,-0.15)$) {Soccer};
+  \node[biglbl, text=cRacing, anchor=north] at ($(racing)+(0.6,-0.15)$) {Racing};
+
+\end{tikzpicture}%
+}
+\caption{Part of BankSearch category hierarchy.}
+\label{fig:banksearch_hierarchy}
+\end{figure}%
+}

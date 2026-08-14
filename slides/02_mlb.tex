@@ -25,75 +25,31 @@
 %%%% 2: MLB vs. pairwise
 \begin{frame}{Constraints}
 
-\begin{center}
-\begin{tikzpicture}[
-    node/.style={circle,draw,minimum size=8mm,font=\small},
-    ml/.style={-{Latex[length=2mm]},thick,green!70!black},
-    cl/.style={-{Latex[length=2mm]},thick,red!70!black,dashed}
-]
-\node[node] (soccer) {Soccer};
-\node[node,right=1.4cm of soccer] (racing) {Racing};
-\node[node,below=1.05cm of soccer] (bank) {Bank};
-\draw[ml] (soccer) -- node[above,font=\scriptsize] {ML} (racing);
-\draw[cl] (soccer) -- node[left,font=\scriptsize] {CL} (bank);
-\draw[cl] (racing) -- node[right,font=\scriptsize] {CL} (bank);
-\end{tikzpicture}
-\end{center}
+\banksearchHierarchyToMLB{}
+\newcommand{\soccer}{\textcolor{gray!60!black}{Soccer}}
+\newcommand{\racing}{\textcolor{blue!70!black}{Racing}}
+\newcommand{\bank}{\textcolor{brown!70!black}{Bank}}
 
 \begin{columns}[T,onlytextwidth]
 \begin{column}{0.46\textwidth}
 \textbf{Pairwise view}~\cite{wagstaff2001constrained,belohlavek2011selecting,hidayat_constrained_fca_2024}
 \begin{itemize}
-    \item $(\text{Soccer}, \text{Racing})_{\textcolor{green!70!black}{ML}}$
-    \item $(\text{Soccer}, \text{Bank})_{\textcolor{red!70!black}{CL}}$
-    \item $(\text{Racing}, \text{Bank})_{\textcolor{red!70!black}{CL}}$
+    \item $(\text{\soccer}, \text{\racing})_{\textcolor{green!70!black}{ML}}$
+    \item $(\text{\soccer}, \text{\bank})_{\textcolor{red!70!black}{CL}}$
+    \item $(\text{\racing}, \text{\bank})_{\textcolor{red!70!black}{CL}}$
     \item[$\rightarrow$] Single hierarchy level
 \end{itemize}
 \end{column}
 \begin{column}{0.5\textwidth}
 \textbf{\ac{mlb} view}
 \begin{itemize}
-    \item $MLB_{\text{Soccer,Racing,Bank}}$
-    \item Soccer and Racing merge before Bank
-    \item[$\rightarrow$] $\ge 1$ hierarchy levels
+    \item $MLB_{\text{\soccer},\text{\racing},\text{\bank}}$
+    \item \soccer{} and \racing{} merge before \bank{}
+    \item[$\rightarrow$] $\ge 1$ hierarchy levels~\cite{bade_hierarchical_2014} % citation: Designed for hierarchical clustering, where the level of agreement matters
 \end{itemize}
 \end{column}
 \end{columns}
 \end{frame}
-
-\begin{frame}{From Hierarchy to MLB Constraints}
-    \textcolor{red}{TODO: omit?}
-\hierarchyToMLB{}
-\end{frame}
-
-
-\begin{frame}{Constraints in FCA}
-    \textcolor{red}{TODO: omit?}
-\begin{columns}[T,onlytextwidth]
-\begin{column}{0.5\textwidth}
-\textbf{Pairwise constraints}
-\begin{itemize}
-    \item \textit{Must-link}: two objects should be grouped together.
-    \item \textit{Cannot-link}: two objects should not be grouped together.
-    \item Used in constrained clustering and constrained \ac{fca} settings~\cite{wagstaff2001constrained,belohlavek2011selecting,hidayat_constrained_fca_2024}.
-\end{itemize}
-\end{column}
-\begin{column}{0.46\textwidth}
-\textbf{Hierarchical constraints}
-\begin{itemize}
-    \item \textit{Must-Link-Before}: two objects should be merged before either is merged with a third.
-    \item Designed for hierarchical clustering, where the level of agreement matters~\cite{bade_hierarchical_2014}.
-\end{itemize}
-\end{column}
-\end{columns}
-
-\vspace{0.5em}
-\begin{block}{Why this matters for lattice/context generation}
-Pairwise constraints constrain a flat grouping decision; \ac{mlb} constraints constrain which closed document sets are admissible at different hierarchy levels.
-\end{block}
-\end{frame}
-
-
 
 
 %%%% 2: MLB in FCA
