@@ -23,7 +23,7 @@
 \end{frame}
 
 %%%% 2: MLB vs. pairwise
-\begin{frame}{Pairwise Is Not Enough for BankSearch}
+\begin{frame}{Constraints}
 
 \begin{center}
 \begin{tikzpicture}[
@@ -42,12 +42,12 @@
 
 \begin{columns}[T,onlytextwidth]
 \begin{column}{0.46\textwidth}
-\textbf{Pairwise view}
+\textbf{Pairwise view}~\cite{wagstaff2001constrained,belohlavek2011selecting,hidayat_constrained_fca_2024}
 \begin{itemize}
     \item $(\text{Soccer}, \text{Racing})_{\textcolor{green!70!black}{ML}}$
     \item $(\text{Soccer}, \text{Bank})_{\textcolor{red!70!black}{CL}}$
     \item $(\text{Racing}, \text{Bank})_{\textcolor{red!70!black}{CL}}$
-    \item[$\rightarrow$] Hierarchy level is lost
+    \item[$\rightarrow$] Single hierarchy level
 \end{itemize}
 \end{column}
 \begin{column}{0.5\textwidth}
@@ -55,6 +55,7 @@
 \begin{itemize}
     \item $MLB_{\text{Soccer,Racing,Bank}}$
     \item Soccer and Racing merge before Bank
+    \item[$\rightarrow$] $\ge 1$ hierarchy levels
 \end{itemize}
 \end{column}
 \end{columns}
