@@ -136,3 +136,21 @@ Saturation makes indirect hierarchy information explicit, so the FCA closure ope
 Can the manual hierarchy and the explainable topic-model \ac{fca} hierarchy support the same useful search clusters?
 \end{block}
 \end{frame}
+
+
+
+\begin{frame}{Step 3: Build the Explainable Data-Driven Hierarchy TODO}
+  \hypertarget{appendix:topic-model-details}{}
+\begin{itemize}
+    \item Train \ac{lda} with $T=11$ topics to match the represented BankSearch categories.
+    \item Convert document-topic probabilities into a binary context with threshold $\delta_t=0.07$.
+    \item Apply an iceberg support threshold $\delta_{ms}=0.05$ to retain interpretable frequent concepts.
+    \item The resulting \ac{fca} concepts are explained by their topic intents.
+\end{itemize}
+
+\begin{center}
+\includegraphics[height=0.37\textheight]{incidence_density_vs_threshold_svg-tex.pdf}
+\hfill
+\includegraphics[height=0.37\textheight]{concepts_vs_support_svg-tex.pdf}
+\end{center}
+\end{frame}

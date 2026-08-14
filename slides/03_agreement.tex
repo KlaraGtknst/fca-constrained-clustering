@@ -27,38 +27,20 @@ Top labels denote attributes, bottom labels indicate the number of documents in 
 % \end{block}
 \end{frame}
 
-\begin{frame}{Data-Driven Lattice Construction TODO}
-\begin{columns}[c,onlytextwidth]
-\begin{column}{0.48\textwidth}
-\begin{itemize}
-    \item Documents are represented by \ac{lda} topic memberships.
-    \item Topic incidences are thresholded into a formal context.
-    \item An iceberg concept lattice keeps frequent document-topic concepts.
-    \item This follows prior topic-model-based \ac{fca} hierarchy generation~\cite{blei2003lda,gutekunst2025conceptual}.
-\end{itemize}
-\end{column}
-\begin{column}{0.5\textwidth}
-\centering
-\includegraphics[width=\textwidth,height=0.64\textheight,keepaspectratio]{resources/banksearch/topic_model/banksearch_0.05_iceberg.pdf}
-\end{column}
-\end{columns}
+
+\begin{frame}{Data-Driven Lattice Construction~\cite{blei2003lda,gutekunst2025conceptual}}
+    \only<1>{
+        \begin{figure}
+            \includesvg[width=0.7\linewidth]{slides/figures/topic_modeling_fca_2rows.svg}
+        \end{figure}
+    }
+    {\begin{center}
+        \tiny[\hyperlink{appendix:topic-model-details}{Details in Appendix}]
+    \end{center}
+    }
 \end{frame}
 
 
-\begin{frame}{Step 3: Build the Explainable Data-Driven Hierarchy TODO}
-\begin{itemize}
-    \item Train \ac{lda} with $T=11$ topics to match the represented BankSearch categories.
-    \item Convert document-topic probabilities into a binary context with threshold $\delta_t=0.07$.
-    \item Apply an iceberg support threshold $\delta_{ms}=0.05$ to retain interpretable frequent concepts.
-    \item The resulting \ac{fca} concepts are explained by their topic intents.
-\end{itemize}
-
-\begin{center}
-\includegraphics[height=0.37\textheight]{incidence_density_vs_threshold_svg-tex.pdf}
-\hfill
-\includegraphics[height=0.37\textheight]{concepts_vs_support_svg-tex.pdf}
-\end{center}
-\end{frame}
 
 \begin{frame}{Consistency Lattice $\mathcal{C}_{\cap}$}
     Let $\mathcal{C}_{\Sigma}$ be the \ac{mlb} closure system and $\mathcal{C}_{TM}$ the topic-model closure system. 
