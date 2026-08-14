@@ -1,27 +1,34 @@
 \section{Agreement Between Expert and Data}
 
-\begin{frame}{Task 2: What We Compare}
-\begin{columns}[T,onlytextwidth]
+\begin{frame}{Task 2: Agreement Between Expert and Data}
+\begin{columns}[c,onlytextwidth]
 \begin{column}{0.49\textwidth}
+\begin{figure}
 \centering
-\textbf{Expert lattice}\\[0.2em]
-\includegraphics[width=\textwidth,height=0.58\textheight,keepaspectratio]{mlb_expanded_lattice_svg-tex.pdf}
+\includegraphics[width=\textwidth,height=0.58\textheight,keepaspectratio]{resources/banksearch/ground_truth/mlb_expanded.pdf}
+\caption{Expert lattice.}
+\end{figure}
 \end{column}
 \begin{column}{0.49\textwidth}
+\begin{figure}
 \centering
-\textbf{Topic-model lattice}\\[0.2em]
-\includegraphics[width=\textwidth,height=0.58\textheight,keepaspectratio]{banksearch_0.05_iceberg_svg-tex.pdf}
+\includegraphics[width=\textwidth,height=0.58\textheight,keepaspectratio]{resources/banksearch/topic_model/banksearch_0.05_iceberg.pdf}
+\caption{Data-driven lattice.}
+\end{figure}
 \end{column}
 \end{columns}
 
 \vspace{0.25em}
-\begin{block}{Question}
-Which document clusters are supported by both the manual BankSearch hierarchy and the topic structure in the corpus?
-\end{block}
+{\small 
+Top labels denote attributes, bottom labels indicate the number of documents in the concept extent.
+}
+% \begin{block}{Question}
+% Which document clusters are supported by both knowledge sources?
+% \end{block}
 \end{frame}
 
-\begin{frame}{The Second Lattice Is Data-Driven}
-\begin{columns}[T,onlytextwidth]
+\begin{frame}{Data-Driven Lattice Construction}
+\begin{columns}[c,onlytextwidth]
 \begin{column}{0.48\textwidth}
 \begin{itemize}
     \item Documents are represented by \ac{lda} topic memberships.
@@ -32,47 +39,85 @@ Which document clusters are supported by both the manual BankSearch hierarchy an
 \end{column}
 \begin{column}{0.5\textwidth}
 \centering
-\includegraphics[width=\textwidth,height=0.64\textheight,keepaspectratio]{banksearch_0.05_iceberg_svg-tex.pdf}
+\includegraphics[width=\textwidth,height=0.64\textheight,keepaspectratio]{resources/banksearch/topic_model/banksearch_0.05_iceberg.pdf}
 \end{column}
 \end{columns}
 \end{frame}
 
-\begin{frame}{Consistency Lattice: Exact Agreement}
-\begin{columns}[T,onlytextwidth]
-\begin{column}{0.48\textwidth}
+
+\begin{frame}{Step 3: Build the Explainable Data-Driven Hierarchy}
 \begin{itemize}
-    \item A concept is consistent if its extent is closed in both closure systems.
-    \item This is the strict intersection of the expert \ac{mlb} lattice and the topic-model lattice.
-    \item It asks for identical document clusters.
+    \item Train \ac{lda} with $T=11$ topics to match the represented BankSearch categories.
+    \item Convert document-topic probabilities into a binary context with threshold $\delta_t=0.07$.
+    \item Apply an iceberg support threshold $\delta_{ms}=0.05$ to retain interpretable frequent concepts.
+    \item The resulting \ac{fca} concepts are explained by their topic intents.
 \end{itemize}
 
-\vspace{0.5em}
-\begin{alertblock}{BankSearch result}
-Only trivial shared concepts remain. Exact agreement is too strict for this practical setting.
-\end{alertblock}
+\begin{center}
+\includegraphics[height=0.37\textheight]{incidence_density_vs_threshold_svg-tex.pdf}
+\hfill
+\includegraphics[height=0.37\textheight]{concepts_vs_support_svg-tex.pdf}
+\end{center}
+\end{frame}
+
+\begin{frame}{Consistency Lattice $\mathcal{C}_{\cap}$}
+    Let $\mathcal{C}_{\Sigma}$ be the \ac{mlb} closure system and $\mathcal{C}_{TM}$ the topic-model closure system. 
+
+\[
+\mathcal{C}_{\cap}
+= \mathcal{C}_{\Sigma}\cap\mathcal{C}_{TM}
+= \{A\subseteq G \mid \phi_{\Sigma}(A)=A \land \phi_{TM}(A)=A\}
+\]
+
+\begin{columns}[c,onlytextwidth]
+\begin{column}{0.48\textwidth}
+\begin{itemize}
+    \item Consistent concept: Extent is closed in both closure systems
+    \item[$\rightarrow$] Requires identical documents in extents (i.e., exact agreement)
+    \vspace{0.5em}
+    \item[\danger] BankSearch: Only trivial shared concepts remain. Exact agreement is too strict for this practical setting.
+\end{itemize}
 \end{column}
 \begin{column}{0.5\textwidth}
 \centering
-\includegraphics[width=\textwidth,height=0.62\textheight,keepaspectratio]{intersection_svg-tex.pdf}
+\includesvg[width=\textwidth,height=0.62\textheight,keepaspectratio]{results/context_comparison/intersection.svg}
 \end{column}
 \end{columns}
+\vspace{0.25em}
+{\small 
+Top labels denote attributes, bottom labels indicate the number of documents in the concept extent.
+}
 \end{frame}
 
-\begin{frame}{From Exact Agreement to Degree of Agreement}
+
+\begin{frame}{Coherence Lattice $\mathcal{C}_{coh}$}
+  
+Let $\mathcal{C}_{\Sigma}$ be the \ac{mlb} closure system and $\mathcal{C}_{TM}$ the topic-model closure system. 
+\begin{columns}[c,onlytextwidth]
+\begin{column}{0.55\textwidth}
 \begin{itemize}
-    \item The practical question is not only whether two concepts are identical.
-    \item We need to know whether an expert concept and a data-driven concept cover mostly the same documents.
-    \item We compare concept extents with Jaccard similarity~\cite{Glckstad2013UnsupervisedKS}:
+    \item Concepts $(A_1, B_1) \in \mathcal{C}_{\Sigma}, (A_2, B_2) \in \mathcal{C}_{TM}$,
+    \item Comparison using Jaccard similarity~\cite{Glckstad2013UnsupervisedKS}:
+        \[
+        J(A_1,A_2)=\frac{|A_1\cap A_2|}{|A_1\cup A_2|}
+        \]
+    \item Coherence lattice $\mathcal{C}_{coh}$:
+        \[
+        M_{coh} = \{ A_1 \cap A_2 \mid A_1 \in \mathcal{C}_{\Sigma}, A_2 \in \mathcal{C}_{TM}, J(A_1, A_2) > \theta \}
+        \]
 \end{itemize}
-
-\[
-J(A,B)=\frac{|A\cap B|}{|A\cup B|}
-\]
-
-\begin{block}{Interpretation}
-$J(A,B)=1$ recovers consistency; lower thresholds reveal partial agreement between heterogeneous knowledge sources.
-\end{block}
+\end{column}
+\begin{column}{0.45\textwidth}
+\centering
+\includesvg[width=\textwidth,height=0.62\textheight,keepaspectratio]{results/context_comparison/CONCEPT_SIM/coherence.svg}
+\end{column}
+\end{columns}
+\vspace{1.55em}
+{\small 
+Top labels denote attributes, bottom labels indicate the number of documents in the concept extent.
+}
 \end{frame}
+
 
 \begin{frame}{BankSearch Agreement Matrix}
 \begin{columns}[T,onlytextwidth]
@@ -101,7 +146,7 @@ $J(A,B)=1$ recovers consistency; lower thresholds reveal partial agreement betwe
 \end{column}
 \begin{column}{0.5\textwidth}
 \centering
-\includegraphics[width=\textwidth,height=0.64\textheight,keepaspectratio]{coherence_svg-tex.pdf}
+\includesvg[width=\textwidth,height=0.64\textheight,keepaspectratio]{results/context_comparison/CONCEPT_SIM/coherence.svg}
 \end{column}
 \end{columns}
 
