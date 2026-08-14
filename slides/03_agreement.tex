@@ -27,7 +27,7 @@ Top labels denote attributes, bottom labels indicate the number of documents in 
 % \end{block}
 \end{frame}
 
-\begin{frame}{Data-Driven Lattice Construction}
+\begin{frame}{Data-Driven Lattice Construction TODO}
 \begin{columns}[c,onlytextwidth]
 \begin{column}{0.48\textwidth}
 \begin{itemize}
@@ -45,7 +45,7 @@ Top labels denote attributes, bottom labels indicate the number of documents in 
 \end{frame}
 
 
-\begin{frame}{Step 3: Build the Explainable Data-Driven Hierarchy}
+\begin{frame}{Step 3: Build the Explainable Data-Driven Hierarchy TODO}
 \begin{itemize}
     \item Train \ac{lda} with $T=11$ topics to match the represented BankSearch categories.
     \item Convert document-topic probabilities into a binary context with threshold $\delta_t=0.07$.
@@ -97,7 +97,7 @@ Let $\mathcal{C}_{\Sigma}$ be the \ac{mlb} closure system and $\mathcal{C}_{TM}$
 \begin{column}{0.55\textwidth}
 \begin{itemize}
     \item Concepts $(A_1, B_1) \in \mathcal{C}_{\Sigma}, (A_2, B_2) \in \mathcal{C}_{TM}$,
-    \item Comparison using Jaccard similarity~\cite{Glckstad2013UnsupervisedKS}:
+    \item Comparison using Jaccard similarity~\cite{Glckstad2013UnsupervisedKS}, {\tiny[\hyperlink{appendix:agreement-heatmap}{Agreement heatmap}]}:
         \[
         J(A_1,A_2)=\frac{|A_1\cap A_2|}{|A_1\cup A_2|}
         \]
@@ -118,40 +118,22 @@ Top labels denote attributes, bottom labels indicate the number of documents in 
 }
 \end{frame}
 
+\begin{frame}{Coherence Findings TODO}
+\small
+\begin{tabular}{lll}
+\toprule
+\textbf{Similarity} & \textbf{Expert-side interpretation} & \textbf{Topic words} \\
+\midrule
+0.77 & Finance-related cluster & Account, Rate, Mortgage \\
+0.65 & Soccer / Sport & Team, Player, Cup \\
+0.64 & Astronomy & Galaxy, Universe, Star \\
+0.56 & Programming-related cluster & Java, com, Visual \\
+0.53 & Racing / Sport-related cluster & Race, Car \\
+\bottomrule
+\end{tabular}
 
-\begin{frame}{BankSearch Agreement Matrix}
-\begin{columns}[T,onlytextwidth]
-\begin{column}{0.43\textwidth}
-\begin{itemize}
-    \item Most expert/data-driven concept pairs have near-zero overlap.
-    \item The non-trivial agreements are concentrated in a few recognizable domains.
-    \item This motivates a coherence lattice instead of stopping at consistency.
-\end{itemize}
-\end{column}
-\begin{column}{0.55\textwidth}
-\centering
-\includegraphics[width=\textwidth,height=0.68\textheight,keepaspectratio]{heatmap_0.05_svg-tex.pdf}
-\end{column}
-\end{columns}
-\end{frame}
-
-\begin{frame}{Coherence Lattice: Practical Agreement}
-\begin{columns}[T,onlytextwidth]
-\begin{column}{0.48\textwidth}
-\begin{itemize}
-    \item Keep concept pairs whose extent overlap exceeds a threshold $\theta$.
-    \item For BankSearch we use $\theta = 0.5$ to show meaningful partial agreement.
-    \item The resulting lattice exposes where manual categories and topic evidence support each other.
-\end{itemize}
-\end{column}
-\begin{column}{0.5\textwidth}
-\centering
-\includesvg[width=\textwidth,height=0.64\textheight,keepaspectratio]{results/context_comparison/CONCEPT_SIM/coherence.svg}
-\end{column}
-\end{columns}
-
-\vspace{0.25em}
-\begin{block}{Story resolution}
-The case study shows why the \ac{fca} hierarchy is useful: it provides intensional descriptions, while consistency and coherence explain how far those descriptions agree with expert structure.
+\vspace{1em}
+\begin{block}{Finding}
+The strongest overlaps are not arbitrary: their topic words explain why the manual and data-driven views align.
 \end{block}
 \end{frame}

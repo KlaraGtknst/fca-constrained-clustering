@@ -1,82 +1,42 @@
 \section{Findings}
 
-\begin{frame}{Case Study as the Story Resolution}
-\begin{itemize}
-    \item Corpus: 11,000 documents.
-    \item Represented topics: 11 categories organized into Finance, Science, Programming, and Sport.
-    \item Expert hierarchy from prior BankSearch annotations is mapped to document-level \ac{mlb} constraints.
-    \item Mapping yields 81 \ac{mlb} constraints.
-\end{itemize}
-
+%%%% Tasks
+\begin{frame}{Tasks}
+\begin{columns}[c,onlytextwidth]
+\begin{column}{0.7\textwidth}
+\vspace{-1.8em}
+\uncover<1->{
+\begin{block}{Task 1}
+Integrate hierarchical expert background knowledge (i.e., category hierarchy) and one-hot document labels into a single \textbf{formal lattice}.
+\end{block}
+}
+\vspace{2.8em}
+\uncover<3->{
+\begin{block}{Task 2}
+    Analyze the agreement of a data-driven \textbf{formal lattice} and an expert knowledge \textbf{formal lattice}.
+\end{block}
+}
+\end{column}
+\begin{column}{0.3\textwidth}
+\uncover<2->{
+    \centering
+    \includegraphics[width=\textwidth,height=0.35\textheight,keepaspectratio]{resources/banksearch/ground_truth/mlb_expanded.pdf}
+}
 \vspace{0.5em}
-\begin{block}{Question revisited}
-Can the manual hierarchy and the explainable topic-model \ac{fca} hierarchy support the same useful search clusters?
-\end{block}
-\end{frame}
-
-
-
-\begin{frame}{Exact Agreement Is Rare}
-\begin{columns}[T,onlytextwidth]
-\begin{column}{0.50\textwidth}
-\includegraphics[width=\textwidth]{heatmap_0.05_svg-tex.pdf}
-\end{column}
-\begin{column}{0.47\textwidth}
-\begin{itemize}
-    \item Similarity is computed between all concept extents.
-    \item Apart from the top concept, most pairs have near-zero Jaccard similarity.
-    \item Only five non-trivial pairs exceed $J(A,B)>0.5$.
-    \item The manual hierarchy and data-driven explanation do not induce the same closed document sets.
-\end{itemize}
+\uncover<4->{
+\centering
+\includegraphics[width=\textwidth,height=0.45\textheight,keepaspectratio]{results/context_comparison/CONCEPT_SIM/coherence.pdf}
+}
 \end{column}
 \end{columns}
 \end{frame}
 
-\begin{frame}{Coherence Finds the Useful Alignments}
-\small
-\begin{tabular}{lll}
-\toprule
-\textbf{Similarity} & \textbf{Expert-side interpretation} & \textbf{Topic words} \\
-\midrule
-0.77 & Finance-related cluster & Account, Rate, Mortgage \\
-0.65 & Soccer / Sport & Team, Player, Cup \\
-0.64 & Astronomy & Galaxy, Universe, Star \\
-0.56 & Programming-related cluster & Java, com, Visual \\
-0.53 & Racing / Sport-related cluster & Race, Car \\
-\bottomrule
-\end{tabular}
 
-\vspace{1em}
-\begin{block}{Finding}
-The strongest overlaps are not arbitrary: their topic words explain why the manual and data-driven views align.
-\end{block}
-\end{frame}
 
-\begin{frame}{Why Both Lattices Are Required}
-\begin{columns}[T,onlytextwidth]
-\begin{column}{0.46\textwidth}
-\centering
-\textbf{Consistency}
 
-\includegraphics[height=0.42\textheight]{intersection_svg-tex.pdf}
 
-\small
-Strict agreement collapses to trivial concepts.
-\end{column}
-\begin{column}{0.50\textwidth}
-\centering
-\textbf{Coherence}
 
-\includegraphics[height=0.42\textheight]{coherence_svg-tex.pdf}
 
-\small
-Relaxed overlap recovers meaningful BankSearch clusters.
-\end{column}
-\end{columns}
 
-\vspace{0.2em}
-\begin{block}{Resolution}
-\small
-Consistency tells us exact integration is too restrictive; coherence gives the practical bridge between manual categories and intensional \ac{fca} explanations.
-\end{block}
-\end{frame}
+
+

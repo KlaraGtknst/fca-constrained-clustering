@@ -89,3 +89,50 @@ Saturation makes indirect hierarchy information explicit, so the FCA closure ope
     \item This produces the consistency lattice.
 \end{itemize}
 \end{frame}
+
+\begin{frame}{BankSearch Agreement Matrix}
+  \hypertarget{appendix:agreement-heatmap}{}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.43\textwidth}
+\begin{itemize}
+    \item Most expert/data-driven concept pairs have near-zero overlap.
+    \item The non-trivial agreements are concentrated in a few recognizable domains.
+    \item This motivates a coherence lattice instead of stopping at consistency.
+\end{itemize}
+\end{column}
+\begin{column}{0.55\textwidth}
+\centering
+\includegraphics[width=\textwidth,height=0.68\textheight,keepaspectratio]{heatmap_0.05_svg-tex.pdf}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Exact Agreement Is Rare}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.50\textwidth}
+\includegraphics[width=\textwidth]{heatmap_0.05_svg-tex.pdf}
+\end{column}
+\begin{column}{0.47\textwidth}
+\begin{itemize}
+    \item Similarity is computed between all concept extents.
+    \item Apart from the top concept, most pairs have near-zero Jaccard similarity.
+    \item Only five non-trivial pairs exceed $J(A,B)>0.5$.
+    \item The manual hierarchy and data-driven explanation do not induce the same closed document sets.
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Case Study as the Story Resolution TODO details}
+\begin{itemize}
+    \item Corpus: 11,000 documents.
+    \item Represented topics: 11 categories organized into Finance, Science, Programming, and Sport.
+    \item Expert hierarchy from prior BankSearch annotations is mapped to document-level \ac{mlb} constraints.
+    \item Mapping yields 81 \ac{mlb} constraints.
+\end{itemize}
+
+\vspace{0.5em}
+\begin{block}{Question revisited}
+Can the manual hierarchy and the explainable topic-model \ac{fca} hierarchy support the same useful search clusters?
+\end{block}
+\end{frame}
