@@ -24,6 +24,7 @@
 \banksearchHierarchyToMLB{}
 \end{column}
 \end{columns}
+{\tiny[\hyperlink{main:mlb-constraints}{Back to MLB overview}]}
 \end{frame}
 
 \begin{frame}{Appendix B: Why $\phi_{\Sigma}$ Is a Closure Operator}
@@ -47,6 +48,7 @@
 \begin{block}{Consequence}
 $\phi_{\Sigma}$ is extensive, monotone, and idempotent; hence it is a closure operator.
 \end{block}
+{\tiny[\hyperlink{main:mlb-constraints}{Back to MLB overview}]}
 \end{frame}
 
 \begin{frame}{Appendix C: Structural Saturation}
@@ -78,6 +80,35 @@ $\phi_{\Sigma}$ is extensive, monotone, and idempotent; hence it is a closure op
 \begin{block}{Interpretation}
 Saturation makes indirect hierarchy information explicit, so the FCA closure operator can process it as ordinary implications.
 \end{block}
+{\tiny[\hyperlink{main:mlb-constraints}{Back to MLB overview}]}
+\end{frame}
+
+\begin{frame}{Consistency Lattice $\mathcal{C}_{\cap}$}
+\hypertarget{appendix:consistency-detail}{}
+
+    Let $\mathcal{C}_{\Sigma}$ be the \ac{mlb} closure system and $\mathcal{C}_{TM}$ the topic-model closure system. 
+
+\[
+\mathcal{C}_{\cap}
+= \mathcal{C}_{\Sigma}\cap\mathcal{C}_{TM}
+= \{A\subseteq G \mid \phi_{\Sigma}(A)=A \land \phi_{TM}(A)=A\}
+\]
+
+\begin{itemize}
+  \item Closure operator $\phi_{\cap}$ is the limit of alternating composition of $\phi_{\Sigma}$ and $\phi_{TM}$
+  \item Let $X_{k+1} =\phi_{TM}(\phi_{\cap}(X_k))$, where $X_0 = X \subseteq G$
+  \item Fixpoint $\phi_\cap(X) = \lim_{k\to\infty} (\phi_{TM} \circ \phi_\Sigma)^k(X)$
+  \item[$\rightarrow$] generated concepts are valid to both expert constraints $\Sigma$ and data-driven topic-model $TM$
+  \item[\danger] Computationally expensive
+  \item[$\rightarrow$] Instead of generating all closed sets and filtering them post-hoc, employ optimized version of Ganters Next-Closure algorithm
+  \begin{itemize}
+    \item Only use $\cap$-irreducible extents $A \in C_{\cap}$ (i.e., cannot be represented as intersection of strict supersets: $I_{sup}(A) \supsetneq A$):
+    \[
+    I_{sup}(A) = \bigcap_{g \in G \setminus A} \phi_\cap(A \cup \{g\})
+    \]
+  \end{itemize}
+\end{itemize}
+{\tiny[\hyperlink{main:consistency-overview}{Back to consistency lattice overview}]}
 \end{frame}
 
 
@@ -139,18 +170,36 @@ Can the manual hierarchy and the explainable topic-model \ac{fca} hierarchy supp
 
 
 
-\begin{frame}{Step 3: Build the Explainable Data-Driven Hierarchy TODO}
+\begin{frame}{Data-Driven Topic Lattice}
   \hypertarget{appendix:topic-model-details}{}
+  \begin{columns}[T,onlytextwidth]
+\begin{column}{0.70\textwidth}
 \begin{itemize}
-    \item Train \ac{lda} with $T=11$ topics to match the represented BankSearch categories.
-    \item Convert document-topic probabilities into a binary context with threshold $\delta_t=0.07$.
-    \item Apply an iceberg support threshold $\delta_{ms}=0.05$ to retain interpretable frequent concepts.
-    \item The resulting \ac{fca} concepts are explained by their topic intents.
+    \item {\small \texttt{Gensim}}'s \ac{lda} represents documents as a mixture of $T$ latent topics 
+    \begin{itemize}
+      \item $T=11 = \#$ BankSearch categories
+    \end{itemize}
+    \item Binary formal context $\Theta \in \mathbb{R}^{D \times T}$ by thresholding document-topic probabilities at $\delta_t=0.07$
+    \begin{itemize}
+      \item Elbow criterion
+      \item Density above $0.2$
+    \end{itemize}
+    \item If no topic exceeds $\delta_t=0.07$, set highest probability topic $1$
+    \item Iceberg concept lattice (via TITANIC~\cite{stumme_titanic_2002}): keep concepts $(A,B)$ with support $\text{supp}(B)=\frac{|B'|}{|G|} \ge \delta_{ms}=0.05$ 
+    \begin{itemize}
+      \item Elbow criterion
+      \item $24$ concepts
+    \end{itemize}
 \end{itemize}
-
+\tiny[\hyperlink{main:topic-model-overview}{Overview}]
+\end{column}
+\begin{column}{0.3\textwidth}
+  \vspace{-1.4em}
 \begin{center}
-\includegraphics[height=0.37\textheight]{incidence_density_vs_threshold_svg-tex.pdf}
+\includegraphics[height=0.43\textheight]{incidence_density_vs_threshold_svg-tex.pdf}
 \hfill
-\includegraphics[height=0.37\textheight]{concepts_vs_support_svg-tex.pdf}
+\includegraphics[height=0.43\textheight]{concepts_vs_support_svg-tex.pdf}
 \end{center}
+\end{column}
+\end{columns}
 \end{frame}
