@@ -1,12 +1,13 @@
 \section{Appendix}
 
-\begin{frame}{Appendix A: MLB Semantics}
+\begin{frame}{MLB Semantics}
 \hypertarget{appendix:mlb-defs}{}
 \begin{columns}[T,onlytextwidth]
 \begin{column}{0.46\textwidth}
 \begin{itemize}
     \item Let $\Sigma \subseteq G \times G \times G$ be a set of \ac{mlb} constraints.
     \item $MLB_{x y z}=(d_x,d_y,d_z)$ means $d_x$ and $d_y$ are closer to each other than to $d_z$.
+    \item 81 \ac{mlb} constraints
 \end{itemize}
 
 \vspace{0.25em}
@@ -27,7 +28,7 @@
 {\tiny[\hyperlink{main:mlb-constraints}{Back to MLB overview}]}
 \end{frame}
 
-\begin{frame}{Appendix B: Why $\phi_{\Sigma}$ Is a Closure Operator}
+\begin{frame}{Closure Operator $\phi_{\Sigma}$}
 \hypertarget{appendix:closure-proof}{}
 \begin{itemize}
     \item A set $A \subseteq G$ is $\Sigma$-consistent iff every constraint in $\Sigma$ is respected:
@@ -51,7 +52,7 @@ $\phi_{\Sigma}$ is extensive, monotone, and idempotent; hence it is a closure op
 {\tiny[\hyperlink{main:mlb-constraints}{Back to MLB overview}]}
 \end{frame}
 
-\begin{frame}{Appendix C: Structural Saturation}
+\begin{frame}{Structural Saturation}
 \hypertarget{appendix:saturation}{}
 \begin{itemize}
     \item Standard \ac{fca} closure works on flat implications.
@@ -81,6 +82,45 @@ $\phi_{\Sigma}$ is extensive, monotone, and idempotent; hence it is a closure op
 Saturation makes indirect hierarchy information explicit, so the FCA closure operator can process it as ordinary implications.
 \end{block}
 {\tiny[\hyperlink{main:mlb-constraints}{Back to MLB overview}]}
+\end{frame}
+
+\begin{frame}{Expert Lattice}
+  \hypertarget{appendix:expert-lattice-detail}{}
+\begin{columns}[c,onlytextwidth]
+\begin{column}{0.49\textwidth}
+\begin{itemize}
+  \item 15 attributes
+  \item Correspondence to ground-truth topics via matching extents (i.e., documents)
+  \begin{itemize}
+    \item $M3$: \texttt{Biology}
+    \item $M4$: \texttt{Astronomy}
+    \item $M0 \cap M2$: \texttt{Motor Racing}
+    \item $M1 \cap M2$: \texttt{Soccer}
+    \item $M0 \cap M1$: \texttt{Sport}
+    \item $M5 \cap M7$: \texttt{C/C++}
+    \item $M6 \cap M7$: \texttt{Java}
+    \item $M5 \cap M6$: \texttt{Visual Basic}
+    \item $M10 \cap M11$: \texttt{Commercial Banks}
+    \item $M9 \cap M10$: \texttt{Insurance Agencies}
+    \item $M9 \cap M11$: \texttt{Building Societies}
+  \end{itemize}
+  % \item 
+\end{itemize}
+\end{column}
+\begin{column}{0.49\textwidth}
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth,height=0.58\textheight,keepaspectratio]{resources/banksearch/ground_truth/mlb_expanded.pdf}
+\caption{Expert lattice.}
+\end{figure}
+\end{column}
+\end{columns}
+
+\vspace{0.25em}
+{\small 
+Top labels denote attributes, bottom labels indicate the number of documents in the concept extent.
+}
+{\tiny[\hyperlink{main:comp-lattices}{Back to expert lattice overview}]}
 \end{frame}
 
 \begin{frame}{Consistency Lattice $\mathcal{C}_{\cap}$}
@@ -189,6 +229,7 @@ Can the manual hierarchy and the explainable topic-model \ac{fca} hierarchy supp
     \begin{itemize}
       \item Elbow criterion
       \item $24$ concepts
+      \item Concepts do not correspond to original category clusters
     \end{itemize}
 \end{itemize}
 \tiny[\hyperlink{main:topic-model-overview}{Overview}]
