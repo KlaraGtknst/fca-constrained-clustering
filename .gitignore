@@ -11,6 +11,7 @@ results/lda/
 results/hac/
 results/ihac/
 results/topic_model/
+slides/figures/*.drawio
 tmp/
 .venv/ 
 .idea/
