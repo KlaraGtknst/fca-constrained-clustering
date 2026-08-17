@@ -14,6 +14,7 @@
 \usepackage{amssymb}
 \usepackage{mathtools}
 \usepackage{svg}
+\usepackage{appendixnumberbeamer}
 
 \usepackage{fontawesome5}
 
@@ -55,7 +56,11 @@
 \setlength{\progressbarheight}{0.15cm}
 \makeatletter
 \setbeamertemplate{headline}{%
-  \setlength{\progressbarwidth}{\dimexpr\paperwidth*\insertframenumber/\inserttotalframenumber\relax}%
+  \ifnum\insertframenumber>\insertmainframenumber
+    \setlength{\progressbarwidth}{\paperwidth}%
+  \else
+    \setlength{\progressbarwidth}{\dimexpr\paperwidth*\insertframenumber/\insertmainframenumber\relax}%
+  \fi
   \begin{tikzpicture}[remember picture,overlay]
     \fill[progressbarbg]
       (current page.north west) rectangle
