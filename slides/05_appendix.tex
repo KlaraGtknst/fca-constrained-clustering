@@ -34,55 +34,65 @@
 
 \end{frame}
 
-\begin{frame}{MLB Semantics}
+\begin{frame}{MLB Constraints $\Sigma$: Formal Properties}
 \hypertarget{appendix:mlb-defs}{}
+
 \begin{columns}[T,onlytextwidth]
-\begin{column}{0.46\textwidth}
+\begin{column}{0.53\textwidth}
 \begin{itemize}
-    \item Let $\Sigma \subseteq G \times G \times G$ be a set of \ac{mlb} constraints.
-    \item $MLB_{x y z}=(d_x,d_y,d_z)$ means $d_x$ and $d_y$ are closer to each other than to $d_z$.
-    \item 81 \ac{mlb} constraints
+    \item Let $\Sigma \subseteq G \times G \times G$ be a set of \ac{mlb} constraints, cluster hierarchy $H$
+    \item $MLB_{x y z}=(d_x,d_y,d_z)$ means $d_x$ and $d_y$ are closer to each other than to $d_z$
+    \item BankSearch dataset: 81 \ac{mlb} constraints
 \end{itemize}
-
-\vspace{0.25em}
-\textbf{Implication side}
-\[
-  d_x,d_z \in C \Rightarrow d_y \in C
-\]
-
-\textbf{Separation side}
-\[
-  \exists C:\ d_x,d_y \in C \land d_z \notin C
-\]
 \end{column}
-\begin{column}{0.5\textwidth}
+\begin{column}{0.45\textwidth}
 \banksearchHierarchyToMLB{}
 \end{column}
 \end{columns}
+
+\begin{block}{\ac{mlb} Implication}
+Given \ac{mlb} constraint $MLB_{x y z}$:
+$\forall c \in H:\ d_x \in c \wedge d_z \in c \rightarrow d_y \in c$
+\end{block}
+
+\begin{block}{\ac{mlb} Counterexample}
+Given \ac{mlb} constraint $MLB_{x y z}$:
+$\exists c \in H:\ d_x \in c \wedge d_y \in c \wedge d_z \notin c$
+\end{block}
+
+\vfill
 {\tiny[\hyperlink{main:mlb-constraints}{Back to MLB overview}]}
 \end{frame}
 
-\begin{frame}{Closure Operator $\phi_{\Sigma}$}
+\begin{frame}{Closure Operator $\phi_{\Sigma}$: Proof}
 \hypertarget{appendix:closure-proof}{}
 \begin{itemize}
     \item A set $A \subseteq G$ is $\Sigma$-consistent iff every constraint in $\Sigma$ is respected:
     \[
       \forall(d_x,d_y,d_z)\in\Sigma:\ \{d_x,d_z\}\subseteq A \Rightarrow d_y\in A .
     \]
-    \item Let $\mathcal{S}_{\Sigma}$ be the family of all $\Sigma$-consistent sets.
-    \item $G \in \mathcal{S}_{\Sigma}$, and arbitrary intersections of $\Sigma$-consistent sets are again $\Sigma$-consistent.
-    \item Therefore $\mathcal{S}_{\Sigma}$ is a closure system.
+    \item Let $\mathcal{S}_{\Sigma}$ be the family of all $\Sigma$-consistent subsets of $G$.
+    \begin{itemize}
+      \item[$\Rightarrow$] $G \in \mathcal{S}_{\Sigma}$
+      \item[$\Rightarrow$] For any $\Sigma$-consistent sets $\{C_i\}_{i\in I}$ (i.e., $C_i \in \mathcal{S}_{\Sigma} \forall i \in I$):\\
+      Their intersection $D = \bigcap_{i \in I} C_i$ and
+      some constraint $(d_x, d_y, d_z) \in \Sigma$ with $\{d_x, d_z\} \subseteq D$: 
+      \begin{itemize}
+      \item[$\overset{\mathrm{Def.}}{\Rightarrow}$] $\{d_x, d_z\} \subseteq C_i \forall i \in I$
+      \item[$\Rightarrow$] $C_i \in \mathcal{S}_{\Sigma} 
+      \Rightarrow d_y \in C_i \forall i \in I 
+      \Rightarrow d_y \in D 
+      \Rightarrow D$ is $\Sigma$-consistent (i.e., $D \in \mathcal{S}_{\Sigma}$)
+      \end{itemize}
+    \end{itemize}
+    \item $\mathcal{S}_{\Sigma}$ is closed under intersection $\Rightarrow \mathcal{S}_{\Sigma}$ is a closure system
+    \item Associated closure operator $\phi_{\Sigma}(A)=\bigcap \{ S \in \mathcal{S}_{\Sigma} \mid A \subseteq S \}$
+    \begin{itemize}
+      \item $\phi_{\Sigma}$ is extensive, monotone, and idempotent $\qed$
+    \end{itemize}
+
 \end{itemize}
-
-\[
-  \phi_{\Sigma}(A)
-  =
-  \bigcap \{ S \in \mathcal{S}_{\Sigma} \mid A \subseteq S \}
-\]
-
-\begin{block}{Consequence}
-$\phi_{\Sigma}$ is extensive, monotone, and idempotent; hence it is a closure operator.
-\end{block}
+\vfill
 {\tiny[\hyperlink{main:mlb-constraints}{Back to MLB overview}]}
 \end{frame}
 
