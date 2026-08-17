@@ -1,12 +1,37 @@
 \section{Appendix}
 
-\begin{frame}{Limitations and Future Work}
+\begin{frame}{Limitations (\danger) and Future Work (\VarClock)}
+
+  \begin{columns}[c,onlytextwidth]
+\begin{column}{0.49\textwidth}
 \begin{itemize}
-    \item Iceberg pruning may remove low-support concepts that could overlap exactly.
-    \item The current case study compares two knowledge sources; real workflows may involve more.
-    \item Future work: threshold selection for coherence lattices.
-    \item Future work: alternative overlap measures beyond Jaccard similarity.
+    \item[\danger] Iceberg pruning may remove low-support (potential exact overlap) concepts
+    \begin{itemize}
+      \item \textcolor{rosa}{Lowest} non-trivial \textcolor{rosa}{expert concepts} contain $1000$ documents 
+      \item \textit{Most} \textcolor{blau}{lowest data-driven concepts} contain less than $1000$ documents
+      \item[$\rightarrow$] Jaccard similarity $\overset{!}{<} 1$
+      \item[$\rightarrow$] No difference for consistency lattice
+    \end{itemize}
+    \item[\VarClock] Compare more than two knowledge sources
+    \item[\VarClock] Explore alternative overlap measures beyond Jaccard similarity
 \end{itemize}
+\end{column}
+\begin{column}{0.49\textwidth}
+  \vspace{-1em}
+  \begin{figure}
+\centering
+\includegraphics[width=\textwidth,height=0.4\textheight,keepaspectratio]{resources/banksearch/ground_truth/mlb_expanded_colored_lowest_layer.pdf}
+\caption{Complete expert lattice {\tiny[\hyperlink{appendix:expert-lattice-detail}{Details}]}.}
+\end{figure}
+\vspace{-3em}
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth,height=0.38\textheight,keepaspectratio]{resources/banksearch/topic_model/banksearch_0.05_iceberg_colored_lowest_layer.pdf}
+\caption{Data-driven iceberg lattice \tiny[\hyperlink{appendix:topic-model-details}{Details}].}
+\end{figure}
+\end{column}
+\end{columns}
+
 \end{frame}
 
 \begin{frame}{MLB Semantics}

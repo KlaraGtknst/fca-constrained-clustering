@@ -80,7 +80,7 @@ Suggested references to be included:
 - MLB (expert) und data-driven
   [x] 5.3: unterschiedliche Methods, aber...
   * MLB nicht gepruned
-  * dieser Datensatz: kein Problem da bin min cardinality of mlb = 1000 (unteren Begriffe) und unsere topic-driven lattice Begriffe sind < 1000, also auch alles darunter was durch den TITANIC verloren ging kann kein Jaccrad = 1 haben, also nicht im consistency lattice auftauchen, ABER SONST Problem
+  * dieser Datensatz: kein Problem da bin min cardinality of mlb = 1000 (unteren Begriffe) und unsere topic-driven lattice Begriffe sind < 1000, also auch alles darunter was durch den TITANIC verloren ging kann kein Jaccard = 1 haben, also nicht im consistency lattice auftauchen, ABER SONST Problem
   * TITANIC: behält nur interessanten Begriffe (untere Begriffe uninteressant -> wurden gepruned), es ergibt nur Sinn diese Begriffe zu vergleichen
     - (ernsthafte Einschränkung: unterschiedliche Methoden machen unvergleichbar?)
   * MLB ist not restricted
