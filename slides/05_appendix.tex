@@ -99,9 +99,11 @@ $\exists c \in H:\ d_x \in c \wedge d_y \in c \wedge d_z \notin c$
 \begin{frame}{Structural Saturation}
 \hypertarget{appendix:saturation}{}
 \begin{itemize}
-    \item Standard \ac{fca} closure works on flat implications.
-    \item A hierarchy can imply constraints that are not explicitly listed.
-    \item Structural saturation closes this gap before $\phi_{\Sigma}$ is applied.
+    \item Standard \ac{fca} closure operators works on flat implications (i.e., $d_x \wedge d_z \rightarrow d_y$)
+    \item Hierarchy implies structural transitivity 
+    \item[\danger] Transitive implications not naturally listed
+    \item[$\rightarrow$] Structural saturation: Explicitly add implicit transitive inference rules
+    \item Closure operator $\phi_{\Sigma}$ is applied to updated implication set
 \end{itemize}
 
 \vspace{0.35em}
@@ -120,11 +122,7 @@ $\exists c \in H:\ d_x \in c \wedge d_y \in c \wedge d_z \notin c$
 \draw[arr] (i2.east) -- (i3lower);
 \end{tikzpicture}
 \end{center}
-
-\vspace{0.35em}
-\begin{block}{Interpretation}
-Saturation makes indirect hierarchy information explicit, so the FCA closure operator can process it as ordinary implications.
-\end{block}
+\vfill
 {\tiny[\hyperlink{main:mlb-constraints}{Back to MLB overview}]}
 \end{frame}
 
