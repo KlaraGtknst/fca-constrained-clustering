@@ -366,3 +366,5 @@ TSWLatexianTemp*
 !resources/banksearch/ground_truth/mlb_expanded.*
 !results/context_comparison/CONCEPT_SIM/coherence_context_0.05.cxt
 !results/context_comparison/CONCEPT_SIM/coherence_context_0.1.cxt
+resources/banksearch/topic_model/fca_topic_model_context.json
+resources/banksearch2topics/banksearch_lda_topics.json
