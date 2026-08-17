@@ -19,7 +19,23 @@
 \usepackage{appendixnumberbeamer}
 
 \usepackage{fontawesome5}
+\usepackage{listings}
+\usepackage{xcolor}
 
+\lstdefinelanguage{BankSearchHTML}{
+  language=HTML,
+  sensitive=true,
+  morecomment=[s]{<!--}{-->},
+  morestring=[b]",
+}
+
+\lstset{
+  basicstyle=\ttfamily\scriptsize,
+  breaklines=true,
+  showstringspaces=false,
+  frame=single,
+  columns=fullflexible
+}
 \newcommand{\danger}{\faExclamationTriangle}
 \usepackage{hyperref}
 \usepackage[nolist]{acronym}

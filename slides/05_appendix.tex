@@ -34,6 +34,105 @@
 
 \end{frame}
 
+\begin{frame}[fragile]{Case Study: BankSearch Dataset Example File {\tiny[\hyperlink{main:dataset-overview}{Back to dataset overview}]}}
+
+\begin{lstlisting}[language=BankSearchHTML,basicstyle=\ttfamily\tiny]
+ID=H0302
+URL=http://www.klab.caltech.edu/~koch/biophysics-book/biophysics-book-review-marder.html
+SIZE=12894
+DATE=11/07/2002
+TIME=17:03:40
+DATASET=Biology
+HTML=<HTML><HEAD>
+<TITLE>In search of computation</TITLE>
+</HEAD>
+<BODY BGCOLOR="#FFFFFF" background="/images/back_cream.gif">
+...
+<A HREF="http://neurosci.nature.com/">
+<IMG SRC="/images/bar_home_u.gif" WIDTH="108" HEIGHT="34" BORDER="0" ALT="nature neuroscience"></A>
+...
+<P><I>The Biophysics of Computation</I> includes full and mathematically rigorous treatments of many topics that are found conventionally in neuroscience texts, such as passive cable theory, synaptic physiology, mechanisms of synaptic plasticity, gating of ion channels and mechanisms of action potential initiation and propagation.
+...
+This respect will ensure that the book will have credibility with its biological audience. Equally importantly, the respect and appreciation that Koch shows for the biological literature teaches young theorists that the aim is to understand the deep mysteries of how the brain computes, not deny them.</P>
+...
+<FONT SIZE=2 face=Verdana,geneva,arial,sans-serif>Copyright 1999 Nature America Inc.</FONT></TD>
+</TR>
+</TABLE>
+
+</BODY>
+</HTML>
+\end{lstlisting}
+
+\end{frame}
+
+
+\begin{frame}{Case Study: BankSearch Dataset Details}
+\hypertarget{appendix:dataset-detail}{}
+\begin{itemize}
+    \item 11\,000 documents
+    \item 14 categories
+    \begin{itemize}
+      \item \textcolor{blue}{Three} categories are not assigned to documents\\
+       {
+      \small
+      \begin{tabular}{ll}
+          \toprule
+          \textbf{Top-Category} & \textbf{Sub-Category} \\
+          \midrule
+          \textcolor{blue}{Finance} & Commercial Banks, Building Societies, Insurance Agencies\\
+          \textcolor{blue}{Science} & Astronomy, Biology \\
+          \textcolor{blue}{Programming} & C/C++, Java, Visual Basic \\
+          Sport & Soccer, Motor Racing \\
+          \bottomrule
+      \end{tabular}
+      }
+    \end{itemize}
+   
+    \item 1000 documents per category
+    \item Expert hierarchy is mapped to document-level \ac{mlb} constraints
+    \item Mapping yields 81 \ac{mlb} constraints
+\end{itemize}
+
+\vfill
+{\tiny[\hyperlink{main:dataset-overview}{Back to dataset overview}]}
+\end{frame}
+
+\begin{frame}{Case Study: BankSearch Dataset Details}
+\hypertarget{appendix:dataset-detail2}{}
+
+\begin{table}
+\centering
+\caption{Expert-defined vs.\ data-driven topic assignments $\mathcal{T}$ for BankSearch ($n=11\,000$ documents), where $s_{\min}$ denotes the support of the smallest topic.}
+\label{tab:compare-expert-data-driven}
+
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{lrrrrrr}
+\toprule
+Type
+& $|\mathcal{T}|$
+& $\overline{n}_{\mathrm{docs/topic}}$
+& $n_{\min}$
+& $s_{\min}$
+& $n_{\max}$
+& $\overline{n}_{\mathrm{topics/doc}}$ \\
+\midrule
+Expert
+& 11 & 1000.0 & 1000 & 0.091 & 1000 & 1.00 \\
+Data-driven topic model
+& 11 & 2202.9 & 412 & 0.037 & 3555 & 2.20 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\vfill
+{\tiny[\hyperlink{main:dataset-overview}{Back to dataset overview}]}
+\end{frame}
+
+
+
+
+
 \begin{frame}{MLB Constraints $\Sigma$: Formal Properties}
 \hypertarget{appendix:mlb-defs}{}
 
@@ -158,7 +257,7 @@ $\exists c \in H:\ d_x \in c \wedge d_y \in c \wedge d_z \notin c$
 \end{column}
 \end{columns}
 
-\vspace{0.25em}
+\vspace{0.55em}
 {\small 
 Top labels denote attributes, bottom labels indicate the number of documents in the concept extent.
 }
@@ -180,8 +279,8 @@ Top labels denote attributes, bottom labels indicate the number of documents in 
     \begin{itemize}
       \item Elbow criterion
       \item Density above $0.2$
+      \item If no topic exceeds $\delta_t=0.07$, set highest probability topic $1$
     \end{itemize}
-    \item If no topic exceeds $\delta_t=0.07$, set highest probability topic $1$
     \item Iceberg concept lattice (via TITANIC~\cite{stumme_titanic_2002}): keep concepts $(A,B)$ with support $\text{supp}(B)=\frac{|B'|}{|G|} \ge \delta_{ms}=0.05$ 
     \begin{itemize}
       \item Elbow criterion
@@ -208,7 +307,7 @@ Top labels denote attributes, bottom labels indicate the number of documents in 
 \begin{frame}{Consistency Lattice $\mathcal{C}_{\cap}$}
 \hypertarget{appendix:consistency-detail}{}
 
-    Let $\mathcal{C}_{\Sigma}$ be the \ac{mlb} closure system and $\mathcal{C}_{TM}$ the topic-model closure system. 
+    Let $\mathcal{C}_{\Sigma}$ be the expert \ac{mlb} closure system and $\mathcal{C}_{TM}$ the topic-model closure system $TM$. 
 
 \[
 \mathcal{C}_{\cap}
@@ -218,9 +317,12 @@ Top labels denote attributes, bottom labels indicate the number of documents in 
 
 \begin{itemize}
   \item Closure operator $\phi_{\cap}$ is the limit of alternating composition of $\phi_{\Sigma}$ and $\phi_{TM}$
-  \item Let $X_{k+1} =\phi_{TM}(\phi_{\cap}(X_k))$, where $X_0 = X \subseteq G$
+  \begin{itemize}
+    \item Let $X_{k+1} =\phi_{TM}(\phi_{\cap}(X_k))$, where $X_0 = X \subseteq G$
   \item Fixpoint $\phi_\cap(X) = \lim_{k\to\infty} (\phi_{TM} \circ \phi_\Sigma)^k(X)$
-  \item[$\rightarrow$] generated concepts are valid to both expert constraints $\Sigma$ and data-driven topic-model $TM$
+  \end{itemize}
+  \item[$\rightarrow$] generated concepts are valid under both $\Sigma$ and data-driven topic-model $TM$
+  \vspace{1em}
   \item[\danger] Computationally expensive
   \item[$\rightarrow$] Instead of generating all closed sets and filtering them post-hoc, employ optimized version of Ganters Next-Closure algorithm
   \begin{itemize}
@@ -235,24 +337,20 @@ Top labels denote attributes, bottom labels indicate the number of documents in 
 \end{frame}
 
 
-\begin{frame}{Step 4a: Ask for Exact Agreement}
-
-\begin{itemize}
-    \item Exact agreement means a BankSearch document cluster is closed under both knowledge sources.
-    \item The corresponding closure operator is computed by alternating $\phi_{\Sigma}$ and $\phi_{TM}$ to a fixpoint.
-    \item This produces the consistency lattice.
-\end{itemize}
-\end{frame}
-
 \begin{frame}{BankSearch Agreement Matrix}
   \hypertarget{appendix:agreement-heatmap}{}
 \begin{columns}[T,onlytextwidth]
 \begin{column}{0.43\textwidth}
 \begin{itemize}
-    \item Most expert/data-driven concept pairs have near-zero overlap.
-    \item The non-trivial agreements are concentrated in a few recognizable domains.
-    \item This motivates a coherence lattice instead of stopping at consistency.
+  \item Jaccard similarity between all concept extents
+    \item Most non-trivial expert \& data-driven concept pairs have near-zero overlap
+    \item Only five non-trivial pairs exceed $J(A,B)>0.5$
+    \item[$\rightarrow$] Coherence lattice instead of consistency lattice
 \end{itemize}
+\vfill
+{\tiny Back to \dots}\\
+{\tiny [\hyperlink{main:coherence-lattice}{coherence lattice foundations}]}\\
+{\tiny [\hyperlink{main:coherence-findings}{coherence lattice findings}]}
 \end{column}
 \begin{column}{0.55\textwidth}
 \centering
@@ -260,35 +358,3 @@ Top labels denote attributes, bottom labels indicate the number of documents in 
 \end{column}
 \end{columns}
 \end{frame}
-
-\begin{frame}{Exact Agreement Is Rare}
-\begin{columns}[T,onlytextwidth]
-\begin{column}{0.50\textwidth}
-\includegraphics[width=\textwidth]{heatmap_0.05_svg-tex.pdf}
-\end{column}
-\begin{column}{0.47\textwidth}
-\begin{itemize}
-    \item Similarity is computed between all concept extents.
-    \item Apart from the top concept, most pairs have near-zero Jaccard similarity.
-    \item Only five non-trivial pairs exceed $J(A,B)>0.5$.
-    \item The manual hierarchy and data-driven explanation do not induce the same closed document sets.
-\end{itemize}
-\end{column}
-\end{columns}
-\end{frame}
-
-\begin{frame}{Case Study as the Story Resolution TODO details}
-\begin{itemize}
-    \item Corpus: 11,000 documents.
-    \item Represented topics: 11 categories organized into Finance, Science, Programming, and Sport.
-    \item Expert hierarchy from prior BankSearch annotations is mapped to document-level \ac{mlb} constraints.
-    \item Mapping yields 81 \ac{mlb} constraints.
-\end{itemize}
-
-\vspace{0.5em}
-\begin{block}{Question revisited}
-Can the manual hierarchy and the explainable topic-model \ac{fca} hierarchy support the same useful search clusters?
-\end{block}
-\end{frame}
-
-
