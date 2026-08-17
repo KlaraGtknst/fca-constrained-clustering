@@ -271,11 +271,11 @@ Top labels denote attributes, bottom labels indicate the number of documents in 
   \begin{columns}[T,onlytextwidth]
 \begin{column}{0.70\textwidth}
 \begin{itemize}
-    \item {\small \texttt{Gensim}}'s \ac{lda} represents documents as a mixture of $T$ latent topics 
+    \item {\small \texttt{Gensim}}'s \ac{lda}~\cite{blei2003lda} represents documents as a mixture of $T$ latent topics 
     \begin{itemize}
       \item $T=11 = \#$ BankSearch categories
     \end{itemize}
-    \item Binary formal context $\Theta \in \mathbb{R}^{D \times T}$ by thresholding document-topic probabilities at $\delta_t=0.07$
+    \item Binary formal context $\Theta \in \mathbb{R}^{D \times T}$ by thresholding document-topic probabilities at $\delta_t=0.07$~\cite{hirth_geometric_2024,gutekunst2025conceptual}
     \begin{itemize}
       \item Elbow criterion
       \item Density above $0.2$
