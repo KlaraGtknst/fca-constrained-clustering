@@ -116,14 +116,14 @@ Top labels denote attributes, bottom labels indicate the number of documents in 
 {    
 \begin{table}[t]
 % Jaccard is defined on extent, therefore we compare J(A,B) but refer to the intents as concept identifiers
-\caption{Concept pairs with $J(A,B)>0.5$, where $A', B'$ denotes the \ac{mlb}-constrained and topic model-based concept intent {\tiny[\hyperlink{appendix:agreement-heatmap}{Details}]}. 
+\caption{Concept pairs with $J(A_1,A_2)>0.5$, where $A_1', A_2'$ denotes the \ac{mlb}-constrained and topic model-based concept intent {\tiny[\hyperlink{appendix:agreement-heatmap}{Details}]}. 
 % Ground-truth topics are reported only for exact matches of $A'$. Representative \ac{lda} topic words are shown for $B'$.
 }
 \label{tab:concept_jaccard_similarity}
 \resizebox{\columnwidth}{!}{
 \begin{tabular}{llrr}
 \toprule
-$A'$ & $J(A,B)$ & Topics $A'$ & Topic words $B'$ \\
+$A_1'$ & $J(A_1,A_2)$ & Categories $A_1'$ & Topic words $A_2'$ \\
 \midrule
 $\{\textcolor{blau}{M12, M13, M14}\}$ & 0.77 &  &  Account, Rate, Mortage\\ %\textit{Commercial Banks, Insurance Agencies, Building Societies}
 $\{\textcolor{rosa}{M1, M8, M12, M13}\}$ & 0.65 & Soccer, Sport &  Team, Player, Cup \\
