@@ -126,7 +126,7 @@ $\exists c \in H:\ d_x \in c \wedge d_y \in c \wedge d_z \notin c$
 {\tiny[\hyperlink{main:mlb-constraints}{Back to MLB overview}]}
 \end{frame}
 
-\begin{frame}{Expert Lattice}
+\begin{frame}{Expert Lattice: Details}
   \hypertarget{appendix:expert-lattice-detail}{}
 \begin{columns}[c,onlytextwidth]
 \begin{column}{0.49\textwidth}
@@ -162,8 +162,48 @@ $\exists c \in H:\ d_x \in c \wedge d_y \in c \wedge d_z \notin c$
 {\small 
 Top labels denote attributes, bottom labels indicate the number of documents in the concept extent.
 }
-{\tiny[\hyperlink{main:comp-lattices}{Back to expert lattice overview}]}
+\vfill
+{\tiny[\hyperlink{main:comp-lattices}{Back to overview}]}
 \end{frame}
+
+
+\begin{frame}{Data-Driven Topic Lattice: Details}
+  \hypertarget{appendix:topic-model-details}{}
+  \begin{columns}[T,onlytextwidth]
+\begin{column}{0.70\textwidth}
+\begin{itemize}
+    \item {\small \texttt{Gensim}}'s \ac{lda} represents documents as a mixture of $T$ latent topics 
+    \begin{itemize}
+      \item $T=11 = \#$ BankSearch categories
+    \end{itemize}
+    \item Binary formal context $\Theta \in \mathbb{R}^{D \times T}$ by thresholding document-topic probabilities at $\delta_t=0.07$
+    \begin{itemize}
+      \item Elbow criterion
+      \item Density above $0.2$
+    \end{itemize}
+    \item If no topic exceeds $\delta_t=0.07$, set highest probability topic $1$
+    \item Iceberg concept lattice (via TITANIC~\cite{stumme_titanic_2002}): keep concepts $(A,B)$ with support $\text{supp}(B)=\frac{|B'|}{|G|} \ge \delta_{ms}=0.05$ 
+    \begin{itemize}
+      \item Elbow criterion
+      \item $24$ concepts
+      \item Concepts do not correspond to original category clusters
+    \end{itemize}
+\end{itemize}
+\vfill
+{\tiny[\hyperlink{main:topic-model-overview}{Back to overview}]}
+\end{column}
+\begin{column}{0.3\textwidth}
+  \vspace{-1.4em}
+\begin{center}
+\includegraphics[height=0.43\textheight]{incidence_density_vs_threshold_svg-tex.pdf}
+\hfill
+\includegraphics[height=0.43\textheight]{concepts_vs_support_svg-tex.pdf}
+\end{center}
+\end{column}
+\end{columns}
+\end{frame}
+
+
 
 \begin{frame}{Consistency Lattice $\mathcal{C}_{\cap}$}
 \hypertarget{appendix:consistency-detail}{}
@@ -190,6 +230,7 @@ Top labels denote attributes, bottom labels indicate the number of documents in 
     \]
   \end{itemize}
 \end{itemize}
+\vfill
 {\tiny[\hyperlink{main:consistency-overview}{Back to consistency lattice overview}]}
 \end{frame}
 
@@ -251,38 +292,3 @@ Can the manual hierarchy and the explainable topic-model \ac{fca} hierarchy supp
 \end{frame}
 
 
-
-\begin{frame}{Data-Driven Topic Lattice}
-  \hypertarget{appendix:topic-model-details}{}
-  \begin{columns}[T,onlytextwidth]
-\begin{column}{0.70\textwidth}
-\begin{itemize}
-    \item {\small \texttt{Gensim}}'s \ac{lda} represents documents as a mixture of $T$ latent topics 
-    \begin{itemize}
-      \item $T=11 = \#$ BankSearch categories
-    \end{itemize}
-    \item Binary formal context $\Theta \in \mathbb{R}^{D \times T}$ by thresholding document-topic probabilities at $\delta_t=0.07$
-    \begin{itemize}
-      \item Elbow criterion
-      \item Density above $0.2$
-    \end{itemize}
-    \item If no topic exceeds $\delta_t=0.07$, set highest probability topic $1$
-    \item Iceberg concept lattice (via TITANIC~\cite{stumme_titanic_2002}): keep concepts $(A,B)$ with support $\text{supp}(B)=\frac{|B'|}{|G|} \ge \delta_{ms}=0.05$ 
-    \begin{itemize}
-      \item Elbow criterion
-      \item $24$ concepts
-      \item Concepts do not correspond to original category clusters
-    \end{itemize}
-\end{itemize}
-\tiny[\hyperlink{main:topic-model-overview}{Overview}]
-\end{column}
-\begin{column}{0.3\textwidth}
-  \vspace{-1.4em}
-\begin{center}
-\includegraphics[height=0.43\textheight]{incidence_density_vs_threshold_svg-tex.pdf}
-\hfill
-\includegraphics[height=0.43\textheight]{concepts_vs_support_svg-tex.pdf}
-\end{center}
-\end{column}
-\end{columns}
-\end{frame}
