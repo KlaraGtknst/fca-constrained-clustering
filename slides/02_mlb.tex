@@ -61,14 +61,10 @@
         \item $MLB_{a b c}=(a,b,c) \in \Sigma$ {\tiny[\hyperlink{appendix:mlb-defs}{Formal properties}]}
     \end{itemize}
 
-    \item<2-> $\forall (a,b,c) \in \Sigma: \{a, c\} \in A \rightarrow b \in A \Rightarrow A \subseteq G$ is $\Sigma$-consistent 
-
-    \item<3-> Closure operator $\phi_{\Sigma}(A): \mathcal{P}(G) \to \mathcal{P}(G)$ maps $A$ to the smallest $\Sigma$-consistent set containing $A$ {\tiny[\hyperlink{appendix:closure-proof}{Proof}]}
-    
-    \item<4-> Structural constraint saturation
+    \item<2-> Structural constraint saturation
     \begin{itemize}
-        \item Translate hierarchical \ac{mlb} constraints into implications before applying $\phi_{\Sigma}$:\\
-        $(a,b,c)$ becomes $a \wedge c \Rightarrow b$ and $b \wedge c \Rightarrow a$
+       
+        
         \item Exhaustively applying transitive inference rules {\tiny[\hyperlink{appendix:saturation}{Structural saturation}]}
         \begin{center}
             \begin{tikzpicture}[
@@ -76,16 +72,37 @@
                 box/.style={draw,rounded corners=2pt,align=center,minimum width=2.7cm,minimum height=0.75cm},
                 arr/.style={-{Latex[length=2mm]},thick}
             ]
-            \node[box] (i1) {$a\wedge b \rightarrow c$};
-            \node[box,below=0.05cm of i1] (i2) {$b\wedge c \rightarrow d$};
-            \node[box,right=1.8cm of $(i1)!0.5!(i2)$] (i3) {$a\wedge b \rightarrow d$};
+            \node[box] (i1) {$(a, b, c)$};
+            \node[box,below=0.05cm of i1] (i2) {$(b, c, d)$};
+            \node[box,right=1.8cm of $(i1)!0.5!(i2)$] (i3) {$(a, b, d)$};
             \coordinate (i3upper) at ($(i3.west)!0.25!(i3.north west)$);
             \coordinate (i3lower) at ($(i3.west)!0.25!(i3.south west)$);
             \draw[arr] (i1.east) -- (i3upper);
             \draw[arr] (i2.east) -- (i3lower);
             \end{tikzpicture}
         \end{center}
-    \end{itemize}    
+    \end{itemize}
+
+    \item<3-> Translate hierarchical \ac{mlb} constraints into implications:
+        \[
+        (a,b,c)
+        \quad\Rightarrow\quad
+        \{a,c\}\subseteq A \Rightarrow b\in A
+        \quad\Leftrightarrow\quad
+        a\wedge c\rightarrow b,
+        \]
+        and analogously $b\wedge c\rightarrow a$.
+
+    \item<4-> Closure operator $\phi_{\Sigma}: \mathcal{P}(G) \to \mathcal{P}(G)$ {\tiny[\hyperlink{appendix:closure-proof}{Proof}]}
+    \begin{itemize}
+        \item $A \subseteq G$ is $\Sigma$-consistent iff
+            $
+            \forall (a,b,c)\in\Sigma:
+            \{a,c\}\subseteq A \Rightarrow b\in A
+            $
+        \item $\phi_{\Sigma}(A)$ is the smallest $\Sigma$-consistent set containing $A$
+    \end{itemize}
+
 \end{itemize}
 
 
