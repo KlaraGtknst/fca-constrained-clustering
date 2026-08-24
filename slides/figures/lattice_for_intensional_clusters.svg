@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Ebene_2" data-name="Ebene 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 238.57 174.05">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #fff;
+        stroke-width: 4.8px;
+      }
+
+      .cls-1, .cls-2, .cls-3 {
+        isolation: isolate;
+      }
+
+      .cls-1, .cls-3, .cls-4 {
+        font-family: CourierNewPS-ItalicMT, 'Courier New';
+        font-size: 16px;
+        font-style: italic;
+      }
+
+      .cls-5, .cls-6 {
+        stroke: #000;
+        stroke-width: 2px;
+      }
+
+      .cls-6 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <g id="Ebene_1-2" data-name="Ebene 1-2">
+    <path class="cls-5" d="M55.03,101.49l36.98,63.56"/>
+    <path class="cls-5" d="M125.79,100.69l-33.78,64.36"/>
+    <path class="cls-5" d="M90.41,24.02l-35.38,76.67"/>
+    <path class="cls-5" d="M90.41,24.02l35.38,76.67"/>
+    <circle class="cls-6" cx="90.41" cy="24.02" r="8"/>
+    <g>
+      <circle class="cls-6" cx="92.01" cy="165.05" r="8"/>
+      <g class="cls-2">
+        <text class="cls-3" transform="translate(82.41 84.69)"><tspan x="0" y="0">00</tspan></text>
+      </g>
+      <g class="cls-2">
+        <text class="cls-1" transform="translate(82.41 84.69)"><tspan x="0" y="0">00</tspan></text>
+      </g>
+    </g>
+    <g>
+      <circle class="cls-6" cx="125.79" cy="100.69" r="8"/>
+      <g class="cls-2">
+        <text class="cls-3" transform="translate(122.68 89.12)"><tspan x="0" y="0">Motor Racing</tspan></text>
+      </g>
+    </g>
+    <g>
+      <circle class="cls-6" cx="57.98" cy="100.69" r="8"/>
+      <g class="cls-2">
+        <text class="cls-3" transform="translate(0 91.3)"><tspan x="0" y="0">Soccer</tspan></text>
+      </g>
+      <g class="cls-2">
+        <text class="cls-3" transform="translate(15.03 121.26)"><tspan x="0" y="0">d</tspan></text>
+        <text class="cls-4" transform="translate(24.63 126.59) scale(.58)"><tspan x="0" y="0">1</tspan></text>
+        <text class="cls-4" transform="translate(30.23 121.26)"><tspan x="0" y="0">,d</tspan></text>
+        <text class="cls-4" transform="translate(49.43 126.59) scale(.58)"><tspan x="0" y="0">2</tspan></text>
+        <text class="cls-4" transform="translate(127.58 121.26)"><tspan x="0" y="0">d</tspan></text>
+        <text class="cls-4" transform="translate(137.18 126.59) scale(.58)"><tspan x="0" y="0">3</tspan></text>
+        <text class="cls-4" transform="translate(142.78 121.26)"><tspan x="0" y="0">,d</tspan></text>
+        <text class="cls-4" transform="translate(161.98 126.59) scale(.58)"><tspan x="0" y="0">4</tspan></text>
+      </g>
+      <g class="cls-2">
+        <text class="cls-3" transform="translate(65.98 12.57)"><tspan x="0" y="0">Sport</tspan></text>
+      </g>
+    </g>
+  </g>
+</svg>
