@@ -9,7 +9,7 @@
     box/.style={draw,rounded corners=2pt,align=center,minimum width=3.0cm,minimum height=0.83cm,font=\small},
     arr/.style={-{Latex[length=2mm]},thick}
 ]
-\node[box] (cat) {Manual BankSearch\\category hierarchy};
+\node[box] (cat) {Expert category\\hierarchy};
 \node[box,right=of cat] (rep) {One document\\representative per category};
 \node[box,below=1.05cm of $(cat)!0.5!(rep)$] (doc) {Document\\\acs{mlb} triples};
 \node[box,below=of doc] (lat) {\acs{mlb}-constrained\\\ac{fca} lattice};
