@@ -178,37 +178,28 @@ Existing data-driven approaches use structured knowledge~\cite{Priss:2004,old:04
 }
 
 \begin{columns}[T,onlytextwidth]
-\begin{column}{0.35\textwidth}
+\begin{column}{0.5\textwidth}
 
+\vspace{2em}
 \uncover<2->{
 \acs{fca}-based hierarchies}
 \begin{itemize}
-    \item<3-> Extent: Documents
-    \item<3-> Intent: Extracted features
-    \item<4->[$\rightarrow$] Intensional description for each concept.
+    \item<3-> Objects $G$: Documents
+    \item<3-> Attributes $M$: Extracted features
+    \item<4->[$\rightarrow$] Intensional description for each concept
 \end{itemize}
 \end{column}
 
-\begin{column}{0.60\textwidth}
+\begin{column}{0.50\textwidth}
 \centering
-\vspace{-1.5em}
 \uncover<2->{
     \begin{figure}[t]
     \centering
-    \includegraphics[width=0.38\textwidth]{slides/figures/lattice_for_intensional_clusters.pdf}
+    \includegraphics[width=0.68\columnwidth]{slides/figures/lattice_for_intensional_clusters.pdf}
     \label{fig:mlb_concept_lattice}
 \end{figure}
 
-\uncover<3->{\small
-    \begin{tabular}{ll}
-    \toprule
-    \textbf{Extent} & \textbf{Intent} \\
-    \midrule
-    $d_1, d_3$, \dots & $\{M4\} \coloneq \{Galaxy, Universe, Star\}$ \\
-    $d_2, d_4$, \dots & $\{M0,M1\} \coloneq \{Team, Player, Cup\}$ \\
-    \bottomrule
-    \end{tabular}
-}
+
 }
 \end{column}
 \end{columns}
