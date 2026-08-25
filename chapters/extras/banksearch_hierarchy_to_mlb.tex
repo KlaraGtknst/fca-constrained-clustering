@@ -1,4 +1,4 @@
-\newcommand{\banksearchHierarchyToMLB}{%
+\newcommand{\banksearchHierarchyToMLB}[1][]{%
 \begin{figure}
 \centering
 \resizebox{0.28\textwidth}{!}{%
@@ -7,7 +7,9 @@
   line join=round,
   thick,
   leaf/.style={font=\Huge, anchor=north},
-  merge/.style={draw=black, line width=2.0pt}
+  merge/.style={draw=black, line width=2.0pt},
+  selectedcluster/.style={draw=black, line width=5.0pt},
+  cutline/.style={draw=black, line width=2.0pt, dashed}
 ]
   \colorlet{cSoccer}{gray!60!black}
   \colorlet{cRacing}{blue!70!black}
@@ -39,6 +41,14 @@
 
   % Root merge: Bank + Sport
   \draw[merge] (rootL) -- (rootR);
+
+  \if\relax\detokenize{#1}\relax
+  \else
+    % Horizontal cut: at this hierarchy level, Bank and Sport are the two clusters.
+    \draw[cutline] (-0.55,1.72) -- (5.05,1.72);
+    \draw[selectedcluster, draw=cBank] (bank) -- (rootL);
+    \draw[selectedcluster] (sportM) -- (rootR);
+  \fi
 
   % Labels
   \node[leaf, text=cBank] at ($(bank)+(0,-0.18)$) {Bank};

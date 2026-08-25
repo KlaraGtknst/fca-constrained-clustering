@@ -50,8 +50,12 @@
 
 %%%% 2: MLB vs. pairwise
 \begin{frame}{Constraints}
-
+\only<-1,5->{
 \banksearchHierarchyToMLB{}
+}
+\only<2-4>{
+\banksearchHierarchyToMLB[cut]{}
+}
 \newcommand{\soccer}{\textcolor{gray!60!black}{Soccer}}
 \newcommand{\racing}{\textcolor{blue!70!black}{Racing}}
 \newcommand{\bank}{\textcolor{brown!70!black}{Bank}}
@@ -59,13 +63,16 @@
 \begin{columns}[T,onlytextwidth]
 \begin{column}{0.46\textwidth}
 \uncover<2->{
-\textbf{Pairwise view}~\cite{wagstaff2001constrained,belohlavek2011selecting,hidayat_constrained_fca_2024}
+\textbf{Single hierarchy level}
 \begin{itemize}
-    \item $(\text{\soccer}, \text{\racing})_{\textcolor{green!70!black}{ML}}$
-    \item $(\text{\soccer}, \text{\bank})_{\textcolor{red!70!black}{CL}}$
-    \item $(\text{\racing}, \text{\bank})_{\textcolor{red!70!black}{CL}}$
-    \item<3->[$\rightarrow$] Single hierarchy level
+    \item Pairwise Constraints~\cite{wagstaff2001constrained,belohlavek2011selecting,hidayat_constrained_fca_2024}
+    \begin{itemize}
+    \item<3-> $(\text{\soccer}, \text{\racing})_{\textcolor{green!70!black}{ML}}$
+    \item<4-> $(\text{\soccer}, \text{\bank})_{\textcolor{red!70!black}{CL}}$
+    \item<4-> $(\text{\racing}, \text{\bank})_{\textcolor{red!70!black}{CL}}$
 \end{itemize}
+\end{itemize}
+
 }
 \end{column}
 \begin{column}{0.5\textwidth}
