@@ -50,11 +50,17 @@
 
 %%%% 2: MLB vs. pairwise
 \begin{frame}{Constraints}
-\only<-1,5->{
+\only<-1,7->{
 \banksearchHierarchyToMLB{}
 }
-\only<2-4>{
+\only<2>{
 \banksearchHierarchyToMLB[cut]{}
+}
+\only<3-4>{
+\banksearchHierarchyToMLB[cut-merge]{}
+}
+\only<5-6>{
+\banksearchHierarchyToMLB[cut-level]{}
 }
 \newcommand{\soccer}{\textcolor{gray!60!black}{Soccer}}
 \newcommand{\racing}{\textcolor{blue!70!black}{Racing}}
@@ -63,25 +69,27 @@
 \begin{columns}[T,onlytextwidth]
 \begin{column}{0.46\textwidth}
 \uncover<2->{
-\textbf{Single hierarchy level}
+\textbf{Single} hierarchy level
 \begin{itemize}
-    \item Pairwise Constraints~\cite{wagstaff2001constrained,belohlavek2011selecting,hidayat_constrained_fca_2024}
+    \item<3-> Pairwise Constraints~\cite{wagstaff2001constrained,belohlavek2011selecting,hidayat_constrained_fca_2024}
     \begin{itemize}
-    \item<3-> $(\text{\soccer}, \text{\racing})_{\textcolor{green!70!black}{ML}}$
-    \item<4-> $(\text{\soccer}, \text{\bank})_{\textcolor{red!70!black}{CL}}$
-    \item<4-> $(\text{\racing}, \text{\bank})_{\textcolor{red!70!black}{CL}}$
+    \item<4-> $(\text{\soccer}, \text{\racing})_{\textcolor{green!70!black}{ML}}$
+    \item<6-> $(\text{\soccer}, \text{\bank})_{\textcolor{red!70!black}{CL}}$
+    \item<6-> $(\text{\racing}, \text{\bank})_{\textcolor{red!70!black}{CL}}$
 \end{itemize}
 \end{itemize}
 
 }
 \end{column}
 \begin{column}{0.5\textwidth}
-\uncover<4->{
-\textbf{\ac{mlb} view}
+\uncover<7->{
+$\mathbf{\ge 1}$ hierarchy levels
 \begin{itemize}
-    \item $MLB_{\text{\soccer},\text{\racing},\text{\bank}}$
-    \item \soccer{} and \racing{} merge before \bank{}
-    \item<5->[$\rightarrow$] $\ge 1$ hierarchy levels~\cite{bade_hierarchical_2014} % citation: Designed for hierarchical clustering, where the level of agreement matters
+    \item<8-> \acl{mlb} constraints~\cite{bade_hierarchical_2014}
+    \begin{itemize}
+        \item<9-> $\mathrm{MLB}_{\text{\soccer},\text{\racing},\text{\bank}}$
+        \item<9-> \soccer{} and \racing{} merge before \bank{}
+    \end{itemize}
 \end{itemize}
 }
 \end{column}

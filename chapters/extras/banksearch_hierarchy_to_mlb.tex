@@ -8,6 +8,7 @@
   thick,
   leaf/.style={font=\Huge, anchor=north},
   merge/.style={draw=black, line width=2.0pt},
+  mergehighlight/.style={draw=black, line width=5.0pt},
   selectedcluster/.style={draw=black, line width=5.0pt},
   cutline/.style={draw=black, line width=2.0pt, dashed}
 ]
@@ -42,12 +43,28 @@
   % Root merge: Bank + Sport
   \draw[merge] (rootL) -- (rootR);
 
-  \if\relax\detokenize{#1}\relax
-  \else
+  \def\selectedmode{#1}
+  \def\cutmergemode{cut-merge}
+  \def\cutlevelmode{cut-level}
+  \def\cutmode{cut}
+
+  \ifx\selectedmode\cutmergemode
+    % Emphasize only the merge that combines Soccer and Racing.
+    \draw[cutline] (-0.55,1.72) -- (5.05,1.72);
+    \draw[mergehighlight] (sportL) -- (sportR);
+    \draw[mergehighlight, draw=cSoccer] (soccer) -- (sportL);
+    \draw[mergehighlight, draw=cRacing] (racing) -- (sportR);
+  \fi
+
+  \ifx\selectedmode\cutlevelmode
     % Horizontal cut: at this hierarchy level, Bank and Sport are the two clusters.
     \draw[cutline] (-0.55,1.72) -- (5.05,1.72);
     \draw[selectedcluster, draw=cBank] (bank) -- (rootL);
     \draw[selectedcluster] (sportM) -- (rootR);
+  \fi
+  \ifx\selectedmode\cutmode
+    % Horizontal cut: at this hierarchy level
+    \draw[cutline] (-0.55,1.72) -- (5.05,1.72);
   \fi
 
   % Labels
