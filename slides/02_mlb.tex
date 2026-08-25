@@ -6,18 +6,44 @@
 \centering
 \begin{tikzpicture}[
     node distance=0.9cm and 1.15cm,
-    box/.style={draw,rounded corners=2pt,align=center,minimum width=3.0cm,minimum height=0.83cm,font=\small},
+    box/.style={
+        draw,
+        rounded corners=2pt,
+        align=center,
+        minimum width=3.25cm,
+        minimum height=0.9cm,
+        font=\small
+    },
+    expert/.style={box,fill=orange!18,draw=orange!80!black,very thick},
+    data/.style={box,fill=blue!10,draw=blue!60!black},
+    derived/.style={box,fill=green!10,draw=green!50!black},
+    output/.style={box,fill=gray!10,draw=black},
     arr/.style={-{Latex[length=2mm]},thick}
 ]
-\node[box] (cat) {Expert category\\hierarchy};
-\node[box,right=of cat] (rep) {One document\\representative per category};
-\node[box,below=1.05cm of $(cat)!0.5!(rep)$] (doc) {Document\\\acs{mlb} triples};
-\node[box,below=of doc] (lat) {\acs{mlb}-constrained\\\ac{fca} lattice};
-\draw[arr] (cat) -- (doc);
-\draw[arr] (rep) -- (doc);
-\draw[arr] (doc) -- node[right,font=\small] {Closure operator $\phi_{\Sigma}$} (lat);
+\node[expert] (cat) {
+    \textbf{External expert knowledge}\\
+    BankSearch category hierarchy
+};
+
+\node[data,right=of cat] (rep) {
+    \textbf{Dataset}: One representative\\document
+    per category
+};
+
+\node[derived,below=1.05cm of $(cat)!0.5!(rep)$] (doc) {
+    \textbf{Constraints on documents}\\
+    \acs{mlb} triples $\Sigma \subseteq G^3$
+};
+
+\node[output,below=of doc] (lat) {
+    \acs{mlb}-constrained lattice
+};
+
+\draw[arr] (cat) -- node[left,font=\scriptsize] {} (doc);
+\draw[arr] (rep) -- node[right,font=\scriptsize] {} (doc);
+\draw[arr] (doc) -- node[right,font=\small] {closure operator $\phi_{\Sigma}$} (lat);
 \end{tikzpicture}
-\caption{BankSearch Workflow.}
+\caption{Construction of \acs{mlb}-constrained lattice.}
 \end{figure}
 
 \end{frame}
@@ -32,21 +58,25 @@
 
 \begin{columns}[T,onlytextwidth]
 \begin{column}{0.46\textwidth}
+\uncover<2->{
 \textbf{Pairwise view}~\cite{wagstaff2001constrained,belohlavek2011selecting,hidayat_constrained_fca_2024}
 \begin{itemize}
     \item $(\text{\soccer}, \text{\racing})_{\textcolor{green!70!black}{ML}}$
     \item $(\text{\soccer}, \text{\bank})_{\textcolor{red!70!black}{CL}}$
     \item $(\text{\racing}, \text{\bank})_{\textcolor{red!70!black}{CL}}$
-    \item[$\rightarrow$] Single hierarchy level
+    \item<3->[$\rightarrow$] Single hierarchy level
 \end{itemize}
+}
 \end{column}
 \begin{column}{0.5\textwidth}
+\uncover<4->{
 \textbf{\ac{mlb} view}
 \begin{itemize}
     \item $MLB_{\text{\soccer},\text{\racing},\text{\bank}}$
     \item \soccer{} and \racing{} merge before \bank{}
-    \item[$\rightarrow$] $\ge 1$ hierarchy levels~\cite{bade_hierarchical_2014} % citation: Designed for hierarchical clustering, where the level of agreement matters
+    \item<5->[$\rightarrow$] $\ge 1$ hierarchy levels~\cite{bade_hierarchical_2014} % citation: Designed for hierarchical clustering, where the level of agreement matters
 \end{itemize}
+}
 \end{column}
 \end{columns}
 \end{frame}
