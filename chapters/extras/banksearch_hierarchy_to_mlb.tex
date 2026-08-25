@@ -1,47 +1,55 @@
 \newcommand{\banksearchHierarchyToMLB}{%
 \begin{figure}
 \centering
-\resizebox{0.25\textwidth}{!}{%
+\resizebox{0.28\textwidth}{!}{%
 \begin{tikzpicture}[
-  >=Latex,
-  line cap=round, line join=round,
-  thick
+  line cap=round,
+  line join=round,
+  thick,
+  leaf/.style={font=\Huge, anchor=north},
+  merge/.style={draw=black, line width=2.0pt}
 ]
   \colorlet{cSoccer}{gray!60!black}
   \colorlet{cRacing}{blue!70!black}
   \colorlet{cBank}{brown!70!black}
   \colorlet{cSport}{orange!85!black}
 
-  \tikzset{
-    edge/.style={draw=black, line width=2.0pt},
-    onode/.style={draw=black, fill=white, line width=2.0pt},
-    biglbl/.style={font=\Huge},
-    arrow/.style={->, draw=black, line width=2.0pt},
-    note/.style={font=\Huge, anchor=west}
-  }
+  % Leaf positions: categories, not documents
+  \coordinate (bank) at (0,0);
+  \coordinate (soccer) at (3,0);
+  \coordinate (racing) at (6,0);
 
-  \coordinate (root) at (0,3.2);
-  \coordinate (bank) at (-2.1,1.8);
-  \coordinate (sport) at (1.35,1.8);
-  \coordinate (soccer) at (0.55,0.35);
-  \coordinate (racing) at (2.15,0.35);
+  % Merge heights
+  \coordinate (sportL) at (3,1.35);
+  \coordinate (sportR) at (6,1.35);
+  \coordinate (sportM) at (4.5,1.35);
 
-  \draw[edge] (root) -- (bank);
-  \draw[edge] (root) -- (sport);
-  \draw[edge] (sport) -- (soccer);
-  \draw[edge] (sport) -- (racing);
+  \coordinate (rootL) at (0,2.75);
+  \coordinate (rootR) at (4.5,2.75);
+  \coordinate (rootM) at (1.65,2.75);
 
-  \foreach \p/\rad in {root/0.30,bank/0.28,sport/0.28,soccer/0.26,racing/0.26}{
-    \draw[onode] (\p) circle [radius=\rad];
-  }
+  % Leaf stems
+  \draw[merge, draw=cBank] (bank) -- (0,2.75);
+  \draw[merge, draw=cSoccer] (soccer) -- (sportL);
+  \draw[merge, draw=cRacing] (racing) -- (sportR);
 
-  \node[biglbl, text=cBank, anchor=east] at ($(bank)+(0.95,-0.55)$) {Bank};
-  \node[biglbl, text=cSport, anchor=west] at ($(sport)+(0.35,0.05)$) {}; %Sport
-  \node[biglbl, text=cSoccer, anchor=north] at ($(soccer)+(-0.7,-0.15)$) {Soccer};
-  \node[biglbl, text=cRacing, anchor=north] at ($(racing)+(0.6,-0.15)$) {Racing};
+  % Sport merge: Soccer + Racing
+  \draw[merge] (sportL) -- (sportR);
+  \draw[merge] (sportM) -- (rootR);
+
+  % Root merge: Bank + Sport
+  \draw[merge] (rootL) -- (rootR);
+
+  % Labels
+  \node[leaf, text=cBank] at ($(bank)+(0,-0.18)$) {Bank};
+  \node[leaf, text=cSoccer] at ($(soccer)+(0,-0.18)$) {Soccer};
+  \node[leaf, text=cRacing] at ($(racing)+(0,-0.18)$) {Racing};
+
+  \node[font=\Huge, text=cSport, anchor=south] at ($(sportM)+(0,0.12)$) {};
+  \node[font=\Huge, anchor=south] at ($(rootM)+(0,0.12)$) {};
 
 \end{tikzpicture}%
 }
-\caption{Part of BankSearch category hierarchy.}
+\caption{Excerpt of the BankSearch category dendrogram.}
 \end{figure}%
 }
