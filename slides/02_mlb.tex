@@ -1,6 +1,56 @@
 \section{Must-Link-Before Constraints}
 
-%%%% 1: Workflow
+
+
+%%%% 1: MLB vs. pairwise
+\begin{frame}{Constraints for Expert Knowledge Integration}
+\only<-1,7->{
+\banksearchHierarchyToMLB{}
+}
+\only<2>{
+\banksearchHierarchyToMLB[cut]{}
+}
+\only<3-4>{
+\banksearchHierarchyToMLB[cut-merge]{}
+}
+\only<5-6>{
+\banksearchHierarchyToMLB[cut-level]{}
+}
+\newcommand{\soccer}{\textcolor{gray!60!black}{Soccer}}
+\newcommand{\racing}{\textcolor{blue!70!black}{Racing}}
+\newcommand{\bank}{\textcolor{brown!70!black}{Bank}}
+
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.46\textwidth}
+\uncover<2->{
+\textbf{Single} hierarchy level
+\begin{itemize}
+    \item<3-> Pairwise Constraints~\cite{wagstaff2001constrained,belohlavek2011selecting,hidayat_constrained_fca_2024}
+    \begin{itemize}
+    \item<4-> $(\text{\soccer}, \text{\racing})_{\textcolor{green!70!black}{ML}}$
+    \item<6-> $(\text{\soccer}, \text{\bank})_{\textcolor{red!70!black}{CL}}$
+    \item<6-> $(\text{\racing}, \text{\bank})_{\textcolor{red!70!black}{CL}}$
+\end{itemize}
+\end{itemize}
+
+}
+\end{column}
+\begin{column}{0.5\textwidth}
+\uncover<7->{
+$\mathbf{\ge 1}$ hierarchy levels
+\begin{itemize}
+    \item<8-> \acl{mlb} constraints~\cite{bade_hierarchical_2014}
+    \begin{itemize}
+        \item<9-> $\mathrm{MLB}_{\text{\soccer},\text{\racing},\text{\bank}}$
+        \item<9-> \soccer{} and \racing{} merge before \bank{}
+    \end{itemize}
+\end{itemize}
+}
+\end{column}
+\end{columns}
+\end{frame}
+
+%%%% 2: Workflow
 \begin{frame}{Task 1: Integration of Expert Knowledge into Lattice}
 \begin{figure}
 \centering
@@ -46,54 +96,11 @@
 \caption{Construction of \acs{mlb}-constrained lattice.}
 \end{figure}
 
-\end{frame}
-
-%%%% 2: MLB vs. pairwise
-\begin{frame}{Constraints}
-\only<-1,7->{
-\banksearchHierarchyToMLB{}
-}
-\only<2>{
-\banksearchHierarchyToMLB[cut]{}
-}
-\only<3-4>{
-\banksearchHierarchyToMLB[cut-merge]{}
-}
-\only<5-6>{
-\banksearchHierarchyToMLB[cut-level]{}
-}
-\newcommand{\soccer}{\textcolor{gray!60!black}{Soccer}}
-\newcommand{\racing}{\textcolor{blue!70!black}{Racing}}
-\newcommand{\bank}{\textcolor{brown!70!black}{Bank}}
-
-\begin{columns}[T,onlytextwidth]
-\begin{column}{0.46\textwidth}
-\uncover<2->{
-\textbf{Single} hierarchy level
 \begin{itemize}
-    \item<3-> Pairwise Constraints~\cite{wagstaff2001constrained,belohlavek2011selecting,hidayat_constrained_fca_2024}
-    \begin{itemize}
-    \item<4-> $(\text{\soccer}, \text{\racing})_{\textcolor{green!70!black}{ML}}$
-    \item<6-> $(\text{\soccer}, \text{\bank})_{\textcolor{red!70!black}{CL}}$
-    \item<6-> $(\text{\racing}, \text{\bank})_{\textcolor{red!70!black}{CL}}$
-\end{itemize}
+    \item<2->[\danger] Note that we map categories to representative documents
+    \item<3->[$\rightarrow$] \ac{mlb} constraints are defined on documents, \textbf{not} categories
 \end{itemize}
 
-}
-\end{column}
-\begin{column}{0.5\textwidth}
-\uncover<7->{
-$\mathbf{\ge 1}$ hierarchy levels
-\begin{itemize}
-    \item<8-> \acl{mlb} constraints~\cite{bade_hierarchical_2014}
-    \begin{itemize}
-        \item<9-> $\mathrm{MLB}_{\text{\soccer},\text{\racing},\text{\bank}}$
-        \item<9-> \soccer{} and \racing{} merge before \bank{}
-    \end{itemize}
-\end{itemize}
-}
-\end{column}
-\end{columns}
 \end{frame}
 
 
