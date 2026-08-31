@@ -143,7 +143,7 @@ Integrate both sources of information into a single hierarchy.
   \caption{Hierarchically clustered BankSearch dataset.}
 \end{figure}
 }
-\only<2>{
+\only<2-3>{
 \begin{figure}[htbp]
   \centering
   \includesvg[height=0.55\textheight]{\slidesdir figures/clustered_flat_dataset_highlight.svg}
@@ -155,18 +155,18 @@ Integrate both sources of information into a single hierarchy.
 \begin{column}{0.6\textwidth}
 
 \vspace{2em}
-\uncover<3->{
+\uncover<4->{
 \acs{fca}-based hierarchies}
 \begin{itemize}
-    \item<4-> Objects $G$: Documents
-    \item<4-> Attributes $M$: Features (e.g., categories, topic words, etc.)
-    \item<5->[$\rightarrow$] Intensional description for each concept
+    \item<5-> Objects $G$: Documents
+    \item<5-> Attributes $M$: Features (e.g., categories, topic words, etc.)
+    \item<6->[$\rightarrow$] Intensional description for each concept
 \end{itemize}
 \end{column}
 
 \begin{column}{0.4\textwidth}
 \centering
-\uncover<3->{
+\uncover<4->{
     \begin{figure}[t]
     \centering
     \includegraphics[width=0.68\columnwidth]{slides/figures/lattice_for_intensional_clusters2.pdf}
@@ -213,6 +213,7 @@ Integrate both sources of information into a single hierarchy.
 
 %%%% 5: Manual vs. Data-Driven Hierarchy
 \begin{frame}{Source of Background Knowledge}
+    \hypertarget{main:sources-background-knowledge}{}
 
 \begin{columns}[T,onlytextwidth]
 \begin{column}{0.48\textwidth}
@@ -225,7 +226,7 @@ Integrate both sources of information into a single hierarchy.
 \end{column}
 
 \begin{column}{0.48\textwidth}
-\textbf{Data-Driven}
+\textbf{Data-Driven} {\tiny[\hyperlink{appendix:data-driven-related-work}{Details}]}
 \begin{itemize}
     \item[--]<2-> Quality depends on data
     \item[+]<3-> Extends coverage of domains
@@ -249,11 +250,6 @@ Integrate both sources of information into a single hierarchy.
     \end{block}
 }
 
-\vfill
-% \only<-4>
-\textcolor{gray}{
-Existing data-driven approaches use structured knowledge~\cite{Priss:2004,old:04,Priss:96,priss:98,GalnPez2014DiscoveringNS,val:05,sporleder:02,petersen:04} and unstructured text corpora~\cite{hearst1992hyponyms,le2019inferring,cimiano_learning_2005,Elzinga:09,cigarran_twitter_fca_2016,Aznag2014LeveragingFC,wang_topic_feature_2021,wang_topic_hierarchy_2023,hirth_ordinal_2024,gutekunst2025conceptual}.
-}
 \end{frame}
 
 
