@@ -5,16 +5,16 @@
 %%%% 1: MLB vs. pairwise
 \begin{frame}{Constraints for Expert Knowledge Integration}
 \only<-1,7->{
-\banksearchHierarchyToMLB{}
+\banksearchHierarchyToMLB{0.28}
 }
 \only<2>{
-\banksearchHierarchyToMLB[cut]{}
+\banksearchHierarchyToMLB[cut]{0.28}
 }
 \only<3-4>{
-\banksearchHierarchyToMLB[cut-merge]{}
+\banksearchHierarchyToMLB[cut-merge]{0.28}
 }
 \only<5-6>{
-\banksearchHierarchyToMLB[cut-level]{}
+\banksearchHierarchyToMLB[cut-level]{0.28}
 }
 \newcommand{\soccer}{\textcolor{gray!60!black}{Soccer}}
 \newcommand{\racing}{\textcolor{blue!70!black}{Racing}}
@@ -54,6 +54,7 @@ $\mathbf{\ge 1}$ hierarchy levels
 \begin{frame}{Task 1: Integration of Expert Knowledge into Lattice}
 \begin{figure}
 \centering
+
 \begin{tikzpicture}[
     node distance=0.9cm and 1.15cm,
     box/.style={
@@ -70,34 +71,44 @@ $\mathbf{\ge 1}$ hierarchy levels
     output/.style={box,fill=gray!10,draw=black},
     arr/.style={-{Latex[length=2mm]},thick}
 ]
-\node[expert] (cat) {
+\node[data, visible on=<1->] (rep) {
+    \textbf{Dataset}: One representative\\
+    document per category
+};
+
+
+
+\node[expert,right=of rep, visible on=<2->] (cat) {
     \textbf{External expert knowledge}\\
     BankSearch category hierarchy
 };
 
-\node[data,right=of cat] (rep) {
-    \textbf{Dataset}: One representative\\document
-    per category
-};
 
-\node[derived,below=1.05cm of $(cat)!0.5!(rep)$] (doc) {
+
+\node[derived,below=1.05cm of $(cat)!0.5!(rep)$, visible on=<3->] (doc) {
     \textbf{Constraints on documents}\\
     \acs{mlb} triples $\Sigma \subseteq G^3$
 };
 
-\node[output,below=of doc] (lat) {
+\node[output,below=of doc, visible on=<4->] (lat) {
     \acs{mlb}-constrained context lattice
 };
 
-\draw[arr] (cat) -- node[left,font=\scriptsize] {} (doc);
-\draw[arr] (rep) -- node[right,font=\scriptsize] {} (doc);
-\draw[arr] (doc) -- node[right,font=\small] {closure operator $\phi_{\Sigma}$} (lat);
+\draw[arr, visible on=<3->] (cat) -- (doc);
+\draw[arr, visible on=<3->] (rep) -- (doc);
+
+\draw[arr, visible on=<4->]
+    (doc) --
+    node[right,font=\small] {closure operator $\phi_{\Sigma}$}
+    (lat);
+
 \end{tikzpicture}
+
 \caption{Construction of \acs{mlb}-constrained lattice.}
 \end{figure}
 
 \begin{itemize}
-    \item<2->[\danger] Note that we map categories to representative documents
+    \item<1->[\danger] We map categories to representative documents
     \item<3->[$\rightarrow$] \ac{mlb} constraints are defined on documents, \textbf{not} categories
 \end{itemize}
 

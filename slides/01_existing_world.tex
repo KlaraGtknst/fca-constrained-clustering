@@ -2,77 +2,119 @@
 
 %%%% 1: Data
 \begin{frame}{Exploring Corpora}
+
 \hypertarget{main:dataset-overview}{}
-\begin{columns}[c,onlytextwidth]
-\begin{column}{0.50\textwidth}
 
-Given \dots
-\begin{enumerate}
-    \item \dots a dataset with documents labeled with one category each
-    \item<2-> \dots a manual hierarchy of categories
-\end{enumerate}
+Given two sources of information:
 
-BankSearch\footnote{\url{https://lib.stat.cmu.edu/datasets/} {\tiny(13.08.2026)}} Dataset
+
+\begin{columns}[T,onlytextwidth]
+
+% -------------------------------------------------
+\begin{column}{0.5\textwidth}
+
+\textbf{1.\quad Dataset}
+
+\vspace{0.2em}
+\uncover<2->{
+BankSearch\footnote{\tiny
+\url{https://lib.stat.cmu.edu/datasets/}
+{\tiny (13.08.2026)}} dataset
+}
 \begin{itemize}
-    \item 11\,000 documents
-    \item 14 categories~\cite{bade_creating_2008} {\tiny[\hyperlink{appendix:dataset-detail}{Details}]}
-    \uncover<2->{%
-    {
-    \small
-    \begin{tabular}{ll}
-        \toprule
-        \textbf{Top-Category} & \textbf{Sub-Category} \\
-        \midrule
-        Finance & Banks, Societies, Insurance \\
-        Science & Astronomy, Biology \\
-        Programming & C/C++, Java, Visual Basic \\
-        Sport & Soccer, Motor Racing \\
-        \bottomrule
-    \end{tabular}
-    }
-    }
+    \item<2-> documents labeled with one category each
+    \item<3-> 11\,000 documents
+          (i.e., objects $G$)
+    \item<3-> 14 categories
+          (i.e., attributes $M$)
+          {\tiny[\hyperlink{appendix:dataset-detail}{Details}]}
 \end{itemize}
+\vspace{-1em}
+\uncover<2->{
+\begin{figure}
+    \centering
+    \includesvg[
+        width=0.7\linewidth
+    ]{\slidesdir figures/flat_dataset.svg}
+\end{figure}
+}
 \end{column}
 
-\begin{column}{0.46\textwidth}
-\begin{figure}[htbp]
-  \centering
-  \includesvg[width=0.8\textwidth]{\slidesdir figures/flat_dataset.svg}
-  \caption{BankSearch dataset.}
-\end{figure}
+% -------------------------------------------------
+\begin{column}{0.48\textwidth}
+
+
+\textbf{2.\quad Expert knowledge}
+
+\uncover<4->{
+Hierarchy of categories~\cite{bade_creating_2008}
+}
+\uncover<5->{
+\vspace{0.8em}
+
+\centering
+\small
+\begin{tabular}{ll}
+    \toprule
+    \textbf{Top category} & \textbf{Subcategories} \\
+    \midrule
+    Finance
+        & Banks, Societies, Insurance \\
+    Science
+        & Astronomy, Biology \\
+    Programming
+        & C/C++, Java, Visual Basic \\
+    Sport
+        & Soccer, Motor Racing \\
+    \bottomrule
+\end{tabular}
+}
+
 \end{column}
+
 \end{columns}
 
 \end{frame}
 
-
 %%%% 2: Task 1: MLB Constraints into FCA
 \begin{frame}{Exploring Corpora}
 \begin{block}{Task 1}
-Integrate hierarchical expert background knowledge (i.e., category hierarchy) and one-hot document labels into a single hierarchy.
+Integrate both sources of information into a single hierarchy.
 \end{block}
 
-
+\vspace{1.5em}
 \begin{columns}[T,onlytextwidth]
-\begin{column}{0.46\textwidth}
-\only<1->{
+\begin{column}{0.33\textwidth}
+\uncover<2->{
+    \centering
+    \textbf{1.\quad Dataset}
+    \vspace{-1.5em}
     \begin{figure}[htbp]
-  \centering
   \includesvg[height=0.4\textheight]{\slidesdir figures/flat_dataset.svg}
-  \caption{Each document belongs to one category.}
 \end{figure}
 }
 \end{column}
-\begin{column}{0.04\textwidth}
-    \vspace{6.5em}
-    \only<2->{$\rightarrow$}
+\begin{column}{0.33\textwidth}
+    \centering
+
+    \uncover<3->{%
+        
+        \textbf{2.\quad Expert knowledge}
+        % \vspace{1.5em}
+        {%
+            \renewcommand{\caption}[1]{}%
+            \banksearchExpertHierarchy{0.7}%
+        }
+        \vspace{-0.7em}
+        \scalebox{2}{$\rightarrow$}
+    }
 \end{column}
-\begin{column}{0.46\textwidth}
-\only<2->{
+\begin{column}{0.33\textwidth}
+\uncover<4->{
 \begin{figure}[htbp]
   \centering
   \includesvg[height=0.4\textheight]{\slidesdir figures/clustered_flat_dataset.svg}
-  \caption{Hierarchically clustered BankSearch dataset.}
+%   \caption{Hierarchically clustered BankSearch dataset.}
 \end{figure}
 }
 
@@ -87,7 +129,59 @@ Integrate hierarchical expert background knowledge (i.e., category hierarchy) an
 \end{frame}
 
 
-%%%% 3: Why Data-Driven (i.e., shortcomings of manual annotation)
+%%%% 3: Why FCA?
+\begin{frame}{Why FCA?}
+\uncover<3->{
+\begin{alertblock}{Problem}
+    Unclear \emph{why} documents belong together beyond category membership.
+\end{alertblock}
+}
+\only<1>{
+\begin{figure}[htbp]
+  \centering
+  \includesvg[height=0.55\textheight]{\slidesdir figures/clustered_flat_dataset.svg}
+  \caption{Hierarchically clustered BankSearch dataset.}
+\end{figure}
+}
+\only<2>{
+\begin{figure}[htbp]
+  \centering
+  \includesvg[height=0.55\textheight]{\slidesdir figures/clustered_flat_dataset_highlight.svg}
+  \caption{Hierarchically clustered BankSearch dataset.}
+\end{figure}
+}
+
+\begin{columns}[T,onlytextwidth]
+\begin{column}{0.6\textwidth}
+
+\vspace{2em}
+\uncover<3->{
+\acs{fca}-based hierarchies}
+\begin{itemize}
+    \item<4-> Objects $G$: Documents
+    \item<4-> Attributes $M$: Features (e.g., categories, topic words, etc.)
+    \item<5->[$\rightarrow$] Intensional description for each concept
+\end{itemize}
+\end{column}
+
+\begin{column}{0.4\textwidth}
+\centering
+\uncover<3->{
+    \begin{figure}[t]
+    \centering
+    \includegraphics[width=0.68\columnwidth]{slides/figures/lattice_for_intensional_clusters2.pdf}
+    \label{fig:mlb_concept_lattice}
+\end{figure}
+
+
+}
+\end{column}
+\end{columns}
+\end{frame}
+
+
+
+%%%% 4: Why Data-Driven (i.e., shortcomings of manual annotation)
 \begin{frame}{Limitations of Manual Annotation}
 \begin{columns}[c,onlytextwidth]
 \begin{column}{0.55\textwidth}
@@ -99,7 +193,7 @@ Integrate hierarchical expert background knowledge (i.e., category hierarchy) an
         \item<2-> BankSearch: only two-level hierarchy 
     \end{itemize}
     \item<3-> Captures only snapshot of annotator's knowledge
-    \item<4-> Unclear \emph{why} documents belong together beyond category membership
+    % \item<4-> Unclear \emph{why} documents belong together beyond category membership
 \end{itemize}
 
 
@@ -117,7 +211,7 @@ Integrate hierarchical expert background knowledge (i.e., category hierarchy) an
 \end{frame}
 
 
-%%%% 4: Manual vs. Data-Driven Hierarchy
+%%%% 5: Manual vs. Data-Driven Hierarchy
 \begin{frame}{Source of Background Knowledge}
 
 \begin{columns}[T,onlytextwidth]
@@ -163,71 +257,33 @@ Existing data-driven approaches use structured knowledge~\cite{Priss:2004,old:04
 \end{frame}
 
 
-%%%% 5: Why FCA?
-\begin{frame}{Concept Hierachies}
-
-\begin{alertblock}{Problem}
-    Unclear \emph{why} documents belong together beyond category membership.
-\end{alertblock}
-\only<1>{
-\begin{figure}[htbp]
-  \centering
-  \includesvg[height=0.55\textheight]{\slidesdir figures/clustered_flat_dataset.svg}
-  \caption{Hierarchically clustered BankSearch dataset.}
-\end{figure}
-}
-
-\begin{columns}[T,onlytextwidth]
-\begin{column}{0.5\textwidth}
-
-\vspace{2em}
-\uncover<2->{
-\acs{fca}-based hierarchies}
-\begin{itemize}
-    \item<3-> Objects $G$: Documents
-    \item<3-> Attributes $M$: Extracted features
-    \item<4->[$\rightarrow$] Intensional description for each concept
-\end{itemize}
-\end{column}
-
-\begin{column}{0.50\textwidth}
-\centering
-\uncover<2->{
-    \begin{figure}[t]
-    \centering
-    \includegraphics[width=0.68\columnwidth]{slides/figures/lattice_for_intensional_clusters.pdf}
-    \label{fig:mlb_concept_lattice}
-\end{figure}
-
-
-}
-\end{column}
-\end{columns}
-\end{frame}
-
 %%%% Tasks
-\begin{frame}{Tasks}
-    Now that we haven chosen \acs{fca} as our method for hierarchy generation, we can reformulate the following tasks:
+\begin{frame}{Contributions of this Work}
+    % Now that we haven chosen \acs{fca} as our method for hierarchy generation, we can reformulate the following tasks:
 
-\only<1>{
+% \only<1>{
+% \begin{block}{Task 1}
+% Integrate hierarchical expert background knowledge (i.e., category hierarchy) and one-hot document labels into a single hierarchy.
+% \end{block}
+% }
+\uncover<1->{
 \begin{block}{Task 1}
-Integrate hierarchical expert background knowledge (i.e., category hierarchy) and one-hot document labels into a single hierarchy.
+Integrate both sources of information into a single formal lattice.
 \end{block}
 }
-\only<2->{
-\begin{block}{Task 1 (Continued)}
-Integrate hierarchical expert background knowledge (i.e., category hierarchy) and one-hot document labels into a single \textbf{formal lattice}.
-\end{block}
-}
+\begin{itemize}
+    \item<2-> BankSearch dataset containing one category label per document
+    \item<3-> Hierarchical expert knowledge (i.e., category hierarchy)
+\end{itemize}
 
-\only<-2>{
+% \only<-2>{
+% \begin{block}{Task 2}
+%     Analyze the agreement of a data-driven hierarchy and an expert knowledge hierarchy.
+% \end{block}
+% }
+\uncover<4->{
 \begin{block}{Task 2}
-    Analyze the agreement of a data-driven hierarchy and an expert knowledge hierarchy.
-\end{block}
-}
-\only<3->{
-\begin{block}{Task 2 (Continued)}
-    Analyze the agreement of a data-driven \textbf{formal lattice} and an expert knowledge \textbf{formal lattice}.
+    Analyze the agreement of a data-driven formal lattice and an expert knowledge formal lattice.
 \end{block}
 }
 \end{frame}

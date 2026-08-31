@@ -1,7 +1,7 @@
-\newcommand{\banksearchHierarchyToMLB}[1][]{%
+\newcommand{\banksearchHierarchyToMLB}[2][]{%
 \begin{figure}
 \centering
-\resizebox{0.28\textwidth}{!}{%
+\resizebox{#2\linewidth}{!}{%
 \begin{tikzpicture}[
   line cap=round,
   line join=round,
@@ -71,6 +71,92 @@
   \node[leaf, text=cBank] at ($(bank)+(0,-0.18)$) {Bank};
   \node[leaf, text=cSoccer] at ($(soccer)+(0,-0.18)$) {Soccer};
   \node[leaf, text=cRacing] at ($(racing)+(0,-0.18)$) {Racing};
+
+  \node[font=\Huge, text=cSport, anchor=south] at ($(sportM)+(0,0.12)$) {};
+  \node[font=\Huge, anchor=south] at ($(rootM)+(0,0.12)$) {};
+
+\end{tikzpicture}%
+}
+\caption{Excerpt of the BankSearch category dendrogram.}
+\end{figure}%
+}
+
+
+
+
+\newcommand{\banksearchExpertHierarchy}[2][]{%
+\begin{figure}
+\centering
+\resizebox{#2\linewidth}{!}{%
+\begin{tikzpicture}[
+  line cap=round,
+  line join=round,
+  thick,
+  leaf/.style={font=\Huge, anchor=north},
+  merge/.style={draw=black, line width=2.0pt},
+  mergehighlight/.style={draw=black, line width=5.0pt},
+  selectedcluster/.style={draw=black, line width=5.0pt},
+  cutline/.style={draw=black, line width=2.0pt, dashed}
+]
+  \colorlet{cSoccer}{gray!60!black}
+  \colorlet{cRacing}{blue!70!black}
+  \colorlet{cBank}{brown!70!black}
+  \colorlet{cSport}{orange!85!black}
+
+  % Leaf positions: categories, not documents
+  \coordinate (bank) at (0,0);
+  \coordinate (soccer) at (3,0);
+  \coordinate (racing) at (6,0);
+
+  % Merge heights
+  \coordinate (sportL) at (3,1.35);
+  \coordinate (sportR) at (6,1.35);
+  \coordinate (sportM) at (4.5,1.35);
+
+  \coordinate (rootL) at (0,2.75);
+  \coordinate (rootR) at (4.5,2.75);
+  \coordinate (rootM) at (1.65,2.75);
+
+  % Leaf stems
+  \draw[merge, draw=cBank] (bank) -- (0,2.75);
+  \draw[merge, draw=cSoccer] (soccer) -- (sportL);
+  \draw[merge, draw=cRacing] (racing) -- (sportR);
+
+  % Sport merge: Soccer + Racing
+  \draw[merge] (sportL) -- (sportR);
+  \draw[merge] (sportM) -- (rootR);
+
+  % Root merge: Bank + Sport
+  \draw[merge] (rootL) -- (rootR);
+
+  \def\selectedmode{#1}
+  \def\cutmergemode{cut-merge}
+  \def\cutlevelmode{cut-level}
+  \def\cutmode{cut}
+
+  \ifx\selectedmode\cutmergemode
+    % Emphasize only the merge that combines Soccer and Racing.
+    \draw[cutline] (-0.55,1.72) -- (5.05,1.72);
+    \draw[mergehighlight] (sportL) -- (sportR);
+    \draw[mergehighlight, draw=cSoccer] (soccer) -- (sportL);
+    \draw[mergehighlight, draw=cRacing] (racing) -- (sportR);
+  \fi
+
+  \ifx\selectedmode\cutlevelmode
+    % Horizontal cut: at this hierarchy level, Bank and Sport are the two clusters.
+    \draw[cutline] (-0.55,1.72) -- (5.05,1.72);
+    \draw[selectedcluster, draw=cBank] (bank) -- (rootL);
+    \draw[selectedcluster] (sportM) -- (rootR);
+  \fi
+  \ifx\selectedmode\cutmode
+    % Horizontal cut: at this hierarchy level
+    \draw[cutline] (-0.55,1.72) -- (5.05,1.72);
+  \fi
+
+  % Labels
+  \node[leaf, text=cBank] at ($(bank)+(0,-0.18)$) {Finance};
+  \node[leaf, text=cSoccer] at ($(soccer)+(0,-0.18)$) {Banks};
+  \node[leaf, text=cRacing] at ($(racing)+(0,-0.18)$) {Societies};
 
   \node[font=\Huge, text=cSport, anchor=south] at ($(sportM)+(0,0.12)$) {};
   \node[font=\Huge, anchor=south] at ($(rootM)+(0,0.12)$) {};
