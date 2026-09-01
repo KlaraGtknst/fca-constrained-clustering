@@ -136,18 +136,18 @@ Top labels denote attributes, bottom labels indicate the number of documents in 
 $A_1'$  & Categories $A_1'$ & Topic words $A_2'$ & $J(A_1,A_2)$ \\
 \midrule
 $\{M12, M13, M14\}$  &  &  Account, Rate, Mortage & 0.77\\ %\textit{Commercial Banks, Insurance Agencies, Building Societies}
-$\{\only<2-7>{\textcolor{blau}{M1, M8, M12, M13}}\only<1,8->{M1, M8, M12, M13}\}$  & \only<2,7>{\textcolor{blau}{Soccer, Sport}}\only<1,3-6,8->{Soccer, Sport} &  \only<2,8>{\textcolor{blau}{Team, Player, Cup}}\only<1,3-7,9->{Team, Player, Cup} & 0.65\\
-$\{\only<1-7>{M4, M8, M12, M14}\only<8>{\textcolor{blau}{M4, M8, M12, M14}}\only<8->{M4, M8, M12, M14}\}$  & Astronomy &  Galaxy, Universe, Star & 0.64\\
-$\{\only<1-7>{M8, M13, M14}\only<8>{\textcolor{blau}{M8, M13, M14}}\only<8->{M8, M13, M14}\}$  & & Java, com, Visual & 0.56\\ % \textit{C, Visual Basic, Java }
-$\{\only<1-7>{M8, M12, M13}\only<8>{\textcolor{blau}{M8, M12, M13}}\}$  &  &  Race, Car & 0.53\\ %\textit{Motor Racing, Soccer, Sport}
+$\{\only<2->{\textcolor{blau}{M1, M8, M12, M13}}\only<1>{M1, M8, M12, M13}\}$  & \only<2,7>{\textcolor{blau}{Soccer, Sport}}\only<1,3-6,8->{Soccer, Sport} &  \only<2,8>{\textcolor{blau}{Team, Player, Cup}}\only<1,3-7>{Team, Player, Cup} & 0.65\\
+$\{M4, M8, M12, M14\}$  & Astronomy &  Galaxy, Universe, Star & 0.64\\
+$\{M8, M13, M14\}$  & & Java, com, Visual & 0.56\\ % \textit{C, Visual Basic, Java }
+$\{M8, M12, M13\}$  &  &  Race, Car & 0.53\\ %\textit{Motor Racing, Soccer, Sport}
 \bottomrule
 \end{tabular}
 }
 \end{table}}
-
+\vspace{-1em}
 \begin{itemize}
     \item<3-> Attributes $M_i$ are enumerated meet-irreducible closed sets of documents
-    \vspace{-0.5em}\vspace{-0.5em}
+    \vspace{-0.5em}
     \item<4-> We identified meaning of bottom concepts by matching their extents to the ground-truth document clusters
     \vspace{-0.5em}
     \begin{itemize}
@@ -158,7 +158,7 @@ $\{\only<1-7>{M8, M12, M13}\only<8>{\textcolor{blau}{M8, M12, M13}}\}$  &  &  Ra
         \item[$\rightarrow$]<6-> Used to derive meaning of upper neighbor $\textcolor{blau}{A_1'}$  
     \end{itemize}
     \vspace{-0.5em}
-    \item<7-> $M_1$ has to contain both \texttt{Soccer} and \texttt{Sport} (cf. column 2)
+    \item<7-> $\textcolor{blau}{A_1'}$ has to contain both \texttt{Soccer} and \texttt{Sport} (cf. column 2)
 \end{itemize}
 
 
@@ -194,75 +194,75 @@ $\{\only<1-7>{M8, M12, M13}\only<8>{\textcolor{blau}{M8, M12, M13}}\}$  &  &  Ra
 
 
 
-\begin{frame}{Coherence Findings}
-\hypertarget{main:coherence-findings}{}
-\small
-\begin{columns}[T,onlytextwidth]
-\begin{column}{0.65\textwidth}
-{    
-\begin{table}[t]
-% Jaccard is defined on extent, therefore we compare J(A,B) but refer to the intents as concept identifiers
-\caption{Concept pairs with $J(A_1,A_2)>0.5$, where $A_1', A_2'$ denotes the \ac{mlb}-constrained and topic model-based concept intent {\tiny[\hyperlink{appendix:agreement-heatmap}{Details}]}. 
-% Ground-truth topics are reported only for exact matches of $A'$. Representative \ac{lda} topic words are shown for $B'$.
-}
-\label{tab:concept_jaccard_similarity}
-\resizebox{\columnwidth}{!}{
-\begin{tabular}{llrr}
-\toprule
-$A_1'$ & $J(A_1,A_2)$ & Categories $A_1'$ & Topic words $A_2'$ \\
-\midrule
-$\{\only<1>{\textcolor{blau}{M12, M13, M14}}\only<2->{M12, M13, M14}\}$ & 0.77 &  &  Account, Rate, Mortage\\ %\textit{Commercial Banks, Insurance Agencies, Building Societies}
-$\{\only<1>{M1, M8, M12, M13}\only<2>{\textcolor{blau}{M1, M8, M12, M13}}\only<3->{M1, M8, M12, M13}\}$ & 0.65 & Soccer, Sport &  Team, Player, Cup \\
-$\{\only<1-2>{M4, M8, M12, M14}\only<3>{\textcolor{blau}{M4, M8, M12, M14}}\only<4->{M4, M8, M12, M14}\}$  & 0.64 & Astronomy &  Galaxy, Universe, Star \\
-$\{\only<1-3>{M8, M13, M14}\only<4>{\textcolor{blau}{M8, M13, M14}}\only<5->{M8, M13, M14}\}$ & 0.56 & & Java, com, Visual \\ % \textit{C, Visual Basic, Java }
-$\{\only<1-4>{M8, M12, M13}\only<5>{\textcolor{blau}{M8, M12, M13}}\}$ & 0.53 &  &  Race, Car\\ %\textit{Motor Racing, Soccer, Sport}
-\bottomrule
-\end{tabular}
-}
-\end{table}}
-{\tiny
-\begin{columns}[T,onlytextwidth]
-    \begin{column}{0.49\textwidth}
-        \begin{itemize}
-            \item $\textcolor{gruen}{M0 \cap M2}$:
-                  \texttt{Motor Racing}
-            \item $\textcolor{gruen}{M1 \cap M2}$:
-                  \texttt{Soccer}
-            \item $\textcolor{gruen}{M0 \cap M1}$:
-                  \texttt{Sport}
-            \item $\textcolor{ora}{M5 \cap M7}$:
-                  \texttt{C/C++}
-            \item $\textcolor{ora}{M6 \cap M7}$:
-                  \texttt{Java}
-        \end{itemize}
-    \end{column}
-    \begin{column}{0.49\textwidth}
-        \begin{itemize}
-            \item $\textcolor{ora}{M5 \cap M6}$:
-                  \texttt{Visual Basic}
-            \item $\textcolor{blau}{M10 \cap M11}$:
-                  \texttt{Commercial Banks}
-            \item $\textcolor{blau}{M9 \cap M10}$:
-                  \texttt{Insurance Agencies}
-            \item $\textcolor{blau}{M9 \cap M11}$:
-                  \texttt{Building Societies}
-        \end{itemize}
-    \end{column}
-\end{columns}
-}
+% \begin{frame}{Coherence Findings}
+% \hypertarget{main:coherence-findings}{}
+% \small
+% \begin{columns}[T,onlytextwidth]
+% \begin{column}{0.65\textwidth}
+% {    
+% \begin{table}[t]
+% % Jaccard is defined on extent, therefore we compare J(A,B) but refer to the intents as concept identifiers
+% \caption{Concept pairs with $J(A_1,A_2)>0.5$, where $A_1', A_2'$ denotes the \ac{mlb}-constrained and topic model-based concept intent {\tiny[\hyperlink{appendix:agreement-heatmap}{Details}]}. 
+% % Ground-truth topics are reported only for exact matches of $A'$. Representative \ac{lda} topic words are shown for $B'$.
+% }
+% \label{tab:concept_jaccard_similarity}
+% \resizebox{\columnwidth}{!}{
+% \begin{tabular}{llrr}
+% \toprule
+% $A_1'$ & $J(A_1,A_2)$ & Categories $A_1'$ & Topic words $A_2'$ \\
+% \midrule
+% $\{\only<1>{\textcolor{blau}{M12, M13, M14}}\only<2->{M12, M13, M14}\}$ & 0.77 &  &  Account, Rate, Mortage\\ %\textit{Commercial Banks, Insurance Agencies, Building Societies}
+% $\{\only<1>{M1, M8, M12, M13}\only<2>{\textcolor{blau}{M1, M8, M12, M13}}\only<3->{M1, M8, M12, M13}\}$ & 0.65 & Soccer, Sport &  Team, Player, Cup \\
+% $\{\only<1-2>{M4, M8, M12, M14}\only<3>{\textcolor{blau}{M4, M8, M12, M14}}\only<4->{M4, M8, M12, M14}\}$  & 0.64 & Astronomy &  Galaxy, Universe, Star \\
+% $\{\only<1-3>{M8, M13, M14}\only<4>{\textcolor{blau}{M8, M13, M14}}\only<5->{M8, M13, M14}\}$ & 0.56 & & Java, com, Visual \\ % \textit{C, Visual Basic, Java }
+% $\{\only<1-4>{M8, M12, M13}\only<5>{\textcolor{blau}{M8, M12, M13}}\}$ & 0.53 &  &  Race, Car\\ %\textit{Motor Racing, Soccer, Sport}
+% \bottomrule
+% \end{tabular}
+% }
+% \end{table}}
+% {\tiny
+% \begin{columns}[T,onlytextwidth]
+%     \begin{column}{0.49\textwidth}
+%         \begin{itemize}
+%             \item $\textcolor{gruen}{M0 \cap M2}$:
+%                   \texttt{Motor Racing}
+%             \item $\textcolor{gruen}{M1 \cap M2}$:
+%                   \texttt{Soccer}
+%             \item $\textcolor{gruen}{M0 \cap M1}$:
+%                   \texttt{Sport}
+%             \item $\textcolor{ora}{M5 \cap M7}$:
+%                   \texttt{C/C++}
+%             \item $\textcolor{ora}{M6 \cap M7}$:
+%                   \texttt{Java}
+%         \end{itemize}
+%     \end{column}
+%     \begin{column}{0.49\textwidth}
+%         \begin{itemize}
+%             \item $\textcolor{ora}{M5 \cap M6}$:
+%                   \texttt{Visual Basic}
+%             \item $\textcolor{blau}{M10 \cap M11}$:
+%                   \texttt{Commercial Banks}
+%             \item $\textcolor{blau}{M9 \cap M10}$:
+%                   \texttt{Insurance Agencies}
+%             \item $\textcolor{blau}{M9 \cap M11}$:
+%                   \texttt{Building Societies}
+%         \end{itemize}
+%     \end{column}
+% \end{columns}
+% }
 
-\end{column}
+% \end{column}
 
-\begin{column}{0.35\textwidth}
-\begin{figure}
-\centering
-\only<1>{\coherencefigure{01}}%
-\only<2>{\coherencefigure{02}}%
-\only<3>{\coherencefigure{03}}%
-\only<4>{\coherencefigure{04}}%
-\only<5>{\coherencefigure{05}}%
-\caption{Expert lattice {\tiny[\hyperlink{appendix:expert-lattice-detail}{Details}]}.}
-\end{figure}
-\end{column}
-\end{columns}
-\end{frame}
+% \begin{column}{0.35\textwidth}
+% \begin{figure}
+% \centering
+% \only<1>{\coherencefigure{01}}%
+% \only<2>{\coherencefigure{02}}%
+% \only<3>{\coherencefigure{03}}%
+% \only<4>{\coherencefigure{04}}%
+% \only<5>{\coherencefigure{05}}%
+% \caption{Expert lattice {\tiny[\hyperlink{appendix:expert-lattice-detail}{Details}]}.}
+% \end{figure}
+% \end{column}
+% \end{columns}
+% \end{frame}
